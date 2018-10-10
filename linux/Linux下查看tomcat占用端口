@@ -1,0 +1,9 @@
+1、先查看tomcat的进程号
+ps -ef | grep tomcat*
+后面带*号，是为了查看多个tomcat，例如tomcat6，tomcat7。
+
+2、根据进程号查看端口号
+netstat -anop | grep pid值
+
+3、可以通过端口号，查看其所属的进程号相关信息
+lsof -i: port号
