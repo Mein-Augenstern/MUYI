@@ -1,0 +1,66 @@
+df命令是linux系统以磁盘分区为单位查看文件系统，可以加上参数查看磁盘剩余空间信息，命令格式：
+df -hl
+显示格式为：　
+文件系统              容量 已用 可用 已用% 挂载点　
+Filesystem            Size Used Avail Use% Mounted on
+/dev/hda2              45G   19G   24G 44% /
+/dev/hda1             494M   19M 450M   4% /boot
+/dev/hda6             4.9G 2.2G 2.5G 47% /home
+/dev/hda5             9.7G 2.9G 6.4G 31% /opt
+none                 1009M     0 1009M   0% /dev/shm
+/dev/hda3             9.7G 7.2G 2.1G 78% /usr/local
+/dev/hdb2              75G   75G     0 100% /
+/dev/hdb2              75G   75G     0 100% /
+
+以上面的输出为例，表示的意思为：
+HD硬盘接口的第二个硬盘（b），第二个分区（2），容量是75G，用了75G，可用是0，因此利用率是100%， 被挂载到根分区目录上（/）。
+
+下面是相关命令的解释：
+
+df -hl 查看磁盘剩余空间
+
+df -h 查看每个根路径的分区大小
+
+du -sh [目录名] 返回该目录的大小
+
+du -sm [文件夹] 返回该文件夹总M数
+
+更多功能可以输入一下命令查看：
+
+df --help
+
+du --help
+
+查看linux文件目录的大小和文件夹包含的文件数
+
+    统计总数大小
+
+    du -sh xmldb/
+
+    du -sm * | sort -n //统计当前目录大小 并安大小 排序
+
+    du -sk * | sort -n
+
+    du -sk * | grep guojf //看一个人的大小
+
+    du -m | cut -d "/" -f 2 //看第二个/ 字符前的文字
+
+    查看此文件夹有多少文件 /*/*/* 有多少文件
+
+    du xmldb/
+
+    du xmldb/*/*/* |wc -l
+
+    40752
+
+    解释：
+
+    wc [-lmw]
+
+    参数说明：
+
+    -l :多少行
+
+    -m:多少字符
+
+    -w:多少字
