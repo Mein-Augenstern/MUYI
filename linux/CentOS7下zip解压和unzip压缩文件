@@ -1,0 +1,22 @@
+1、安装zip、unzip应用
+yum install zip unzip
+
+2、压缩和解压文件
+以下命令均在/home目录下操作
+　　　　cd /home #进入/home目录
+　　a、把/home目录下面的mydata目录压缩为mydata.zip
+　　　　zip -r mydata.zip mydata #压缩mydata目录
+　　b、把/home目录下面的mydata.zip解压到mydatabak目录里面
+　　　　unzip mydata.zip -d mydatabak
+　　c、把/home目录下面的abc文件夹和123.txt压缩成为abc123.zip
+　　　　zip -r abc123.zip abc 123.txt
+　　d、把/home目录下面的wwwroot.zip直接解压到/home目录里面
+　　　　unzip wwwroot.zip
+　　e、把/home目录下面的abc12.zip、abc23.zip、abc34.zip同时解压到/home目录里面
+　　　　unzip abc\*.zip
+　　f、查看把/home目录下面的wwwroot.zip里面的内容
+　　　　unzip -v wwwroot.zip
+　　g、验证/home目录下面的wwwroot.zip是否完整
+　　　　unzip -t wwwroot.zip
+　　h、把/home目录下面wwwroot.zip里面的所有文件解压到第一级目录
+　　　　unzip -j wwwroot.zip
