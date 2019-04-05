@@ -1,0 +1,8 @@
+2018-08-22T22:13:27.354+08:00 INFO [main]
+				[com.datamanage.WebApplication.logStarting:48] Starting WebApplication on USER-20161022OL with PID 672 (D:\workspace\datamanager\target\classes started by Administrator in D:\workspace\datamanager)
+2018-08-22T22:13:27.355+08:00 DEBUG [main]
+				[com.datamanage.WebApplication.logStarting:51] Running with Spring Boot v1.5.9.RELEASE, Spring v4.3.13.RELEASE
+2018-08-22T22:13:27.356+08:00 INFO [main]
+				[com.datamanage.WebApplication.logStartupProfileInfo:593] No active profile set, falling back to default profiles: default
+2018-08-22T22:13:34.251+08:00 INFO [main]
+				[com.datamanage.WebApplication.logStarted:57] Started WebApplication in 7.363 seconds (JVM running for 7.896)
