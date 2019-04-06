@@ -29,7 +29,26 @@
 		<version>1.5.9.RELEASE</version>
 	</parent>
 
+	<properties>
+		<mybatis.version>3.2.6</mybatis.version>
+	</properties>
+
 	<dependencies>
+		<!-- database operation -->
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.0.15</version>
+		</dependency>
 		<!-- cas -->
 		<dependency>
 			<groupId>org.jasig.cas.client</groupId>

@@ -10,11 +10,6 @@ import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * @Description: config springboot emdedded tomcat
- * @author: Administrator
- * @date: 2019年1月6日 下午7:41:33
- */
 @Configuration
 public class TomcatEmbeddedConfig {
 
