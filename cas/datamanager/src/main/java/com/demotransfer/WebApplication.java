@@ -8,7 +8,7 @@ import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletCont
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 
-import com.demotransfer.config.properties.PropertiesLoader;
+import com.demotransfer.config.properties.PropertiesCacheUtils;
 
 @SpringBootApplication
 public class WebApplication extends SpringBootServletInitializer implements EmbeddedServletContainerCustomizer {
@@ -27,7 +27,7 @@ public class WebApplication extends SpringBootServletInitializer implements Embe
 		// default springboot port
 		int springbootStartPort = 8080;
 		try {
-			String propertiesPort = PropertiesLoader.getValue("springboot.start.port");
+			String propertiesPort = PropertiesCacheUtils.getValue("springboot.start.port");
 			if (StringUtils.isNotBlank(propertiesPort)) {
 				springbootStartPort = Integer.parseInt(propertiesPort);
 			}
@@ -38,7 +38,7 @@ public class WebApplication extends SpringBootServletInitializer implements Embe
 		// default springboot contextPath
 		String springbootContentPath = "/demotransfer";
 		try {
-			String propertiesContentPath = PropertiesLoader.getValue("springboot.start.contextPath");
+			String propertiesContentPath = PropertiesCacheUtils.getValue("springboot.start.contextPath");
 			if (StringUtils.isNotBlank(propertiesContentPath)) {
 				springbootContentPath = propertiesContentPath;
 			}
