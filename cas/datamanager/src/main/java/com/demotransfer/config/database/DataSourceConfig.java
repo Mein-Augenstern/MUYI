@@ -12,6 +12,7 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.demotransfer.config.properties.PropertiesCacheUtils;
@@ -26,7 +27,7 @@ public class DataSourceConfig implements EnvironmentAware {
 		PropertiesCacheUtils.setPropertiesToCacheContext("application.properties");
 	}
 
-	@Bean
+	@Bean(name = "datasource")
 	public DataSource getDataSource() {
 		try {
 			DruidDataSource druidDataSource = new DruidDataSource();
@@ -61,6 +62,19 @@ public class DataSourceConfig implements EnvironmentAware {
 		} catch (Exception e) {
 			logger.error("get sqlSessionTemplate failed:{}", e);
 			throw new BeanCreationException("create bean:{} failed:{}", SqlSessionTemplate.class.getName(), e);
+		}
+	}
+
+	@Bean
+	public DataSourceTransactionManager getDataSourceTransactionManager() {
+		try {
+			DataSourceTransactionManager sourceTransactionManager = new DataSourceTransactionManager();
+			sourceTransactionManager.setDataSource(getDataSource());
+			return sourceTransactionManager;
+		} catch (Exception e) {
+			logger.error("get dataSourceTransactionManager failed:{}", e);
+			throw new BeanCreationException("create bean:{} failed:{}", DataSourceTransactionManager.class.getName(),
+					e);
 		}
 	}
 
