@@ -12,6 +12,8 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import com.alibaba.druid.pool.DruidDataSource;
@@ -48,6 +50,11 @@ public class DataSourceConfig implements EnvironmentAware {
 		try {
 			SqlSessionFactoryBean sessionFactoryBean = new SqlSessionFactoryBean();
 			sessionFactoryBean.setDataSource(getDataSource());
+			
+			PathMatchingResourcePatternResolver pathMatchingResourcePatternResolver = new PathMatchingResourcePatternResolver();
+	        String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "/mapper/login/**.xml";
+			sessionFactoryBean.setMapperLocations(pathMatchingResourcePatternResolver.getResources(packageSearchPath));
+			
 			return sessionFactoryBean.getObject();
 		} catch (Exception e) {
 			logger.error("get sqlSessionFactoru failed:{}", e);
