@@ -1,0 +1,22 @@
+List/Set/Map/Queue
+
+List:
+	ArrayList
+	LinkedList
+	Stack
+	Vector
+	
+Set:
+	HashSet
+	LinkedHashSet
+	TreeSet
+
+Map:
+	HashMap
+	ConcurrentHashMap
+	TreeMap
+	LinkedHashMap
+	HashTable
+	
+Queue:
+	
