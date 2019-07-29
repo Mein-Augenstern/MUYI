@@ -1,2 +1,42 @@
-参考链接：
-1 
+# 查询日志中含有某个关键字的信息
+	cat app.log |grep 'error'
+	
+# 查询日志尾部最后10行的日志
+	tail  -n  10  app.log 
+	
+# 查询10行之后的所有日志
+	tail -n +10 app.log
+	
+# 查询日志文件中的头10行日志
+	head -n 10  app.log 
+	
+# 查询日志文件除了最后10行的其他所有日志
+	head -n -10  app.log 
+	
+# 查询日志中含有某个关键字的信息,显示出行号(在1的基础上修改)
+	cat -n  app.log |grep 'error'
+	
+# 显示102行,前10行和后10行的日志
+	cat -n app.log |tail -n +92|head -n 20
+	
+# 根据日期时间段查询(前提日志总必须打印日期,先通过grep确定是否有该时间点)
+	sed -n '/2014-12-17 16:17:20/,/2014-12-17 16:17:36/p'  app.log
+	
+# 使用more和less命令(分页查看,使用空格翻页)
+	cat -n app.log |grep "error" |more
+	
+# 日志保存到文件
+	cat -n app.log |grep "error"  > temp.txt
+	
+# 查找日志文件中fail所在行以及上下各一行并输出
+	cat /home/zjm/python_test/re_fold/test.log | grep -C 1 'fail'
+	
+# 打印出fail所在行以及前1行（Before）
+	cat /home/zjm/python_test/re_fold/test.log | grep -B 1 'fail'
+	
+# 打印出fail所在行以及后一行（After）
+	cat /home/zjm/python_test/re_fold/test.log | grep -A 1 'fail'
+	
+# 打印出在test.log文件中fail有几行
+	grep 'fail' /home/zjm/python_test/re_fold/test.log | wc -l
+	
