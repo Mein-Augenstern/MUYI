@@ -40,3 +40,5 @@
 # 打印出在test.log文件中fail有几行
 	grep 'fail' /home/zjm/python_test/re_fold/test.log | wc -l
 	
+# 查看某段时间内的关键字日志
+	sed -n ‘/2018-06-21 14:30:20/,/2018-06-21 16:12:00/p’ catalina.out |grep ‘keyword’
