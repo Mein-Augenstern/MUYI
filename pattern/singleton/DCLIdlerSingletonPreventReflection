@@ -1,0 +1,22 @@
+public class DCLIdlerSingletonPreventReflection {
+
+	private static volatile DCLIdlerSingletonPreventReflection instance;
+
+	private DCLIdlerSingletonPreventReflection() {
+		if (instance != null) {
+			throw new IllegalStateException();
+		}
+	}
+
+	public static DCLIdlerSingletonPreventReflection getInstance() {
+		if (null == instance) {
+			synchronized (DCLIdlerSingletonPreventReflection.class) {
+				if (null == instance) {
+					instance = new DCLIdlerSingletonPreventReflection();
+				}
+			}
+		}
+		return instance;
+	}
+
+}
