@@ -1,0 +1,20 @@
+public class DCLIdlerSingleton {
+
+	private static volatile DCLIdlerSingleton instance;
+
+	private DCLIdlerSingleton() {
+
+	}
+
+	public static DCLIdlerSingleton getInstance() {
+		if (null == instance) {
+			synchronized (DCLIdlerSingleton.class) {
+				if (null == instance) {
+					instance = new DCLIdlerSingleton();
+				}
+			}
+		}
+		return instance;
+	}
+
+}
