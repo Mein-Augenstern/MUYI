@@ -1,6 +1,10 @@
 public class SyncIdlerSingleton {
 
 	/**
+	 * 懒汉式
+	 */
+
+	/**
 	 * 线程安全单例模式且速度比较慢
 	 */
 
