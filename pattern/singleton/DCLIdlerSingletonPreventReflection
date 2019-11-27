@@ -1,5 +1,9 @@
 public class DCLIdlerSingletonPreventReflection {
 
+	/**
+	 * 懒汉式
+	 */
+
 	private static volatile DCLIdlerSingletonPreventReflection instance;
 
 	private DCLIdlerSingletonPreventReflection() {
