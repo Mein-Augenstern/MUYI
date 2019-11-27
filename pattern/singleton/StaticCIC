@@ -1,0 +1,21 @@
+public class StaticCIC {
+
+	/**
+	 * 静态内部类单例模式
+	 */
+
+	private StaticCIC() {
+
+	}
+
+	public static StaticCIC getInstance() {
+		return HelperHodler.INSTANCE;
+	}
+
+	private static class HelperHodler {
+
+		private static final StaticCIC INSTANCE = new StaticCIC();
+
+	}
+
+}
