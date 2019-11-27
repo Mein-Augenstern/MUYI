@@ -8,6 +8,10 @@ public class Person implements Serializable {
 
 	private int age;
 
+	public void dance() {
+		System.out.println("Let us dance");
+	}
+
 	public String getName() {
 		return name;
 	}
