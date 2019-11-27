@@ -1,0 +1,45 @@
+public class DynamicProxyHandlerByCustomer {
+
+	public static void main(String[] args) {
+		try {
+			proxtTypeOne();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static void proxtTypeOne() throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException,
+			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Class<Speecher> speecherClass = (Class<Speecher>) Class.forName("com.hikvision.pattern.proxy.Speecher");
+		Constructor<Speecher> constructor = speecherClass.getConstructor();
+		Speecher speecher = constructor.newInstance();
+
+		Class<ISpeech> iSpeechInterface = (Class<ISpeech>) Class.forName("com.hikvision.pattern.proxy.ISpeech");
+		Method[] methods = iSpeechInterface.getMethods();
+		for (Method method : methods) {
+			System.out.println("// before speech todo something");
+
+			try {
+				method.invoke(speecher);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			System.out.println("// after speech todo something");
+		}
+	}
+
+}
