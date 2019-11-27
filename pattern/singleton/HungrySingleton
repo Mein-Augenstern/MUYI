@@ -1,0 +1,19 @@
+public class HungrySingleton {
+
+	/**
+	 * 饿汉式
+	 */
+
+	private static final HungrySingleton instance = new HungrySingleton();
+
+	private HungrySingleton() {
+		if (instance == null) {
+			throw new IllegalStateException();
+		}
+	}
+
+	public static HungrySingleton getInstance() {
+		return instance;
+	}
+
+}
