@@ -1,0 +1,23 @@
+public class HungrySingletonStaticCodeBlock {
+
+	/**
+	 * 饿汉式
+	 */
+	
+	private static final HungrySingletonStaticCodeBlock instance;
+
+	static {
+		instance = new HungrySingletonStaticCodeBlock();
+	}
+
+	private HungrySingletonStaticCodeBlock() {
+		if (instance != null) {
+			throw new IllegalStateException();
+		}
+	}
+
+	public static HungrySingletonStaticCodeBlock getInstance() {
+		return instance;
+	}
+
+}
