@@ -1,5 +1,9 @@
 public class DCLIdlerSingleton {
 
+	/**
+	 * 懒汉式
+	 */
+
 	private static volatile DCLIdlerSingleton instance;
 
 	private DCLIdlerSingleton() {
