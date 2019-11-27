@@ -1,0 +1,20 @@
+public class SyncIdlerSingleton {
+
+	/**
+	 * 线程安全单例模式且速度比较慢
+	 */
+
+	private static SyncIdlerSingleton instance;
+
+	private SyncIdlerSingleton() {
+
+	}
+
+	public static synchronized SyncIdlerSingleton getInstance() {
+		if (null == instance) {
+			instance = new SyncIdlerSingleton();
+		}
+		return instance;
+	}
+
+}
