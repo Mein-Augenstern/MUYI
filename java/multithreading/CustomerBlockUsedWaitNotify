@@ -1,0 +1,46 @@
+public class CustomerBlockUsedWaitNotify<E> {
+
+	/**
+	 * 阻塞队列(synchronized + wait +notify)
+	 */
+
+	private final int blockQueueLimitSize;
+
+	private final List<E> storyList;
+
+	public CustomerBlockUsedWaitNotify(int blockQueueLimitSize) {
+		super();
+		this.blockQueueLimitSize = blockQueueLimitSize;
+		this.storyList = new LinkedList<E>();
+	}
+
+	public synchronized void puts(E e) {
+		System.out.println("生产者拿到锁了");
+		while (storyList.size() == blockQueueLimitSize) {
+			try {
+				wait();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		System.out.println("put:" + e);
+		storyList.add(e);
+		notifyAll();
+	}
+
+	public synchronized E takes() {
+		System.out.println("消费者拿到锁了");
+		while (storyList.size() == 0) {
+			try {
+				wait();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		E remove = storyList.remove(0);
+		System.out.println("take:" + remove);
+		notifyAll();
+		return remove;
+	}
+
+}
