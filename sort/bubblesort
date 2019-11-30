@@ -1,5 +1,9 @@
 public class BubbleSort {
 
+	/*
+	 * 冒泡排序
+	 */
+
 	public static void main(String[] args) {
 		Integer[] bubbleSort = bubbleSort(new Integer[] { 3, 2, 5, 1 });
 		for (Integer item : bubbleSort) {
