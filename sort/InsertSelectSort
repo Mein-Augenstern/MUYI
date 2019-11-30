@@ -1,5 +1,14 @@
 public class InsertSelectSort {
 
+	/**
+	 * 插入排序
+	 */
+	
+	/**
+	 * 核心思想：首先有一个未排序的数组。构建一个空的数组作为已排序的数组，依次遍历未排序的数组，将拿到的元素插入到已排序的数组中，遍历完成之后就可以得到已经排好序的数组了。
+	 * 实际算法只需要一个数组就可以完成，平均时间复杂度为N的平方。
+	 */
+
 	public static void main(String[] args) {
 		Integer[] insertSelectSortArray = insertSelectSort(new Integer[] { 2, 3, 1, 5 });
 		for (Integer item : insertSelectSortArray) {
