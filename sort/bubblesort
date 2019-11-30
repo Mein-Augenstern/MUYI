@@ -1,0 +1,23 @@
+public class BubbleSort {
+
+	public static void main(String[] args) {
+		Integer[] bubbleSort = bubbleSort(new Integer[] { 3, 2, 5, 1 });
+		for (Integer item : bubbleSort) {
+			System.out.println(item);
+		}
+	}
+
+	public static Integer[] bubbleSort(Integer[] a) {
+		for (int i = 0; i < a.length; i++) {
+			for (int j = 0; j < a.length - 1 - i; j++) {
+				if (a[j + 1] < a[j]) {
+					int temp = a[j + 1];
+					a[j + 1] = a[j];
+					a[j] = temp;
+				}
+			}
+		}
+		return a;
+	}
+
+}
