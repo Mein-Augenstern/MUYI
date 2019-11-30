@@ -1,0 +1,36 @@
+public class SelectSort {
+
+	/**
+	 * 选择排序
+	 */
+
+	/**
+	 * 核心思想：两个数组，一个是函数输入的未排序的数组，另一个是空的已排序的数组。我们从未排序的数组中选出最大的放入已排序的数组的最后一个位置，
+	 * 在从剩下的未排序的数组中选择最大的放入已排序的数组的倒数第二个位置，
+	 * 最后得到排序后的数组，选择最小的也可以，实际算法中只需要一个数组即可完成，平均时间复杂度为N的平方
+	 */
+
+	public static void main(String[] args) {
+		Integer[] selectSortArray = selectSort(new Integer[] { 5, 3, 7, 1 });
+		for (Integer item : selectSortArray) {
+			System.out.println(item);
+		}
+	}
+
+	public static Integer[] selectSort(Integer[] a) {
+		int min = Integer.MAX_VALUE;
+		for (int i = 0; i < a.length; i++) {
+			min = a[i];
+			for (int j = i + 1; j < a.length; j++) {
+				if (a[j] < min) {
+					min = a[j];
+					int temp = a[j];
+					a[j] = a[i];
+					a[i] = temp;
+				}
+			}
+		}
+		return a;
+	}
+
+}
