@@ -1,0 +1,80 @@
+public class CustomBlockQueueUseReentrantLock<E> {
+
+	private Lock lock = new ReentrantLock();
+
+	private Condition notFull = lock.newCondition();
+
+	private Condition notEmpty = lock.newCondition();
+
+	private final List<E> list;
+
+	private final int limit;
+
+	public CustomBlockQueueUseReentrantLock(int limit) {
+		super();
+		this.list = new LinkedList<E>();
+		this.limit = limit;
+	}
+
+	public synchronized void put(E e) {
+		lock.lock();
+		try {
+			while (list.size() == limit) {
+				try {
+					notFull.await();
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			}
+			System.out.println("put:" + e);
+			list.add(e);
+			notEmpty.signalAll();
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	public synchronized E take() {
+		lock.lock();
+		try {
+			while (list.size() == 0) {
+				try {
+					notEmpty.await();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			E remove = list.remove(0);
+			System.out.println("take:" + remove);
+			notFull.signalAll();
+			return remove;
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	public static void main(String[] args) {
+		CustomBlockQueueUseReentrantLock<Integer> queue = new CustomBlockQueueUseReentrantLock<Integer>(5);
+		for (int i = 0; i < 50; i++) {
+			final Integer m = i;
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					queue.put(m);
+				}
+			}).start();
+		}
+		for (int i = 0; i < 50; i++) {
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					queue.take();
+				}
+			}).start();
+		}
+	}
+
+}
