@@ -1,80 +1,96 @@
-public class CustomBlockQueueUseReentrantLock<E> {
+public class CustomerDeadLockUseReentrantLock {
 
-	private Lock lock = new ReentrantLock();
+	/**
+	 * 使用ReentrantLock实现死锁
+	 */
+	
+	/**
+	 * 	jstack.exe print log
+		Found one Java-level deadlock:
+		=============================
+		"lock12-Thread-4":
+		  waiting for ownable synchronizer 0x000000076b100538, (a java.util.concurrent.locks.ReentrantLock$NonfairSync),
+		  which is held by "lock11-Thread-3"
+		"lock11-Thread-3":
+		  waiting for ownable synchronizer 0x000000076b100568, (a java.util.concurrent.locks.ReentrantLock$NonfairSync),
+		  which is held by "lock12-Thread-4"
+		
+		Java stack information for the threads listed above:
+		===================================================
+		"lock12-Thread-4":
+			at sun.misc.Unsafe.park(Native Method)
+			- parking to wait for  <0x000000076b100538> (a java.util.concurrent.locks.ReentrantLock$NonfairSync)
+			at java.util.concurrent.locks.LockSupport.park(Unknown Source)
+			at java.util.concurrent.locks.AbstractQueuedSynchronizer.parkAndCheckInterrupt(Unknown Source)
+			at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquireQueued(Unknown Source)
+			at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquire(Unknown Source)
+			at java.util.concurrent.locks.ReentrantLock$NonfairSync.lock(Unknown Source)
+			at java.util.concurrent.locks.ReentrantLock.lock(Unknown Source)
+			at com.hikvision.redis.module.blockqueue.CustomerDeadLockUseReentrantLock$2.run(CustomerDeadLockUseReentrantLock.java:47)
+			at java.lang.Thread.run(Unknown Source)
+		"lock11-Thread-3":
+			at sun.misc.Unsafe.park(Native Method)
+			- parking to wait for  <0x000000076b100568> (a java.util.concurrent.locks.ReentrantLock$NonfairSync)
+			at java.util.concurrent.locks.LockSupport.park(Unknown Source)
+			at java.util.concurrent.locks.AbstractQueuedSynchronizer.parkAndCheckInterrupt(Unknown Source)
+			at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquireQueued(Unknown Source)
+			at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquire(Unknown Source)
+			at java.util.concurrent.locks.ReentrantLock$NonfairSync.lock(Unknown Source)
+			at java.util.concurrent.locks.ReentrantLock.lock(Unknown Source)
+			at com.hikvision.redis.module.blockqueue.CustomerDeadLockUseReentrantLock$1.run(CustomerDeadLockUseReentrantLock.java:26)
+			at java.lang.Thread.run(Unknown Source)
+		
+		Found 1 deadlock.
+	 */
+	
+	private static Lock lock11 = new ReentrantLock();
 
-	private Condition notFull = lock.newCondition();
+	private static Lock lock12 = new ReentrantLock();
 
-	private Condition notEmpty = lock.newCondition();
+	public static void main(String[] args) {
+		
+		new Thread(new Runnable() {
 
-	private final List<E> list;
+			@Override
+			public void run() {
+				lock11.lock();
+				System.out.println(Thread.currentThread().getName() + "获取了lock11");
 
-	private final int limit;
-
-	public CustomBlockQueueUseReentrantLock(int limit) {
-		super();
-		this.list = new LinkedList<E>();
-		this.limit = limit;
-	}
-
-	public synchronized void put(E e) {
-		lock.lock();
-		try {
-			while (list.size() == limit) {
 				try {
-					notFull.await();
-				} catch (Exception e2) {
-					e2.printStackTrace();
-				}
-			}
-			System.out.println("put:" + e);
-			list.add(e);
-			notEmpty.signalAll();
-		} finally {
-			lock.unlock();
-		}
-	}
-
-	public synchronized E take() {
-		lock.lock();
-		try {
-			while (list.size() == 0) {
-				try {
-					notEmpty.await();
+					Thread.sleep(1000);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+
+				lock12.lock();
+				System.out.println(Thread.currentThread().getName() + "获取了lock12");
+
+				lock11.unlock();
+				lock12.unlock();
 			}
+		}, "lock11-Thread-3").start();
 
-			E remove = list.remove(0);
-			System.out.println("take:" + remove);
-			notFull.signalAll();
-			return remove;
-		} finally {
-			lock.unlock();
-		}
-	}
+		new Thread(new Runnable() {
 
-	public static void main(String[] args) {
-		CustomBlockQueueUseReentrantLock<Integer> queue = new CustomBlockQueueUseReentrantLock<Integer>(5);
-		for (int i = 0; i < 50; i++) {
-			final Integer m = i;
-			new Thread(new Runnable() {
+			@Override
+			public void run() {
+				lock12.lock();
+				System.out.println(Thread.currentThread().getName() + "获取了lock12");
 
-				@Override
-				public void run() {
-					queue.put(m);
+				try {
+					Thread.sleep(1000);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			}).start();
-		}
-		for (int i = 0; i < 50; i++) {
-			new Thread(new Runnable() {
 
-				@Override
-				public void run() {
-					queue.take();
-				}
-			}).start();
-		}
+				lock11.lock();
+				System.out.println(Thread.currentThread().getName() + "获取了lock11");
+
+				lock12.unlock();
+				lock11.unlock();
+			}
+		}, "lock12-Thread-4").start();
+
 	}
 
 }
