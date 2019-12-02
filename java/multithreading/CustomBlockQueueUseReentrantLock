@@ -26,7 +26,7 @@ public class CustomerDeadLockUseReentrantLock {
 			at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquire(Unknown Source)
 			at java.util.concurrent.locks.ReentrantLock$NonfairSync.lock(Unknown Source)
 			at java.util.concurrent.locks.ReentrantLock.lock(Unknown Source)
-			at com.hikvision.redis.module.blockqueue.CustomerDeadLockUseReentrantLock$2.run(CustomerDeadLockUseReentrantLock.java:47)
+			at com.*.redis.module.blockqueue.CustomerDeadLockUseReentrantLock$2.run(CustomerDeadLockUseReentrantLock.java:47)
 			at java.lang.Thread.run(Unknown Source)
 		"lock11-Thread-3":
 			at sun.misc.Unsafe.park(Native Method)
@@ -37,7 +37,7 @@ public class CustomerDeadLockUseReentrantLock {
 			at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquire(Unknown Source)
 			at java.util.concurrent.locks.ReentrantLock$NonfairSync.lock(Unknown Source)
 			at java.util.concurrent.locks.ReentrantLock.lock(Unknown Source)
-			at com.hikvision.redis.module.blockqueue.CustomerDeadLockUseReentrantLock$1.run(CustomerDeadLockUseReentrantLock.java:26)
+			at com.*.redis.module.blockqueue.CustomerDeadLockUseReentrantLock$1.run(CustomerDeadLockUseReentrantLock.java:26)
 			at java.lang.Thread.run(Unknown Source)
 		
 		Found 1 deadlock.
