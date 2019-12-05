@@ -1,0 +1,8 @@
+public class SayHelloOne implements IHello {
+
+	@Override
+	public void hello() {
+		System.out.println("sya hello one");
+	}
+
+}
