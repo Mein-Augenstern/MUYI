@@ -1,0 +1,17 @@
+public class SqlServerFactory implements IFactory {
+
+	/**
+	 * 具体工厂
+	 */
+
+	@Override
+	public IUser createUser() {
+		return new SqlServerUser();
+	}
+
+	@Override
+	public IDepartment createDepartment() {
+		return new SqlServerDepartment();
+	}
+
+}
