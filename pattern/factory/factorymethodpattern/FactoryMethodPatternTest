@@ -1,0 +1,10 @@
+public class FactoryMethodPatternTest {
+
+	public static void main(String[] args) throws Exception {
+		IFactoryMethodPattern factoryMethodPattern = new AddOperationFactory();
+		IOperation addOperation = factoryMethodPattern.createOperation();
+		double result = addOperation.getResult(1, 2);
+		System.out.println(result);
+	}
+
+}
