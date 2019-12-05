@@ -1,0 +1,11 @@
+public class SimpleHelloFactoryTest {
+
+	public static void main(String[] args) {
+		IHello helloOne = SimpleHelloFactory.createHelloInstance("SayHelloOne");
+		helloOne.hello();
+
+		IHello helloTwo = SimpleHelloFactory.createHelloInstance("SayHelloTwo");
+		helloTwo.hello();
+	}
+
+}
