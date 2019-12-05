@@ -1,0 +1,11 @@
+public class Div implements IOperation {
+
+	@Override
+	public double getResult(double numberA, double numberB) throws Exception {
+		if (numberB == 0) {
+			throw new IllegalStateException();
+		}
+
+		return numberA / numberB;
+	}
+}
