@@ -1,0 +1,11 @@
+public interface IUser {
+
+	/**
+	 * 抽象产品
+	 */
+
+	void insert(User user);
+
+	User getUser(String id);
+
+}
