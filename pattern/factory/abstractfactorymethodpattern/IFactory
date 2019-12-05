@@ -1,0 +1,11 @@
+public interface IFactory {
+
+	/**
+	 * 抽象工厂接口
+	 */
+
+	IUser createUser();
+
+	IDepartment createDepartment();
+
+}
