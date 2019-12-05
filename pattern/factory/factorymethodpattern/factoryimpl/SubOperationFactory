@@ -1,0 +1,8 @@
+public class SubOperationFactory implements IFactoryMethodPattern {
+
+	@Override
+	public IOperation createOperation() {
+		return new Sub();
+	}
+
+}
