@@ -1,0 +1,29 @@
+public class BinaryTreeNodeOperationTest {
+
+	private List<BinaryTreeNode> binaryTreeInstance;
+
+	@Before
+	public void testCreateBinaryTree() {
+		this.binaryTreeInstance = new BinaryTreeNodeOperation().createTree(new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+		// System.out.println(this.binaryTreeInstance.toString());
+	}
+
+	@Test
+	public void testPreOrderByRecursive() {
+		new BinaryTreeNodeOperation().preOrderByRecursive(binaryTreeInstance.get(0));
+		System.out.println();
+	}
+
+	@Test
+	public void testMidOrderByRecursive() {
+		new BinaryTreeNodeOperation().midOrderByRecursive(binaryTreeInstance.get(0));
+		System.out.println();
+	}
+
+	@Test
+	public void testPostOrderBuRecursive() {
+		new BinaryTreeNodeOperation().postOrderBuRecursive(binaryTreeInstance.get(0));
+		System.out.println();
+	}
+
+}
