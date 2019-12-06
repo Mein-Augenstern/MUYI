@@ -1,0 +1,36 @@
+/**
+ * @Description: Tree operation definition
+ * @version V1.0.0
+ */
+public interface ITreeNodeOperation {
+
+	/**
+	 * Create tree
+	 * 
+	 * @param datas
+	 * @return
+	 */
+	List<BinaryTreeNode> createTree(Integer[] datas);
+
+	/**
+	 * Preorder traversal, recursion: root, left, right order
+	 * 
+	 * @param root
+	 */
+	void preOrderByRecursive(BinaryTreeNode root);
+
+	/**
+	 * Middle order traversal, recursion: left, root, right order
+	 * 
+	 * @param root
+	 */
+	void midOrderByRecursive(BinaryTreeNode root);
+
+	/**
+	 * Back order recursion, recursion: left, right, root
+	 * 
+	 * @param root
+	 */
+	void postOrderBuRecursive(BinaryTreeNode root);
+
+}
