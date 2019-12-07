@@ -1,0 +1,90 @@
+public class TreeOrderByNotRecursiveOperation extends AbstractTreeNodeOperation {
+
+	@Override
+	public void preOrder(BinaryTreeNode root) {
+		TreeOrderByNotRecursive.preOrder(root);
+	}
+
+	@Override
+	public void midOrder(BinaryTreeNode root) {
+		TreeOrderByNotRecursive.midOrder(root);
+	}
+
+	@Override
+	public void postOrder(BinaryTreeNode root) {
+		TreeOrderByNotRecursive.postOrder(root);
+	}
+
+	static class TreeOrderByNotRecursive {
+
+		/**
+		 * Preorder traversal of binary trees (non-recursive)
+		 * 
+		 * @param root
+		 */
+		public static void preOrder(BinaryTreeNode root) {
+			if (null == root) {
+				return;
+			} else {
+				Stack<BinaryTreeNode> treeNodesStack = new Stack<BinaryTreeNode>();
+				BinaryTreeNode binaryTreeNode = null;
+				while (binaryTreeNode != null || !treeNodesStack.isEmpty()) {
+					// When p is not empty, the value of p is read and p is
+					// constantly updated as its left child node, that is, the
+					// left
+					// child node is read continuously
+					while (binaryTreeNode != null) {
+						System.out.println(binaryTreeNode.getValue() + " ");
+						treeNodesStack.push(binaryTreeNode);
+					}
+
+					if (!treeNodesStack.isEmpty()) {
+						binaryTreeNode = treeNodesStack.pop();
+						binaryTreeNode = binaryTreeNode.getRight();
+					}
+				}
+			}
+		}
+
+		/**
+		 * Midorder traversal of binary trees (non-recursive)
+		 * 
+		 * @param root
+		 */
+		public static void midOrder(BinaryTreeNode root) {
+			if (null == root) {
+				return;
+			} else {
+				Stack<BinaryTreeNode> treeNodesStack = new Stack<BinaryTreeNode>();
+				BinaryTreeNode binaryTreeNode = root;
+				while (binaryTreeNode != null || !treeNodesStack.isEmpty()) {
+					while (binaryTreeNode != null) {
+						treeNodesStack.push(binaryTreeNode);
+						binaryTreeNode = binaryTreeNode.getLeft();
+					}
+
+					if (!treeNodesStack.isEmpty()) {
+						binaryTreeNode = treeNodesStack.pop();
+						System.out.println(binaryTreeNode.getValue());
+						binaryTreeNode = binaryTreeNode.getRight();
+					}
+				}
+			}
+		}
+
+		/**
+		 * Postorder traversal of binary trees (non-recursive)
+		 * 
+		 * @param root
+		 */
+		public static void postOrder(BinaryTreeNode root) {
+			if (null == root) {
+				return;
+			} else {
+
+			}
+		}
+
+	}
+
+}
