@@ -17,20 +17,20 @@ public interface ITreeNodeOperation {
 	 * 
 	 * @param root
 	 */
-	void preOrderByRecursive(BinaryTreeNode root);
+	void preOrder(BinaryTreeNode root);
 
 	/**
 	 * Middle order traversal, recursion: left, root, right order
 	 * 
 	 * @param root
 	 */
-	void midOrderByRecursive(BinaryTreeNode root);
+	void midOrder(BinaryTreeNode root);
 
 	/**
 	 * Back order recursion, recursion: left, right, root
 	 * 
 	 * @param root
 	 */
-	void postOrderBuRecursive(BinaryTreeNode root);
+	void postOrder(BinaryTreeNode root);
 
 }
