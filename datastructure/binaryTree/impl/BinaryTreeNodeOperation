@@ -1,46 +1,73 @@
-public class BinaryTreeNodeOperation implements ITreeNodeOperation {
+public class BinaryTreeNodeOperation extends AbstractTreeNodeOperation {
 
 	@Override
-	public List<BinaryTreeNode> createTree(Integer[] datas) {
-		if (null == datas) {
-			return Collections.emptyList();
-		}
-
-		// Convert array 2 node list
-		List<BinaryTreeNode> binaryNodeList = new ArrayList<BinaryTreeNode>(datas.length);
-		for (Integer item : datas) {
-			binaryNodeList.add(new BinaryTreeNode(item));
-		}
-
-		// Sets the binary tree parent-child node relationship
-		for (int index = 0; index < binaryNodeList.size() / 2 - 1; index++) {
-			binaryNodeList.get(index).setLeft(binaryNodeList.get(index * 2 + 1));
-			binaryNodeList.get(index).setRight(binaryNodeList.get(index * 2 + 2));
-		}
-
-		// Special processing of the last parent node
-		int lastParentIndex = binaryNodeList.size() / 2 - 1;
-		binaryNodeList.get(lastParentIndex).setLeft(binaryNodeList.get(lastParentIndex * 2 + 1));
-		if (binaryNodeList.size() % 2 == 1) {
-			binaryNodeList.get(lastParentIndex).setRight(binaryNodeList.get(lastParentIndex * 2 + 2));
-		}
-
-		return binaryNodeList;
-	}
-
-	@Override
-	public void preOrderByRecursive(BinaryTreeNode root) {
+	public void preOrder(BinaryTreeNode root) {
 		TreeOrderByRecursive.preOrderByRecursive(root);
 	}
 
 	@Override
-	public void midOrderByRecursive(BinaryTreeNode root) {
+	public void midOrder(BinaryTreeNode root) {
 		TreeOrderByRecursive.midOrderByRecursive(root);
 	}
 
 	@Override
-	public void postOrderBuRecursive(BinaryTreeNode root) {
+	public void postOrder(BinaryTreeNode root) {
 		TreeOrderByRecursive.postOrderBuRecursive(root);
+	}
+
+	static class TreeOrderByRecursive {
+
+		/**
+		 * Preorder traversal, recursion: root, left, right order
+		 * 
+		 * @param root
+		 */
+		public static void preOrderByRecursive(BinaryTreeNode root) {
+			if (null == root) {
+				return;
+			} else {
+				System.out.print(root.getValue() + " ");
+
+				preOrderByRecursive(root.getLeft());
+
+				preOrderByRecursive(root.getRight());
+			}
+		}
+
+		/**
+		 * Middle order traversal, recursion: left, root, right order
+		 * 
+		 * @param root
+		 */
+		public static void midOrderByRecursive(BinaryTreeNode root) {
+			if (null == root) {
+				return;
+			} else {
+				midOrderByRecursive(root.getLeft());
+
+				System.out.print(root.getValue() + " ");
+
+				midOrderByRecursive(root.getRight());
+			}
+		}
+
+		/**
+		 * Back order recursion, recursion: left, right, root
+		 * 
+		 * @param root
+		 */
+		public static void postOrderBuRecursive(BinaryTreeNode root) {
+			if (null == root) {
+				return;
+			} else {
+				postOrderBuRecursive(root.getLeft());
+
+				postOrderBuRecursive(root.getRight());
+
+				System.out.print(root.getValue() + " ");
+			}
+		}
+
 	}
 
 }
