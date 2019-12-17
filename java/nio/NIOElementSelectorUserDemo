@@ -1,0 +1,69 @@
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.channels.SelectableChannel;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.util.Iterator;
+import java.util.Set;
+
+public class NIOElementSelectorUserDemo {
+
+	// 超时时间，单位毫秒
+	private static final int Timeout = 3000;
+
+	// 本地监听端口
+	private static final int ListenPort = 1978;
+
+	public static void main(String[] args) throws IOException {
+		// 创建选择器
+		Selector selector = Selector.open();
+		// 打开监听信道
+		ServerSocketChannel listenChannel = ServerSocketChannel.open();
+		// 与本地端口绑定
+		listenChannel.socket().bind(new InetSocketAddress(ListenPort));
+		// 设置为非阻塞模式
+		listenChannel.configureBlocking(false);
+		// 将选择器绑定到监听信道，只有非阻塞信道才可以注册选择器，并在注册过程中指出该信道可以进行Accept操作
+		// 一个serversocket channel准备好接收新进入的连接称为“接收就绪”
+		listenChannel.register(selector, SelectionKey.OP_ACCEPT);
+
+		// 反复循环，等待IO
+		while (true) {
+			// 等待某信道就绪（或超时）
+			int keys = selector.select(Timeout);
+			// 刚启动时连续输出0，client连接后一直输出1
+			if (keys == 0) {
+				System.out.println("独自等待");
+				continue;
+			}
+
+			// 取得迭代器，遍历每一个注册的通道
+			Set<SelectionKey> set = selector.selectedKeys();
+			Iterator<SelectionKey> keyIterator = set.iterator();
+			while (keyIterator.hasNext()) {
+				SelectionKey key = keyIterator.next();
+				if (key.isAcceptable()) {
+					// a connection was accepted by a ServerSocketChannel
+					// 可通过Channel()方法获取就绪的Channel并进一步处理
+					SelectableChannel channel = key.channel();
+					// TODO: do something
+
+				} else if (key.isConnectable()) {
+					// TODO: do something
+
+				} else if (key.isReadable()) {
+					// TODO: do something
+
+				} else if (key.isWritable()) {
+					// TODO: do something
+
+				}
+
+				// 删除处理过的事件
+				keyIterator.remove();
+			}
+		}
+	}
+
+}
