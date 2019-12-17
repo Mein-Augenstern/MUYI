@@ -1,0 +1,85 @@
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.util.Iterator;
+
+public class NIOLearningDemo {
+
+	private static final int BUF_SIZE = 256;
+
+	private static final int TIMEOUT = 3000;
+
+	public static void main(String[] args) throws IOException {
+		// 打开服务端Socket
+		ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+
+		// 打开Selector
+		Selector selector = Selector.open();
+
+		// 服务端 Socket监听8080端口，并配置为非阻塞模式
+		serverSocketChannel.socket().bind(new InetSocketAddress(8080));
+		serverSocketChannel.configureBlocking(false);
+
+		// 将channel注册到 selector 中
+		// 通常我们都是注册一个OP_ACCEPT事件，然后在OP_ACCEPT到来时，再将这个Channel的OP_READ注册到Selector中
+		serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+
+		while (true) {
+			// 通过调用select方法，阻塞的等待channel I/O可操作
+			if (selector.select(TIMEOUT) == 0) {
+				System.out.println("超时等待......");
+				continue;
+			}
+
+			// 获取I/O操作就绪的SelectionKey，通过SelectionKey可以知道哪些Channel的哪类I/O操作已经就绪
+			Iterator<SelectionKey> keyIterator = selector.selectedKeys().iterator();
+			while (keyIterator.hasNext()) {
+				SelectionKey key = keyIterator.next();
+				// 当获取一个SelectionKey后，将要将它删除，表示我们已经将这个IO事件进行了处理
+				keyIterator.remove();
+
+				if (key.isAcceptable()) {
+					// 当OP_ACCEPT事件到来是，我们就有从ServerSocketChannel中获取一个SocketChannel,代表客户端的连接
+					// 注意，在OP_ACCEPT事件中，从key.channel()返回的Channel是ServerSocketChannel
+					// 而在OP_WRITE和OP_READ中，从key.channel()返回的是SocketChannel
+					SocketChannel clientChannel = ((ServerSocketChannel) key.channel()).accept();
+					clientChannel.configureBlocking(false);
+
+					// 在OP_ACCEPT到来时，再将这个Channel的OP_READ注册到Selector中
+					// 注意，这里我们如果没有设置OP_READ的话，即interest
+					// set仍然是OP_CONNECT的话，那么select方法会一直直接返回
+					clientChannel.register(key.selector(), SelectionKey.OP_READ, ByteBuffer.allocate(BUF_SIZE));
+				}
+				if (key.isReadable()) {
+					SocketChannel clientChannel = (SocketChannel) key.channel();
+					ByteBuffer byteBuffer = (ByteBuffer) key.attachment();
+					int bytesRead = clientChannel.read(byteBuffer);
+					if (bytesRead == -1) {
+						clientChannel.close();
+					} else if (bytesRead > 0) {
+						key.interestOps(SelectionKey.OP_READ | SelectionKey.OP_WRITE);
+						System.out.println("Get data length: " + bytesRead);
+					}
+				}
+				if (key.isValid() && key.isWritable()) {
+					ByteBuffer byteBuffer = (ByteBuffer) key.attachment();
+					byteBuffer.flip();
+					SocketChannel clientChannel = (SocketChannel) key.channel();
+
+					clientChannel.write(byteBuffer);
+
+					if (!byteBuffer.hasRemaining()) {
+						key.interestOps(SelectionKey.OP_READ);
+					}
+					byteBuffer.compact();
+				}
+			}
+
+		}
+	}
+	
+}
