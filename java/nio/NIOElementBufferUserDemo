@@ -1,0 +1,46 @@
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+
+public class NIOElementBufferUserDemo {
+
+	public static void main(String[] args) throws IOException {
+		String inFile = "E:\\1.txt";
+		String outFile = "E:\\2.txt";
+
+		// 获取源文件和目标文件的输入输出流
+		FileInputStream fin = new FileInputStream(inFile);
+		FileOutputStream fout = new FileOutputStream(outFile);
+
+		// 获取输入输出通道
+		FileChannel fileChannelIn = fin.getChannel();
+		FileChannel fileChannelOut = fout.getChannel();
+
+		// 创建缓冲区，分配1K堆内存
+		ByteBuffer buffer = ByteBuffer.allocate(1024);
+
+		while (true) {
+			// clear方法重设缓冲区，使它可以接收读入的数据
+			buffer.clear();
+			// 从输入通道中读取数据并写入buffer
+			int r = fileChannelIn.read(buffer);
+			// read方法返回读取的字节数，可能为零，如果该通道已到达流的末尾，则返回-1
+			if (r == -1) {
+				break;
+			}
+			// flip方法将buffer从写模式切换到读模式
+			buffer.flip();
+			// 从buffer中读取数据然后写入到输出通道中
+			fileChannelOut.write(buffer);
+		}
+
+		// 关闭通道
+		fileChannelOut.close();
+		fileChannelIn.close();
+		fout.close();
+		fin.close();
+	}
+
+}
