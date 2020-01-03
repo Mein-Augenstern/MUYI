@@ -1,0 +1,60 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		algorithmicImpl();
+	}
+
+	@SuppressWarnings("resource")
+	public static void algorithmicImpl() {
+		Scanner scanner = new Scanner(System.in);
+		while (scanner.hasNextInt()) {
+			int nextInt = scanner.nextInt();
+			if (nextInt <= 0 || nextInt > 1000) {
+				break;
+			}
+
+			List<Integer> iriginalList = new ArrayList<Integer>();
+			for (int i = 0; i < nextInt; i++) {
+				iriginalList.add(scanner.nextInt());
+			}
+
+			List<Integer> delRepeatNumList = delRepeatNum(iriginalList);
+			List<Integer> sortNumList = sortNum(delRepeatNumList);
+			for (Integer item : sortNumList) {
+				System.out.println(item);
+			}
+
+			iriginalList.clear();
+		}
+	}
+
+	public static List<Integer> delRepeatNum(List<Integer> iriginalList) {
+		List<Integer> list = new ArrayList<Integer>();
+		for (Integer item : iriginalList) {
+			if (!list.contains(item)) {
+				list.add(item);
+			}
+		}
+
+		return list;
+	}
+
+	public static List<Integer> sortNum(List<Integer> delRepeatNum) {
+		for (int i = 0; i < delRepeatNum.size(); i++) {
+			for (int j = 0; j < delRepeatNum.size(); j++) {
+				if (delRepeatNum.get(i) < delRepeatNum.get(j)) {
+					int temp = delRepeatNum.get(i);
+					delRepeatNum.set(i, delRepeatNum.get(j));
+					delRepeatNum.set(j, temp);
+				}
+			}
+		}
+
+		return delRepeatNum;
+	}
+
+}
