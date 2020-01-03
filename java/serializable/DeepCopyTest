@@ -35,5 +35,37 @@ public class DeepCopyTest {
 		ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
 		return (T) objectInputStream.readObject();
 	}
+	
+	/**
+	 * serialize object
+	 * 
+	 * @param obejct
+	 * @return
+	 * @throws IOException
+	 */
+	public static byte[] serialize(Object obejct) throws IOException {
+		try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+				ObjectOutputStream objectOutputStream = new ObjectOutputStream(new ByteArrayOutputStream())) {
+			objectOutputStream.writeObject(obejct);
+			return byteArrayOutputStream.toByteArray();
+		}
+	}
+
+	/**
+	 * deserialize object
+	 * 
+	 * @param byteArray
+	 * @param clazz
+	 * @return
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T deserialize(byte[] byteArray, Class<T> clazz) throws IOException, ClassNotFoundException {
+		try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArray);
+				ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream)) {
+			return (T) objectInputStream.readObject();
+		}
+	}
 
 }
