@@ -1,0 +1,69 @@
+import java.util.Map;
+import java.util.Scanner;
+import java.util.concurrent.ConcurrentHashMap;
+
+public class Main {
+
+	/**
+	 * https://baike.baidu.com/item/%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E8%BD%
+	 * AC%E6%8D%A2/3818427?fr=aladdin
+	 */
+
+	private static final Map<String, String> hex2TenMap = new ConcurrentHashMap<String, String>();
+
+	static {
+		hex2TenMap.put("0x1", "1");
+		hex2TenMap.put("0x2", "2");
+		hex2TenMap.put("0x3", "3");
+		hex2TenMap.put("0x4", "4");
+		hex2TenMap.put("0x5", "5");
+		hex2TenMap.put("0x6", "6");
+		hex2TenMap.put("0x7", "7");
+		hex2TenMap.put("0x8", "8");
+		hex2TenMap.put("0x9", "9");
+		hex2TenMap.put("0xA", "10");
+		hex2TenMap.put("0xB", "11");
+		hex2TenMap.put("0xC", "12");
+		hex2TenMap.put("0xD", "13");
+		hex2TenMap.put("0xE", "14");
+		hex2TenMap.put("0xF", "15");
+		hex2TenMap.put("0xG", "16");
+	}
+
+	public static void main(String[] args) {
+		algorithmicImpl2();
+	}
+
+	@SuppressWarnings("resource")
+	public static void algorithmicImpl2() {
+		Scanner scanner = new Scanner(System.in);
+		while (scanner.hasNext()) {
+			String s = scanner.next().substring(2);
+			int n = Integer.parseInt(s, 16);
+			System.out.println(String.valueOf(n));
+		}
+	}
+
+	@SuppressWarnings("resource")
+	public static void algorithmicImpl() {
+		Scanner scanner = new Scanner(System.in);
+		while (scanner.hasNext()) {
+			hex2Ten(scanner.next());
+		}
+	}
+
+	public static void hex2Ten(String hexItemStr) {
+		hexItemStr = hexItemStr.replace("0x", "").toUpperCase();
+
+		Long resultNum = 0L;
+		int hexItemStrLength = hexItemStr.length();
+		for (int i = 0; i < hexItemStr.length(); i++) {
+			hexItemStrLength--;
+			String hexItem = hex2TenMap.get("0x" + hexItemStr.charAt(i));
+
+			resultNum = (long) (resultNum + Integer.parseInt(hexItem) * Math.pow(16, hexItemStrLength));
+		}
+		System.out.println(String.valueOf(resultNum));
+	}
+
+}
