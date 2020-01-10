@@ -3,6 +3,11 @@
 
 HashMap的key是不能重复的，而这里HashSet的元素又是作为了map的key，当然也不能重复。且需要注意：若要将对象存放到HashSet中并保证对象不重复，应根据实际情况将对象的hashCode方法和equals方法进行重写
 
+Question
+====
+
+* <label style="color:blue">**HashMap是怎么做到key不能重复的？**</label>
+
 初识印象
 ====
 
