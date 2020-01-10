@@ -9,6 +9,7 @@ hashSet底层是基于hashMap实现的，hashSet存储的元素对应hashMap的k
 ```Java
 // HashSet底层是基于HashMap存储数据，该map的key就是HashSet要存放的数据
 private transient HashMap<E,Object> map;
+
 // 该变量用来填充上一个map的value字段，因为HashSet关注的是map的Key
 private static final Object PRESENT = new Object();
 ```
