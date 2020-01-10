@@ -1,3 +1,5 @@
+![集合UML类图](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/%E9%9B%86%E5%90%88%E7%B1%BBUML%E5%9B%BE.jpg)
+
 List和set集合，Map集合的区别以及它们的实现类有哪些？有什么区别？
 ====
 
@@ -30,4 +32,3 @@ List 和 Map 区别？
 
 一个是存储单列数据的集合，另一个是存储键和值这样的双列数据的集合，List 中存储的数据是有顺序，并且允许重复；Map 中存储的数据是没有顺序的，其 key 是不能重复的，它的值是可以有重复的。
 
-![集合UML类图](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/%E9%9B%86%E5%90%88%E7%B1%BBUML%E5%9B%BE.jpg)
