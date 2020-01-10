@@ -1,5 +1,3 @@
-![集合UML类图](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/%E9%9B%86%E5%90%88%E7%B1%BBUML%E5%9B%BE.jpg)
-
 List和set集合，Map集合的区别以及它们的实现类有哪些？有什么区别？
 ====
 
@@ -12,6 +10,8 @@ List 的实现类有 ArrayList，Vector 和 LinkedList：
 ArrayList 和 Vector 内部是线性动态数组结构，在查询效率上会高很多，Vector 是线程安全的，相比 ArrayList 线程不安全的，性能会稍慢一些。
 
 LinkedList：是双向链表的数据结构存储数据，在做查询时会按照序号索引数据进行前向或后向遍历，查询效率偏低，但插入数据时只需要记录本项的前后项即可，所以插入速度较快。
+
+![集合UML类图](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/%E9%9B%86%E5%90%88%E7%B1%BBUML%E5%9B%BE.jpg)
 
 Set 的实现类有 HashSet 和 TreeSet；
 
