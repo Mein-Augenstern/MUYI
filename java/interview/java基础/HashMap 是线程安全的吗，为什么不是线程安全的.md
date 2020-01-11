@@ -6,12 +6,15 @@
 
 HashMap不是线程安全的。
 
-![Map接口UML图](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/Map%E6%8E%A5%E5%8F%A3UML%E5%9B%BE.png)
-
 Question
 ====
 * 线程不安全的原因是什么？
 * 什么情况下会导致HashMap线程不安全？
+
+Map接口UML图
+====
+
+![Map接口UML图](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/Map%E6%8E%A5%E5%8F%A3UML%E5%9B%BE.png)
 
 
 HashMap 简介
@@ -28,7 +31,7 @@ HashMap 底层数据结构
 
 **JDK1.8之前**
 
-JDK1.8 之前 HashMap 底层是 **数组和链表** 结合在一起使用也就是 **链表散列**。HashMap **通过key的hashCode经过 $\color{#FF3030}{扰动函数}$ 处理过后得到hash值，然后通过 (n - 1) & hash 判断当前元素存放的位置（这里的n指的是数组的长度），如果当前位置存在元素的话，就判断该元素与要存入的元素的hash值以及key是否相同，如果相同的话，直接覆盖，不相同就通过拉链法解决冲突。**
+JDK1.8 之前 HashMap 底层是 **数组和链表** 结合在一起使用也就是 **链表散列**。HashMap **通过key的hashCode经过 扰动函数 处理过后得到hash值，然后通过 (n - 1) & hash 判断当前元素存放的位置（这里的n指的是数组的长度），如果当前位置存在元素的话，就判断该元素与要存入的元素的hash值以及key是否相同，如果相同的话，直接覆盖，不相同就通过拉链法解决冲突。**
 
 $\color{DarkOrchid4}{所谓扰动函数指的就是 HashMap 的 hash 方法。使用 hash 方法也就是扰动函数是为了防止一些实现比较差的 hashCode() 方法 换句话说使用扰动函数之后可以减少碰撞。}$
 
