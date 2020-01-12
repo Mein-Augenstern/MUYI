@@ -1,5 +1,0 @@
-1 join和synchronized区别
-	方法join具有使线程排队运行的作用,有些类似同步的运行效果.join与synchronized的区别是:join在内部使用wait()方法进行等待,而synchronized关键字使用的是"对象监视器"原理作为同步
-	
-2 join(long)和sleep(long)区别
-	方法join(long)的功能在内部使用wait(long)方法来实现,所以join(long)方法具有释放锁得特点,而sleep(long)方法却不释放锁.
