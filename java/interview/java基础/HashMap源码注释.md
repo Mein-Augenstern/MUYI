@@ -1,7 +1,7 @@
 * <a href="https://zhuanlan.zhihu.com/p/21673805">感谢美团技术团队分享-->Java 8系列之重新认识HashMap</a>
 * <a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/collection/HashMap.md">感谢Snailclimb-->JavaGuide-->HashMap</a>
 
-类的属性
+HashMap类的属性
 ====
 
 ```java
@@ -94,4 +94,199 @@ static class Node<K,V> implements Map.Entry<K,V> {
 树节点类源码
 ====
 
+```java
+static final class TreeNode<K,V> extends LinkedHashMap.Entry<K,V> {
+        TreeNode<K,V> parent;  // 父
+        TreeNode<K,V> left;    // 左
+        TreeNode<K,V> right;   // 右
+        TreeNode<K,V> prev;    // needed to unlink next upon deletion
+        boolean red;           // 判断颜色
+        TreeNode(int hash, K key, V val, Node<K,V> next) {
+            super(hash, key, val, next);
+        }
+        // 返回根节点
+        final TreeNode<K,V> root() {
+            for (TreeNode<K,V> r = this, p;;) {
+                if ((p = r.parent) == null)
+                    return r;
+                r = p;
+       }
+```
 
+HashMap源码分析
+====
+
+构造方法
+-----
+HashMap 中有四个构造方法，它们分别如下：
+```java
+	// 默认构造函数。
+    public HashMap() {
+        this.loadFactor = DEFAULT_LOAD_FACTOR; // all   other fields defaulted
+     }
+     
+     // 包含另一个“Map”的构造函数
+     public HashMap(Map<? extends K, ? extends V> m) {
+         this.loadFactor = DEFAULT_LOAD_FACTOR;
+         putMapEntries(m, false);//下面会分析到这个方法
+     }
+     
+     // 指定“容量大小”的构造函数
+     public HashMap(int initialCapacity) {
+         this(initialCapacity, DEFAULT_LOAD_FACTOR);
+     }
+     
+     // 指定“容量大小”和“加载因子”的构造函数
+     public HashMap(int initialCapacity, float loadFactor) {
+         if (initialCapacity < 0)
+             throw new IllegalArgumentException("Illegal initial capacity: " + initialCapacity);
+         if (initialCapacity > MAXIMUM_CAPACITY)
+             initialCapacity = MAXIMUM_CAPACITY;
+         if (loadFactor <= 0 || Float.isNaN(loadFactor))
+             throw new IllegalArgumentException("Illegal load factor: " + loadFactor);
+         this.loadFactor = loadFactor;
+         this.threshold = tableSizeFor(initialCapacity);
+     }
+```
+putMapEntries方法：
+-----
+```java
+final void putMapEntries(Map<? extends K, ? extends V> m, boolean evict) {
+    int s = m.size();
+    if (s > 0) {
+        // 判断table是否已经初始化
+        if (table == null) { // pre-size
+            // 未初始化，s为m的实际元素个数
+            float ft = ((float)s / loadFactor) + 1.0F;
+            int t = ((ft < (float)MAXIMUM_CAPACITY) ?
+                    (int)ft : MAXIMUM_CAPACITY);
+            // 计算得到的t大于阈值，则初始化阈值
+            if (t > threshold)
+                threshold = tableSizeFor(t);
+        }
+        // 已初始化，并且m元素个数大于阈值，进行扩容处理
+        else if (s > threshold)
+            resize();
+        // 将m中的所有元素添加至HashMap中
+        for (Map.Entry<? extends K, ? extends V> e : m.entrySet()) {
+            K key = e.getKey();
+            V value = e.getValue();
+            putVal(hash(key), key, value, false, evict);
+        }
+    }
+}
+```
+put方法
+====
+
+HashMap只提供了put用于添加元素，**putVal方法只是给put方法调用的一个方法，并没有提供给用户使用。**
+
+对putVal方法添加元素的分析如下：
+
+* ①如果定位到的数组位置没有元素 就直接插入。
+* ②如果定位到的数组位置有元素就和要插入的key比较，如果key相同就直接覆盖，如果key不相同，就判断p是否是一个树节点，如果是就调用e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value)将元素添加进入。如果不是就遍历链表插入(插入的是链表尾部)。
+
+```java
+public V put(K key, V value) {
+    return putVal(hash(key), key, value, false, true);
+}
+
+final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+                   boolean evict) {
+    Node<K,V>[] tab; Node<K,V> p; int n, i;
+    // table未初始化或者长度为0，进行扩容
+    if ((tab = table) == null || (n = tab.length) == 0)
+        n = (tab = resize()).length;
+    // (n - 1) & hash 确定元素存放在哪个桶中，桶为空，新生成结点放入桶中(此时，这个结点是放在数组中)
+    if ((p = tab[i = (n - 1) & hash]) == null)
+        tab[i] = newNode(hash, key, value, null);
+    // 桶中已经存在元素
+    else {
+        Node<K,V> e; K k;
+        // 比较桶中第一个元素(数组中的结点)的hash值相等，key相等
+        if (p.hash == hash &&
+            ((k = p.key) == key || (key != null && key.equals(k))))
+                // 将第一个元素赋值给e，用e来记录
+                e = p;
+        // hash值不相等，即key不相等；为红黑树结点
+        else if (p instanceof TreeNode)
+            // 放入树中
+            e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
+        // 为链表结点
+        else {
+            // 在链表最末插入结点
+            for (int binCount = 0; ; ++binCount) {
+                // 到达链表的尾部
+                if ((e = p.next) == null) {
+                    // 在尾部插入新结点
+                    p.next = newNode(hash, key, value, null);
+                    // 结点数量达到阈值，转化为红黑树
+                    if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                        treeifyBin(tab, hash);
+                    // 跳出循环
+                    break;
+                }
+                // 判断链表中结点的key值与插入的元素的key值是否相等
+                if (e.hash == hash &&
+                    ((k = e.key) == key || (key != null && key.equals(k))))
+                    // 相等，跳出循环
+                    break;
+                // 用于遍历桶中的链表，与前面的e = p.next组合，可以遍历链表
+                p = e;
+            }
+        }
+        // 表示在桶中找到key值、hash值与插入元素相等的结点
+        if (e != null) { 
+            // 记录e的value
+            V oldValue = e.value;
+            // onlyIfAbsent为false或者旧值为null
+            if (!onlyIfAbsent || oldValue == null)
+                //用新值替换旧值
+                e.value = value;
+            // 访问后回调
+            afterNodeAccess(e);
+            // 返回旧值
+            return oldValue;
+        }
+    }
+    // 结构性修改
+    ++modCount;
+    // 实际大小大于阈值则扩容
+    if (++size > threshold)
+        resize();
+    // 插入后回调
+    afterNodeInsertion(evict);
+    return null;
+} 
+```
+**我们再来对比一下 JDK1.7 put方法的代码**
+
+**对于put方法的分析如下：**
+
+* ①如果定位到的数组位置没有元素 就直接插入。
+* ②如果定位到的数组位置有元素，遍历以这个元素为头结点的链表，依次和插入的key比较，如果key相同就直接覆盖，不同就采用头插法插入元素。
+
+```java
+public V put(K key, V value)
+    if (table == EMPTY_TABLE) { 
+    inflateTable(threshold); 
+}  
+    if (key == null)
+        return putForNullKey(value);
+    int hash = hash(key);
+    int i = indexFor(hash, table.length);
+    for (Entry<K,V> e = table[i]; e != null; e = e.next) { // 先遍历
+        Object k;
+        if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
+            V oldValue = e.value;
+            e.value = value;
+            e.recordAccess(this);
+            return oldValue; 
+        }
+    }
+
+    modCount++;
+    addEntry(hash, key, value, i);  // 再插入
+    return null;
+}
+```
