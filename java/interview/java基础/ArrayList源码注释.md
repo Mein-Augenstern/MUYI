@@ -43,8 +43,10 @@ public class ArrayList<E> extends AbstractList<E>
      */
     private static final Object[] EMPTY_ELEMENTDATA = {};
 
-     //用于默认大小空实例的共享空数组实例。
-      //我们把它从EMPTY_ELEMENTDATA数组中区分出来，以知道在添加第一个元素时容量需要增加多少。
+    /**
+     * 用于默认大小空实例的共享空数组实例。
+     * 我们把它从EMPTY_ELEMENTDATA数组中区分出来，以知道在添加第一个元素时容量需要增加多少。
+     */
     private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {};
 
     /**
@@ -74,7 +76,8 @@ public class ArrayList<E> extends AbstractList<E>
     }
 
     /**
-     *默认构造函数，DEFAULTCAPACITY_EMPTY_ELEMENTDATA 为0.初始化为10，也就是说初始其实是空数组 当添加第一个元素的时候数组容量才变成10
+     * 默认构造函数，DEFAULTCAPACITY_EMPTY_ELEMENTDATA 为0.初始化为10
+     * 也就是说初始其实是空数组 当添加第一个元素的时候数组容量才变成10
      */
     public ArrayList() {
         this.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;
@@ -84,12 +87,12 @@ public class ArrayList<E> extends AbstractList<E>
      * 构造一个包含指定集合的元素的列表，按照它们由集合的迭代器返回的顺序。
      */
     public ArrayList(Collection<? extends E> c) {
-        //
+        // 
         elementData = c.toArray();
-        //如果指定集合元素个数不为0
+        // 如果指定集合元素个数不为0
         if ((size = elementData.length) != 0) {
             // c.toArray 可能返回的不是Object类型的数组所以加上下面的语句用于判断，
-            //这里用到了反射里面的getClass()方法
+            // 这里用到了反射里面的getClass()方法
             if (elementData.getClass() != Object[].class)
                 elementData = Arrays.copyOf(elementData, size, Object[].class);
         } else {
@@ -109,9 +112,13 @@ public class ArrayList<E> extends AbstractList<E>
               : Arrays.copyOf(elementData, size);
         }
     }
-//下面是ArrayList的扩容机制
-//ArrayList的扩容机制提高了性能，如果每次只扩充一个，
-//那么频繁的插入会导致频繁的拷贝，降低性能，而ArrayList的扩容机制避免了这种情况。
+
+    /**
+     * 下面是ArrayList的扩容机制
+     * ArrayList的扩容机制提高了性能，如果每次只扩充一个，
+     * 那么频繁的插入会导致频繁的拷贝，降低性能，而ArrayList的扩容机制避免了这种情况。
+     */
+
     /**
      * 如有必要，增加此ArrayList实例的容量，以确保它至少能容纳元素的数量
      * @param   minCapacity   所需的最小容量
@@ -128,7 +135,10 @@ public class ArrayList<E> extends AbstractList<E>
             ensureExplicitCapacity(minCapacity);
         }
     }
-   //得到最小扩容量
+   
+   /**
+    * 得到最小扩容量 
+    */
     private void ensureCapacityInternal(int minCapacity) {
         if (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) {
               // 获取默认的容量和传入参数的较大值
