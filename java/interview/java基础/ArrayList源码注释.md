@@ -147,7 +147,10 @@ public class ArrayList<E> extends AbstractList<E>
 
         ensureExplicitCapacity(minCapacity);
     }
-  //判断是否需要扩容
+  
+    /**
+     * 判断是否需要扩容 
+     */
     private void ensureExplicitCapacity(int minCapacity) {
         modCount++;
 
@@ -182,7 +185,10 @@ public class ArrayList<E> extends AbstractList<E>
         // minCapacity is usually close to size, so this is a win:
         elementData = Arrays.copyOf(elementData, newCapacity);
     }
-    //比较minCapacity和 MAX_ARRAY_SIZE
+    
+    /**
+     * 比较minCapacity和 MAX_ARRAY_SIZE
+     */
     private static int hugeCapacity(int minCapacity) {
         if (minCapacity < 0) // overflow
             throw new OutOfMemoryError();
@@ -192,7 +198,7 @@ public class ArrayList<E> extends AbstractList<E>
     }
 
     /**
-     *返回此列表中的元素数。 
+     * 返回此列表中的元素数。 
      */
     public int size() {
         return size;
@@ -215,7 +221,7 @@ public class ArrayList<E> extends AbstractList<E>
     }
 
     /**
-     *返回此列表中指定元素的首次出现的索引，如果此列表不包含此元素，则为-1 
+     * 返回此列表中指定元素的首次出现的索引，如果此列表不包含此元素，则为-1 
      */
     public int indexOf(Object o) {
         if (o == null) {
@@ -264,9 +270,9 @@ public class ArrayList<E> extends AbstractList<E>
     }
 
     /**
-     *以正确的顺序（从第一个到最后一个元素）返回一个包含此列表中所有元素的数组。 
-     *返回的数组将是“安全的”，因为该列表不保留对它的引用。 （换句话说，这个方法必须分配一个新的数组）。
-     *因此，调用者可以自由地修改返回的数组。 此方法充当基于阵列和基于集合的API之间的桥梁。
+     * 以正确的顺序（从第一个到最后一个元素）返回一个包含此列表中所有元素的数组。 
+     * 返回的数组将是“安全的”，因为该列表不保留对它的引用。 （换句话说，这个方法必须分配一个新的数组）。
+     * 因此，调用者可以自由地修改返回的数组。 此方法充当基于阵列和基于集合的API之间的桥梁。
      */
     public Object[] toArray() {
         return Arrays.copyOf(elementData, size);
@@ -274,10 +280,10 @@ public class ArrayList<E> extends AbstractList<E>
 
     /**
      * 以正确的顺序返回一个包含此列表中所有元素的数组（从第一个到最后一个元素）; 
-     *返回的数组的运行时类型是指定数组的运行时类型。 如果列表适合指定的数组，则返回其中。 
-     *否则，将为指定数组的运行时类型和此列表的大小分配一个新数组。 
-     *如果列表适用于指定的数组，其余空间（即数组的列表数量多于此元素），则紧跟在集合结束后的数组中的元素设置为null 。
-     *（这仅在调用者知道列表不包含任何空元素的情况下才能确定列表的长度。） 
+     * 返回的数组的运行时类型是指定数组的运行时类型。 如果列表适合指定的数组，则返回其中。 
+     * 否则，将为指定数组的运行时类型和此列表的大小分配一个新数组。 
+     * 如果列表适用于指定的数组，其余空间（即数组的列表数量多于此元素），则紧跟在集合结束后的数组中的元素设置为null 。
+     * （这仅在调用者知道列表不包含任何空元素的情况下才能确定列表的长度。） 
      */
     @SuppressWarnings("unchecked")
     public <T> T[] toArray(T[] a) {
@@ -332,8 +338,8 @@ public class ArrayList<E> extends AbstractList<E>
 
     /**
      * 在此列表中的指定位置插入指定的元素。 
-     *先调用 rangeCheckForAdd 对index进行界限检查；然后调用 ensureCapacityInternal 方法保证capacity足够大；
-     *再将从index开始之后的所有成员后移一个位置；将element插入index位置；最后size加1。
+     * 先调用 rangeCheckForAdd 对index进行界限检查；然后调用 ensureCapacityInternal 方法保证capacity足够大；
+     * 再将从index开始之后的所有成员后移一个位置；将element插入index位置；最后size加1。
      */
     public void add(int index, E element) {
         rangeCheckForAdd(index);
@@ -366,7 +372,7 @@ public class ArrayList<E> extends AbstractList<E>
 
     /**
      * 从列表中删除指定元素的第一个出现（如果存在）。 如果列表不包含该元素，则它不会更改。
-     *返回true，如果此列表包含指定的元素
+     * 返回true，如果此列表包含指定的元素
      */
     public boolean remove(Object o) {
         if (o == null) {
@@ -445,7 +451,7 @@ public class ArrayList<E> extends AbstractList<E>
 
     /**
      * 从此列表中删除所有索引为fromIndex （含）和toIndex之间的元素。
-     *将任何后续元素移动到左侧（减少其索引）。
+     * 将任何后续元素移动到左侧（减少其索引）。
      */
     protected void removeRange(int fromIndex, int toIndex) {
         modCount++;
@@ -495,7 +501,7 @@ public class ArrayList<E> extends AbstractList<E>
 
     /**
      * 仅保留此列表中包含在指定集合中的元素。
-     *换句话说，从此列表中删除其中不包含在指定集合中的所有元素。 
+     * 换句话说，从此列表中删除其中不包含在指定集合中的所有元素。 
      */
     public boolean retainAll(Collection<?> c) {
         Objects.requireNonNull(c);
@@ -505,8 +511,8 @@ public class ArrayList<E> extends AbstractList<E>
 
     /**
      * 从列表中的指定位置开始，返回列表中的元素（按正确顺序）的列表迭代器。
-     *指定的索引表示初始调用将返回的第一个元素为next 。 初始调用previous将返回指定索引减1的元素。 
-     *返回的列表迭代器是fail-fast 。 
+     * 指定的索引表示初始调用将返回的第一个元素为next 。 初始调用previous将返回指定索引减1的元素。 
+     * 返回的列表迭代器是fail-fast 。 
      */
     public ListIterator<E> listIterator(int index) {
         if (index < 0 || index > size)
@@ -515,16 +521,16 @@ public class ArrayList<E> extends AbstractList<E>
     }
 
     /**
-     *返回列表中的列表迭代器（按适当的顺序）。 
-     *返回的列表迭代器是fail-fast 。
+     * 返回列表中的列表迭代器（按适当的顺序）。 
+     * 返回的列表迭代器是fail-fast 。
      */
     public ListIterator<E> listIterator() {
         return new ListItr(0);
     }
 
     /**
-     *以正确的顺序返回该列表中的元素的迭代器。 
-     *返回的迭代器是fail-fast 。 
+     * 以正确的顺序返回该列表中的元素的迭代器。 
+     * 返回的迭代器是fail-fast 。 
      */
     public Iterator<E> iterator() {
         return new Itr();
