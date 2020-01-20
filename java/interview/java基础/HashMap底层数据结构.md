@@ -64,4 +64,4 @@ static int hash(int h) {
 
 ![](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/HashMap_2.jpg)
 
-
+TreeMap、TreeSet以及JDK1.8之后的HashMap底层都用到了红黑树。红黑树就是为了解决二叉查找树的缺陷，因为二叉查找树在某些情况下会退化成一个线性结构。
