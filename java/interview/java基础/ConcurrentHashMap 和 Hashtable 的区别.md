@@ -15,3 +15,14 @@ ConcurrentHashMap 和 Hashtable 的区别主要体现在实现线程安全的方
     2） Hashtable（同一把锁）：使用 synchronized 来保证线程安全，效率非常低下。当一个线程访问同步方法时，其他线程也访问同步方法，可能会进入阻塞或轮询状态，如使用 put 添加元素，另一个线程不能使用 put 添加元素，也不能使用 get，竞争会越来越激烈效率越低。
     
     
+**Hashtable**
+
+![Hashtable全表锁](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/Hashtable%E5%85%A8%E8%A1%A8%E9%94%81.png)
+
+**JDK1.7的ConcurrentHashMap**
+
+![ConcurrentHashMap分段锁](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/ConcurrentHashMap%E5%88%86%E6%AE%B5%E9%94%81.jpg)
+
+**JDK1.8的ConcurrentHashMap（TreeBin: 红黑二叉树节点 Node: 链表节点**
+
+![JDK1.8的ConcurrentHashMap](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/JDK1.8%E7%9A%84ConcurrentHashMap.jpg)
