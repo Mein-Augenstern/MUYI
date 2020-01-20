@@ -549,15 +549,15 @@ System.arraycopy()和Arrays.copyOf()方法
 ```java
 /**
  * 在此列表中的指定位置插入指定的元素。 
- *先调用 rangeCheckForAdd 对index进行界限检查；然后调用 ensureCapacityInternal 方法保证capacity足够大；
- *再将从index开始之后的所有成员后移一个位置；将element插入index位置；最后size加1。
+ * 先调用 rangeCheckForAdd 对index进行界限检查；然后调用 ensureCapacityInternal 方法保证capacity足够大；
+ * 再将从index开始之后的所有成员后移一个位置；将element插入index位置；最后size加1。
  */
 public void add(int index, E element) {
     rangeCheckForAdd(index);
 
     ensureCapacityInternal(size + 1);  // Increments modCount!!
-    //arraycopy()方法实现数组自己复制自己
-    //elementData:源数组;index:源数组中的起始位置;elementData：目标数组；index + 1：目标数组中的起始位置； size - index：要复制的数组元素的数量；
+    // arraycopy()方法实现数组自己复制自己
+    // elementData:源数组;index:源数组中的起始位置;elementData：目标数组；index + 1：目标数组中的起始位置； size - index：要复制的数组元素的数量；
     System.arraycopy(elementData, index, elementData, index + 1, size - index);
     elementData[index] = element;
     size++;
@@ -568,12 +568,12 @@ public void add(int index, E element) {
 
 ```java
 /**
- *以正确的顺序（从第一个到最后一个元素）返回一个包含此列表中所有元素的数组。 
- *返回的数组将是“安全的”，因为该列表不保留对它的引用。 （换句话说，这个方法必须分配一个新的数组）。
- *因此，调用者可以自由地修改返回的数组。 此方法充当基于阵列和基于集合的API之间的桥梁。
+ * 以正确的顺序（从第一个到最后一个元素）返回一个包含此列表中所有元素的数组。 
+ * 返回的数组将是“安全的”，因为该列表不保留对它的引用。 （换句话说，这个方法必须分配一个新的数组）。
+ * 因此，调用者可以自由地修改返回的数组。 此方法充当基于阵列和基于集合的API之间的桥梁。
  */
 public Object[] toArray() {
-//elementData：要复制的数组；size：要复制的长度
+    // elementData：要复制的数组；size：要复制的长度
     return Arrays.copyOf(elementData, size);
 }
 ```
@@ -591,9 +591,9 @@ ArrayList 核心扩容技术
 ====
 
 ```java
-//下面是ArrayList的扩容机制
-//ArrayList的扩容机制提高了性能，如果每次只扩充一个，
-//那么频繁的插入会导致频繁的拷贝，降低性能，而ArrayList的扩容机制避免了这种情况。
+// 下面是ArrayList的扩容机制
+// ArrayList的扩容机制提高了性能，如果每次只扩充一个，
+// 那么频繁的插入会导致频繁的拷贝，降低性能，而ArrayList的扩容机制避免了这种情况。
 
 /**
  * 如有必要，增加此ArrayList实例的容量，以确保它至少能容纳元素的数量
@@ -612,24 +612,24 @@ public void ensureCapacity(int minCapacity) {
     }
 }
 
-//得到最小扩容量
+// 得到最小扩容量
 private void ensureCapacityInternal(int minCapacity) {
     if (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) {
-          // 获取默认的容量和传入参数的较大值
+        // 获取默认的容量和传入参数的较大值
         minCapacity = Math.max(DEFAULT_CAPACITY, minCapacity);
     }
 
     ensureExplicitCapacity(minCapacity);
 }
 
-//判断是否需要扩容,上面两个方法都要调用
+// 判断是否需要扩容,上面两个方法都要调用
 private void ensureExplicitCapacity(int minCapacity) {
     modCount++;
 
     // 如果说minCapacity也就是所需的最小容量大于保存ArrayList数据的数组的长度的话，就需要调用grow(minCapacity)方法扩容。
-    //这个minCapacity到底为多少呢？举个例子在添加元素(add)方法中这个minCapacity的大小就为现在数组的长度加1
+    // 这个minCapacity到底为多少呢？举个例子在添加元素(add)方法中这个minCapacity的大小就为现在数组的长度加1
     if (minCapacity - elementData.length > 0)
-        //调用grow方法进行扩容，调用此方法代表已经开始扩容了
+        // 调用grow方法进行扩容，调用此方法代表已经开始扩容了
         grow(minCapacity);
 }
 ```
@@ -639,19 +639,22 @@ ArrayList扩容的核心方法
 
 ```java
 private void grow(int minCapacity) {
-   //elementData为保存ArrayList数据的数组
-   ///elementData.length求数组长度elementData.size是求数组中的元素个数
+    // elementData为保存ArrayList数据的数组
+    // elementData.length求数组长度elementData.size是求数组中的元素个数
     // oldCapacity为旧容量，newCapacity为新容量
     int oldCapacity = elementData.length;
-    //将oldCapacity 右移一位，其效果相当于oldCapacity /2，
-    //我们知道位运算的速度远远快于整除运算，整句运算式的结果就是将新容量更新为旧容量的1.5倍，
+    
+    // 将oldCapacity 右移一位，其效果相当于oldCapacity /2，
+    // 我们知道位运算的速度远远快于整除运算，整句运算式的结果就是将新容量更新为旧容量的1.5倍，
     int newCapacity = oldCapacity + (oldCapacity >> 1);
-    //然后检查新容量是否大于最小需要容量，若还是小于最小需要容量，那么就把最小需要容量当作数组的新容量，
+    
+    // 然后检查新容量是否大于最小需要容量，若还是小于最小需要容量，那么就把最小需要容量当作数组的新容量，
     if (newCapacity - minCapacity < 0)
         newCapacity = minCapacity;
-    //再检查新容量是否超出了ArrayList所定义的最大容量，
-    //若超出了，则调用hugeCapacity()来比较minCapacity和 MAX_ARRAY_SIZE，
-    //如果minCapacity大于MAX_ARRAY_SIZE，则新容量则为Interger.MAX_VALUE，否则，新容量大小则为 MAX_ARRAY_SIZE。
+        
+    // 再检查新容量是否超出了ArrayList所定义的最大容量，
+    // 若超出了，则调用hugeCapacity()来比较minCapacity和 MAX_ARRAY_SIZE，
+    // 如果minCapacity大于MAX_ARRAY_SIZE，则新容量则为Interger.MAX_VALUE，否则，新容量大小则为 MAX_ARRAY_SIZE。
     if (newCapacity - MAX_ARRAY_SIZE > 0)
         newCapacity = hugeCapacity(minCapacity);
     // minCapacity is usually close to size, so this is a win:
@@ -680,8 +683,11 @@ private void grow(int minCapacity) {
 
 ```java
 (1)private class Itr implements Iterator<E>  
+
 (2)private class ListItr extends Itr implements ListIterator<E>  
+
 (3)private class SubList extends AbstractList<E> implements RandomAccess  
+
 (4)static final class ArrayListSpliterator<E> implements Spliterator<E> 
 ```
 
