@@ -47,4 +47,8 @@ ArrayList 实现了 RandomAccess 接口， 而 LinkedList 没有实现。为什�
 
 **双向链表**： 包含两个指针，一个prev指向前一个节点，一个next指向后一个节点。
 
+![双向链表](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8.png)
+
 **双向循环链表**： 最后一个节点的 next 指向head，而 head 的prev指向最后一个节点，构成一个环。
+
+![双向循环链表](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/%E5%8F%8C%E5%90%91%E5%BE%AA%E7%8E%AF%E9%93%BE%E8%A1%A8.png)
