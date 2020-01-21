@@ -38,3 +38,10 @@ wait
 sleep vs wait
 -----
 
+|     xx    | wait    |   sleep    |  
+| :------:   | :-------:   | :-------:   | 
+| 同步        | 只能在同步上下文中调用wait方法，否则或抛出IllegalMonitorStateException异常      |   不需要在同步方法或同步块中调用      |   
+| 作用对象        | wait方法定义在Object类中，作用域对象本身      |   sleep方法定义在java.lang.Thread中，作用于当前线程      |   
+| 释放锁资源        | 是      |   否      |   
+| 唤醒条件       |其他线程调用对象的notify()或者notifyAll()方法      |    超时或者调用interrupt方法体      |
+| 方法属性        | wait是实例方法      |   sleep是静态方法      | 
