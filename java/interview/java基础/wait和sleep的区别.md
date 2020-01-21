@@ -11,6 +11,15 @@ wait方法简介
 
 * 当wait方法调用时，当前线程将会释放已获取的对象锁资源，并进入等待队列，其他线程就可以尝试获取对象上的锁资源。
 
+```java
+synchronized(lockedObject) {   
+ lockedObject.wait(); // It releases the lock on lockedObject.
+ // So until we call notify() or notifyAll() from other thread,It will
+ // not wake up
+
+}
+```
+
 sleep方法简介
 ====
 
@@ -21,6 +30,14 @@ sleep方法简介
 * 不释放已获取的锁资源，如果sleep方法在同步上下文中调用，那么其他线程是无法进入到当前同步块或者同步方法中的。
 
 * 可通过调用interrupt()方法来唤醒休眠线程。
+
+```java
+synchronized(lockedObject) {   
+    Thread.sleep(1000); // It does not release the lock on lockedObject.
+    // So either after 1000 miliseconds, current thread will wake up, or after we call 
+    // t. interrupt() method.
+}
+```
 
 sleep vs wait
 -----
