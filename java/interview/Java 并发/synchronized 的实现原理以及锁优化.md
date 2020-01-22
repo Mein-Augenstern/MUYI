@@ -68,7 +68,7 @@ public class SynchronizedDemo {
 
 通过 JDK 自带的 javap 命令查看 SynchronizedDemo 类的相关字节码信息：首先切换到类的对应目录执行 ```javac SynchronizedDemo.java``` 命令生成编译后的 ```.class``` 文件，然后执行 ```javap -c -s -v -l SynchronizedDemo.class```。
 
-![synchronized](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/synchronized.png)
+![synchronized](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/synchronized%E5%8E%9F%E7%90%86%E4%B8%80.png)
 
 
 从上面我们可以看出：
@@ -84,6 +84,8 @@ public class SynchronizedDemo2 {
 	}
 }
 ```
+
+![synchronized](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/sunchronized%E5%8E%9F%E7%90%86%E4%BA%8C.png)
 
 synchronized 修饰的方法并没有 ```monitorenter``` 指令和 ```monitorexit``` 指令，取得代之的确实是 ```ACC_SYNCHRONIZED``` 标识，该标识指明了该方法是一个同步方法，JVM 通过该 ```ACC_SYNCHRONIZED``` 访问标志来辨别一个方法是否声明为同步方法，从而执行相应的同步调用。
 
