@@ -49,3 +49,16 @@ sleep vs wait
 | 释放锁资源        | 是      |   否      |   
 | 唤醒条件       |其他线程调用对象的notify()或者notifyAll()方法      |    超时或者调用interrupt方法体      |
 | 方法属性        | wait是实例方法      |   sleep是静态方法      | 
+
+线程的entry sets 和 wait sets
+====
+
+![Entry and Wait Sets](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/Entry_and_Wait_Sets.gif)
+
+* 所有期待获得锁的线程，在锁已经被其它线程拥有的时候，这些期待获得锁的线程就进入了Object Lock的entry set区域。
+
+* 所有曾经获得过锁，但是由于其它必要条件不满足而需要wait的时候，线程就进入了Object Lock的wait set区域 。
+
+* 在wait set区域的线程获得Notify/notifyAll通知的时候，随机的一个Thread（Notify）或者是全部的Thread（NotifyALL）从Object Lock的wait set区域进入了entry set中。
+
+* 在当前拥有锁的线程释放掉锁的时候，处于该Object Lock的entryset区域的线程都会抢占该锁，但是只能有任意的一个Thread能取得该锁，而其他线程依然在entry set中等待下次来抢占到锁之后再执行。
