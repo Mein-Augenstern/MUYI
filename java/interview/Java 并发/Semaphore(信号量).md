@@ -3,6 +3,10 @@
 
 <a href="https://blog.csdn.net/qq_19431333/article/details/70212663">深入理解Semaphore</a>
 
+一句话描述
+====
+允许多个线程同时访问
+
 代码举栗说明
 ====
 
