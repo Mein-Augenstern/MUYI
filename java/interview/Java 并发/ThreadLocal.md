@@ -154,3 +154,31 @@ ThreadLocalMap getMap(Thread t) {
 ```ThreadLocalMap```是```ThreadLocal```的静态内部类。
 
 ![ThreadLocalMap和ThreadLocal的UML图](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/ThreadLocalMap%E5%92%8CThreadLocal%E7%9A%84UML%E5%9B%BE.png)
+
+ThreadLocal内存泄漏的问题
+====
+
+ThreadLocalMap中使用key为```ThreadLocal```的弱引用，而value是强引用。所以，如果ThreadLocal没有被外部强引用的情况下，在垃圾回收的时候，key会被清理掉，而value不会被清理掉。这样一来，```ThreadLocalMap```中就会出现key为null的```Entry```。如果我们不做任何措施的话，value永远无法被GC回收，这个时候就可能会产生内存泄漏。ThreadLocalMap实现中已经考虑了这种情况，在调用```set()、get()、remove()```方法的时候，会清理掉key为null的纪录。使用完```ThreadLocal```方法后，最后手动调用```remove()```方法
+
+```java
+static class Entry extends WeakReference<ThreadLocal<?>> {
+    /** The value associated with this ThreadLocal. */
+    Object value;
+
+    Entry(ThreadLocal<?> k, Object v) {
+        super(k);
+        value = v;
+    }
+}
+```
+
+**弱引用介绍**
+
+> 如果一个对象只具有弱引用，那就类似于可有可无的生活用品。弱引用与软引用的区别在于：只具有弱引用的对象拥有更短暂的生命周期。在垃圾回收器线程扫描它 所管辖的内存区域的过程中，一旦发现了只具有弱引用的对象，不管当前内存空间足够与否，都会回收它的内存。不过，由于垃圾回收器是一个优先级很低的线程， 因此不一定会很快发现那些只具有弱引用的对象。
+
+> 弱引用可以和一个引用队列（ReferenceQueue）联合使用，如果弱引用所引用的对象被垃圾回收，Java虚拟机就会把这个弱引用加入到与之关联的引用队列中。
+
+
+**关于弱引用可以参照下面链接了解**
+
+<a href="https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/%E5%BC%BA%E5%BC%95%E7%94%A8%20%E3%80%81%E8%BD%AF%E5%BC%95%E7%94%A8%E3%80%81%20%E5%BC%B1%E5%BC%95%E7%94%A8%E3%80%81%E8%99%9A%E5%BC%95%E7%94%A8.md">强引用 、软引用、 弱引用、虚引用</a>
