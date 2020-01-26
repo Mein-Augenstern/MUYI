@@ -155,9 +155,20 @@ ThreadLocalMap getMap(Thread t) {
 
 ![ThreadLocalMap和ThreadLocal的UML图](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/ThreadLocalMap%E5%92%8CThreadLocal%E7%9A%84UML%E5%9B%BE.png)
 
-ThreadLocal内存泄漏的问题
+首先来看看为什么ThreadLocal会产生内存泄漏
 ====
 
+![ThreadLocal](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/ThreadLocal.png)
+
+```ThreadLocal```的实现是这样的：每个```Thread``` 维护一个 ```ThreadLocalMap``` 映射表，这个映射表的 ```key``` 是 ```ThreadLocal```实例本身，```value``` 是真正需要存储的 ```Object```。 
+
+也就是说 ```ThreadLocal``` 本身并不存储值，它只是作为一个 ```key``` 来让线程从 ```ThreadLocalMap``` 获取 ```value```。
+值得注意的是图中的虚线，表示 ```ThreadLocalMap``` 是使用 ```ThreadLocal``` 的弱引用作为 ```Key``` 的，弱引用的对象在 ```GC``` 时会被回收。
+
+```ThreadLocalMap```使用T```hreadLocal```的弱引用作为```key```，如果一个```ThreadLocal```没有外部强引用来引用它，那么系统 ```GC``` 的时候，这个```ThreadLocal```势必会被回收，这样一来，```ThreadLocalMap```中就会出现```key```为```null```的```Entry```，就没有办法访问这些```key```为```null```的```Entry```的```value```，如果当前线程再迟迟不结束的话，这些```key```为```null```的```Entry```的```value```就会一直存在一条强引用链：```Thread Ref -> Thread -> ThreaLocalMap -> Entry -> value```永远无法回收，造成内存泄漏。
+
+ThreadLocal内存泄漏的问题
+====
 ThreadLocalMap中使用key为```ThreadLocal```的弱引用，而value是强引用。所以，如果ThreadLocal没有被外部强引用的情况下，在垃圾回收的时候，key会被清理掉，而value不会被清理掉。这样一来，```ThreadLocalMap```中就会出现key为null的```Entry```。如果我们不做任何措施的话，value永远无法被GC回收，这个时候就可能会产生内存泄漏。ThreadLocalMap实现中已经考虑了这种情况，在调用```set()、get()、remove()```方法的时候，会清理掉key为null的纪录。使用完```ThreadLocal```方法后，最后手动调用```remove()```方法
 
 ```java
@@ -182,3 +193,8 @@ static class Entry extends WeakReference<ThreadLocal<?>> {
 **关于弱引用可以参照下面链接了解**
 
 <a href="https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/%E5%BC%BA%E5%BC%95%E7%94%A8%20%E3%80%81%E8%BD%AF%E5%BC%95%E7%94%A8%E3%80%81%20%E5%BC%B1%E5%BC%95%E7%94%A8%E3%80%81%E8%99%9A%E5%BC%95%E7%94%A8.md">强引用 、软引用、 弱引用、虚引用</a>
+
+如何避免ThreadLocal内存泄漏问题
+====
+
+每次使用完ThreadLocal，都调用它的remove()方法，清除数据。在使用线程池的情况下，及时清理ThreadLocal，规避内存泄漏问题的发生。
