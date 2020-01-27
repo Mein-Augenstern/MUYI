@@ -52,6 +52,8 @@ public class ScheduledThreadPoolExecutor
 Executor 框架的使用示意图
 ====
 
+![Executor框架使用示意图](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/Executor%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%E7%A4%BA%E6%84%8F%E5%9B%BE.png)
+
 1. **主线程首先要创建实现 ```Runnable``` 或者 ```Callable``` 接口的任务对象。**
 2. **把创建完成的实现 ```Runnable/Callable```接口的 对象直接交给 ```ExecutorService``` 执行:**```ExecutorService.execute（Runnable command））```或者也可以把 ```Runnable ```对象或```Callable```对象提交给 ```ExecutorService```执行（```ExecutorService.submit（Runnable task）```或```ExecutorService.submit（Callable <T> task）```）
 3. **如果执行```ExecutorService.submit(...)```，```ExecutorService```将返回一个实现```Future```接口的对象**。由于```FutureTask```实现了```Runnable```，我们也可以创建```FutureTask```，然后直接交给```ExecutorService```执行。
