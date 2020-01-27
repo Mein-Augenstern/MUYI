@@ -19,7 +19,7 @@ Java 并发基础常见面试题总结
 
 如下图所示，在windows中通过查看任务管理器的方式，我们就可以清楚看到windows当前的进程（.exe文件的运行）。
 
-![windows任务管理器进程列表]()
+![windows任务管理器进程列表](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/%E4%BB%BB%E5%8A%A1%E7%AE%A1%E7%90%86%E5%99%A8%E6%9F%A5%E7%9C%8B%E8%BF%9B%E7%A8%8B.png)
 
 1.2 何为线程?
 -----------
@@ -68,7 +68,7 @@ public class MultiThread {
 
 下图是Java内存区域，通过下图我们从JVM的角度来说一下线程和进程之间的关系。如果你对Java内存区域（运行时数据区）这部分只是不太了解的话可以阅读一下这边文章<a href="https://github.com/Snailclimb/JavaGuide/blob/3965c02cc0f294b0bd3580df4868d5e396959e2e/Java%E7%9B%B8%E5%85%B3/%E5%8F%AF%E8%83%BD%E6%98%AF%E6%8A%8AJava%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E8%AE%B2%E7%9A%84%E6%9C%80%E6%B8%85%E6%A5%9A%E7%9A%84%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0.md">《可能是把Java内存区域讲的最清楚的一篇文章》</a>
 
-![Java运行时数据区域分布]()
+![Java运行时数据区域分布](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%80.png)
 
 从上图可以看出：一个进程中可以有多个线程，多个线程共享进程的**堆**和**方法区（JDK1.8之后的元空间）资源，但是每个线程有自己的程序计数器、虚拟机栈**和**本地方法栈**。
 
@@ -127,17 +127,17 @@ public class MultiThread {
 
 Java线程在运行的生命周期中的指定时刻之可能处于下面6种不同状态中的其中一种（图源《Java 并发编程艺术》4.1.4 节）。
 
-![Java线程状态]()
+![Java线程状态](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%85%AD%E7%A7%8D%E7%8A%B6%E6%80%81.png)
 
 线程在生命周期中并不是固定处于某一个状态而是随着代码的执行在不同状态之间切换。Java线程状态变迁如下如所示（图源《Java 并发编程艺术》4.1.4 节）：
 
-![Java线程状态切换]()
+![Java线程状态切换](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/java%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81%E5%8F%98%E8%BF%81.png)
 
 由上图可以看出：线程创建之后它将处于**NEW（新建）**状态，调用```start()```方法后开始运行，线程这时候处于**```READY(可运行)```**状态。可运行状态的线程获得了CPU时间片（timeslice）后就处于**```RUNNING(可运行）```**状态。
 
 > 操作系统隐藏Java虚拟机（JVM）中的RUNNABLE和RUNNING状态，它只能看到RUNNABLE状态。所以 Java 系统一般将这两个状态统称为 RUNNABLE（运行中） 状态 。
 
-![Java线程状态切换]()
+![Java线程状态切换](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/java%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81%E5%8F%98%E8%BF%81%E4%BA%8C.png)
 
 当线程执行```wait()```方法之后，线程进入**WAITING（等待）**。进入等待状态的线程需要依靠其他线程的通知才能够返回到运行状态，而**TIME_WAITING（超时等待）**状态相当于在等待状态的基础上增加了超时限制，比如通过```sleep(long millis)```方法或```wait(long millis)```方法可以将Java线程置于TIMED WAITING状态。当超时时间到达后Java线程会返回到RUNNABLE状态。当线程调用同步方法时，在没有获取到锁的情况下，线程将会进入到**BLOCKED（阻塞）**状态。线程在执行Runnable的```run()```方法之后将会进入到**TERMINATED（终止）**状态。
 
@@ -203,7 +203,7 @@ Linux相比于其他操作系统（包括其他类的Unix系统）有很多的�
 
 如下图所示，线程A持有资源2，线程B持有资源1，他们同时都想申请对方的资源，所以这两个线程就会互相等待而进入死锁状态。
 
-![死锁示意图]()
+![死锁示意图](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/%E7%BA%BF%E7%A8%8B%E6%AD%BB%E9%94%81.png)
 
 下面通过一个例子来说明线程死锁,代码模拟了上图的死锁的情况 (代码来源于《并发编程之美》)：
 
