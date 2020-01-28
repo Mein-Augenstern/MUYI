@@ -1,6 +1,8 @@
 看在前面
 ====
 
+* <a href="https://www.jianshu.com/p/12fede0cd855?tdsourcetag=s_pctim_aiomsg">你的单例模式是真的线程安全吗？</a>
+
 * <a href="http://benjaminwhx.com/2018/05/15/%E8%AF%B4%E8%AF%B4%E5%8D%95%E4%BE%8B%E4%B8%8Edouble-check%E9%97%AE%E9%A2%98/">说说单例与Double-Check问题 作者: 吴海旭 </a>
 
 Double-check （双重锁检查） 
@@ -277,7 +279,7 @@ Java语言规则规定，对于每一个类或接口C，都有一个唯一的初
 
 * 线程A尝试获取Class对象的初始化锁。这里假设线程A获取到了初始化锁。
 * 线程B尝试获取Class对象的初始化锁，由于线程A获取了锁，线程B将一直等待获取初始化锁。
-* 线程A看到线程还未被初始化（因为读取到state = noInitialization），线程设置state = initializing。
+* 线程A看到Class对象还没有被初始化（初始化状态为state，此时被标记为state = noInitialization），线程设置state = initializing。
 * 线程A释放初始化锁。
 
 **第二阶段：线程A执行类的初始化，同时线程B在初始化锁对应的condition上等待。**
