@@ -245,26 +245,16 @@ JVM在类的初始化阶段（即在Class被加载后，且被线程使用之前
 基于这个特性，我们可以实现另一种线程安全的延迟初始化方案。
 
 ```java
-public class StaticCIC {
+public class SingletonClass {
+    private SingletonClass() {}
 
-	/**
-	 * 静态内部类单例模式
-	 */
+    private static class InstanceHolder {
+        public static SingletonClass INSTANCE = new SingletonClass();
+    }
 
-	private StaticCIC() {
-
-	}
-
-	public static StaticCIC getInstance() {
-		return HelperHodler.INSTANCE;
-	}
-
-	private static class HelperHodler {
-
-		private static final StaticCIC INSTANCE = new StaticCIC();
-
-	}
-
+    public static SingletonClass getInstance() {
+        return InstanceHolder.INSTANCE;     // 这里将导致InstanceHolder类被初始化
+    }
 }
 ```
 假设两个线程并发执行getInstance方法，下面是执行的示意图。
