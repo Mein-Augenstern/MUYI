@@ -420,3 +420,8 @@ final Node<K,V>[] resize() {
     return newTab;
 }
 ```
+
+Question
+====
+
+* 为什么resize要将Entry扩充为原来的2倍? 这个过程是怎样的? 这样做有什么好处?
