@@ -269,26 +269,27 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 * ②如果定位到的数组位置有元素，遍历以这个元素为头结点的链表，依次和插入的key比较，如果key相同就直接覆盖，不同就采用头插法插入元素。
 
 ```java
-public V put(K key, V value)
-    if (table == EMPTY_TABLE) { 
-    inflateTable(threshold); 
-}  
+public V put(K key, V value) {
+    if (table == EMPTY_TABLE) {
+        inflateTable(threshold);
+    }
+    
     if (key == null)
         return putForNullKey(value);
     int hash = hash(key);
     int i = indexFor(hash, table.length);
-    for (Entry<K,V> e = table[i]; e != null; e = e.next) { // 先遍历
+    for (Entry<K,V> e = table[i]; e != null; e = e.next) {
         Object k;
         if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
             V oldValue = e.value;
             e.value = value;
             e.recordAccess(this);
-            return oldValue; 
+            return oldValue;
         }
     }
 
     modCount++;
-    addEntry(hash, key, value, i);  // 再插入
+    addEntry(hash, key, value, i);
     return null;
 }
 ```
@@ -297,6 +298,8 @@ Question
 ====
 
 * **JDK1.7和JDK1.8相比将元素插入到链表中时，JDK1.7使用的是头插法，JDK1.8使用的是尾插法，为什么这么做呢？**
+
+* **获取到Entry链表之后，在遍历Entry链表过程中，注意key比对是否相等过程，此处有一个小细节，key的hash相同，key值不一定相等，所以才出现当前情况：哈希碰撞。那么，由此产生的问题：如何比对Entry链表中两个key是否一致？即何时用旧值覆盖原有key对应的value。**
 
 get方法
 ====
