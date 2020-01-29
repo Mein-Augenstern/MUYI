@@ -5,8 +5,6 @@
 
 > 原创作者信息：应书澜
 
-> 毕业于 C9 高校，硕士学历，曾在 IEEE ITS、VSD 等 Top 期刊发表论文。多年研发经验，精通 Java、Python 及 C 语言，擅长预测算法，分布式中间件；曾在华为、阿里巴巴，上海电气等公司重要项目中担任技术负责人或核心研发成员，现专注于中间件技术，同时长期负责招聘。
-
 > 原创作者GitChat主页：<a href="https://gitbook.cn/gitchat/author/5a98122bfdc2050df046d997">应书澜</a>
 
 > 目前正在联系GitChat获取转载权限，若有权限，立马删除^^。
@@ -22,7 +20,6 @@ Question
 * NIO 核心对象 Buffer 详解；
 * NIO 核心对象 Channel 详解；
 * NIO 核心对象 Selector 详解；
-* Reactor 模式介绍。
 
 1 IO 和 NIO 相关的预备知识
 ====
@@ -239,3 +236,387 @@ public class IO_Demo
     }
 }
 ```
+
+代码参照:<a href="https://github.com/DemoTransfer/demotransfer/tree/master/java/nio">nio</a>
+
+3 NIO 核心对象 Channel 详解
+====
+
+3.1 简要回顾
+------
+
+第一节中的例子所示，当执行：```fileChannelOut.write(buffer)```，便将一个 buffer 写到了一个通道中。相较于缓冲区，通道更加抽象，因此，我在第一节详细介绍了缓冲区，并穿插了通道的内容。
+
+引用 Java NIO 中权威的说法：通道是 I/O 传输发生时通过的入口，而缓冲区是这些数据传输的来源或目标。对于离开缓冲区的传输，需要输出的数据被置于一个缓冲区，然后写入通道。对于传回缓冲区的传输，一个通道将数据写入缓冲区中。
+
+例如：
+
+> 有一个服务器通道serverChannel，一个客户端通道 SocketChannel clientChannel；
+
+> 服务器缓冲区：serverBuffer，客户端缓冲区：clientBuffer。
+
+> * 当服务器想向客户端发送数据时，需要调用 clientChannel.write(serverBuffer)。当客户端要读时，调用 clientChannel.read(clientBuffer)
+
+> * 当客户端想向服务器发送数据时，需要调用 serverChannel.write(clientBuffer)。当服务器要读时，调用 serverChannel.read(serverBuffer)
+
+3.2 关于 Channel
+------
+
+Channel 是一个对象，可以通过它读取和写入数据。可以把它看做 IO 中的流。但是它和流相比还有一些不同：
+
+* Channel 是双向的，既可以读又可以写，而流是单向的（所谓输入/输出流）；
+* Channel 可以进行异步的读写；
+* 对 Channel 的读写必须通过 buffer 对象；
+
+正如上面提到的，所有数据都通过 Buffer 对象处理，所以，输出操作时不会将字节直接写入到 Channel 中，而是将数据写入到 Buffer 中；同样，输入操作也不会从 Channel 中读取字节，而是将数据从 Channel 读入 Buffer，再从 Buffer 获取这个字节。
+
+因为 Channel 是双向的，所以 Channel 可以比流更好地反映出底层操作系统的真实情况。特别是在 Unix 模型中，底层操作系统通常都是双向的。
+
+在 Java NIO 中 Channel 主要有如下几种类型：
+
+* FileChannel：从文件读取数据的
+* DatagramChannel：读写 UDP 网络协议数据
+* SocketChannel：读写 TCP 网络协议数据
+* ServerSocketChannel：可以监听 TCP 连接
+
+4 NIO 核心对象 Selector 详解
+====
+
+4.1 关于 Selector
+------
+
+通道和缓冲区的机制，使得 Java NIO 实现了同步非阻塞 IO 模式，在此种方式下，用户进程发起一个 IO 操作以后便可返回做其它事情，而无需阻塞地等待 IO 事件的就绪，但是用户进程需要时不时的询问 IO 操作是否就绪，这就要求用户进程不停的去询问，从而引入不必要的 CPU 资源浪费。
+
+鉴于此，需要有一个机制来监管这些 IO 事件，如果一个 Channel 不能读写（返回 0），我们可以把这件事记下来，然后切换到其它就绪的连接（channel）继续进行读写。在 Java NIO 中，这个工作由 selector 来完成，这就是所谓的同步。
+
+Selector 是一个对象，它可以接受多个 Channel 注册，监听各个 Channel 上发生的事件，并且能够根据事件情况决定 Channel 读写。这样，通过一个线程可以管理多个 Channel，从而避免为每个 Channel 创建一个线程，节约了系统资源。如果你的应用打开了多个连接（Channel），但每个连接的流量都很低，使用 Selector 就会很方便。
+
+要使用 Selector，就需要向 Selector 注册 Channel，然后调用它的 select() 方法。这个方法会一直阻塞到某个注册的通道有事件就绪，这就是所说的轮询。一旦这个方法返回，线程就可以处理这些事件。
+
+下面这幅图展示了一个线程处理 3 个 Channel 的情况：
+
+![Java-NIO-一个线程处理三个Channel](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/Java-NIO-%E4%B8%80%E4%B8%AA%E7%BA%BF%E7%A8%8B%E5%A4%84%E7%90%86%E4%B8%89%E4%B8%AAChannel.png)
+
+4.2 Selector 使用
+------
+
+**1.创建 Selector 对象**
+
+通过 Selector.open() 方法，我们可以创建一个选择器：
+
+```java
+Selector selector = Selector.open();
+```
+
+ **2. 将 Channel 注册到选择器中**
+ 
+为了使用选择器管理 Channel，我们需要将 Channel 注册到选择器中:
+ 
+```java
+channel.configureBlocking(false);
+SelectionKey key =channel.register(selector,SelectionKey.OP_READ);
+```
+ 
+注意，注册的 Channel 必须设置成异步模式才可以，否则异步 IO 就无法工作，这就意味着我们不能把一个 FileChannel 注册到 Selector，因为 FileChannel 没有异步模式，但是网络编程中的 SocketChannel 是可以的。
+ 
+需要注意 register() 方法的第二个参数，它是一个“interest set”，意思是注册的 Selector 对 Channel 中的哪些事件感兴趣，事件类型有四种（对应 SelectionKey 的四个常量）：
+
+* OP_ACCEPT
+* OP_CONNECT
+* OP_READ
+* OP_WRITE
+
+通道触发了一个事件意思是该事件已经 Ready（就绪）。所以，某个 Channel 成功连接到另一个服务器称为 Connect Ready。一个 ServerSocketChannel 准备好接收新连接称为 Accept Ready，一个有数据可读的通道可以说是 Read Ready，等待写数据的通道可以说是 Write Ready。
+
+如果你对多个事件感兴趣，可以通过 or 操作符来连接这些常量：
+
+```java
+int interestSet = SelectionKey.OP_READ | SelectionKey.OP_WRITE; 
+```
+
+**3. 关于 SelectionKey**
+
+请注意对 register() 的调用的返回值是一个 SelectionKey。 SelectionKey 代表这个通道在此 Selector 上的这个注册。当某个 Selector 通知您某个传入事件时，它是通过提供对应于该事件的 SelectionKey 来进行的。SelectionKey 还可以用于取消通道的注册。SelectionKey 中包含如下属性：
+
+* The interest set
+* The ready set
+* The Channel
+* The Selector
+* An attached object (optional)
+
+这几个属性很好理解，interest set 代表感兴趣事件的集合；ready set 代表通道已经准备就绪的操作的集合；Channel 和 Selector：我们可以通过 SelectionKey 获得 Selector 和注册的 Channel；attached object ：可以将一个对象或者更多信息 attach 到 SelectionKey 上，这样就能方便的识别某个给定的通道。例如，可以附加与通道一起使用的 Buffer。
+
+SelectionKey 还有几个重要的方法，用于检测 Channel 中什么事件或操作已经就绪，它们都会返回一个布尔类型：
+
+```java
+selectionKey.isAcceptable();
+selectionKey.isConnectable();
+selectionKey.isReadable();
+selectionKey.isWritable(); 
+```
+
+**4. 通过 SelectionKeys() 遍历**
+
+从上文我们知道，对于每一个注册到 Selector 中的 Channel 都有一个对应的 SelectionKey，那么，多个 Channel 注册到 Selector 中，必然形成一个 SelectionKey 集合，通过 SelectionKeys() 方法可以获取这个集合。因此，当 Selector 检测到有通道就绪后，我们可以通过调用 selector.selectedKeys() 方法返回的 SelectionKey 集合来遍历，进而获得就绪的 Channel，再进一步处理。实例代码如下：
+
+```java
+// 获取注册到selector中的Channel对应的selectionKey集合
+Set<SelectionKey> selectedKeys = selector.selectedKeys();
+// 通过迭代器进行遍历，获取已经就绪的Channel，
+Iterator<SelectionKey> keyIterator = selectedKeys.iterator();
+while (keyIterator.hasNext()) {
+	SelectionKey key = keyIterator.next();
+	if (key.isAcceptable()) {
+		// a connection was accepted by a ServerSocketChannel.
+		// 可通过Channel()方法获取就绪的Channel并进一步处理
+		SocketChannel channel = (SocketChannel) key.channel();
+		// TODO
+
+	} else if (key.isConnectable()) {
+		// TODO
+
+	} else if (key.isReadable()) {
+		// TODO
+
+	} else if (key.isWritable()) {
+		// TODO
+
+	}
+
+	// 删除处理过的事件
+	keyIterator.remove();
+}
+```
+
+**5. select() 方法检测 Selector 中是否有 Channel 就绪**
+
+在进行遍历之前，我们至少应该知道是否已经有 Channel 就绪，否则遍历完全是徒劳。Selector 提供了 select() 方法，它会返回一个数值，代表就绪 Channel 的数量，如果没有 Channel 就绪，将一直阻塞。除了 select()，还有其它几种，如下：
+
+* int select()： 阻塞到至少有一个通道就绪；
+* int select(long timeout)：select() 一样，除了最长会阻塞 timeout 毫秒（参数），超时后返回0，表示没有通道就绪；
+* int selectNow()：不会阻塞，不管什么通道就绪都立刻返回，此方法执行非阻塞的选择操作。如果自从前一次选择操作后，没有通道变成可选择的，则此方法直接返回零。
+
+加入 select() 方法后的代码：
+
+```java
+// 反复循环,等待IO
+while (true) {
+	// 等待某信道就绪,将一直阻塞，直到有通道就绪
+	selector.select();
+	// 获取注册到selector中的Channel对应的selectionKey集合
+	Set<SelectionKey> selectedKeys = selector.selectedKeys();
+	// 通过迭代器进行遍历，获取已经就绪的Channel，
+	Iterator<SelectionKey> keyIterator = selectedKeys.iterator();
+	while (keyIterator.hasNext()) {
+		SelectionKey key = keyIterator.next();
+		if (key.isAcceptable()) {
+			// a connection was accepted by a ServerSocketChannel.
+			// 可通过Channel()方法获取就绪的Channel并进一步处理
+			SocketChannel channel = (SocketChannel) key.channel();
+			// TODO
+
+		} else if (key.isConnectable()) {
+			// TODO
+
+		} else if (key.isReadable()) {
+			// TODO
+
+		} else if (key.isWritable()) {
+			// TODO
+
+		}
+
+		// 删除处理过的事件
+		keyIterator.remove();
+	}
+}
+```
+
+4.3 Selector 使用实例
+------
+
+```java
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.util.Iterator;
+import java.util.Set;
+
+public class NIOElementSelectorTCPServerDemo {
+
+	/** 超时时间，单位毫秒 **/
+	private static final int TIMEOUT = 1994;
+
+	/** 本地监听端口 **/
+	private static final int LISTENPORT = 1994;
+
+	public static void main(String[] args) throws IOException {
+		// 创建选择器
+		Selector selector = Selector.open();
+		// 打开监听通道
+		ServerSocketChannel listenChannel = ServerSocketChannel.open();
+		// 与本地端口绑定
+		listenChannel.socket().bind(new InetSocketAddress(LISTENPORT));
+		// 设置为非阻塞模式
+		listenChannel.configureBlocking(false);
+		// 将选择器绑定到监听信道，只有非阻塞信道才可以注册选择器，并在注册过程中指出该信道可以进行Accept操作
+		// 一个serversocket channel 准备好接收新进入的连接称为“接收就绪”
+		listenChannel.register(selector, SelectionKey.OP_ACCEPT);
+
+		// 反复循环，等待IO
+		while (true) {
+			// 等待某信道就绪（或超时）
+			int keys = selector.select(TIMEOUT);
+			// 刚启动时连续输出0，client连接后一直输出1
+			if (keys == 0) {
+				System.out.println("独自等待.");
+				continue;
+			}
+
+			// 取得迭代器，遍历每一个注册的通道
+			Set<SelectionKey> set = selector.selectedKeys();
+			Iterator<SelectionKey> keyIterator = set.iterator();
+			while (keyIterator.hasNext()) {
+				SelectionKey key = keyIterator.next();
+				if (key.isAcceptable()) {
+					// a connection was accepted by a serverSocketChannel
+					// 可通过Channel()方法获取就绪的Channel并进一步处理
+					SocketChannel channel = (SocketChannel) key.channel();
+					// TODO
+
+				} else if (key.isConnectable()) {
+					// TODO
+
+				} else if (key.isReadable()) {
+					// TODO
+
+				} else if (key.isWritable()) {
+					// TODO
+
+				}
+
+				// 删除处理过的事件
+				keyIterator.remove();
+			}
+		}
+	}
+
+}
+```
+
+特别说明：例子中 selector 只注册了一个 Channel，注册多个 Channel 操作类似。如下：
+
+```java
+for (int i = 0; i < 3; i++) {
+	// 打开监听信道
+	ServerSocketChannel listenerChannel = ServerSocketChannel.open();
+	// 与本地端口绑定
+	listenerChannel.socket().bind(new InetSocketAddress(ListenPort + i));
+	// 设置为非阻塞模式
+	listenerChannel.configureBlocking(false);
+	// 注册到selector中
+	listenerChannel.register(selector, SelectionKey.OP_ACCEPT);
+}
+```
+
+在上面的例子中，对于通道 IO 事件的处理并没有给出具体方法，在此，举一个更详细的例子：
+
+```java
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.util.Iterator;
+
+public class NIOElementSelectorLearningDemo {
+
+	private static final int BUF_SIZE = 256;
+
+	private static final int TIMEOUT = 3000;
+
+	public static void main(String[] args) throws IOException {
+		// 打开服务端Socket
+		ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+		// 打开Selector
+		Selector selector = Selector.open();
+		// 服务端Socket监听8080端口，并配置为非阻塞模式
+		serverSocketChannel.socket().bind(new InetSocketAddress(8080));
+		serverSocketChannel.configureBlocking(false);
+		// 将channel注册到selector中，通常我们都是先注册一个OP_ACCEPT事件，然后在OP_ACCEPT到来时，在将这个channel的OP_READ注册到Selector中
+		serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+		while (true) {
+			// 通过调用select方法，阻塞的等待channel I/O可操作
+			if (selector.select(TIMEOUT) == 0) {
+				System.out.println("超时等待......");
+				continue;
+			}
+
+			// 获取I/O操作就绪的SelectionKey，通过SelectionKey可以知道哪些Channel的哪类I/O操作已经就绪
+			Iterator<SelectionKey> keyIterator = selector.selectedKeys().iterator();
+			while (keyIterator.hasNext()) {
+				SelectionKey key = keyIterator.next();
+				// 当获取一个SelectionKey后，就要将它删除，表示我们已经对这个IO事件进行了处理
+				keyIterator.remove();
+
+				if (key.isAcceptable()) {
+					// 当OP_ACCEPT事件到来时，我们就有从ServerSocketChannel中获取一个SocketChannel，代表客户端的连接
+					// 注意，在OP_ACCEPT事件中，从key.channel()返回的是ServerSocketChannel
+					// 而在 OP_WRITE 和 OP_READ 中，从key.channel() 返回的是SocketChannel
+					SocketChannel clientChannel = ((ServerSocketChannel) key.channel()).accept();
+					clientChannel.configureBlocking(false);
+					// 在OP_ACCEPT到来时，在将这个Channel的OP_READ注册到Selector中
+					// 注意，这里我们如果没有设置 OP_READ 的话，即interest set仍然是 OP_CONNECT的话，那么select方法会一直直接返回
+					clientChannel.register(key.selector(), SelectionKey.OP_READ, ByteBuffer.allocate(BUF_SIZE));
+				}
+
+				if (key.isReadable()) {
+					SocketChannel clientChannel = (SocketChannel) key.channel();
+					ByteBuffer buf = (ByteBuffer) key.attachment();
+					int bytesRead = clientChannel.read(buf);
+					if (bytesRead == -1) {
+						clientChannel.close();
+					} else if (bytesRead > 0) {
+						key.interestOps(SelectionKey.OP_READ | SelectionKey.OP_WRITE);
+						System.out.println("Get data length:" + bytesRead);
+					}
+				}
+
+				if (key.isValid() && key.isWritable()) {
+					ByteBuffer buf = (ByteBuffer) key.attachment();
+					buf.flip();
+					SocketChannel clientChannel = (SocketChannel) key.channel();
+
+					clientChannel.write(buf);
+
+					if (!buf.hasRemaining()) {
+						key.interestOps(SelectionKey.OP_READ);
+					}
+					buf.compact();
+				}
+
+			}
+		}
+	}
+
+}
+```
+
+4.4 小结
+------
+
+如从上述实例所示，可以将多个 Channel 注册到同一个 Selector 对象上，实现一个线程同时监控多个 Channel 的请求状态，但有一个不容忽视的缺陷：
+
+所有读/写请求以及对新连接请求的处理都在同一个线程中处理，无法充分利用多 CPU 的优势，同时读/写操作也会阻塞对新连接请求的处理。因此，有必要进行优化，可以引入多线程，并行处理多个读/写操作。
+
+一种优化策略是：
+
+将 Selector 进一步分解为 Reactor，从而将不同的感兴趣事件分开，每一个 Reactor 只负责一种感兴趣的事件。这样做的好处是：
+
+* 分离阻塞级别，减少了轮询的时间；
+* 线程无需遍历 set 以找到自己感兴趣的事件，因为得到的 set 中仅包含自己感兴趣的事件。下文将要介绍的 Reactor 模式便是这种优化思想的一种实现。
