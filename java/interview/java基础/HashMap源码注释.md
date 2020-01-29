@@ -292,6 +292,12 @@ public V put(K key, V value)
     return null;
 }
 ```
+
+Question
+====
+
+* **JDK1.7和JDK1.8相比将元素插入到链表中时，JDK1.7使用的是头插法，JDK1.8使用的是尾插法，为什么这么做呢？**
+
 get方法
 ====
 ```java
