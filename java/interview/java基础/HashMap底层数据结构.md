@@ -1,5 +1,9 @@
+看在前面
+====
+
 * <a href="https://zhuanlan.zhihu.com/p/21673805">感谢美团技术团队分享-->Java 8系列之重新认识HashMap</a>
 * <a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/collection/HashMap.md">感谢Snailclimb-->JavaGuide-->HashMap</a>
+* <a href="https://www.jianshu.com/p/c955491a3398">HashMap 进阶篇那些唬人的名词: Resize, Capacity, bucket,Load factor</a>
 
 Map接口UML图
 ====
@@ -38,6 +42,12 @@ static final int hash(Object key) {
     return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
 }
 ```
+
+其中JDK1.8的hash实现，可以这么理解：
+
+> 在Java 1.8的实现中，是通过hashCode()的高16位异或低16位实现的 (h = k.hashCode()) ^ (h >>> 16)
+，主要是从速度、功效、质量来考虑的，这么做可以在bucket的n比较小的时候，也能保证考虑到高低bit
+都参与到hash的计算中，同时不会有太大的开销。
 
 对比一下 JDK1.7的 HashMap 的 hash 方法源码.
 
