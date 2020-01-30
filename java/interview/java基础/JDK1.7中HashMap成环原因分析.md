@@ -1,6 +1,7 @@
-* <a href="https://coolshell.cn/articles/9606.html">感谢High一下! 酷 壳 – CoolShell-->疫苗：JAVA HASHMAP的死循环分享</a>
+看在前面
+====
 
-**<h3>JDK1.7中HashMap成环的原因分析</h3>**
+* <a href="https://coolshell.cn/articles/9606.html">感谢High一下! 酷 壳 – CoolShell-->疫苗：JAVA HASHMAP的死循环分享</a>
 
 一句话描述
 ====
