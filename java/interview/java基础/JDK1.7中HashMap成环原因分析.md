@@ -81,7 +81,7 @@ void addEntry(int hash, K key, V value, int bucketIndex)
 }
 ```
 
-新建一个更大尺寸的```Hash```表，然后把数据从老的```Hash```表中迁移到新的Hash表中。
+新建一个更大尺寸的```Hash```表，然后把数据从老的```Hash```表中迁移到新的```Hash```表中。
 
 ```java
 void resize(int newCapacity)
@@ -140,7 +140,7 @@ void transfer(Entry[] newTable)
 并发下的Rehash
 ====
 
-1）**假设我们有两个线程。**我用红色和浅蓝色标注了一下。
+1）**假设我们有两个线程**。我用红色和浅蓝色标注了一下。
 
 我们再回头看一下我们的 transfer代码中的这个细节：
 
@@ -157,7 +157,7 @@ do {
 
 ![HashMap并发下ReHash过程一](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/HashMap%E5%B9%B6%E5%8F%91%E4%B8%8B%E7%9A%84ReHash%E4%B8%80.jpg)
 
-注意，**因为Thread1的 e 指向了key(3)，而next指向了key(7)，其在线程二rehash后，指向了线程二重组后的链表。**我们可以看到链表的顺序被反转后。
+注意，**因为Thread1的 e 指向了key(3)，而next指向了key(7)，其在线程二rehash后，指向了线程二重组后的链表**。我们可以看到链表的顺序被反转后。
 
 **2）线程一被调度回来执行。**
 
