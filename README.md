@@ -12,7 +12,7 @@
 
 * <a href="https://javadoop.com/">魔都的程序员</a>
 
-* <a href="https://juejin.im/user/5a7005b46fb9a01c995117a7">掘金特邀作者 | 技术公众号：Java3y</a>
+* <a href="https://juejin.im/user/5a7005b46fb9a01c995117a7">掘金特邀作者 | 技术公众号：Java3y</a> or <a href="https://github.com/ZhongFuCheng3y/3y">3y</a>
 
 关于转载
 ====
