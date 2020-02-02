@@ -74,7 +74,7 @@ public class BeanDefinition {
 }
 ```
 
-3. 建立容器类tgbApplicationContext。
+3. 建立容器类TgbApplicationContext。
 
 ```java
 public class TgbClassPathXMLApplicationContext {
