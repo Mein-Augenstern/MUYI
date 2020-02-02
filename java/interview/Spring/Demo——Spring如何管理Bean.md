@@ -8,7 +8,7 @@
 BeanFactory与ApplicationContext的区别是什么？
 ====
 
-```BeanFactory```采用了工厂设计模式，负责读取```bean```配置文档，管理```bean```的加载，实例化，维护```bean```之间的依赖关系，负责```bean```的声明周期。而```ApplicationContext```除了提供上述```BeanFactory```所能提供的功能之外，还提供了更完整的框架功能：国际化支持、aop、事务等。同时```BeanFactory```在解析配置文件时并不会初始化对象,只有在使用对象```getBean()```才会对该对象进行初始化，而```ApplicationContext```在解析配置文件时对配置文件中的所有对象都初始化了，```getBean()```方法只是获取对象的过程。
+```BeanFactory```采用了工厂设计模式，负责读取```bean```配置文档，管理```bean```的加载，实例化，维护```bean```之间的依赖关系，负责```bean```的声明周期。而```ApplicationContext```除了提供上述```BeanFactory```所能提供的功能之外，还提供了更完整的框架功能：国际化支持、aop、事务等。同时```BeanFactory```在解析配置文件时并不会初始化对象，只有在使用对象```getBean()```才会对该对象进行初始化，而```ApplicationContext```在解析配置文件时对配置文件中的所有对象都初始化了，```getBean()```方法只是获取对象的过程。
 
 因此我们一般在使用的时候尽量使用```ApplicationContext```。
 
