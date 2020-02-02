@@ -1,3 +1,12 @@
+看在前面
+====
+
+> * <a href="https://blog.csdn.net/qq_42405666/article/details/91550277">Spring Bean的生命周期</a>
+
+> * <a href="https://www.cnblogs.com/javazhiyin/p/10905294.html">深究Spring中Bean的生命周期</a>
+
+------
+
 首先说一下Servlet的生命周期：实例化，初始init，接收请求service，销毁destroy；
 
 Spring上下文中的Bean生命周期也类似，如下：
