@@ -1,5 +1,3 @@
-![好菜](https://github.com/DemoTransfer/demotransfer/blob/master/picture/16c0e446e3fee355.png)
-
 博客链接
 ====
 
