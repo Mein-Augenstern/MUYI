@@ -40,7 +40,9 @@ Spring上下文中的Bean生命周期也类似，如下：
 
 如果Bean在Spring配置文件中配置了 init-method 属性，则会自动调用其配置的初始化方法。
 
-（6）如果这个Bean实现了BeanPostProcessor接口，将会调用postProcessAfterInitialization(Object obj, String s)方法；由于这个方法是在Bean初始化结束时调用的，所以可以被应用于内存或缓存技术；
+（6）BeanPostProcessor：
+
+如果这个Bean实现了BeanPostProcessor接口，将会调用postProcessAfterInitialization(Object obj, String s)方法；由于这个方法是在Bean初始化结束时调用的，所以可以被应用于内存或缓存技术；
 
 以上几个步骤完成后，Bean就已经被正确创建了，之后就可以使用这个Bean了。
 
