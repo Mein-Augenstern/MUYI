@@ -35,7 +35,7 @@ Question
 <bean id="bar" class="x.y.Bar"/>
 ```
 
-构造函数注入使用：<constructor-arg index="0" value="7500000"/>， <constructor-arg type="int" value="7500000"/>，对于非简单参数，需要使用ref <constructor-arg index="1" ref="bar"/>
+构造函数注入使用：```<constructor-arg index="0" value="7500000"/>， <constructor-arg type="int" value="7500000"/>```，对于非简单参数，需要使用ref ```<constructor-arg index="1" ref="bar"/>```
 
 ```java
 <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -45,7 +45,7 @@ Question
 </bean>
 ```
 
-setter方法注入使用 <property name="username" value="xxx"/>, 非简单类型属性使用ref <property name="xxbean" ref="xxx"/>
+setter方法注入使用 ```<property name="username" value="xxx"/>```, 非简单类型属性使用ref ```<property name="xxbean" ref="xxx"/>```
 
 2. 集合等复杂类型的注入
 
@@ -83,4 +83,4 @@ setter方法注入使用 <property name="username" value="xxx"/>, 非简单类�
 </bean>
 ```
 
-也很简单，list属性就是 <list>里面包含<value>或者<ref>或者<bean>, set也类似。map是<map>里面包含<entry>这个也好理解，因为map的实现就是使用内部类Entry来存储key和value. Properties是 <props>里面包含<prop>.
+也很简单，list属性就是 ```<list>```里面包含```<value>```或者```<ref>```或者```<bean>```, set也类似。map是```<map>```里面包含```<entry>```这个也好理解，因为map的实现就是使用内部类Entry来存储key和value. Properties是 ```<props>```里面包含```<prop>```.
