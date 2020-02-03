@@ -36,7 +36,7 @@ Spring上下文中的Bean生命周期也类似，如下：
 
 如果想对Bean进行一些自定义的处理，那么可以让Bean实现了BeanPostProcessor接口，那将会调用postProcessBeforeInitialization(Object obj, String s)方法。
 
-（5）InitializingBean 与 init-method：
+（5）InitializingBean：
 
 如果Bean在Spring配置文件中配置了 init-method 属性，则会自动调用其配置的初始化方法。
 
