@@ -10,6 +10,8 @@
 
 * <a href="https://github.com/Snailclimb/JavaGuide">JavaGuide</a>
 
+  * <a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/essential-content-for-interview/PreparingForInterview/JavaInterviewLibrary.md">JavaInterviewLibrary</a>
+
 * <a href="https://javadoop.com/">魔都的程序员</a>
 
 * <a href="https://juejin.im/user/5a7005b46fb9a01c995117a7">掘金特邀作者 | 技术公众号：Java3y</a> or <a href="https://github.com/ZhongFuCheng3y/3y">3y</a>
