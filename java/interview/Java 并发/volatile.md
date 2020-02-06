@@ -12,17 +12,17 @@ volatile 关键字
 
 **<h3>volatile 的内存可见性</h3>**
 
-我们还是用 JMM 的**主内存**和**本地内存**抽象来描述，这样比较准确。还有，并不是只有 Java 语言才有 volatile 关键字，所以后面的描述一定要建立在 Java 跨平台以后抽象出了内存模型的这个大环境下。
+我们还是用 JMM 的**主内存**和**本地内存**抽象来描述，这样比较准确。还有，**并不是只有 Java 语言才有 volatile 关键字**，所以后面的描述一定要建立在 Java 跨平台以后抽象出了内存模型的这个大环境下。
 
-还记得 synchronized 的语义吗？进入 synchronized 时，使得本地缓存失效，synchronized 块中对共享变量的读取必须从主内存读取；退出 synchronized 时，会将进入 synchronized 块之前和 synchronized 块中的写操作刷入到主存中。
+还记得 synchronized 的语义吗？**进入 synchronized 时，使得本地缓存失效，synchronized 块中对共享变量的读取必须从主内存读取；退出 synchronized 时，会将进入 synchronized 块之前和 synchronized 块中的写操作刷入到主存中**。
 
-volatile 有类似的语义，读一个 volatile 变量之前，需要先使相应的本地缓存失效，这样就必须到主内存读取最新值，写一个 volatile 属性会立即刷入到主内存。所以，volatile 读和 monitorenter 有相同的语义，volatile 写和 monitorexit 有相同的语义。
+volatile 有类似的语义，读一个 volatile 变量之前，需要先使相应的本地缓存失效，这样就必须到主内存读取最新值，写一个 volatile 属性会立即刷入到主内存。所以，**volatile 读和 monitorenter 有相同的语义，volatile 写和 monitorexit 有相同的语义**。
 
 **<h3>volatile 的禁止重排序</h3>**
 
 大家还记得之前的双重检查的单例模式吧，前面提到，加个 volatile 能解决问题。其实就是利用了 volatile 的禁止重排序功能。
 
-volatile 的禁止重排序并不局限于两个 volatile 的属性操作不能重排序，而且是 volatile 属性操作和它周围的普通属性的操作也不能重排序。
+**volatile 的禁止重排序并不局限于两个 volatile 的属性操作不能重排序，而且是 volatile 属性操作和它周围的普通属性的操作也不能重排序**。
 
 之前 instance = new Singleton() 中，如果 instance 是 volatile 的，那么对于 instance 的赋值操作（赋一个引用给 instance 变量）就不会和构造函数中的属性赋值发生重排序，能保证构造方法结束后，才将此对象引用赋值给 instance。
 
@@ -32,7 +32,7 @@ volatile 的禁止重排序并不局限于两个 volatile 的属性操作不能�
 
 * volatile 修饰符适用于以下场景：某个属性被多个线程共享，其中有一个线程修改了此属性，其他线程可以立即得到修改后的值。在并发包的源码中，它使用得非常多。
 
-* volatile 属性的读写操作都是无锁的，它不能替代 synchronized，因为**它没有提供原子性和互斥性**。因为无锁，不需要花费时间在获取锁和释放锁上，所以说它是低成本的。
+* **volatile 属性的读写操作都是无锁的，它不能替代 synchronized**，因为**它没有提供原子性和互斥性**。因为无锁，不需要花费时间在获取锁和释放锁上，所以说它是低成本的。
 
 * volatile 只能作用于属性，我们用 volatile 修饰属性，这样 compilers 就不会对这个属性做指令重排序。
 
