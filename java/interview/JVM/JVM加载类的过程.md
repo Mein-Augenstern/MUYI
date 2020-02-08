@@ -6,6 +6,8 @@
 > * 《实战Java虚拟机》
 > * https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-5.html
 
+------
+
 类加载过程
 ====
 
@@ -14,6 +16,10 @@ Class 文件需要加载到虚拟机中之后才能运行和使用，那么虚�
 系统加载 Class 类型的文件主要三步:**加载->连接->初始化**。连接过程又可分为三步:**验证->准备->解析**。
 
 ![类加载过程](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B.png)
+
+**<h3>可以类比到web服务接收客户端上传特定类型文件（csv文件）初始化过程，便于理解记忆。</h3>**
+
+------
 
 加载
 ------
@@ -32,6 +38,8 @@ Class 文件需要加载到虚拟机中之后才能运行和使用，那么虚�
 
 加载阶段和连接阶段的部分内容是交叉进行的，加载阶段尚未结束，连接阶段可能就已经开始了。
 
+------
+
 验证
 ------
 
@@ -49,6 +57,8 @@ Class 文件需要加载到虚拟机中之后才能运行和使用，那么虚�
 
 ![基本数据类型的零值](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E9%9B%B6%E5%80%BC.png)
 
+------
+
 解析
 ------
 
@@ -58,6 +68,7 @@ Class 文件需要加载到虚拟机中之后才能运行和使用，那么虚�
 
 综上，解析阶段是虚拟机将常量池内的符号引用替换为直接引用的过程，也就是得到类或者字段、方法在内存中的指针或者偏移量。
 
+------
 
 初始化
 ------
