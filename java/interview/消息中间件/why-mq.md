@@ -99,7 +99,7 @@ Question
 
 * 系统复杂度提高
 
-硬生生加个 MQ 进来，你怎么<a href="https://github.com/doocs/advanced-java/blob/master/docs/high-concurrency/how-to-ensure-that-messages-are-not-repeatedly-consumed.md">保证消息没有重复消费</a>？怎么<a href="https://github.com/doocs/advanced-java/blob/master/docs/high-concurrency/how-to-ensure-the-reliable-transmission-of-messages.md">处理消息丢失的情况</a>？怎么保证消息传递的顺序性？头大头大，问题一大堆，痛苦不已。>？怎么处理消息丢失的情况？怎么保证消息传递的顺序性？头大头大，问题一大堆，痛苦不已。
+硬生生加个 MQ 进来，你怎么<a href="https://github.com/doocs/advanced-java/blob/master/docs/high-concurrency/how-to-ensure-that-messages-are-not-repeatedly-consumed.md">保证消息没有重复消费</a>？怎么<a href="https://github.com/doocs/advanced-java/blob/master/docs/high-concurrency/how-to-ensure-the-reliable-transmission-of-messages.md">处理消息丢失的情况</a>？怎么保证消息传递的顺序性？头大头大，问题一大堆，痛苦不已。
 
 * 一致性问题
 
