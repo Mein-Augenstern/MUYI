@@ -5,7 +5,6 @@
 
 > * <a href="https://www.cnblogs.com/javazhiyin/p/10905294.html">深究Spring中Bean的生命周期</a>
 
-------
 
 第一种说法
 ====
@@ -54,7 +53,6 @@ Spring上下文中的Bean生命周期也类似，如下：
 
 最后，如果这个Bean的Spring配置中配置了destroy-method属性，会自动调用其配置的销毁方法。
 
-------
 
 第二种说法
 ====
