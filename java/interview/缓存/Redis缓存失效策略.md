@@ -69,13 +69,13 @@ public class LRUCache<K,V> extends LinkedHashMap<K,V> {
 
     public LRUCache(int cacheSize){
         super(10,0.75f,true);
-        //设置hashmap大小，true是让linkedhashmap按照访问顺序排序
+        // 设置hashmap大小，true是让linkedhashmap按照访问顺序排序
         this.cacheSize = cacheSize;
     }
 
     @Override
     protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
-        //当map中数量大于指定缓存个数的时候，自动删除最老的数据
+        // 当map中数量大于指定缓存个数的时候，自动删除最老的数据
         return size()>cacheSize;
     }
     
