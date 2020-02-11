@@ -28,7 +28,7 @@ Kafka 实际上有个 offset 的概念，就是每个消息写进去，都有一
 
 有这么个场景。数据 1/2/3 依次进入 kafka，kafka 会给这三条数据每条分配一个 offset，代表这条数据的序号，我们就假设分配的 offset 依次是 152/153/154。消费者从 kafka 去消费的时候，也是按照这个顺序去消费。假如当消费者消费了 offset=153 的这条数据，刚准备去提交 offset 到 zookeeper，此时消费者进程被重启了。那么此时消费过的数据 1/2 的 offset 并没有提交，kafka 也就不知道你已经消费了 offset=153 这条数据。那么重启之后，消费者会找 kafka 说，嘿，哥儿们，你给我接着把上次我消费到的那个地方后面的数据继续给我传递过来。由于之前的 offset 没有提交成功，那么数据 1/2 会再次传过来，如果此时消费者没有去重的话，那么就会导致重复消费。
 
-![mq-10]()
+![mq-10](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/picture/mq-10.png)
 
 如果消费者干的事儿是拿一条数据就往数据库里写一条，会导致说，你可能就把数据 1/2 在数据库里插入了 2 次，那么数据就错啦。
 
@@ -52,6 +52,6 @@ Kafka 实际上有个 offset 的概念，就是每个消息写进去，都有一
 
 * 比如基于数据库的唯一键来保证重复数据不会重复插入多条。因为有唯一键约束了，重复数据插入只会报错，不会导致数据库中出现脏数据。
 
-![mq-11]()
+![mq-11](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/picture/mq-11.png)
 
 当然，如何保证 MQ 的消费是幂等性的，需要结合具体的业务来看。
