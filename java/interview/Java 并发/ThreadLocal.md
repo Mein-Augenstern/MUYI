@@ -167,7 +167,7 @@ ThreadLocalMap getMap(Thread t) {
 也就是说 ```ThreadLocal``` 本身并不存储值，它只是作为一个 ```key``` 来让线程从 ```ThreadLocalMap``` 获取 ```value```。
 值得注意的是图中的虚线，表示 ```ThreadLocalMap``` 是使用 ```ThreadLocal``` 的弱引用作为 ```Key``` 的，弱引用的对象在 ```GC``` 时会被回收。
 
-```ThreadLocalMap```使用T```hreadLocal```的弱引用作为```key```，如果一个```ThreadLocal```没有外部强引用来引用它，那么系统 ```GC``` 的时候，这个```ThreadLocal```势必会被回收，这样一来，```ThreadLocalMap```中就会出现```key```为```null```的```Entry```，就没有办法访问这些```key```为```null```的```Entry```的```value```，如果当前线程再迟迟不结束的话，这些```key```为```null```的```Entry```的```value```就会一直存在一条强引用链：```Thread Ref -> Thread -> ThreaLocalMap -> Entry -> value```永远无法回收，造成内存泄漏。
+```ThreadLocalMap```使用T```ThreadLocal```的弱引用作为```key```，如果一个```ThreadLocal```没有外部强引用来引用它，那么系统 ```GC``` 的时候，这个```ThreadLocal```势必会被回收，这样一来，```ThreadLocalMap```中就会出现```key```为```null```的```Entry```，就没有办法访问这些```key```为```null```的```Entry```的```value```，如果当前线程再迟迟不结束的话，这些```key```为```null```的```Entry```的```value```就会一直存在一条强引用链：```Thread Ref -> Thread -> ThreaLocalMap -> Entry -> value```永远无法回收，造成内存泄漏。
 
 ThreadLocal内存泄漏的问题
 ====
