@@ -16,11 +16,11 @@ JVM 配置常用参数
 
 <h3>堆参数</h3>
 
-![堆参数]()
+![堆参数](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/%E5%A0%86%E5%8F%82%E6%95%B0.jpg)
 
 <h3>回收器参数</h3>
 
-![回收器参数]()
+![回收器参数](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/%E5%9B%9E%E6%94%B6%E5%99%A8%E5%8F%82%E6%95%B0.jpg)
 
 如上表所示，目前 **主要有串行、并行和并发三种**，对于大内存的应用而言，串行的性能太低，因此使用到的主要是并行和并发两种。并行和并发GC的策略通过```UseParallelGC```和```UseConcMarkSweepGC```来指定，还有一些细节的配置参数用来配置策略的执行方式。例如：```XX:ParallelGCThreads```，```XX:CMSInitiatingOccupancyFraction```等。通常：```Young```区对象回收只可选择并行（耗时间），Old区选择并发（耗CPU）。
 
@@ -28,11 +28,11 @@ JVM 配置常用参数
 
 > 备注：在Java8中永久代的参数```-XX:PermSize```和```-XX:MaxPermSize```已经失效。
 
-![项目中常用组合]()
+![项目中常用组合](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE.jpg)
 
 <h3>常用组合</h3>
 
-![常用组合]()
+![常用组合](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/%E5%B8%B8%E7%94%A8%E7%BB%84%E5%90%88.jpg)
 
 常用GC调优策略
 ------
