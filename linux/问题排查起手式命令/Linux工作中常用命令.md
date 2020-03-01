@@ -199,3 +199,12 @@ grep 'fail' /home/zjm/python_test/re_fold/test.log | wc -l
 ```java
 sed -n ‘/2018-06-21 14:30:20/,/2018-06-21 16:12:00/p’ catalina.out |grep ‘keyword’
 ```
+
+4、杀死包含关键字的进程
+------
+
+将含有”redis”关键词的进程杀死:
+
+```java
+ps -ef | grep redis | awk ‘{print $2}’ | xargs kill -9
+```
