@@ -16,6 +16,8 @@
 
 * <a href="https://juejin.im/user/5a7005b46fb9a01c995117a7">掘金特邀作者 | 技术公众号：Java3y</a> or <a href="https://github.com/ZhongFuCheng3y/3y">3y</a>
 
+  * <a href="https://github.com/ZhongFuCheng3y/3y">3y</a>
+
 * <a href="https://juejin.im/user/59b416065188257e671b670a">三太子敖丙</a>
 
 * <a href="https://github.com/doocs/advanced-java">互联网 Java 工程师进阶知识完全扫盲：涵盖高并发、分布式、高可用、微服务、海量数据处理等领域知识，后端同学必看，前端同学也可学习 </a>
