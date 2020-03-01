@@ -1,2 +1,0 @@
-# 将含有”redis”关键词的进程杀死:
-  ps -ef | grep redis | awk ‘{print $2}’ | xargs kill -9
