@@ -17,7 +17,7 @@
 
 * <a href="http://mysql.taobao.org/monthly/">数据库内核月报</a>
 
-<a href="https://me.csdn.net/u013412772">可乐</a>
+* <a href="https://me.csdn.net/u013412772">可乐</a>
 
 知识点相关
 ====
