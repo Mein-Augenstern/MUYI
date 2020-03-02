@@ -22,7 +22,7 @@
 知识点相关
 ====
 
-1.JavaGuide
+<h3>1、JavaGuide</h3>
 
 * Github地址： https://github.com/Snailclimb/JavaGuide
 	
@@ -30,7 +30,7 @@
 
 * 介绍: 【Java学习+面试指南】 一份涵盖大部分Java程序员所需要掌握的核心知识。
 
-2.CS-Notes
+<h3>2、CS-Notes</h3>
 
 * Github 地址：https://github.com/CyC2018/CS-Notes
 
@@ -38,7 +38,7 @@
 
 * 介绍: 技术面试必备基础知识、Leetcode 题解、后端面试、Java 面试、春招、秋招、操作系统、计算机网络、系统设计。
 
-3.advanced-java
+<h3>3、advanced-java</h3>
 
 * Github地址：https://github.com/doocs/advanced-java
 
@@ -46,7 +46,7 @@
 
 * 介绍: 互联网 Java 工程师进阶知识完全扫盲：涵盖高并发、分布式、高可用、微服务等领域知识，后端同学必看，前端同学也可学习。
 
-4.JCSprout
+<h3>4、JCSprout</h3>
 
 * Github地址：https://github.com/crossoverJie/JCSprout
 
@@ -54,7 +54,7 @@
 
 * 介绍: Java Core Sprout：处于萌芽阶段的 Java 核心知识库。
 
-5.toBeTopJavaer
+<h3>5、toBeTopJavaer</h3>
 
 * Github地址：https://github.com/hollischuang/toBeTopJavaer
 
@@ -62,7 +62,7 @@
 
 * 介绍: Java工程师成神之路。
 
-6.architect-awesome
+<h3>6、architect-awesome</h3>
 
 * Github地址：https://github.com/xingshaocheng/architect-awesome
 
@@ -70,7 +70,7 @@
 
 * 介绍:后端架构师技术图谱。
 
-7.technology-talk
+<h3>7、technology-talk</h3>
 
 * Github地址： https://github.com/aalansehaiyang/technology-talk
 
@@ -78,7 +78,7 @@
 
 * 介绍: 汇总java生态圈常用技术框架、开源中间件，系统架构、项目管理、经典架构案例、数据库、常用三方库、线上运维等知识。
 
-8.fullstack-tutorial
+<h3>8、fullstack-tutorial</h3>
 
 * Github地址： https://github.com/frank-lam/fullstack-tutorial
 
@@ -86,7 +86,7 @@
 
 * 介绍: fullstack tutorial 2019，后台技术栈/架构师之路/全栈开发社区，春招/秋招/校招/面试。
 
-9.3y
+<h3>9、3y</h3>
 
 * Github地址：https://github.com/ZhongFuCheng3y/3y
 
@@ -94,7 +94,7 @@
 
 * 介绍: Java 知识整合。
 
-10.java-bible
+<h3>10、java-bible</h3>
 
 * Github地址：https://github.com/biezhi/java-bible
 
@@ -102,7 +102,7 @@
 
 * 介绍: 这里记录了一些技术摘要，部分文章来自网络，本项目的目的力求分享精品技术干货，以Java为主。
 
-11.interviews
+<h3>11、interviews</h3>
 
 * Github地址: https://github.com/kdn251/interviews/blob/master/README-zh-cn.md
 
@@ -113,7 +113,7 @@
 算法相关
 ====
 
-1.LeetCodeAnimation
+<h3>1、LeetCodeAnimation</h3>
 
 * Github 地址： https://github.com/MisterBooo/LeetCodeAnimation
 
@@ -121,7 +121,7 @@
 
 * 介绍: Demonstrate all the questions on LeetCode in the form of animation.（用动画的形式呈现解LeetCode题目的思路）。
 
-2.awesome-java-leetcode
+<h3>2、awesome-java-leetcode</h3>
 
 * Github地址：https://github.com/Blankj/awesome-java-leetcode
 
@@ -129,7 +129,7 @@
 
 * 介绍: LeetCode 上 Facebook 的面试题目。
 
-3.leetcode
+<h3>3、leetcode</h3>
 
 * Github地址：https://github.com/azl397985856/leetcode
 
@@ -140,27 +140,23 @@
 目录
 ====
 
-1、Java集合
-------
+<h3>1、Java集合</h3>
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/ArrayList%20%E4%B8%8E%20Vector%20%E5%8C%BA%E5%88%AB.md">ArrayList 与 Vector 区别</a>
 * <a HREF="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/ArrayList%E6%89%A9%E5%AE%B9.md">ArrayList扩容</a>
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/ArrayList%E6%BA%90%E7%A0%81%E6%B3%A8%E9%87%8A.md">ArrayList源码注释</a>
 
-2、Java IO
-------
+<h3>2、Java IO</h3>
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/Java%20IO/%E5%AD%97%E8%8A%82%E6%B5%81%E5%92%8C%E5%AD%97%E7%AC%A6%E6%B5%81%E5%8C%BA%E5%88%AB.md">字符流和字节流区别</a>
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/Java%20IO/%E8%B0%88%E8%B0%88NIO.md">**谈谈NIO**</a>
 
-3、Java并发
-------
+<h3>3、Java并发</h3>
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/AQS%E5%8E%9F%E7%90%86.md">AQS</a>
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/CAS.md">CAS</a>
 
-4、JVM
-------
+<h3>4、JVM</h3>
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/JVM%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8.md">类加载器</a>
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/JVM%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B.md">类加载过程</a>
