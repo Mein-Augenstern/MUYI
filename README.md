@@ -228,6 +228,25 @@
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/JVM%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/JDK11-7%E4%B8%AA%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8.md">JDK11-7个垃圾收集器</a>
 
+<h4>4.2 JVM性能兼容、故障处理<h4>
+
+* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/JVM%E6%80%A7%E8%83%BD%E5%85%BC%E5%AE%B9%E3%80%81%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86/JavaGuide--GC%E8%B0%83%E4%BC%98%E5%8F%82%E6%95%B0.md">JavaGuide--GC调优参数</a>
+
+* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/JVM%E6%80%A7%E8%83%BD%E5%85%BC%E5%AE%B9%E3%80%81%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86/JavaGuide--JDK%E7%9B%91%E6%8E%A7%E5%92%8C%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%93.md">avaGuide--JDK监控和故障处理工具总结</a>
+
+* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/JVM%E6%80%A7%E8%83%BD%E5%85%BC%E5%AE%B9%E3%80%81%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86/JavaGuide--%E6%9C%80%E9%87%8D%E8%A6%81%E7%9A%84JVM%E5%8F%82%E6%95%B0%E6%8C%87%E5%8D%97.md">JavaGuide--最重要的JVM参数指南</a>
+
+* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/JVM%E6%80%A7%E8%83%BD%E5%85%BC%E5%AE%B9%E3%80%81%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E5%92%8C%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA.md">内存泄漏和内存溢出</a>
+
+* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/JVM%E6%80%A7%E8%83%BD%E5%85%BC%E5%AE%B9%E3%80%81%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86/%E6%95%85%E9%9A%9C%E8%AF%8A%E6%96%AD--OutOfMemoryError.md">故障诊断--OutOfMemoryError</a>
+
+* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/JVM%E6%80%A7%E8%83%BD%E5%85%BC%E5%AE%B9%E3%80%81%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86/%E6%95%85%E9%9A%9C%E8%AF%8A%E6%96%AD--%E8%AF%8A%E6%96%AD%E5%91%BD%E4%BB%A4%E5%A4%84%E7%90%86%E5%B7%A5%E5%85%B7%E5%A4%A7%E5%85%A8.md">故障诊断--诊断命令处理工具大全</a>
+
+* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/JVM%E6%80%A7%E8%83%BD%E5%85%BC%E5%AE%B9%E3%80%81%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86/%E6%95%85%E9%9A%9C%E8%AF%8A%E6%96%AD--%E9%AB%98CPU%E5%8D%A0%E7%94%A8.md">故障诊断--高CPU占用</a>
+
+* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/JVM%E6%80%A7%E8%83%BD%E5%85%BC%E5%AE%B9%E3%80%81%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86/%E6%95%85%E9%9A%9C%E8%AF%8A%E6%96%AD--%E9%AB%98%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E3%80%81%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2.md">故障诊断--高内存占用、内存泄露</a>
+
+
 关于转载
 ====
 
