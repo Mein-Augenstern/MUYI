@@ -140,7 +140,23 @@
 目录
 ====
 
-<h3>1、Java集合</h3>
+<h3>1、Java基础</h3>
+
+* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/NoClassDefFoundError%E5%92%8CClassNotFoundException%E5%8C%BA%E5%88%AB.md">NoClassDefFoundError和ClassNotFoundException区别</a>
+
+* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/comparable%20%E5%92%8C%20Comparator%E7%9A%84%E5%8C%BA%E5%88%AB.md">Comparable 和 Comparator的区别</a>
+
+* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/final%20finally%20finalize.md">final finally finalize</a>
+
+* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/transient%E5%85%B3%E9%94%AE%E5%AD%97.md">transient关键字</a>
+
+* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/wait%E5%92%8Csleep%E7%9A%84%E5%8C%BA%E5%88%AB.md">wait和sleep区别</a>
+
+* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/%E5%BC%BA%E5%BC%95%E7%94%A8%20%E3%80%81%E8%BD%AF%E5%BC%95%E7%94%A8%E3%80%81%20%E5%BC%B1%E5%BC%95%E7%94%A8%E3%80%81%E8%99%9A%E5%BC%95%E7%94%A8.md">强引用、软引用、弱引用、虚引用</a>
+
+* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/%E7%A7%BB%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6.md">移位运算符</a>
+
+<h3>2、Java集合</h3>
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%80%BB%E7%BB%93.md">集合框架底层数据结构总结</a>
 
@@ -184,7 +200,7 @@
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84List.md">线程安全的List</a>
 
-<h3>2、Java IO</h3>
+<h3>3、Java IO</h3>
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/Java%20IO/%E5%AD%97%E8%8A%82%E6%B5%81%E5%92%8C%E5%AD%97%E7%AC%A6%E6%B5%81%E5%8C%BA%E5%88%AB.md">字符流和字节流区别</a>
 
@@ -236,9 +252,9 @@
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%9B%9B%E7%A7%8D%E9%A5%B1%E5%92%8C%E7%AD%96%E7%95%A5.md">线程池的饱和策略</a>
 
-<h3>4、JVM</h3>
+<h3>5、JVM</h3>
 
-<h4>4.1 内存管理<h4>
+<h4>5.1 内存管理<h4>
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/JVM%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8.md">类加载器</a>
 
@@ -264,7 +280,7 @@
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/JVM%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/JDK11-7%E4%B8%AA%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8.md">JDK11-7个垃圾收集器</a>
 
-<h4>4.2 JVM性能兼容、故障处理<h4>
+<h4>5.2 JVM性能兼容、故障处理<h4>
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/JVM%E6%80%A7%E8%83%BD%E5%85%BC%E5%AE%B9%E3%80%81%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86/JavaGuide--GC%E8%B0%83%E4%BC%98%E5%8F%82%E6%95%B0.md">JavaGuide--GC调优参数</a>
 
