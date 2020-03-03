@@ -269,7 +269,7 @@ Hot.class
 
 所以HotSwapURLClassLoader是重加载了Hot类 。注意上面，其实当加载修改后的Hot时，HotSwapURLClassLoader实例跟加载没修改Hot的HotSwapURLClassLoader不是同一个。
 
-![HotSwapURLClassLoader加载一]()
+![HotSwapURLClassLoader加载一](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/HotSwapURLClassLoader%E5%8A%A0%E8%BD%BD%E4%B8%80.jpg)
 
 总结：上述类热加载，需要自定义ClassLoader，并且只能重新实例化ClassLoader实例，利用新的ClassLoader实例才能重新加载之前被加载过的class。并且程序需要模块化，才能利用这种热加载方式。
 
@@ -421,7 +421,7 @@ public class TestClassUnLoad {
 
 运行的时候配置VM参数: ```-verbose:class```；用于查看class的加载与卸载情况。如果用的是Eclipse，在Run Configurations中配置此参数即可。
 
-![Run Configuration配置]()
+![Run Configuration配置](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/RunConfigureation%E9%85%8D%E7%BD%AE.jpg)
 
 输出结果：
 
@@ -438,11 +438,11 @@ GC over
 
 程序运行中，引用没清楚前，内存中情况：
 
-![class_unload_1]()
+![class_unload_1](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/class_unload_1.png)
 
 垃圾回收后，程序没结束前，内存中情况：
 
-![class_unload_2]()
+![class_unload_2](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/class_unload_2.png)
 
 1. 有启动类加载器加载的类型在整个运行期间是不可能被卸载的(jvm和jls规范).
 
