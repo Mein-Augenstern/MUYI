@@ -388,6 +388,11 @@ Java
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/tree/master/sort">常见的几种排序算法实现（Java）</a>
 
+操作系统
+====
+
+* <a href="https://github.com/DemoTransfer/LearningRecord/tree/master/linux/%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E8%B5%B7%E6%89%8B%E5%BC%8F%E5%91%BD%E4%BB%A4">Linux下排查问题命令起手</a>
+
 关于转载
 ====
 
