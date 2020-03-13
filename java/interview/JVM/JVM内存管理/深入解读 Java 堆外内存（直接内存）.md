@@ -26,7 +26,7 @@ Java 开发者一般都知道堆内存，但却未必了解堆外内存。事实
 
 ![DirectByteBuffer 源代码一](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/DirectByteBuffer%20%E6%BA%90%E4%BB%A3%E7%A0%81%E4%B8%80.png)
 
-第一个重要方法：Bits.reserveMemory(size, cap);
+<h4>第一个重要方法：Bits.reserveMemory(size, cap)</h4>
 
 ![Bits.reserveMemory(size, cap)](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/Bits.reserveMemory(size%2C%20cap).png)
 
@@ -70,11 +70,11 @@ jlra.tryHandlePendingReference() 会触发一次非堵塞的 Reference#tryHandle
 
 4. 如果 9 次尝试后依旧没有足够的可用堆外内存来分配本次堆外内存，则抛出 ```OutOfMemoryError(“Direct buffer memory”)``` 异常。
 
-第二个重要方法：unsafe.allocateMemory(size)
+<h4>第二个重要方法：unsafe.allocateMemory(size)</h4>
 
 它是个一个native方法，真正用于分配堆外内存。
 
-第三个重要方法：Cleaner.create(this, new Deallocator(base, size, cap))
+<h4>第三个重要方法：Cleaner.create(this, new Deallocator(base, size, cap))</h4>
 
 创建一个 Cleaner，并把代表清理动作的 Deallocator 类绑定，更新 Bits 里的 totalCapacity，并调用 Unsafe 调 free 去释放分配的堆外内存。Cleaner 的触发机制后文将详述。
 
