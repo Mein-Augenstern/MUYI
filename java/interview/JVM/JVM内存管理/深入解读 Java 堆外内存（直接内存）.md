@@ -10,6 +10,24 @@
 
 先来看一个 Demo：在 Demo 中分配堆外内存用的是 allocateDirect 方法，但其内部调用的是 DirectByteBuffer，换言之，DirectByteBuffer 才是实际操作堆外内存的类，因此，本场 Chat 将围绕 DirectByteBuffer 展开。
 
+```java
+import java.nio.ByteBuffer;
+
+public class Demo 
+{
+    public static void main( String[] args )
+    {
+        //分配一块1024Bytes的堆外内存(直接内存)
+        //allocateDirect方法内部调用的是DirectByteBuffer
+        ByteBuffer buffer=ByteBuffer.allocateDirect(1024);
+        System.out.println(buffer.capacity());
+        //向堆外内存中读写数据
+        buffer.putInt(0,2018);
+        System.out.println(buffer.getInt(0));       
+    }
+}
+```
+
 二、什么是堆外内存？
 ====
 
@@ -38,17 +56,17 @@ Java 开发者一般都知道堆内存，但却未必了解堆外内存。事实
 
 从 Bits.reserveMemory(size, cap) 源码可以看出，其执行过程中，可能遇到以下三种情况：
 
-1. 最乐观的情况：可用堆外内存足够，reserveMemory 方法返回 true，该方法结束。
+**1. 最乐观的情况：可用堆外内存足够，reserveMemory 方法返回 true，该方法结束**。
 
 ![Bits.reserveMemory(size, cap)四](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/Bits.reserveMemory(size%2C%20cap)%E5%9B%9B.png)
 
-2. 如果不幸，堆外内存不足，则须进行第二步：
+**2. 如果不幸，堆外内存不足，则须进行第二步**：
 
 ![Bits.reserveMemory(size, cap)五](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/Bits.reserveMemory(size%2C%20cap)%E4%BA%94.png)
 
 jlra.tryHandlePendingReference() 会触发一次非堵塞的 Reference#tryHandlePending(false)，该方法会将已经被 JVM 垃圾回收的 DirectBuffer 对象的堆外内存释放。
 
-3. 如果在进行一次堆外内存资源回收后，还不够进行本次堆外内存分配的话，则进行 GC 操作：
+**3. 如果在进行一次堆外内存资源回收后，还不够进行本次堆外内存分配的话，则进行 GC 操作**：
 
 ![Bits.reserveMemory(size, cap)六](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/Bits.reserveMemory(size%2C%20cap)%E5%85%AD.png)
 
@@ -58,7 +76,7 @@ jlra.tryHandlePendingReference() 会触发一次非堵塞的 Reference#tryHandle
 
 ![tryReserveMemory一](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/tryReserveMemory.png)
 
-4. 最不幸的情况，经过 9 次循环尝试后，如果仍然没有足够的堆外内存，将抛出 OutOfMemoryError 异常。
+**4. 最不幸的情况，经过 9 次循环尝试后，如果仍然没有足够的堆外内存，将抛出 OutOfMemoryError 异常**。
 
 综上所述，```Bits.reserveMemory(size, cap)``` 方法将依次执行以下操作：
 
