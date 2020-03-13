@@ -100,7 +100,7 @@ jlra.tryHandlePendingReference() 会触发一次非堵塞的 Reference#tryHandle
 
 使用 DirectByteBuffer 分配堆外内存的时，首先向 Bits 类申请额度，Bits 类有一个全局的 totalCapacity 变量，用以维护当前已经使用的堆外内存值，每次分配内存前都会检查可用空间是否足够，具体方式为：检查是当前申请的内存值与已经使用的内存值之和是否超过总的堆外内存值。如果超过则首先触发一次非堵塞的 Reference#tryHandlePending(false)，该方法会将已经被 JVM 垃圾回收的 DirectBuffer 对象的堆外内存释放；如果仍然不足，则会主动执行 System.gc()，回收内存，sleep 100ms 后进行最多 9 次循环检查，如果堆外内存仍然不足，则抛出 OOM 异常。
 
-如果检查通过，则接着调用 unsafe.allocateMemory 分配内存，并返回内存基地址，然后再调一次 unsafe.setMemory 将这段内存给清零。特别说明一下，unsafe 并非 “不安全”，而是表明该类为 JDK 内部使用，不推荐开发者直接使用。
+如果检查通过，则接着调用 unsafe.allocateMemory 分配内存，并返回内存基地址，然后再调一次 unsafe.setMemory 将这段内存给清零。特别说明一下，**unsafe 并非 “不安全”，而是表明该类为 JDK 内部使用，不推荐开发者直接使用**。
 
 最后，创建一个 Cleaner，并把代表清理动作的 Deallocator 类绑定，用于更新 Bits 里的 totalCapacity，并调用 Unsafe 调 free 去释放堆外内存。
 
