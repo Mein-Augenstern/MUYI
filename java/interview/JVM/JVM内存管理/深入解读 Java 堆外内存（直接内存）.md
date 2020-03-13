@@ -56,7 +56,7 @@ jlra.tryHandlePendingReference() 会触发一次非堵塞的 Reference#tryHandle
 
 调用 ```System.gc()``` 后，接下来会最多进行 9 次循环尝试，仍然通过 ```tryReserveMemory``` 方法来判断是否有足够的堆外内存可供分配操作。每次尝试都会 sleep，以便 Full GC 能够完成，如下代码所示。
 
-![tryReserveMemory一]()
+![tryReserveMemory一](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/tryReserveMemory.png)
 
 4. 最不幸的情况，经过 9 次循环尝试后，如果仍然没有足够的堆外内存，将抛出 OutOfMemoryError 异常。
 
@@ -97,7 +97,7 @@ jlra.tryHandlePendingReference() 会触发一次非堵塞的 Reference#tryHandle
 
 * 第二种情况：在 Sun JDK 6 和 OpenJDK 6 里（在 JDK7 基本一致），有这样一段代码，sun.misc.VM
 
-![堆外内存额度]()
+![堆外内存额度](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/%E5%A0%86%E5%A4%96%E5%86%85%E5%AD%98%E9%A2%9D%E5%BA%A6.png)
 
 如上代码所示，如果通过 -Dsun.nio.MaxDirectMemorySize 指定了这个属性，且它大于 -1，则为属性指定的值；如果指定这个属性等于 -1，那么 directMemory = Runtime.getRuntime().maxMemory()，即等于 JVM 运行时的最大内存，具体值将在下面介绍；如果指定这个属性小于 -1，则默认为 64M。
 
@@ -126,11 +126,11 @@ JVM_END
 
 > 备注：JDK1.8 及以后已经没有 PermGen（“永久代”），因此，下图堆内存示意图不涉及 PermGen。
 
-![堆内存区域分布]()
+![堆内存区域分布](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/%E5%A0%86%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E5%88%86%E5%B8%83.png)
 
 先简要介绍一下 JVM GC 机制，JVM GC 可分为两类，如下表所示：
 
-![JVM GC分类]()
+![JVM GC分类](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/JVM%20GC%E5%88%86%E7%B1%BB.png)
 
 存在于堆内的 DirectByteBuffer 对象很小，只有基地址和 Cleaner 等几个空间消耗很小的属性，但它关联着堆外分配的一大段内存，所谓的 “冰山对象” 便是如此。通过前面说的 Cleaner，堆内的 DirectByteBuffer 对象被 GC 时，它背后的堆外内存也会被回收。
 
@@ -151,15 +151,15 @@ JVM_END
 
 在 DirectByteBuffer(int cap) 方法的最后，有这么一行代码，其中 cleaner 就是用来主动回收堆外内存的：
 
-![cleaner一]()
+![cleaner一](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/cleaner%E4%B8%80.png)
 
 Cleaner 类，内部维护了一个 Cleaner 对象的链表，通过 create(Object, Runnable) 方法创建 cleaner 对象，调用自身的 add 方法，将其加入到链表中。同时提供了 clean 方法（如下源码），clean 方法首先将对象自身从链表中删除，以便 Cleaner 对象就可以被 GC 回收掉，然后执行 this.thunk 的 run 方法，thunk 就是由创建时传入的 Runnable 参数，也就是说 clean 只负责触发 Runnable 的 run 方法，至于 Runnable 做什么任务它不关心。
 
-![cleaner二]()
+![cleaner二](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/cleaner%E4%BA%8C.png)
 
 接下来，我们来看一下 DirectByteBuffer 传进来的 Runnable 到底是什么？如下代码：
 
-![cleaner三]()
+![cleaner三](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/cleaner%E4%B8%89.png)
 
 Deallocator 类的对象就是 DirectByteBuffer 中的 cleaner 传进来的 Runnable 参数类，其中，run 方法中调用 unsafe.freeMemory 释放堆外内存，然后更新 Bits 里已使用的内存数据。
 
@@ -176,7 +176,7 @@ Deallocator 类的对象就是 DirectByteBuffer 中的 cleaner 传进来的 Runn
 
 Reference 类内部 static 静态块会启动 ReferenceHandler 线程，线程优先级很高，这个线程是用来处理 JVM 在 GC 过程中交接过来的 reference。如下代码，run 方法是个死循环，一直在那不停的干活，synchronized 块内的这段主要是交接 JVM 扔过来的 reference（就是 pending）。特别地，对于 Clearner 实例调用了 clean 方法。调完之后直接 continue 结束此次循环，这个 reference 并没有进入 queue，也就是说 Cleaner 虚引用并不放入 ReferenceQueue。
 
-![cleaner四]()
+![cleaner四](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/cleaner%E5%9B%9B.png)
 
 <h3>小结一下</h3>
 
