@@ -78,7 +78,7 @@ jlra.tryHandlePendingReference() 会触发一次非堵塞的 Reference#tryHandle
 
 创建一个 Cleaner，并把代表清理动作的 Deallocator 类绑定，更新 Bits 里的 totalCapacity，并调用 Unsafe 调 free 去释放分配的堆外内存。Cleaner 的触发机制后文将详述。
 
-小结一下：
+<h3>小结一下</h3>
 
 使用 DirectByteBuffer 分配堆外内存的时，首先向 Bits 类申请额度，Bits 类有一个全局的 totalCapacity 变量，用以维护当前已经使用的堆外内存值，每次分配内存前都会检查可用空间是否足够，具体方式为：检查是当前申请的内存值与已经使用的内存值之和是否超过总的堆外内存值。如果超过则首先触发一次非堵塞的 Reference#tryHandlePending(false)，该方法会将已经被 JVM 垃圾回收的 DirectBuffer 对象的堆外内存释放；如果仍然不足，则会主动执行 System.gc()，回收内存，sleep 100ms 后进行最多 9 次循环检查，如果堆外内存仍然不足，则抛出 OOM 异常。
 
@@ -147,6 +147,7 @@ JVM_END
 鉴于上述分析，堆外内存还是自己主动点回收更好，开源软件 Netty 就是这么做的。
 
 六、堆外内存主动回收原理 2：Cleaner 对象
+====
 
 在 DirectByteBuffer(int cap) 方法的最后，有这么一行代码，其中 cleaner 就是用来主动回收堆外内存的：
 
@@ -167,6 +168,7 @@ Deallocator 类的对象就是 DirectByteBuffer 中的 cleaner 传进来的 Runn
 下一节，我们继续分析 Cleaner 和 GC 是如何有机关联起来的？
 
 七、堆外内存主动回收原理 3：Cleaner 如何与 GC 相关联？
+====
 
 虽然 GC 机制无法直接回收 DirectByteBuffer 分配的堆外内存，但 DirectByteBuffer 对象是 Java 对象，存在于 Java 堆中，在 GC 时会扫描 DirectByteBuffer 对象是否有影响 GC 的引用，如没有，在回收 DirectByteBuffer 对象的同时也会回收其占用的堆外内存。通过上一节我们知道，回收堆外内存需要调用 Cleaner 的 clean 方法，那么，JVM 的 GC 机制如何跟 Cleaner 关联起来呢？
 
@@ -176,11 +178,12 @@ Reference 类内部 static 静态块会启动 ReferenceHandler 线程，线程�
 
 ![cleaner四]()
 
-小结一下：
+<h3>小结一下</h3>
 
 对于 Cleaner 对象，当 GC 时发现它除了虚引用外已不可达（持有它的 DirectByteBuffer 对象在 GC 中被回收了，此时，只有 Cleaner 对象唯一保存了堆外内存的数据），就会把它放进 Reference 类 pending list 静态变量里。与此同时，有一个优先级很高的 ReferenceHandler 线程，关注着这个 pending list，如果看到有对象类型是 Cleaner，就会执行它的 clean()。如此，DirectByteBuffer 分配的堆外内存得以释放。
 
 八、人工释放堆外内存
+====
 
 通过前面几节的分析，想必读者也已经意识到一个问题：可以人工释放堆外内存，即通过编码调用 DirectByteBuffer 的 cleaner 的 clean 方法来释放堆外内存。但需要注意：cleaner 是 private 访问权限，所以，需使用反射来实现。
 
