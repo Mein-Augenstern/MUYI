@@ -212,6 +212,8 @@ Java
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E6%80%BB%E7%BB%93.md">并发容器总结</a>
 
+* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/Java%20%E4%B8%AD%E7%9A%84%E5%90%84%E7%A7%8D%E9%94%81%E5%92%8C%20CAS%20%E7%BB%8F%E5%85%B8%E9%9D%A2%E8%AF%95%E9%A2%98.md">Java 中的各种锁和 CAS 经典面试题</a>
+
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/AQS%E5%8E%9F%E7%90%86.md">AQS</a>
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/CAS.md">CAS</a>
