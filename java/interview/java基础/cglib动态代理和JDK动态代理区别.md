@@ -183,7 +183,7 @@ private static final WeakCache<ClassLoader, Class<?>[], Class<?>>proxyClassCache
 ------
 
 ```java
-// key为加载器  P为接口数组
+    // key为加载器  P为接口数组
     public V get(K key, P parameter) {
         //接口不能为空
         Objects.requireNonNull(parameter);
@@ -254,40 +254,40 @@ private static final WeakCache<ClassLoader, Class<?>[], Class<?>>proxyClassCache
 通过上面的逻辑可以得知  最后是新建了Factory factory = new Factory(key, parameter, subKey, valuesMap); 并将这个factory赋值给Suplier调用get方法返回构造的代理类。所以我们直接看Factory的get方法即可
 
 ```java
-		@Override
-        public synchronized V get() { // serialize access
-            // //即再次确认 对应的类代理key的supplier有没有被更改
-            Supplier<V> supplier = valuesMap.get(subKey);
-            //如果被更改了则返回null
-            if (supplier != this) {
-                return null;
-            }
-            
-            V value = null;
-            try {
-                //创建value
-                value = Objects.requireNonNull(valueFactory.apply(key, parameter));
-            } finally {
-                if (value == null) { 
-                    //如果value为null  则代表当前的supplier有问题 所以直接移除
-                    valuesMap.remove(subKey, this);
-                }
-            }
-            //再次确认value即返回的代理类不能为null
-            assert value != null;
+@Override
+public synchronized V get() { // serialize access
+    // //即再次确认 对应的类代理key的supplier有没有被更改
+    Supplier<V> supplier = valuesMap.get(subKey);
+    //如果被更改了则返回null
+    if (supplier != this) {
+	return null;
+    }
 
-            // 将返回的代理类包装为一个缓存
-            CacheValue<V> cacheValue = new CacheValue<>(value);
+    V value = null;
+    try {
+	//创建value
+	value = Objects.requireNonNull(valueFactory.apply(key, parameter));
+    } finally {
+	if (value == null) { 
+	    //如果value为null  则代表当前的supplier有问题 所以直接移除
+	    valuesMap.remove(subKey, this);
+	}
+    }
+    //再次确认value即返回的代理类不能为null
+    assert value != null;
 
-            // 将这个包装缓存存入缓存map
-            reverseMap.put(cacheValue, Boolean.TRUE);
+    // 将返回的代理类包装为一个缓存
+    CacheValue<V> cacheValue = new CacheValue<>(value);
 
-            // 替换当前代理类key的supplier为刚包装的缓存 后面则可以直接调用缓存  必须成功
-            if (!valuesMap.replace(subKey, this, cacheValue)) {
-                throw new AssertionError("Should not reach here");
-            }
-            return value;
-        }
+    // 将这个包装缓存存入缓存map
+    reverseMap.put(cacheValue, Boolean.TRUE);
+
+    // 替换当前代理类key的supplier为刚包装的缓存 后面则可以直接调用缓存  必须成功
+    if (!valuesMap.replace(subKey, this, cacheValue)) {
+	throw new AssertionError("Should not reach here");
+    }
+    return value;
+}
 ```
 
 该方法的主要作用则是通过valueFactory创建代理类后  将代理类包装为CacheValue(注意该类实现了Supplier接口)并将valuesMap缓存中对应代理类的Supplier替换为包装后的CacheValue,这样后面就可以直接调用CacheValue的get方法来获取代理类
