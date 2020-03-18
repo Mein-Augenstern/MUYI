@@ -526,3 +526,117 @@ public interface AsyncConfigurer {
 
 }
 ```
+
+demo，如下改造
+
+```java
+@Configuration
+@EnableAsync
+public class TaskAsyncConfig implements AsyncConfigurer {
+
+    @Override
+    public Executor getAsyncExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        //定制线程名称，还可以定制线程group
+        executor.setThreadFactory(new ThreadFactory() {
+            private final AtomicInteger threadNumber = new AtomicInteger(1);
+ 
+            @Override
+            public Thread newThread(Runnable r) {
+                //重新定义一个名称
+                Thread t = new Thread(Thread.currentThread().getThreadGroup(), r,
+                        "async-task-all" + threadNumber.getAndIncrement(),
+                        0);
+                return t;
+            }
+        });
+        executor.setCorePoolSize(10);
+        executor.setMaxPoolSize(20);
+        executor.setKeepAliveSeconds(5);
+        executor.setQueueCapacity(100);
+        executor.initialize();
+        return executor;
+    }
+ 
+    @Override
+    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+        return new AsyncUncaughtExceptionHandler() {
+            @Override
+            public void handleUncaughtException(Throwable ex, Method method, Object... params) {
+                System.out.println("do exception by myself");
+            }
+        };
+    }
+ 
+}
+```
+
+**记住，此时，Spring就不会替我们管理Executor了，需要我们自己初始化**
+
+```java
+executor.initialize();
+```
+
+```java
+/**
+ * Set up the ExecutorService.
+ */
+public void initialize() {
+	if (logger.isInfoEnabled()) {
+		logger.info("Initializing ExecutorService" + (this.beanName != null ? " '" + this.beanName + "'" : ""));
+	}
+	if (!this.threadNamePrefixSet && this.beanName != null) {
+		setThreadNamePrefix(this.beanName + "-");
+	}
+	this.executor = initializeExecutor(this.threadFactory, this.rejectedExecutionHandler);
+}
+```
+
+```java
+/**
+ * Note: This method exposes an {@link ExecutorService} to its base class
+ * but stores the actual {@link ThreadPoolExecutor} handle internally.
+ * Do not override this method for replacing the executor, rather just for
+ * decorating its {@code ExecutorService} handle or storing custom state.
+ */
+@Override
+protected ExecutorService initializeExecutor(
+		ThreadFactory threadFactory, RejectedExecutionHandler rejectedExecutionHandler) {
+
+	BlockingQueue<Runnable> queue = createQueue(this.queueCapacity);
+
+	ThreadPoolExecutor executor;
+	if (this.taskDecorator != null) {
+		executor = new ThreadPoolExecutor(
+				this.corePoolSize, this.maxPoolSize, this.keepAliveSeconds, TimeUnit.SECONDS,
+				queue, threadFactory, rejectedExecutionHandler) {
+			@Override
+			public void execute(Runnable command) {
+				Runnable decorated = taskDecorator.decorate(command);
+				if (decorated != command) {
+					decoratedTaskMap.put(decorated, command);
+				}
+				super.execute(decorated);
+			}
+		};
+	}
+	else {
+		executor = new ThreadPoolExecutor(
+				this.corePoolSize, this.maxPoolSize, this.keepAliveSeconds, TimeUnit.SECONDS,
+				queue, threadFactory, rejectedExecutionHandler);
+
+	}
+
+	if (this.allowCoreThreadTimeOut) {
+		executor.allowCoreThreadTimeOut(true);
+	}
+
+	this.threadPoolExecutor = executor;
+	return executor;
+}
+```
+
+总结：
+====
+
+Spring boot将简单的ThreadPoolExecutor通过封装成了异步任务，大大方便了程序的开发。
