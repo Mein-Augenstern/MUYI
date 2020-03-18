@@ -332,4 +332,197 @@ public class TaskService {
 
 **执行异步任务使用Spring CGLib动态代理AOP实现**
 
-!
+![async异步执行一]()
+
+可以看出动态代理后使用AsyncExecutionInterceptor来处理异步逻辑，执行submit方法
+
+```java
+/**
+ * Intercept the given method invocation, submit the actual calling of the method to
+ * the correct task executor and return immediately to the caller.
+ * @param invocation the method to intercept and make asynchronous
+ * @return {@link Future} if the original method returns {@code Future}; {@code null}
+ * otherwise.
+ */
+@Override
+@Nullable
+public Object invoke(final MethodInvocation invocation) throws Throwable {
+	Class<?> targetClass = (invocation.getThis() != null ? AopUtils.getTargetClass(invocation.getThis()) : null);
+	Method specificMethod = ClassUtils.getMostSpecificMethod(invocation.getMethod(), targetClass);
+	final Method userDeclaredMethod = BridgeMethodResolver.findBridgedMethod(specificMethod);
+
+	AsyncTaskExecutor executor = determineAsyncExecutor(userDeclaredMethod);
+	if (executor == null) {
+		throw new IllegalStateException(
+				"No executor specified and no default executor set on AsyncExecutionInterceptor either");
+	}
+
+	Callable<Object> task = () -> {
+		try {
+			Object result = invocation.proceed();
+			if (result instanceof Future) {
+				return ((Future<?>) result).get();
+			}
+		}
+		catch (ExecutionException ex) {
+			handleError(ex.getCause(), userDeclaredMethod, invocation.getArguments());
+		}
+		catch (Throwable ex) {
+			handleError(ex, userDeclaredMethod, invocation.getArguments());
+		}
+		return null;
+	};
+
+	return doSubmit(task, executor, invocation.getMethod().getReturnType());
+}
+```
+
+AsyncExecutionAspectSupport类中doSubmit方法
+
+```java
+/**
+ * Delegate for actually executing the given task with the chosen executor.
+ * @param task the task to execute
+ * @param executor the chosen executor
+ * @param returnType the declared return type (potentially a {@link Future} variant)
+ * @return the execution result (potentially a corresponding {@link Future} handle)
+ */
+@Nullable
+protected Object doSubmit(Callable<Object> task, AsyncTaskExecutor executor, Class<?> returnType) {
+	if (CompletableFuture.class.isAssignableFrom(returnType)) {
+		return CompletableFuture.supplyAsync(() -> {
+			try {
+				return task.call();
+			}
+			catch (Throwable ex) {
+				throw new CompletionException(ex);
+			}
+		}, executor);
+	}
+	else if (ListenableFuture.class.isAssignableFrom(returnType)) {
+		return ((AsyncListenableTaskExecutor) executor).submitListenable(task);
+	}
+	else if (Future.class.isAssignableFrom(returnType)) {
+		return executor.submit(task);
+	}
+	else {
+		executor.submit(task);
+		return null;
+	}
+}
+```
+
+并且在AsyncExecutionAspectSupport类中可知默认的defaultExecutor和exceptionHandler如下所示，即默认的taskExecutor使用BeanFactory中获取，并且默认使用SimpleAsyncUncaughtExceptionHandler处理异步异常
+
+```java
+/**
+ * Configure this aspect with the given executor and exception handler suppliers,
+ * applying the corresponding default if a supplier is not resolvable.
+ * @since 5.1
+ */
+public void configure(@Nullable Supplier<Executor> defaultExecutor,
+		@Nullable Supplier<AsyncUncaughtExceptionHandler> exceptionHandler) {
+
+	this.defaultExecutor = new SingletonSupplier<>(defaultExecutor, () -> getDefaultExecutor(this.beanFactory));
+	this.exceptionHandler = new SingletonSupplier<>(exceptionHandler, SimpleAsyncUncaughtExceptionHandler::new);
+}
+```
+
+演示一下默认异常处理器效果SimpleAsyncUncaughtExceptionHandler
+
+```java
+@EnableAsync
+@Service
+public class TaskService {
+ 
+    @Async
+    public String doTask(){
+        System.out.println(Thread.currentThread().getThreadGroup() + "-------" + Thread.currentThread().getName());
+        throw new RuntimeException(" I`m a demo test exception-----------------");
+    }
+}
+```
+
+默认会打印logger.error("Unexpected exception occurred invoking async method: " + method, ex);日志 
+
+```java
+/**
+ * A default {@link AsyncUncaughtExceptionHandler} that simply logs the exception.
+ *
+ * @author Stephane Nicoll
+ * @author Juergen Hoeller
+ * @since 4.1
+ */
+public class SimpleAsyncUncaughtExceptionHandler implements AsyncUncaughtExceptionHandler {
+
+	private static final Log logger = LogFactory.getLog(SimpleAsyncUncaughtExceptionHandler.class);
+
+
+	@Override
+	public void handleUncaughtException(Throwable ex, Method method, Object... params) {
+		if (logger.isErrorEnabled()) {
+			logger.error("Unexpected exception occurred invoking async method: " + method, ex);
+		}
+	}
+
+}
+```
+
+运行测试
+
+```java
+2020-03-18 17:06:53.337 ERROR 24944 --- [   async-task-1] .a.i.SimpleAsyncUncaughtExceptionHandler : Unexpected exception occurred invoking async method: public void com.hikvision.datamanagerservice.mq.async.AsyncSendMQHandler.asyncNotifySoftObjectChange(java.util.List,java.lang.String)
+
+java.lang.RuntimeException: null
+```
+
+四、Spring 自定义Executor与自定义异步异常处理
+====
+
+需要实现AsyncConfigurer接口，可以看到Spring要我们配合EnableAsync与Configuration注解同时使用
+
+```
+/**
+ * Interface to be implemented by @{@link org.springframework.context.annotation.Configuration
+ * Configuration} classes annotated with @{@link EnableAsync} that wish to customize the
+ * {@link Executor} instance used when processing async method invocations or the
+ * {@link AsyncUncaughtExceptionHandler} instance used to process exception thrown from
+ * async method with {@code void} return type.
+ *
+ * <p>Consider using {@link AsyncConfigurerSupport} providing default implementations for
+ * both methods if only one element needs to be customized. Furthermore, backward compatibility
+ * of this interface will be insured in case new customization options are introduced
+ * in the future.
+ *
+ * <p>See @{@link EnableAsync} for usage examples.
+ *
+ * @author Chris Beams
+ * @author Stephane Nicoll
+ * @since 3.1
+ * @see AbstractAsyncConfiguration
+ * @see EnableAsync
+ * @see AsyncConfigurerSupport
+ */
+public interface AsyncConfigurer {
+
+	/**
+	 * The {@link Executor} instance to be used when processing async
+	 * method invocations.
+	 */
+	@Nullable
+	default Executor getAsyncExecutor() {
+		return null;
+	}
+
+	/**
+	 * The {@link AsyncUncaughtExceptionHandler} instance to be used
+	 * when an exception is thrown during an asynchronous method execution
+	 * with {@code void} return type.
+	 */
+	@Nullable
+	default AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+		return null;
+	}
+
+}
+```
