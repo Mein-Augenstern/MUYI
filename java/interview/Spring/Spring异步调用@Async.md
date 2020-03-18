@@ -645,7 +645,97 @@ protected ExecutorService initializeExecutor(
 }
 ```
 
-总结：
+五、优雅地关闭自定义的线程池
 ====
 
-Spring boot将简单的ThreadPoolExecutor通过封装成了异步任务，大大方便了程序的开发。
+> 由于在应用关闭的时候异步任务还在执行，导致类似 数据库连接池 这样的对象一并被 销毁了，当 异步任务 中对 数据库 进行操作就会出错。
+
+解决方案如下，重新设置线程池配置对象，新增线程池 setWaitForTasksToCompleteOnShutdown() 和 setAwaitTerminationSeconds() 配置：
+
+```java
+@Bean("taskExecutor")
+public Executor taskExecutor() {
+    ThreadPoolTaskScheduler executor = new ThreadPoolTaskScheduler();
+    executor.setPoolSize(20);
+    executor.setThreadNamePrefix("taskExecutor-");
+    executor.setWaitForTasksToCompleteOnShutdown(true);
+    executor.setAwaitTerminationSeconds(60);
+    return executor;
+}
+```
+
+* **setWaitForTasksToCompleteOnShutdown(true)**: 该方法用来设置 **线程池关闭** 的时候 **等待** 所有任务都完成后，再继续 **销毁** 其他的 Bean，这样这些 **异步任务** 的 **销毁** 就会先于 **数据库连接池对象** 的销毁。
+
+* **setAwaitTerminationSeconds(60)**: 该方法用来设置线程池中 **任务的等待时间**，如果超过这个时间还没有销毁就 **强制销毁**，以确保应用最后能够被关闭，而不是阻塞住。
+
+六、异步回调使用示例
+====
+
+定义异步方法，使用Future<T>来返回异步调用的结果
+
+```java
+@Async
+public Future<String> firstTask() throws InterruptedException {
+	System.out.println("开始做任务一");
+	long start = System.currentTimeMillis();
+	Thread.sleep(random.nextInt(10000));
+	long end = System.currentTimeMillis();
+	System.out.println("完成任务一，当前线程：" + Thread.currentThread().getName() + "，耗时：" + (end - start) + "毫秒");
+	return new AsyncResult<>("任务一完成");
+}
+
+@Async
+public Future<String> secondTask() throws InterruptedException {
+	System.out.println("开始做任务二");
+	long start = System.currentTimeMillis();
+	Thread.sleep(random.nextInt(10000));
+	long end = System.currentTimeMillis();
+	System.out.println("完成任务二，当前线程：" + Thread.currentThread().getName() + "，耗时：" + (end - start) + "毫秒");
+	return new AsyncResult<>("任务二完成");
+}
+
+@Async
+public Future<String> thirdTask() throws InterruptedException {
+	System.out.println("开始做任务三");
+	long start = System.currentTimeMillis();
+	Thread.sleep(random.nextInt(10000));
+	long end = System.currentTimeMillis();
+	System.out.println("完成任务三，当前线程：" + Thread.currentThread().getName() + "，耗时：" + (end - start) + "毫秒");
+	return new AsyncResult<>("任务三完成");
+}
+```
+
+调用过程
+
+```java
+@GetMapping("test-future")
+public void testFuture() {
+	try {
+		Future<String> result1 = asyncService.firstTask();
+		Future<String> result2 = asyncService.secondTask();
+		Future<String> result3 = asyncService.thirdTask();
+		while (true) {
+			if (result1.isDone() && result2.isDone() && result3.isDone()) {
+				System.out.println("执行异步回调");
+				break;
+			}
+		}
+		System.out.println("异步回调结束");
+	} catch (InterruptedException e) {
+		e.printStackTrace();
+	}
+}
+```
+
+调用结果
+
+```java
+开始做任务一
+开始做任务二
+开始做任务三
+完成任务二，当前线程：task-2，耗时：896毫秒
+完成任务一，当前线程：task-1，耗时：7448毫秒
+完成任务三，当前线程：task-3，耗时：7901毫秒
+执行异步回调
+异步回调结束
+```
