@@ -6,7 +6,16 @@
 > * <a href="https://blog.csdn.net/YoungLee16/article/details/88398045">Spring boot 注解@Async无效,不起作用</a>
 > * <a href="https://blog.csdn.net/fenglllle/article/details/91398384">Spring boot异步任务原理分析</a>
 
+看在前面
+====
+
 我们经常在需要提升性能或者项目架构解耦的过程中，使用线程池异步执行任务，经常使用ThreadPoolExecutor创建线程池。那么Spring对异步任务是如何处理的呢？
+
+在我们使用spring框架的过程中，在很多时候我们会使用@async注解来异步执行某一些方法，提高系统的执行效率。今天我们来探讨下 spring 是如何完成这个功能的。
+
+spring 在扫描bean的时候会扫描方法上是否包含@async的注解，如果包含的，spring会为这个bean动态的生成一个子类，我们称之为代理类(?)， 代理类是继承我们所写的bean的，然后把代理类注入进来，那此时，在执行此方法的时候，会到代理类中，代理类判断了此方法需要异步执行，就不会调用父类 (我们原本写的bean)的对应方法。spring自己维护了一个队列，他会把需要执行的方法，放入队列中，等待线程池去读取这个队列，完成方法的执行， 从而完成了异步的功能。我们可以关注到再配置task的时候，是有参数让我们配置线程池的数量的。因为这种实现方法，所以在同一个类中的方法调用，添加@async注解是失效的！，原因是当你在同一个类中的时候，方法调用是在类体内执行的，spring无法截获这个方法调用。
+
+那在深入一步，spring为我们提供了AOP，面向切面的功能。他的原理和异步注解的原理是类似的，spring在启动容器的时候，会扫描切面所定义的 类。在这些类被注入的时候，所注入的也是代理类，当你调用这些方法的时候，本质上是调用的代理类。通过代理类再去执行父类相对应的方法，那spring只 需要在调用之前和之后执行某段代码就完成了AOP的实现了！
 
 一、spring 异步任务
 ====
@@ -332,7 +341,7 @@ public class TaskService {
 
 **执行异步任务使用Spring CGLib动态代理AOP实现**
 
-![async异步执行一]()
+![async异步执行一](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/Spring/picture/async%E4%B8%80.png)
 
 可以看出动态代理后使用AsyncExecutionInterceptor来处理异步逻辑，执行submit方法
 
