@@ -185,8 +185,12 @@ private static Class<?> getProxyClass0(ClassLoader loader,
 
 ```java
 private static final WeakCache<ClassLoader, Class<?>[], Class<?>> proxyClassCache = 
-									new WeakCache<>(new KeyFactory(), new ProxyClassFactory());
+						new WeakCache<>(new KeyFactory(), new ProxyClassFactory());
 ```
+
+关于KeyFactory和ProxyClassFactory解释
+
+> 
 
 我们继续查看proxyClassCache的get方法
 
@@ -367,7 +371,8 @@ private static final class ProxyClassFactory implements BiFunction<ClassLoader, 
 				//再获取到包名
 				String pkg = ((n == -1) ? "" : name.substring(0, n + 1));
 				if (proxyPkg == null) {
-					//如果代理包名为空 则直接为这个接口的包  这儿是循环获取的  所以最后得到的包名是最后一个接口的包
+					//如果代理包名为空 则直接为这个接口的包  这儿是循环获取的  
+					//所以最后得到的包名是最后一个接口的包
 					proxyPkg = pkg;
 				} else if (!pkg.equals(proxyPkg)) {
 					throw new IllegalArgumentException(
