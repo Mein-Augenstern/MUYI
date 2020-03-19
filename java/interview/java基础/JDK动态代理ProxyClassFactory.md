@@ -8,7 +8,7 @@ ProxyClassFactory是用来生产代理类对象的。
 
 ```java
 /**
- * 根据类装入器和接口数组生成、定义和返回**代理类对象**的工厂函数。
+ * 根据类装入器和接口数组生成、定义和返回代理类对象的工厂函数。
  */
 /**
  * A factory function that generates, defines and returns the proxy class given
