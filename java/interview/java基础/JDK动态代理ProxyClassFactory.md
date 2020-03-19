@@ -3,7 +3,7 @@
 
 ProxyClassFactory是用来生产代理类对象的。
 
-二、Proxy内部类ProxyClassFactory源码注释
+二、Proxy内部类ProxyClassFactory源码
 ------
 
 ```java
