@@ -73,6 +73,46 @@ class CgProxy{
 }
 ```
 
+MethodInterceptor接口源码如下
+
+```java
+/**
+ * General-purpose {@link Enhancer} callback which provides for "around advice".
+ * @author Juozas Baliuka <a href="mailto:baliuka@mwm.lt">baliuka@mwm.lt</a>
+ * @version $Id: MethodInterceptor.java,v 1.8 2004/06/24 21:15:20 herbyderby Exp $
+ */
+public interface MethodInterceptor
+extends Callback
+{
+    /**
+     * All generated proxied methods call this method instead of the original method.
+     * The original method may either be invoked by normal reflection using the Method object,
+     * or by using the MethodProxy (faster).
+     * @param obj "this", the enhanced object
+     * @param method intercepted Method
+     * @param args argument array; primitive types are wrapped
+     * @param proxy used to invoke super (non-intercepted method); may be called
+     * as many times as needed
+     * @throws Throwable any exception may be thrown; if so, super method will not be invoked
+     * @return any value compatible with the signature of the proxied method. Method returning void will ignore this value.
+     * @see MethodProxy
+     */    
+    public Object intercept(Object obj, java.lang.reflect.Method method, Object[] args,
+                               MethodProxy proxy) throws Throwable;
+
+}
+```
+
+intercept方法四个参数含义如下
+
+* obj表示增强的对象，即实现这个接口类的一个对象
+
+* method表示要被拦截的方法
+
+* args表示要被拦截方法的参数
+
+* proxy表示要触发父类的方法对象
+
 二、原理解析
 ====
 
@@ -923,6 +963,11 @@ public void generateClass(ClassVisitor v) throws Exception {
 
 可以看到这儿也是声明一个写入类 然后按照Ehancer的代理生成策略写入符合的class信息然后返回，最红依旧会执行toByteArray方法返回byte[]数组，这样则又回到了步骤3.5中 根据类加载器 字节码数组来动态将代理类加载进内存中的方法了。最后我们回到3.4中根据class获取实例的代码即可返回被代理实例。 而我们执行方法时执行的是代理类中对应的方法，然后调用我们传入的callback执行 原理和jdk动态代理类似，至此  cglib动态代理源码分析到此结束
 
- 对比jdk动态代理和cglib动态代理我们可以得知：jdk动态代理只能代理接口，而cglib动态代理可以代理类或者接口，说明cglib的优势更加明显。但是jdk动态代理是java原生支持，所以不需要引入额外的包，cglib需要引入额外的包。二者的原理类似，都是在内存中根据jvm的字节码文件规范动态创建class并使用传入的类加载器加载到内存中，再反射调用生成代理实例，并且都根据类加载器做了相应的缓存。实际使用中应根据利弊按需使用
+总结
+====
+
+对比jdk动态代理和cglib动态代理我们可以得知
+
+> jdk动态代理只能代理接口，而cglib动态代理可以代理类或者接口，说明cglib的优势更加明显。但是jdk动态代理是java原生支持，所以不需要引入额外的包，cglib需要引入额外的包。二者的原理类似，都是在内存中根据jvm的字节码文件规范动态创建class并使用传入的类加载器加载到内存中，再反射调用生成代理实例，并且都根据类加载器做了相应的缓存。实际使用中应根据利弊按需使用
 
 
