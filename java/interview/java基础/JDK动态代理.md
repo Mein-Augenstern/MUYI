@@ -6,6 +6,7 @@
 代理模式是一种很常见的模式，本文主要分析jdk动态代理的过程
 
 一、举例
+====
 
 ```java
 public interface  IProxy {
@@ -82,6 +83,7 @@ hello word
 可以看到定义的hello方法已经被执行，并且可以在不定义接口的实现类的时候仍然可以执行方法获取结果，这其实就很容易想到mybatis中直接调用mapper接口获取查询结果其实也是调用的mapper的动态代理类，说明动态代理对于构造框架有很重要的作用
 
 二、原理解析
+====
 
 1 Proxy.newProxyInstance方法
 ------
@@ -827,7 +829,7 @@ public class Proxy implements java.io.Serializable {
 
 由上述代码可以得知 代理类在执行hello方法时  实际上是通过我们传入的InvocationHandler的invoke方法进行调用。到此  jdk动态代理的分析以及全部完成
 
-二 结论
+三、结论
 ====
 
 至此可以得知  jdk动态代理的大致逻辑即是: 传入代理类 类加载器，与接口数组和自定义的InvocationHandler，然后通过分析接口信息生成java文件的字节码数据，然后调用本地方法将类加载到内存中，最后返回构造参数为InvocationHandler的代理类，该类实现代理接口，并继承Proxy类（所以jdk动态代理只能代理接口，java单继承），我们调用方法实际上是调用代理类的方法，代理类则可以通过我们传入的InvocationHandler反射调用原本的方法来实现无侵入的修改原有方法逻辑
