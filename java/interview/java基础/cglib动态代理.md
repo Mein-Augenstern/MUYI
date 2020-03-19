@@ -11,18 +11,18 @@
 使用cglib代理需要引入两个包，maven的话包引入如下
 
 ```java
-		<!-- https://mvnrepository.com/artifact/cglib/cglib -->
-        <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib</artifactId>
-            <version>3.3.0</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.ow2.asm/asm -->
-        <dependency>
-            <groupId>org.ow2.asm</groupId>
-            <artifactId>asm</artifactId>
-            <version>7.1</version>
-        </dependency>
+<!-- https://mvnrepository.com/artifact/cglib/cglib -->
+<dependency>
+    <groupId>cglib</groupId>
+    <artifactId>cglib</artifactId>
+    <version>3.3.0</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.ow2.asm/asm -->
+<dependency>
+    <groupId>org.ow2.asm</groupId>
+    <artifactId>asm</artifactId>
+    <version>7.1</version>
+</dependency>
 ```
 
 示例代码
@@ -45,8 +45,6 @@ import java.lang.reflect.Method;
  */
 public class CgProxyFactory implements MethodInterceptor {
 
-
-
     public <T>T getProxy(Class<T> c){
         Enhancer enhancer = new Enhancer();
         enhancer.setCallbacks(new Callback[]{this});
@@ -68,6 +66,7 @@ public class CgProxyFactory implements MethodInterceptor {
         CgProxy proxy = factory.getProxy(CgProxy.class);
         proxy.say();
     }
+    
 }
 
 class CgProxy{
@@ -76,6 +75,7 @@ class CgProxy{
         System.out.println("普通方法执行");
         return "123";
     }
+
 }
 ```
 
@@ -91,45 +91,61 @@ setCallbacks()，即设置回调，我们创建出代理类后调用方法则是
 
 ```java
 public void setCallbacks(Callback[] callbacks) {
-        if (callbacks != null && callbacks.length == 0) {
-            throw new IllegalArgumentException("Array cannot be empty");
-        }
-        this.callbacks = callbacks;
-    }
+	if (callbacks != null && callbacks.length == 0) {
+		throw new IllegalArgumentException("Array cannot be empty");
+	}
+	this.callbacks = callbacks;
+}
 ```
 
 setSuperClass 即设置代理类，这儿可以看到做了个判断，如果为interface则设置interfaces,如果是Object则设置为null(因为所有类都自动继承Object),如果为普通class则设置class，可以看到cglib代理不光可以代理接口，也可以代理普通类
 
 ```java
+/**
+ * Set the class which the generated class will extend. As a convenience,
+ * if the supplied superclass is actually an interface, <code>setInterfaces</code>
+ * will be called with the appropriate argument instead.
+ * A non-interface argument must not be declared as final, and must have an
+ * accessible constructor.
+ * @param superclass class to extend or interface to implement
+ * @see #setInterfaces(Class[])
+ */
 public void setSuperclass(Class superclass) {
-        if (superclass != null && superclass.isInterface()) {
-　　　　　　　　//设置代理接口
-            setInterfaces(new Class[]{ superclass });
-        } else if (superclass != null && superclass.equals(Object.class)) {
-            // 未Object则用设置
-            this.superclass = null;
-        } else {
-　　　　　　 //设置代理类
-            this.superclass = superclass;
-        }
-    }
+	if (superclass != null && superclass.isInterface()) {
+		setInterfaces(new Class[]{ superclass });
+	} else if (superclass != null && superclass.equals(Object.class)) {
+		// affects choice of ClassLoader
+		this.superclass = null;
+	} else {
+		this.superclass = superclass;
+	}
+}
 
+/**
+ * Set the interfaces to implement. The <code>Factory</code> interface will
+ * always be implemented regardless of what is specified here.
+ * @param interfaces array of interfaces to implement, or null
+ * @see Factory
+ */
 public void setInterfaces(Class[] interfaces) {
-    this.interfaces = interfaces;
+	this.interfaces = interfaces;
 }
 ```
 
 上面总结看来主要设置两个我们需要用到的信息
 
 ```java
-    public Object create() {
-        //不作代理类限制
-        classOnly = false;
-        //没有构造参数类型
-        argumentTypes = null;
-        //执行创建
-        return createHelper();
-    }
+/**
+ * Generate a new class if necessary and uses the specified
+ * callbacks (if any) to create a new object instance.
+ * Uses the no-arg constructor of the superclass.
+ * @return a new instance
+ */
+public Object create() {
+	classOnly = false;
+	argumentTypes = null;
+	return createHelper();
+}
 ```
 
 2 Enhancer.createHelper()方法
@@ -169,16 +185,16 @@ private void preValidate() {
     }
 }
 
-    //最后是遍历这个数组来确定  本方法是用的MethodInterceptor
-    private static final CallbackInfo[] CALLBACKS = {
-        new CallbackInfo(NoOp.class, NoOpGenerator.INSTANCE),
-        new CallbackInfo(MethodInterceptor.class, MethodInterceptorGenerator.INSTANCE),
-        new CallbackInfo(InvocationHandler.class, InvocationHandlerGenerator.INSTANCE),
-        new CallbackInfo(LazyLoader.class, LazyLoaderGenerator.INSTANCE),
-        new CallbackInfo(Dispatcher.class, DispatcherGenerator.INSTANCE),
-        new CallbackInfo(FixedValue.class, FixedValueGenerator.INSTANCE),
-        new CallbackInfo(ProxyRefDispatcher.class, DispatcherGenerator.PROXY_REF_INSTANCE),
-    };
+//最后是遍历这个数组来确定  本方法是用的MethodInterceptor
+private static final CallbackInfo[] CALLBACKS = {
+	new CallbackInfo(NoOp.class, NoOpGenerator.INSTANCE),
+	new CallbackInfo(MethodInterceptor.class, MethodInterceptorGenerator.INSTANCE),
+	new CallbackInfo(InvocationHandler.class, InvocationHandlerGenerator.INSTANCE),
+	new CallbackInfo(LazyLoader.class, LazyLoaderGenerator.INSTANCE),
+	new CallbackInfo(Dispatcher.class, DispatcherGenerator.INSTANCE),
+	new CallbackInfo(FixedValue.class, FixedValueGenerator.INSTANCE),
+	new CallbackInfo(ProxyRefDispatcher.class, DispatcherGenerator.PROXY_REF_INSTANCE),
+};
 ```
 方法主要做了下验证并确定Callback类型，我们使用的是MethodIntercepter。然后创建当前代理类的标识代理类，用这个标识代理类调用父类(AbstractClassGenerator)的create(key方法创建)，我们主要分析下标识代理类创建的逻辑和后面父类创建我们需要的代理类逻辑。
 
