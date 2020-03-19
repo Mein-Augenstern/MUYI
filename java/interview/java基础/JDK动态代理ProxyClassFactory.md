@@ -1,18 +1,18 @@
-看在前面
+一、一句话描述ProxyClassFactory
 ====
 
-* <a href="https://blog.csdn.net/f641385712/article/details/89362021">【小家Java】JDK动态代理技术，你真学会了吗？（Proxy、ProxyClassFactory）</a>
+ProxyClassFactory是用来生产代理类对象的。
 
-一、Proxy内部类ProxyClassFactory源码注释
+二、Proxy内部类ProxyClassFactory源码注释
 ====
 
 ```java
 /**
- * A factory function that generates, defines and returns the proxy class given
- * the ClassLoader and array of interfaces.
+ * 根据类装入器和接口数组生成、定义和返回**代理类对象**的工厂函数。
  */
 /**
- * 根据类装入器和接口数组生成、定义和返回代理类的工厂函数。
+ * A factory function that generates, defines and returns the proxy class given
+ * the ClassLoader and array of interfaces.
  */
 private static final class ProxyClassFactory
 	implements BiFunction<ClassLoader, Class<?>[], Class<?>>
@@ -26,6 +26,9 @@ private static final class ProxyClassFactory
 	@Override
 	public Class<?> apply(ClassLoader loader, Class<?>[] interfaces) {
 
+		/*
+		 * 遍历接口数组，返回关联的类对象
+		 */
 		Map<Class<?>, Boolean> interfaceSet = new IdentityHashMap<>(interfaces.length);
 		for (Class<?> intf : interfaces) {
 			/*
@@ -34,6 +37,7 @@ private static final class ProxyClassFactory
 			 */
 			Class<?> interfaceClass = null;
 			try {
+				// 使用给定的类装入器，返回与给定字符串名的类或接口相关联的类对象
 				interfaceClass = Class.forName(intf.getName(), false, loader);
 			} catch (ClassNotFoundException e) {
 			}
@@ -61,6 +65,9 @@ private static final class ProxyClassFactory
 		String proxyPkg = null;     // package to define proxy class in
 		int accessFlags = Modifier.PUBLIC | Modifier.FINAL;
 
+		/*
+		 * 包名创建逻辑
+		 */
 		/*
 		 * Record the package of a non-public proxy interface so that the
 		 * proxy class will be defined in the same package.  Verify that
@@ -94,11 +101,17 @@ private static final class ProxyClassFactory
 		String proxyName = proxyPkg + proxyClassNamePrefix + num;
 
 		/*
-		 * Generate the specified proxy class.
+		 * 生成代理类字节码
 		 */
+		/*
+		 * Generate the specified proxy class.
+		 */ 
 		byte[] proxyClassFile = ProxyGenerator.generateProxyClass(
 			proxyName, interfaces, accessFlags);
 		try {
+			/*
+			 * 加载字节码文件到JVM中
+			 */
 			return defineClass0(loader, proxyName,
 								proxyClassFile, 0, proxyClassFile.length);
 		} catch (ClassFormatError e) {
