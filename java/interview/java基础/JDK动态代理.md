@@ -3,9 +3,125 @@
 
 > * <a href="https://www.cnblogs.com/hetutu-5238/p/11988946.html">jdk动态代理和cglib动态代理底层实现原理超详细解析(jdk动态代理篇)</a>
 
-代理模式是一种很常见的模式，本文主要分析jdk动态代理的过程
+> * <a href="https://blog.csdn.net/yhl_jxy/article/details/80586785">JDK动态代理实现原理(jdk8)</a>
 
-一、举例
+说在前面
+====
+
+JDK动态代理基于拦截器和反射来实现。
+
+JDK代理是不需要第三方库支持的，只需要JDK环境就可以进行代理，使用条件：
+
+* 必须实现InvocationHandler接口；
+
+* 使用Proxy.newProxyInstance产生代理对象；
+
+* 被代理的对象必须要实现接口；
+
+使用JDK动态代理的五大步骤：
+
+* 通过实现InvocationHandler接口来自定义自己的InvocationHandler；
+
+* 通过Proxy.getProxyClass获得动态代理类；
+
+* 通过反射机制获得代理类的构造方法，方法签名为getConstructor(InvocationHandler.class)；
+
+* 通过构造函数获得代理对象并将自定义的InvocationHandler实例对象传为参数传入；
+
+* 通过代理对象调用目标方法；
+
+给一个demo对应上面五步
+
+IHello接口
+
+```java
+public interface IHello {
+    void sayHello();
+}
+```
+
+HelloImpl接口实现
+
+```java
+public class HelloImpl implements IHello {
+    @Override
+    public void sayHello() {
+        System.out.println("Hello world!");
+    }
+}
+```
+
+MyInvocationHandler(实现InvocationHandler接口)
+
+```java
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+ 
+public class MyInvocationHandler implements InvocationHandler {
+ 
+    /** 目标对象 */
+    private Object target;
+ 
+    public MyInvocationHandler(Object target){
+        this.target = target;
+    }
+ 
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        System.out.println("------插入前置通知代码-------------");
+        // 执行相应的目标方法
+        Object rs = method.invoke(target,args);
+        System.out.println("------插入后置处理代码-------------");
+        return rs;
+    }
+}
+```
+
+MyProxyTest(Client)
+
+```java
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Proxy;
+ 
+/**
+ * 使用JDK动态代理的五大步骤:
+ * 1.通过实现InvocationHandler接口来自定义自己的InvocationHandler;
+ * 2.通过Proxy.getProxyClass获得动态代理类
+ * 3.通过反射机制获得代理类的构造方法，方法签名为getConstructor(InvocationHandler.class)
+ * 4.通过构造函数获得代理对象并将自定义的InvocationHandler实例对象传为参数传入
+ * 5.通过代理对象调用目标方法
+ */
+public class MyProxyTest {
+    public static void main(String[] args)
+            throws NoSuchMethodException, IllegalAccessException, InstantiationException, InvocationTargetException {
+        // =========================第一种==========================
+        // 1、生成$Proxy0的class文件
+        System.getProperties().put("sun.misc.ProxyGenerator.saveGeneratedFiles", "true");
+        // 2、获取动态代理类
+        Class proxyClazz = Proxy.getProxyClass(IHello.class.getClassLoader(),IHello.class);
+        // 3、获得代理类的构造函数，并传入参数类型InvocationHandler.class
+        Constructor constructor = proxyClazz.getConstructor(InvocationHandler.class);
+        // 4、通过构造函数来创建动态代理对象，将自定义的InvocationHandler实例传入
+        IHello iHello1 = (IHello) constructor.newInstance(new MyInvocationHandler(new HelloImpl()));
+        // 5、通过代理对象调用目标方法
+        iHello1.sayHello();
+ 
+        // ==========================第二种=============================
+        /**
+         * Proxy类中还有个将2~4步骤封装好的简便方法来创建动态代理对象，
+         *其方法签名为：newProxyInstance(ClassLoader loader,Class<?>[] instance, InvocationHandler h)
+         */
+        IHello  iHello2 = (IHello) Proxy.newProxyInstance(IHello.class.getClassLoader(), // 加载接口的类加载器
+                new Class[]{IHello.class}, // 一组接口
+                new MyInvocationHandler(new HelloImpl())); // 自定义的InvocationHandler
+        iHello2.sayHello();
+    }
+}
+```
+
+一、使用示例
 ====
 
 ```java
@@ -80,8 +196,6 @@ hello word
 代理执行执行
 代理返回值
 ```
-
-可以看到定义的hello方法已经被执行，并且可以在不定义接口的实现类的时候仍然可以执行方法获取结果，这其实就很容易想到mybatis中直接调用mapper接口获取查询结果其实也是调用的mapper的动态代理类，说明动态代理对于构造框架有很重要的作用
 
 二、原理解析
 ====
