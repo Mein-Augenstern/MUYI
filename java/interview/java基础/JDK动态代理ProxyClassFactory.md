@@ -1,10 +1,10 @@
 一、一句话描述ProxyClassFactory
-====
+------
 
 ProxyClassFactory是用来生产代理类对象的。
 
 二、Proxy内部类ProxyClassFactory源码注释
-====
+------
 
 ```java
 /**
@@ -127,3 +127,20 @@ private static final class ProxyClassFactory
 	}
 }
 ```
+
+三、ProxyClassFactory小结
+------
+
+ProxyClassFactory是Proxy的一个静态内部类。它的逻辑包括了下面三步：
+
+1. 包名的创建逻辑
+
+包名生成逻辑默认是```com.sun.proxy```，如果被代理类是```non-public proxy interface```（也就说实现的接口若不是public的，报名处理方式不太一样），则用和被代理类接口一样的包名，类名默认是```$Proxy``` 加上一个自增的整数值
+
+2. 调用```ProxyGenerator. generateProxyClass```生成代理类字节码
+
+```Dsun.misc.ProxyGenerator.saveGeneratedFiles=true``` 这个参数就是在该方法起到作用，如果为true则保存字节码到磁盘。代理类中，所有的代理方法逻辑都一样都是调用invocationHander的invoke方法（上面源码我们也能看出来）
+
+3. 把代理类字节码加载到JVM
+
+把字节码通过传入的类加载器加载到JVM中:```defineClass0(loader, proxyName,proxyClassFile, 0, proxyClassFile.length);```
