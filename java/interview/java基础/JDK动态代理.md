@@ -88,7 +88,13 @@ hello word
 1 Proxy.newProxyInstance方法
 ------
 
-我们可以看到构造代理类的核心方法为这句 三个参数分别为代理类的类加载器，代理类的所有接口，如果本身就是接口则直接传入本身，传入InvocationHandler接口的实现类
+我们可以看到构造代理类的核心方法为这句三个参数分别为
+
+* 代理类的类加载器
+
+* 代理类的所有接口，如果本身就是接口则直接传入本身
+
+* 传入InvocationHandler接口的实现类
 
 ```java
 Proxy.newProxyInstance(c.getClassLoader(),c.isInterface()?new Class[]{c}:c.getInterfaces(),this);
