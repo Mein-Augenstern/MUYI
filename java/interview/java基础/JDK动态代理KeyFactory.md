@@ -1,6 +1,8 @@
 一、一句话描述
 ------
 
+```java.lang.reflect.Proxy类中缓存变量```
+
 ```java
 /**
  * a cache of proxy classes
@@ -9,7 +11,33 @@ private static final WeakCache<ClassLoader, Class<?>[], Class<?>>
 	proxyClassCache = new WeakCache<>(new KeyFactory(), new ProxyClassFactory());
 ```
 
+```java.lang.reflect.WeakCache类中缓存数据结构```
+
+```java
+// the key type is Object for supporting null key
+private final ConcurrentMap<Object, ConcurrentMap<Object, Supplier<V>>> map
+	= new ConcurrentHashMap<>();
+```
+
 二级缓存key，由classLoader和interfaces[]标识代理类。
+
+```java
+// lazily install the 2nd level valuesMap for the particular cacheKey
+ConcurrentMap<Object, Supplier<V>> valuesMap = map.get(cacheKey);
+if (valuesMap == null) {
+	ConcurrentMap<Object, Supplier<V>> oldValuesMap
+		= map.putIfAbsent(cacheKey,
+						  valuesMap = new ConcurrentHashMap<>());
+	if (oldValuesMap != null) {
+		valuesMap = oldValuesMap;
+	}
+}
+
+// create subKey and retrieve the possible Supplier<V> stored by that
+// subKey from valuesMap
+Object subKey = Objects.requireNonNull(subKeyFactory.apply(key, parameter));
+Supplier<V> supplier = valuesMap.get(subKey);
+```
 
 二、Proxy内部类KeyFactory源码
 
