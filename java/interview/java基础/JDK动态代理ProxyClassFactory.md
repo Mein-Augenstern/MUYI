@@ -37,7 +37,7 @@ private static final class ProxyClassFactory
 			 */
 			Class<?> interfaceClass = null;
 			try {
-				// 使用给定的类装入器，返回与给定字符串名的类或接口相关联的类对象
+				// 使用给定的类装入器，返回与给定字符串名接口相关联的类对象，第二个参数为false表示不进行实例化
 				interfaceClass = Class.forName(intf.getName(), false, loader);
 			} catch (ClassNotFoundException e) {
 			}
