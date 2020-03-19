@@ -108,20 +108,19 @@ Proxy.newProxyInstance(c.getClassLoader() , c.isInterface() ?
 public static Object newProxyInstance(ClassLoader loader,
                                           Class<?>[] interfaces,
                                           InvocationHandler h) throws IllegalArgumentException{
-	//InvocationHandler不能为null
+	// InvocationHandler不能为null
 	Objects.requireNonNull(h);
-　　 //克隆出所有传入的接口数组
+	
+	// 克隆出所有传入的接口数组
 	final Class<?>[] intfs = interfaces.clone();
 	
-	//权限校验
+	// 权限校验
 	final SecurityManager sm = System.getSecurityManager();
 	if (sm != null) {
 		checkProxyAccess(Reflection.getCallerClass(), loader, intfs);
 	}
 
-	/*
-	 * 查找或者生成代理类  核心逻辑  参数为类加载器和上面的接口数组
-	 */
+	 // 查找或者生成代理类  核心逻辑  参数为类加载器和上面的接口数组
 	Class<?> cl = getProxyClass0(loader, intfs);
 
 	/************************下面的代码逻辑先不用管 到后面会专门分析***************************/
@@ -129,7 +128,7 @@ public static Object newProxyInstance(ClassLoader loader,
 		if (sm != null) {
 			checkNewProxyPermission(Reflection.getCallerClass(), cl);
 		}
-		//拿到其构造方法
+		// 拿到其构造方法
 		final Constructor<?> cons = cl.getConstructor(constructorParams);
 		final InvocationHandler ih = h;
 		if (!Modifier.isPublic(cl.getModifiers())) {
@@ -140,7 +139,7 @@ public static Object newProxyInstance(ClassLoader loader,
 				}
 			});
 		}
-		//通过构造方法新建类的实例并返回
+		// 通过构造方法新建类的实例并返回
 		return cons.newInstance(new Object[]{h});
 	} catch (IllegalAccessException|InstantiationException e) {
 		throw new InternalError(e.toString(), e);
@@ -160,7 +159,7 @@ public static Object newProxyInstance(ClassLoader loader,
 可以看到生成代理类的逻辑主要为 下面
 
 ```java
-//查找或者生成代理类 核心逻辑 参数为类加载器和上面的接口数组
+// 查找或者生成代理类 核心逻辑 参数为类加载器和上面的接口数组
 Class<?> cl = getProxyClass0(loader, intfs);
 ```
 
