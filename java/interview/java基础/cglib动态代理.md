@@ -37,12 +37,6 @@ import net.sf.cglib.proxy.MethodProxy;
 
 import java.lang.reflect.Method;
 
-/**
- * @Description:
- * @author: zhoum
- * @Date: 2019-12-05
- * @Time: 9:36
- */
 public class CgProxyFactory implements MethodInterceptor {
 
     public <T>T getProxy(Class<T> c){
@@ -87,7 +81,7 @@ class CgProxy{
 
 通过上面代码，相信大家都能知道主要创建代理类的方法为Enhancer.create()方法，但是我们在执行这个方法之前设置了两个值，可以分别看下方法体
 
-setCallbacks()，即设置回调，我们创建出代理类后调用方法则是使用的这个回调接口，类似于jdk动态代理中的InvocationHandler
+**```setCallbacks()```，即设置回调，我们创建出代理类后调用方法则是使用的这个回调接口，类似于jdk动态代理中的```InvocationHandler```**
 
 ```java
 public void setCallbacks(Callback[] callbacks) {
@@ -98,7 +92,7 @@ public void setCallbacks(Callback[] callbacks) {
 }
 ```
 
-setSuperClass 即设置代理类，这儿可以看到做了个判断，如果为interface则设置interfaces,如果是Object则设置为null(因为所有类都自动继承Object),如果为普通class则设置class，可以看到cglib代理不光可以代理接口，也可以代理普通类
+**setSuperClass 即设置代理类，这儿可以看到做了个判断，如果为interface则设置interfaces,如果是Object则设置为null(因为所有类都自动继承Object),如果为普通class则设置class，可以看到cglib代理不光可以代理接口，也可以代理普通类**
 
 ```java
 /**
