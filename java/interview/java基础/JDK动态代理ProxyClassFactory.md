@@ -3,6 +3,11 @@
 
 ProxyClassFactory是用来生产代理类对象的。
 
+ProxyClassFactory作用
+------
+
+ProxyClassFactory工厂类则负责验证其里面的委托接口是否已经加载过、是否是接口、验证其访问权限、验证包的信息与判定，最后通过defineClass方法实现类（广义上接口也是类）的加载，也就是把.class文件转变成对应接口的Class类对象
+
 二、Proxy内部类ProxyClassFactory源码
 ------
 
