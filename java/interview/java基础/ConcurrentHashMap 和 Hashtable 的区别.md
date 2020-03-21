@@ -184,7 +184,7 @@ static final int hash(Object key) {
 fail-fast是啥？
 ------
 
-**快速失败（fail—fast）**是java集合中的一种机制， 在用迭代器遍历一个集合对象时，如果遍历过程中对集合对象的内容进行了修改（增加、删除、修改），则会抛出Concurrent Modification Exception。
+快速失败（fail—fast）是java集合中的一种机制， 在用迭代器遍历一个集合对象时，如果遍历过程中对集合对象的内容进行了修改（增加、删除、修改），则会抛出Concurrent Modification Exception。
 
 他的原理是啥？
 ------
@@ -213,7 +213,7 @@ ConcurrentHashMap 底层是基于 数组 + 链表 组成的，不过在 jdk1.7 �
 
 我先说一下他在1.7中的数据结构吧：
 
-![ConcurrentHashMap在JDK1.7中数据结构]()
+![ConcurrentHashMap在JDK1.7中数据结构](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/picture/ConcurrentHashMap%E5%88%86%E6%AE%B5%E9%94%81.jpg)
 
 如图所示，是由 Segment 数组、HashEntry 组成，和 HashMap 一样，仍然是数组加链表。
 
@@ -236,7 +236,11 @@ static final class Segment<K,V> extends ReentrantLock implements Serializ
 	transient int threshold;
 	
 	// 负载因子    
-	final float loadFactor;}
+	final float loadFactor;
+
+	......
+
+}
 ```
 
 HashEntry跟HashMap差不多的，但是不同点是，他使用volatile去修饰了他的数据Value还有下一个节点next。
@@ -261,7 +265,7 @@ volatile的特性是啥？
 
 就是说如果容量大小是16他的并发度就是16，可以同时允许16个线程操作16个Segment而且还是线程安全的。
 
-![JDK1.7中ConcurrentHashMap的put方法源码]()
+![JDK1.7中ConcurrentHashMap的put方法源码](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/picture/JDK1.7%E4%B8%ADConcurrentHashMap%E7%9A%84put%E6%96%B9%E6%B3%95%E6%BA%90%E7%A0%81.png)
 
 他先定位到Segment，然后再进行put操作。
 
