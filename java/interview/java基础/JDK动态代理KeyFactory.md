@@ -11,33 +11,11 @@ private static final WeakCache<ClassLoader, Class<?>[], Class<?>>
 	proxyClassCache = new WeakCache<>(new KeyFactory(), new ProxyClassFactory());
 ```
 
-```java.lang.reflect.WeakCache类中缓存数据结构```
+KeyFactory作用
+------
 
-```java
-// the key type is Object for supporting null key
-private final ConcurrentMap<Object, ConcurrentMap<Object, Supplier<V>>> map
-	= new ConcurrentHashMap<>();
-```
+WeakCache是缓存类加载器以及该加载器加载的委托类的。其中KeyFactory类用来生产Key的，生成因不同数量的类加载器采取不同的生成策略来对应生成的Key对象。在Proxy源码中的Key1类的实现，从其源代码中看出，该类继承了WeakReference类，也就是弱引用类，而每个Key类具体用来干嘛的呢？其实就是作为键的生成策略存在，保证其键的唯一性，而KeyFactory工厂类根据类加载器数量的不同采取键的不同生成策略。
 
-二级缓存key，由classLoader和interfaces[]标识代理类。
-
-```java
-// lazily install the 2nd level valuesMap for the particular cacheKey
-ConcurrentMap<Object, Supplier<V>> valuesMap = map.get(cacheKey);
-if (valuesMap == null) {
-	ConcurrentMap<Object, Supplier<V>> oldValuesMap
-		= map.putIfAbsent(cacheKey,
-						  valuesMap = new ConcurrentHashMap<>());
-	if (oldValuesMap != null) {
-		valuesMap = oldValuesMap;
-	}
-}
-
-// create subKey and retrieve the possible Supplier<V> stored by that
-// subKey from valuesMap
-Object subKey = Objects.requireNonNull(subKeyFactory.apply(key, parameter));
-Supplier<V> supplier = valuesMap.get(subKey);
-```
 
 二、Proxy内部类KeyFactory源码
 
