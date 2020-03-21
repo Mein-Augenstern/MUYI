@@ -210,8 +210,7 @@ hello word
 * 传入InvocationHandler接口的实现类
 
 ```java
-Proxy.newProxyInstance(c.getClassLoader() , c.isInterface() ? 
-							new Class[]{c} : c.getInterfaces() , this ;
+Proxy.newProxyInstance(c.getClassLoader(), c.isInterface() ? new Class[]{c} : c.getInterfaces(), this);
 ```
 
 直接进入方法中查看
