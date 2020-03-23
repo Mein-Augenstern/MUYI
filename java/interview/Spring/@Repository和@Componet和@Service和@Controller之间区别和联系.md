@@ -46,7 +46,7 @@ public @interface Component {
 
 <h4>使用场景</h4>
 
-当你不确定是属于哪一层的时候使用。
+当你不确定是属于哪一层的时候使用。对那些比较中立的类进行使用。
 
 
 @Controller注解源码
