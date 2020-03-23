@@ -44,6 +44,11 @@ public @interface Component {
 
 ```
 
+<h4>使用场景</h4>
+
+当你不确定是属于哪一层的时候使用。
+
+
 @Controller注解源码
 ------
 
@@ -89,6 +94,10 @@ public @interface Controller {
 
 }
 ```
+
+<h4>使用场景</h4>
+
+控制层，用于标注控制层组件。
 
 @Service注解源码
 ------
@@ -137,6 +146,10 @@ public @interface Service {
 
 }
 ```
+
+<h4>使用场景</h4>
+
+业务层，用于标注业务逻辑层组件。
 
 @Repository注解源码
 ------
@@ -200,3 +213,7 @@ public @interface Repository {
 }
 
 ```
+
+<h4>使用场景</h4>
+
+持久层，用于标注数据访问组件，即DAO组件。
