@@ -116,60 +116,44 @@
 
 * 介绍: LeetCode Solutions: A Record of My Problem Solving Journey.( leetcode题解，记录自己的leetcode解题之路。)
 
-Java
+目录
 ====
 
-* <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Java-basic.md">Java基础</a>
 
-* <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Java-collections.md">Java集合</a>
+* Java
 
-* <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Java-IO.md">Java IO</a>
+    * <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Java-basic.md">Java基础</a>
+    
+    * <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Java-collections.md">Java集合</a>
+    
+    * <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Java-IO.md">Java IO</a>
+    
+    * <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Java-concurrent.md">Java并发</a>
+    
+    * <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/JVM.md">JVM</a>
+    
+    * <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Spring.md">Spring</a>
 
-* <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Java-concurrent.md">Java并发</a>
+* <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Database.md">数据库</a>
 
-* <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/JVM.md">JVM</a>
+* <a href="https://github.com/DemoTransfer/JavaGuide/new/master/contents">网络</a>
 
-* <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Spring.md">Spring</a>
+* <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/desgin-pattern.md">设计模式</a>
 
-数据库
-====
+* <a href="https://github.com/DemoTransfer/LearningRecord/tree/master/sort">数据结构和算法</a>
 
-* <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Database.md">...</a>
 
-网络
-====
+* <a href="https://github.com/DemoTransfer/LearningRecord/tree/master/linux/%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E8%B5%B7%E6%89%8B%E5%BC%8F%E5%91%BD%E4%BB%A4">操作系统</a>
 
-* <a href="https://github.com/DemoTransfer/JavaGuide/new/master/contents">...</a>
+* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/docs/outside-reading/%E7%9E%8E%E7%9C%8B%E7%B3%BB%E5%88%97.md">杂文系列</a>
 
-设计模式
-====
-
-* <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/desgin-pattern.md">...</a>
-
-数据结构和算法
-====
-
-* <a href="https://github.com/DemoTransfer/LearningRecord/tree/master/sort">常见的几种排序算法实现（Java）</a>
-
-操作系统
-====
-
-* <a href="https://github.com/DemoTransfer/LearningRecord/tree/master/linux/%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E8%B5%B7%E6%89%8B%E5%BC%8F%E5%91%BD%E4%BB%A4">Linux下排查问题命令起手</a>
-
-杂文系列
-====
-
-* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/docs/outside-reading/%E7%9E%8E%E7%9C%8B%E7%B3%BB%E5%88%97.md">瞎看系列</a>
+* <a href="https://github.com/DemoTransfer/JavaGuide/new/master/contents">素材文章来源</a>
 
 关于转载
 ====
 
 如果你需要转载本仓库的一些文章到自己的博客的话，记得注明原文地址就可以了。
 
-素材文章来源
-====
-
-<a href="https://github.com/DemoTransfer/JavaGuide/new/master/contents">...</a>
 
 
 
