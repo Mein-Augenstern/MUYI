@@ -119,32 +119,32 @@
 Java
 ====
 
-<h3><a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Java-basic.md">1、Java基础</a></h3>
+* <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Java-basic.md">Java基础</a>
 
-<h3><a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Java-collections.md">2、Java集合</a></h3>
+* <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Java-collections.md">Java集合</a>
 
-<h3><a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Java-IO.md">3、Java IO</a></h3>
+* <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Java-IO.md">Java IO</a>
 
-<h3><a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Java-concurrent.md">4、Java并发</a></h3>
+* <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Java-concurrent.md">Java并发</a>
 
-<h3><a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/JVM.md">5、JVM</a></h3>
+* <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/JVM.md">JVM</a>
 
-<h3><a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Spring.md">6、Spring</a></h3>
+* <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Spring.md">Spring</a>
 
-
-<a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Database.md">数据库</a>
+数据库
 ====
 
+* <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Database.md">...</a>
 
-
-<a href="https://github.com/DemoTransfer/JavaGuide/new/master/contents">网络</a>
+网络
 ====
 
+* <a href="https://github.com/DemoTransfer/JavaGuide/new/master/contents">...</a>
 
-
-<a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/desgin-pattern.md">设计模式</a>
+设计模式
 ====
 
+* <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/desgin-pattern.md">...</a>
 
 数据结构和算法
 ====
@@ -166,6 +166,10 @@ Java
 
 如果你需要转载本仓库的一些文章到自己的博客的话，记得注明原文地址就可以了。
 
-<a href="https://github.com/DemoTransfer/JavaGuide/new/master/contents">素材文章来源</a>
+素材文章来源
 ====
+
+<a href="https://github.com/DemoTransfer/JavaGuide/new/master/contents">...</a>
+
+
 
