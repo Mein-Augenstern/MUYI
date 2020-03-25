@@ -25,3 +25,115 @@ CyclicBarrier和CountDownLatch的区别
 2. CyclicBarrier只能唤起一个任务，CountDownLatch可以唤起多个任务
 
 3. CyclicBarrier可重用，CountDownLatch不可重用，计数值为0该CountDownLatch就不可再用了
+
+等待多线程完成的CountDownLatch
+------
+
+CountDownLatch允许一个或多个线程等待其他线程完成操作。例如要解析一个Excel中的多个sheet表，等到所有sheet表都解析完之后，程序提示解析完成。
+
+```java
+public class Jyy {
+    /**
+     * parse1先执行，parse2后执行
+     * @param args
+     */
+    public static void main(String[] args) {
+        Thread parse1 = new Thread(new Runnable() {
+            public void run() {
+                System.out.println("parse1");
+            }
+        });
+        
+        Thread parse2 = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    parse1.join();
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                System.out.println("parse2");
+            }
+        });
+        
+        parse1.start();
+        parse2.start();
+        
+        try {
+            parse2.join();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        System.out.println("finished");
+    }
+}
+```
+
+程序会按上述逻辑进行，输出结果为：
+
+```java
+parse1
+parse2
+finished
+```
+
+```join()```用于让当前线程等待调用```join()```的线程执行结束。其原理是不停的检查调用```join()```的线程t是否存活，如果线程t一直存活则当前线程会永远等待。直到```join()```线程终止后，线程的```notifyAll()```会被调用。```join()```内部实现如下：
+
+```java
+if (millis == 0) {
+    while (isAlive()) {
+        wait(0);
+    }
+}
+```
+
+CountDownLatch也可以实现```join()```功能。
+
+```java
+public class Jyy {
+    public static void main(String[] args) {
+        CountDownLatch countDownLatch = new CountDownLatch(2);
+        
+        Thread parse1 = new Thread(new Runnable() {
+            public void run() {
+                System.out.println("parse1");
+                countDownLatch.countDown();
+            }
+        });
+        
+        Thread parse2 = new Thread(new Runnable() {
+            public void run() {
+                System.out.println("parse2");
+                countDownLatch.countDown();
+            }
+        });
+        
+        parse1.start();
+        parse2.start();
+        
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        System.out.println("finished");
+    }
+}
+```
+
+CountDownLatch的构造函数接收一个int类型的参数作为计数器，如果你想等待N个点完成，这里就传入N。
+
+当我们调用一次CountDownLatch的countDown方法时，N就会减1，CountDownLatch的await会阻塞当前线程，直到N变成零。由于countDown方法可以用在任何地方，所以这里说的N个点，可以是N个线程，也可以是1个线程里的N个执行步骤。用在多个线程时，你只需要把这个CountDownLatch的引用传递到线程里。
+
+注意：计数器必须大于等于0，只是等于0时候，计数器就是零，调用await方法时不会阻塞当前线程。**CountDownLatch不可能重新初始化或者修改CountDownLatch对象的内部计数器的值**。一个线程调用countDown方法 happen-before 另外一个线程调用await方法。
+
+参考资料：
+
+> 作者：南南啦啦啦
+链接：https://www.jianshu.com/p/78905e0e8190
+来源：简书
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
