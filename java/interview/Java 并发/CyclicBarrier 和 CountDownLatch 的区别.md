@@ -131,6 +131,100 @@ CountDownLatch的构造函数接收一个int类型的参数作为计数器，如
 
 注意：计数器必须大于等于0，只是等于0时候，计数器就是零，调用await方法时不会阻塞当前线程。**CountDownLatch不可能重新初始化或者修改CountDownLatch对象的内部计数器的值**。一个线程调用countDown方法 happen-before 另外一个线程调用await方法。
 
+同步屏障CyclicBarrier
+------
+
+CyclicBarrier 的字面意思是可循环使用（Cyclic）的屏障（Barrier）。它要做的事情是，让一组线程到达一个屏障（也可以叫同步点）时被阻塞，直到最后一个线程到达屏障时，屏障才会开门，所有被屏障拦截的线程才会继续干活。CyclicBarrier默认的构造方法是CyclicBarrier(int parties)，其参数表示屏障拦截的线程数量，每个线程调用await方法告诉CyclicBarrier我已经到达了屏障，然后当前线程被阻塞。
+
+```java
+public class CyclicBarrierTest {
+    static CyclicBarrier c = new CyclicBarrier(2);
+    public static void main(String[] args) {
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    c.await();
+                } catch (Exception e) {
+
+                }
+                System.out.println(1);
+            }
+        }).start();
+
+        try {
+            c.await();
+        } catch (Exception e) {
+
+        }
+        System.out.println(2);
+    }
+}
+```
+
+如果把new CyclicBarrier(2)修改成new CyclicBarrier(3)则主线程和子线程会永远等待，因为没有第三个线程执行await方法，即没有第三个线程到达屏障，所以之前到达屏障的两个线程都不会继续执行。
+
+CyclicBarrier还提供一个更高级的构造函数CyclicBarrier(int parties, Runnable barrierAction)，用于在线程到达屏障时，优先执行barrierAction，方便处理更复杂的业务场景。代码如下：
+
+```java
+public class Jyy {
+    static CyclicBarrier c = new CyclicBarrier(2, new A());
+
+    public static void main(String[] args) {
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    c.await();
+                } catch (Exception e) {
+
+                }
+                System.out.println(1);
+            }
+        }).start();
+
+        try {
+            c.await();
+        } catch (Exception e) {
+
+        }
+        System.out.println(2);
+    }
+
+    static class A implements Runnable {
+
+        @Override
+        public void run() {
+            System.out.println(3);
+        }
+
+    }
+}
+```
+
+输出结果：
+
+```java
+3 2 1
+或 3 1 2
+```
+
+CyclicBarrier的应用场景
+------
+
+CyclicBarrier可以用于多线程计算数据，最后合并计算结果的应用场景。比如我们用一个Excel保存了用户所有银行流水，每个Sheet保存一个帐户近一年的每笔银行流水，现在需要统计用户的日均银行流水，先用多线程处理每个sheet里的银行流水，都执行完之后，得到每个sheet的日均银行流水，最后，再用barrierAction用这些线程的计算结果，计算出整个Excel的日均银行流水。
+
+CyclicBarrier和CountDownLatch的区别
+------
+
+* CountDownLatch的计数器只能使用一次。而CyclicBarrier的计数器可以使用reset() 方法重置。所以CyclicBarrier能处理更为复杂的业务场景，比如如果计算发生错误，可以重置计数器，并让线程们重新执行一次。
+
+* CountDownLatch强调的是一个线程（或多个）需要等待另外的n个线程干完某件事情之后才能继续执行。 CyclicBarrier强调的是n个线程，大家相互等待，只要有一个没完成，所有人都得等着。
+
+一个更加形象的例子参见文章<a href="https://www.jianshu.com/go-wild?ac=2&url=http%3A%2F%2Faaron-han.iteye.com%2Fblog%2F1591755">尽量把CyclicBarrier和CountDownLatch的区别说通俗点</a>
+
 参考资料：
 
 > 作者：南南啦啦啦
