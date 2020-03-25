@@ -1,5 +1,4 @@
-开始阅读之前必看 
-====
+**开始阅读之前必看** 
 
 1. <a href="https://github.com/Snailclimb/JavaGuide">感谢JavaGuide</a>
 
@@ -8,7 +7,7 @@
 3. <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/java/interview/%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2.md">3W+2H</a>
 
 目录
-====
+------
 
 * Java
 
@@ -44,7 +43,3 @@
 ====
 
 如果你需要转载本仓库的一些文章到自己的博客的话，记得注明原文地址就可以了。
-
-
-
-
