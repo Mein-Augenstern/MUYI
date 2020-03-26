@@ -198,7 +198,7 @@ synchronized void test();
 
 * synchronized 应用在同步块上时，在字节码中是通过 monitorenter 和 monitorexit 实现的。
 
-每个对象都会与一个monitor相关联，当某个monitor被拥有之后就会被锁住，当线程执行到monitorenter指令时，就会去尝试获得对应的monitor。
+**每个对象都会与一个monitor相关联，当某个monitor被拥有之后就会被锁住，当线程执行到monitorenter指令时，就会去尝试获得对应的monitor**。
 
 步骤如下：
 
