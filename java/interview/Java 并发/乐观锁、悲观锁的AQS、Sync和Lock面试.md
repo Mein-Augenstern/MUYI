@@ -247,7 +247,7 @@ public void syncTask();
 
 **同步方法和同步代码块底层**都是通过monitor来实现同步的。
 
-两者的区别：同步方式是通过方法中的access_flags中设置ACC_SYNCHRONIZED标志来实现，同步代码块是通过monitorenter和monitorexit来实现。
+两者的区别：同步方法是通过方法中的access_flags中设置ACC_SYNCHRONIZED标志来实现，同步代码块是通过monitorenter和monitorexit来实现。
 
 我们知道了每个对象都与一个monitor相关联，而monitor可以被线程拥有或释放。
 
