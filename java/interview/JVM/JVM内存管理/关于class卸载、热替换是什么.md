@@ -444,7 +444,7 @@ GC over
 
 ![class_unload_2](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/class_unload_2.png)
 
-1. 有启动类加载器加载的类型在整个运行期间是不可能被卸载的(jvm和jls规范).
+1. 由启动类加载器加载的类型在整个运行期间是不可能被卸载的(jvm和jls规范).
 
 2. 被系统类加载器和标准扩展类加载器加载的类型在运行期间不太可能被卸载，因为系统类加载器实例或者标准扩展类的实例基本上在整个运行期间总能直接或者间接的访问的到，其达到unreachable的可能性极小.(当然，在虚拟机快退出的时候可以，因为不管ClassLoader实例或者Class(java.lang.Class)实例也都是在堆中存在，同样遵循垃圾收集的规则).
 
