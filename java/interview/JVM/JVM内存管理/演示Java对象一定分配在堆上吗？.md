@@ -98,7 +98,22 @@ public class OnStack {
 
 配置好 jvm 参数后，执行代码，查看结果可知执行了 3 次 gc，耗时 10 毫秒，可以推断出 User 对象并未全部分配到堆上，而是把绝大多数分配到了栈上，**分配在栈上的好处是方法结束后自动释放对应的内存，是一种优化手段**。
 
-![]()
+```java
+[GC (Allocation Failure) [PSYoungGen: 2048K->496K(2560K)] 2048K->664K(9728K), 0.0120617 secs] [Times: user=0.01 sys=0.00, real=0.01 secs] 
+[GC (Allocation Failure) [PSYoungGen: 2544K->512K(2560K)] 2712K->696K(9728K), 0.0092794 secs] [Times: user=0.00 sys=0.00, real=0.01 secs] 
+耗时:27
+Heap
+ PSYoungGen      total 2560K, used 689K [0x00000000ffd00000, 0x0000000100000000, 0x0000000100000000)
+  eden space 2048K, 8% used [0x00000000ffd00000,0x00000000ffd2c458,0x00000000fff00000)
+  from space 512K, 100% used [0x00000000fff80000,0x0000000100000000,0x0000000100000000)
+  to   space 512K, 0% used [0x00000000fff00000,0x00000000fff00000,0x00000000fff80000)
+ ParOldGen       total 7168K, used 184K [0x00000000ff600000, 0x00000000ffd00000, 0x00000000ffd00000)
+  object space 7168K, 2% used [0x00000000ff600000,0x00000000ff62e010,0x00000000ffd00000)
+ Metaspace       used 3351K, capacity 4500K, committed 4864K, reserved 1056768K
+  class space    used 364K, capacity 388K, committed 512K, reserved 1048576K
+
+Process finished with exit code 0
+```
 
 我们上面说了栈上分配依赖逃逸分析和标量替换，那么我们可以破坏其中任意一个条件，去掉逃逸分析就可以通过 -XX:-DoEscapteAnalysis 或者关闭标量替换 -XX:-EliminateAllocations 再去执行上述代码，观察执行情况，发现发生了大量的 gc，并且耗时 3182 毫秒，执行时间远远高于上面的 10 毫秒，所以可以推测出并未执行栈上分配的优化手段
 
