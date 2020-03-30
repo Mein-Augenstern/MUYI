@@ -39,7 +39,7 @@ Tomcat加载资源的概况图
 
 1. Context容器会有专门线程监控app下面的类的修改情况。
 
-2. 如果发现有类被修改了。那么调用Context.reload()。清楚一系列相关的引用和资源。
+2. 如果发现有类被修改了。那么调用Context.reload()。清除一系列相关的引用和资源。
 
 3. 然后创新创建一个WebClassLoader实例，重新加载app下面需要的class。
 
