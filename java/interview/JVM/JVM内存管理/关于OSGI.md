@@ -13,7 +13,7 @@
 
 相信每个Java程序员都知道Classpath是什么。Java的类加载器(Classloader)是一种分层结构，如下图所示，分为引导类加载器(Bootstrap Class Loader)，扩展类加载器(Extension Class Loader)，系统类加载器(System Class Loader)以及用户定义的类加载器(User-defined Class Loader)。引导类加载器在JVM时负责加载rt.jar里面的类，扩展类加载器负责加载在扩展目录下的jar文件中的类，系统类加载器则在Classpath上面搜索类加载器，用户定义的类加载器则从用户指定的路径（比如一个网络URI）加载类。在该类加载体系中，一个类加载器总是先去上层类加载器加载类，一层一层迭代，当无法找到需要的类时在自己加载。
 
-![Java程序的类加载器结果]()
+![Java程序的类加载器结果](https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/JVM/picture/Java%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E7%BB%93%E6%9E%84.gif)
 
 在这种类加载机制中，存在以下几个问题：1）类版本冲突：当类路径上存在同一个类的不同版本时，如果类加载器找到一个版本，则不再搜索加载下一个版本；2）无法确定jar之间的依赖关系：现有的JAR标准中缺乏对与Jar文件之间依赖关系的定义支持，因此只有在运行时间无法找到所需的类时，才会打出java.lang.ClassNotFoundException，但这通常不能有效帮助开发人员解决问题；3）信息隐藏：如果一个jar在类路径上并且被加载，那么所有该jar中的公共类（public class）都会被加载，无法避免某些类被隐藏从而不被加载。尽管在J2EE中改进了类加载机制，可以支持以war或者ear应用为单元进行加载，但是这些问题还是没有被很好地解决，并且热部署效果让人忧心。
 
