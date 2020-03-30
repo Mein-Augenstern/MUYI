@@ -89,7 +89,7 @@ public class OnStack {
 
 我们用下面的参数执行上述代码
 
-> -server -Xmx10m -Xms10m -XX:+DoEscapeAnalysis -XX:+PrintGCDetails -XX:+EliminateAllocations
+> ```-server -Xmx10m -Xms10m -XX:+DoEscapeAnalysis -XX:+PrintGCDetails -XX:+EliminateAllocations```
 其中 -server 是开启 server 模式，逃逸分析需要 server 模式的支持
 -Xmx10 -Xms10m，设置堆内存是 10m，远小于 1.5G
 -XX:+DoEscapeAnalysis 开启逃逸分析
@@ -115,9 +115,36 @@ Heap
 Process finished with exit code 0
 ```
 
-我们上面说了栈上分配依赖逃逸分析和标量替换，那么我们可以破坏其中任意一个条件，去掉逃逸分析就可以通过 -XX:-DoEscapteAnalysis 或者关闭标量替换 -XX:-EliminateAllocations 再去执行上述代码，观察执行情况，发现发生了大量的 gc，并且耗时 3182 毫秒，执行时间远远高于上面的 10 毫秒，所以可以推测出并未执行栈上分配的优化手段
+我们上面说了栈上分配依赖逃逸分析和标量替换，那么我们可以破坏其中任意一个条件，去掉逃逸分析就可以通过 -XX:-DoEscapteAnalysis 或者关闭标量替换 -XX:-EliminateAllocations 再去执行上述代码，观察执行情况，发现发生了大量的 gc，并且耗时 3182 毫秒，执行时间远远高于上面的 10 毫秒，所以可以推测出并未执行栈上分配的优化手段。JVM参数：```-server -Xmx10m -Xms10m -XX:-DoEscapeAnalysis -XX:+PrintGCDetails -XX:-EliminateAllocations```
 
-![]()
+```java
+[GC (Allocation Failure) [PSYoungGen: 2048K->0K(2560K)] 3913K->1865K(9728K), 0.0002287 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+[GC (Allocation Failure) [PSYoungGen: 2048K->0K(2560K)] 3913K->1865K(9728K), 0.0002393 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+[GC (Allocation Failure) [PSYoungGen: 2048K->0K(2560K)] 3913K->1865K(9728K), 0.0002220 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+[GC (Allocation Failure) [PSYoungGen: 2048K->0K(2560K)] 3913K->1865K(9728K), 0.0002201 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+...
+...
+...
+[GC (Allocation Failure) [PSYoungGen: 2048K->0K(2560K)] 3913K->1865K(9728K), 0.0002303 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+[GC (Allocation Failure) [PSYoungGen: 2048K->0K(2560K)] 3913K->1865K(9728K), 0.0002351 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+[GC (Allocation Failure) [PSYoungGen: 2048K->0K(2560K)] 3913K->1865K(9728K), 0.0002088 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+[GC (Allocation Failure) [PSYoungGen: 2048K->0K(2560K)] 3913K->1865K(9728K), 0.0002095 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+[GC (Allocation Failure) [PSYoungGen: 2048K->0K(2560K)] 3913K->1865K(9728K), 0.0002156 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+[GC (Allocation Failure) [PSYoungGen: 2048K->0K(2560K)] 3913K->1865K(9728K), 0.0002034 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+[GC (Allocation Failure) [PSYoungGen: 2048K->0K(2560K)] 3913K->1865K(9728K), 0.0001591 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+[GC (Allocation Failure) [PSYoungGen: 2048K->0K(2560K)] 3913K->1865K(9728K), 0.0002095 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+[GC (Allocation Failure) [PSYoungGen: 2048K->0K(2560K)] 3913K->1865K(9728K), 0.0002111 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+耗时:17461
+Heap
+ PSYoungGen      total 2560K, used 1638K [0x00000000ffd00000, 0x0000000100000000, 0x0000000100000000)
+  eden space 2048K, 79% used [0x00000000ffd00000,0x00000000ffe998d8,0x00000000fff00000)
+  from space 512K, 0% used [0x00000000fff00000,0x00000000fff00000,0x00000000fff80000)
+  to   space 512K, 0% used [0x00000000fff80000,0x00000000fff80000,0x0000000100000000)
+ ParOldGen       total 7168K, used 1865K [0x00000000ff600000, 0x00000000ffd00000, 0x00000000ffd00000)
+  object space 7168K, 26% used [0x00000000ff600000,0x00000000ff7d2468,0x00000000ffd00000)
+ Metaspace       used 3852K, capacity 4540K, committed 4864K, reserved 1056768K
+  class space    used 424K, capacity 428K, committed 512K, reserved 1048576K
+```
 
 计算 User 对象占用空间大小
 ====
