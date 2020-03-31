@@ -5,6 +5,8 @@
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/Spring/%40Repository%E5%92%8C%40Componet%E5%92%8C%40Service%E5%92%8C%40Controller%E4%B9%8B%E9%97%B4%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB.md">@Repository和@Componet和@Service和@Controller之间区别和联系</a>
 
+* <a href="https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/Spring/Spring%20%E4%BA%8B%E5%8A%A1%E9%9D%A2%E8%AF%95%E8%80%83%E7%82%B9.md">Spring事务面试考点</a>
+
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/Spring/Springboot%E5%92%8CSpring%E5%8C%BA%E5%88%AB.md">Springboot和Spring区别</a>
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/Spring/Spring%E4%B8%AD%3Cbean%3E%E5%85%83%E7%B4%A0%E5%8F%AF%E4%BB%A5%E9%85%8D%E7%BD%AE%E7%9A%84%E5%B1%9E%E6%80%A7.md">Spring中<bean>元素可以配置的属性</a>
@@ -18,6 +20,12 @@
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/Spring/Spring%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86Bean%E7%A4%BA%E4%BE%8B.md">Spring如何管理Bean示例</a>
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/Spring/Spring%E6%94%AF%E6%8C%81%E5%93%AA%E4%BA%9BBean%E4%BD%9C%E7%94%A8%E5%9F%9F.md">Spring支持哪些Bean作用域</a>
+
+* <a href="https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/Spring/Spring%E5%BC%82%E6%AD%A5%E8%B0%83%E7%94%A8%40Async.md">Spring异步调用@Async</a>
+
+* <a href="https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/Spring/Spring%E6%94%AF%E6%8C%81%E5%93%AA%E4%BA%9BBean%E4%BD%9C%E7%94%A8%E5%9F%9F.md">Spring支持哪些Bean作用域</a>
+
+* <a href="https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/Spring/%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82%E4%B8%8E%E5%BC%82%E6%AD%A5%E8%B0%83%E7%94%A8%E7%9A%84%E5%8C%BA%E5%88%AB.md">异步请求和异步调用的区别</a>
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/Spring/%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D%E4%B8%8Bservlet%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%EF%BC%8Cservlet%E6%98%AF%E5%90%A6%E4%BC%9A%E5%A4%9A%E6%AC%A1%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%9F.md">简单介绍下servlet的生命周期，servlet是否会多次初始化</a>
 
