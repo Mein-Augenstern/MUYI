@@ -29,7 +29,7 @@ Tomcat 如果使用默认的类加载机制行不行？答案是不行的。
 Tomcat 类加载机制？
 ------
 
-![Tomcat的ClassLoader体系]()
+![Tomcat的ClassLoader体系](https://github.com/DemoTransfer/Java-Guide/blob/master/java/web%20server/tomcat/picture/Tomcat%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9E%B6%E6%9E%84.png)
 
 * commonLoader：Tomcat最基本的类加载器，加载路径中的class可以被Tomcat容器本身以及各个Webapp访问；
 
