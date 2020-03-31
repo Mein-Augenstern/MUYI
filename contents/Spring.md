@@ -6,6 +6,8 @@ Spring源码阅读
 Spring事务管理
 ------
 
+* <a href="https://www.imooc.com/learn/478">Spring事务管理慕课网视频</a>
+
 * Spring事务管理介绍
 
 * 回顾数据库事务相关概念
