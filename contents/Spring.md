@@ -1,7 +1,7 @@
 Spring源码阅读
 ------
 
-<a href="https://github.com/seaswalker/spring-analysis">Spring源码阅读Github笔记</a>
+* <a href="https://github.com/seaswalker/spring-analysis">Spring源码阅读Github笔记</a>
 
 Spring知识点扫盲
 ------
