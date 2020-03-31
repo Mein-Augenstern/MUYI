@@ -3,6 +3,41 @@ Spring源码阅读
 
 * <a href="https://github.com/seaswalker/spring-analysis">Spring源码阅读Github笔记</a>
 
+Spring事务管理
+------
+
+* Spring事务管理介绍
+
+* 回顾数据库事务相关概念
+
+* 事务API介绍
+
+	* 接口介绍
+	
+	* PlatformTransactionManager
+	
+	* TransactionDefinition
+
+	* TransactionStatus
+	
+	* 编程式事务管理
+	
+	需要手动编写代码进行事务的管理（一般不用）
+	
+	* 声明式事务管理
+	
+		* 基于TransactionProxyFactoryBean的方式
+		
+		需要为每个事务管理的类配置一个TransactionProxyFactoryBean进行管理。使用时还需要在类中注入该代理类。
+		
+		* 基于AspectJ的方式（常使用）
+		
+		配置好之后，按照方法的名字进行管理，无需再类中添加任何东西。
+		
+		* 基于注解的方式（经常使用）
+		
+		配置简单，在业务层类上添加注解@Transactional。
+	
 Spring知识点扫盲
 ------
 
