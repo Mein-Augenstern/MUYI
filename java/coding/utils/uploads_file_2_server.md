@@ -48,7 +48,7 @@ public class MultipartAutoConfiguration {
 }
 ```
 
-上传文件操作
+本地服务器上传到远程服务器
 ------
 
 ```java
@@ -60,4 +60,22 @@ form.add("file", new FileSystemResource(fileNameWithPath));
 	
 HttpEntity<MultiValueMap<String, Object>> files = new HttpEntity<>(form, headers);
 ResponseEntity<String> responseBean = restTemplate.postForEntity(urlTransfer, files, String.class);
+```
+
+从远程服务器下载到本地服务器
+------
+
+```java
+HttpHeaders headers = new HttpHeaders();
+HttpEntity<Resource> httpEntity = new HttpEntity<Resource>(headers);
+ResponseEntity<byte[]> response = restTemplate.exchange(getFilePath, HttpMethod.GET, httpEntity, byte[].class);
+try {
+	File file = new File(path + File.separator + fileName);
+	FileOutputStream fos = new FileOutputStream(file);
+	fos.write(response.getBody());
+	fos.flush();
+	fos.close();
+} catch (IOException e) {
+	e.printStackTrace();
+}
 ```
