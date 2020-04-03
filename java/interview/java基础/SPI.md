@@ -171,14 +171,29 @@ ServiceLoader先判断成员变量providers对象中(LinkedHashMap<String,S>类�
 1. 读取META-INF/services/下的配置文件，获得所有能被实例化的类的名称，值得注意的是，ServiceLoader可以跨越jar包获取META-INF下的配置文件，具体加载配置的实现代码如下：
 
 ```java
-try {
-	String fullName = PREFIX + service.getName();
-	if (loader == null)
-		configs = ClassLoader.getSystemResources(fullName);
-	else
-		configs = loader.getResources(fullName);
-} catch (IOException x) {
-	fail(service, "Error locating configuration files", x);
+private boolean hasNextService() {
+	if (nextName != null) {
+		return true;
+	}
+	if (configs == null) {
+		try {
+			String fullName = PREFIX + service.getName();
+			if (loader == null)
+				configs = ClassLoader.getSystemResources(fullName);
+			else
+				configs = loader.getResources(fullName);
+		} catch (IOException x) {
+			fail(service, "Error locating configuration files", x);
+		}
+	}
+	while ((pending == null) || !pending.hasNext()) {
+		if (!configs.hasMoreElements()) {
+			return false;
+		}
+		pending = parse(service, configs.nextElement());
+	}
+	nextName = pending.next();
+	return true;
 }
 ```
 
