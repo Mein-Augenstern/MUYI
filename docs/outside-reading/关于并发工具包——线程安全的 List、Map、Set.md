@@ -14,7 +14,8 @@ Java并发包中的集合从线程安全实现方式而言可分为三类：Conc
 
 * Blocking 类的集合则通过锁（ReentrantLock）实现。它们会提供 “等待性” 的方法。
 
-<h4>Concurrent 的代价</h4>
+Concurrent 的代价
+------
 
 虽然 Concurrent 类的集合没有 CopyOnWrite 那么中的修改开销，但这是有代价的：
 
