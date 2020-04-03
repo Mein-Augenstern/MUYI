@@ -199,8 +199,12 @@ private boolean hasNextService() {
 
 2. 通过反射方法Class.forName()加载类对象，并用instance()方法将类实例化。
     
-3. 把实例化后的类缓存到providers对象中，(LinkedHashMap<String,S>类型）
-然后返回实例对象。
+3. 把实例化后的类缓存到providers对象中，(LinkedHashMap<String,S>类型）然后返回实例对象。
+
+```java
+// Cached providers, in instantiation order
+private LinkedHashMap<String,S> providers = new LinkedHashMap<>();
+```
 
 五、总结
 ====
