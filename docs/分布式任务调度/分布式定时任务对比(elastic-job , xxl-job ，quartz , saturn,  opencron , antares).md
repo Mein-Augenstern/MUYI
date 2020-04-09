@@ -46,11 +46,7 @@ Elastic-Job-Cloud使用Mesos + Docker(TBD)的解决方案，额外提供资源�
 
 6. 提供运维界面，可以管理作业和注册中心
 
-elastic-job结合了quartz非常优秀的时间调度功能，并且利用ZooKeeper实现了灵活的分片策略。除此之外，还加入了大量实用的监控和管理功能，
-
-以及其开源社区活跃、文档齐全、代码优雅等优点，是分布式任务调度框架的推荐选择。
-
-由于elastic-job-lite  不支持动态添加作业，此处仅贴上elastic-job-Cloud架构图
+elastic-job结合了quartz非常优秀的时间调度功能，并且利用ZooKeeper实现了灵活的分片策略。除此之外，还加入了大量实用的监控和管理功能，以及其开源社区活跃、文档齐全、代码优雅等优点，是分布式任务调度框架的推荐选择。由于elastic-job-lite  不支持动态添加作业，此处仅贴上elastic-job-Cloud架构图
 
 ![elastic-job-Cloud架构图](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/picture/elastic-job-Cloud%E6%9E%B6%E6%9E%84%E5%9B%BE.png)
 
