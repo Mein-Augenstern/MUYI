@@ -52,7 +52,7 @@ elastic-job结合了quartz非常优秀的时间调度功能，并且利用ZooKee
 
 由于elastic-job-lite  不支持动态添加作业，此处仅贴上elastic-job-Cloud架构图
 
-![elastic-job-Cloud架构图]()
+![elastic-job-Cloud架构图](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/picture/elastic-job-Cloud%E6%9E%B6%E6%9E%84%E5%9B%BE.png)
 
 xxl-job
 ------
@@ -61,7 +61,7 @@ xxl-job
 
 对象（http协议调用）， 执行器项目启动之后， 调度中心在触发定时器之后通过jobHandle 来调用执行器项目里面的代码，核心功能和elastic-job差不多，同时技术文档比较完善
 
-![xxl-job系统架构图]()
+![xxl-job系统架构图](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/picture/xxl-job%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg)
 
 quartz
 ------
@@ -79,6 +79,8 @@ quartz 的常见集群方案如下，通过在数据库中配置定时器信息�
 2. 当碰到大量短任务时，各个节点频繁的竞争数据库锁，节点越多这种情况越严重。性能会很低下
 
 3. quartz 的分布式仅解决了集群高可用的问题，并没有解决任务分片的问题，不能实现水平扩展
+
+![quartz结构图](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/picture/quartz%E6%9E%B6%E6%9E%84%E5%9B%BE.png)
 
 Saturn
 ------
@@ -125,12 +127,12 @@ antares
 
 2. 文档不多，开源社区不够活跃
 
-![系统架构图]()
+![系统架构图](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/picture/antares%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%9B%BE.png)
 
 比较
 ------
 
 此处列出了几个代表性的开源产品
 
-![比较]()
+![比较](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/picture/%E6%AF%94%E8%BE%83%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%9B%BE.png)
 
