@@ -25,6 +25,8 @@
 
 * <a href="http://www.hollischuang.com/">Hollis</a>
 
+* <a href="https://www.githubs.cn/">GitHub中文社区</a>
+
 阅读推荐
 ====
 
