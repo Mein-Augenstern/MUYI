@@ -59,3 +59,12 @@
 1. ELK架构设计思路（我选择日志采集、日志实时分析两个方面说了一下个人看法）
 
 2. 实时会议软件个人设计看法（开放性题目）
+
+第四面
+------
+
+HR面试
+
+1. 个人履历和项目角色
+
+2. 请参照<a href="https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/Thinking/shulan_interview_attention.md">阿里内推邀请：If not now, when? If not you, who?</a>
