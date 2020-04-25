@@ -14,11 +14,11 @@ Insert into select请慎用。这天xxx接到一个需求，需要将表A的数�
 
 由于考虑到会占用数据库I/O，为了不影响业务，计划是9:00以后开始迁移，但是xxx在8:00的时候，尝试迁移了少部分数据(1000条)，觉得没啥问题，就开始考虑大批量迁移。
 
-![稳的一批]()
+![稳的一批](https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/picture/%E7%A8%B3%E7%9A%84%E4%B8%80%E6%89%B9.png)
 
 * 在迁移的过程中，应急群是先反应有小部分用户出现支付失败，随后反应大批用户出现支付失败的情况，以及初始化订单失败的情况，同时腾讯也开始报警。
 
-![怎么肥事]()
+![怎么肥事](https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/picture/%E6%80%8E%E4%B9%88%E8%82%A5%E4%BA%8B.png)
 
 * 然后xxx就慌了，立即停止了迁移。
 
@@ -56,7 +56,7 @@ CREATE TABLE order_record like order_today;
 
 今日订单表数据
 
-![数据查询]()
+![数据查询](https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/picture/%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2.png)
 
 模拟迁移
 ------
@@ -74,11 +74,11 @@ WHERE
 
 在navicat中运行迁移的sql,同时开另个一个窗口插入数据，模拟下单。
 
-![数据查询_1]()
+![数据查询_1](https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/picture/%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2_1.png)
 
-![数据查询_2]()
+![数据查询_2](https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/picture/%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2_2.png)
 
-![数据查询_3]()
+![数据查询_3](https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/picture/%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2_3.png)
 
 从上面可以发现一开始能正常插入，但是后面突然就卡住了，并且耗费了23s才成功，然后才能继续插入。这个时候已经迁移成功了，所以能正常插入了。
 
@@ -89,7 +89,7 @@ WHERE
 
 分析执行过程。
 
-![数据分析_1]()
+![数据分析_1](https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/picture/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90_1.png)
 
 通过观察迁移sql的执行情况你会发现order_today是全表扫描，也就意味着在执行insert into select from 语句时，mysql会从上到下扫描order_today内的记录并且加锁，这样一来不就和直接锁表是一样了。
 
@@ -114,7 +114,7 @@ WHERE
 
 执行过程
 
-![数据执行_1]()
+![数据执行_1](https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/picture/%E6%95%B0%E6%8D%AE%E6%89%A7%E8%A1%8C_1.png)
 
 总结
 ------
