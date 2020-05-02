@@ -173,8 +173,7 @@ try {
    e.printStackTrace();
    sqlSession.rollback();
    throw e;
-}
-finally {
+} finally {
    sqlsession.close();
 }
 ```
