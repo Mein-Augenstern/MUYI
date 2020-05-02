@@ -155,7 +155,7 @@ Mybatis使用RowBounds对象进行分页，它是针对ResultSet结果集执行�
 然后在java代码中像下面这样执行批处理插入:
 
 ```java
-List<String> names = new ArrayList<>()st<String>();
+List<String> names = new ArrayList<String>();
 names.add("fred");
 names.add("barney");
 names.add("betty");
