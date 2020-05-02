@@ -74,8 +74,8 @@ Mybatis在处理${}时，就是把${}替换成变量的值。
 
 ```java
 <select id="getOrder" parameterType="int" resultMap="orderresultmap">
-      select * from orders where order_id=#{id}
-  </select>
+   select * from orders where order_id=#{id}
+</select>
 
 <resultMap type=”me.gacl.domain.order” id=”orderresultmap”>
     <!–用id属性来映射主键字段–>
@@ -93,20 +93,24 @@ Mybatis在处理${}时，就是把${}替换成变量的值。
 第1种：在Java代码中添加sql通配符。
 
 ```java
-string wildcardname = “%smi%”;
-list<name> names = mapper.selectlike(wildcardname);
+String wildcardname = “%smi%”;
+List<Name> names = mapper.selectlike(wildcardname);
+```
 
+```
 <select id=”selectlike”>
- select * from foo where bar like #{value}
+   select * from foo where bar like #{value}
 </select>
 ```
 
 第2种：在sql语句中拼接通配符，会引起sql注入
 
 ```java
-string wildcardname = “smi”;
-list<name> names = mapper.selectlike(wildcardname);
+String wildcardname = “smi”;
+List<Name> names = mapper.selectlike(wildcardname);
+```
 
+```
 <select id=”selectlike”>
      select * from foo where bar like "%"${value}"%"
 </select>
@@ -117,9 +121,7 @@ list<name> names = mapper.selectlike(wildcardname);
 
 Dao接口即Mapper接口。接口的全限名，就是映射文件中的namespace的值；接口的方法名，就是映射文件中Mapper的Statement的id值；接口方法内的参数，就是传递给sql的参数。
 
-Mapper接口是没有实现类的，当调用接口方法时，接口全限名+方法名拼接字符串作为key值，可唯一定位一个MapperStatement。在Mybatis中，每一个```<select>、<insert>、<update>、<delete>```标签，都会被解析为一个MapperStatement对象。
-
-举例：com.mybatis3.mappers.StudentDao.findStudentById，可以唯一找到namespace为com.mybatis3.mappers.StudentDao下面 id 为 findStudentById 的 MapperStatement。
+Mapper接口是没有实现类的，当调用接口方法时，接口全限名+方法名拼接字符串作为key值，可唯一定位一个MapperStatement。在Mybatis中，每一个```<select>、<insert>、<update>、<delete>```标签，都会被解析为一个MapperStatement对象。例如```com.mybatis3.mappers.StudentDao.findStudentById```，可以唯一找到namespace为```com.mybatis3.mappers.StudentDao```下面 id 为 findStudentById 的 MapperStatement。
 
 Mapper接口里的方法，是不能重载的，因为是使用 全限名+方法名 的保存和寻找策略。Mapper 接口的工作原理是JDK动态代理，Mybatis运行时会使用JDK动态代理为Mapper接口生成代理对象proxy，代理对象会拦截接口方法，转而执行MapperStatement所代表的sql，然后将sql执行结果返回。
 
@@ -193,9 +195,11 @@ insert 方法总是返回一个int值 ，这个值代表的是插入的行数。
 ```
 
 ```java
-name name = new name();
+Name name = new Name();
 name.setname(“fred”);
+```
 
+```
 int rows = mapper.insertname(name);
 // 完成后,id已经被设置到对象中
 system.out.println(“rows inserted = ” + rows);
@@ -205,13 +209,15 @@ system.out.println(“generated key value = ” + name.getid());
 14、在mapper中如何传递多个参数?
 ------
 
-
 （1）第一种：
 
 ```java
-//DAO层的函数
+// DAO层的函数
 Public UserselectUser(String name,String area);  
-//对应的xml,#{0}代表接收的是dao层中的第一个参数，#{1}代表dao层中第二参数，更多参数一致往后加即可。
+```
+
+```
+// 对应的xml,#{0}代表接收的是dao层中的第一个参数，#{1}代表dao层中第二参数，更多参数一致往后加即可。
 <select id="selectUser"resultMap="BaseResultMap">  
     select *  fromuser_user_t   whereuser_name = #{0} anduser_area=#{1}  
 </select>  
@@ -223,7 +229,11 @@ Public UserselectUser(String name,String area);
 public interface usermapper {
    user selectuser(@param(“username”) string username,@param(“hashedpassword”) string hashedpassword);
 }
+```
+
 然后,就可以在xml像下面这样使用(推荐封装为一个map,作为单个参数传递给mapper):
+
+```
 <select id=”selectuser” resulttype=”user”>
          select id, username, hashedpassword
          from some_table
@@ -236,19 +246,19 @@ public interface usermapper {
 
 ```
 try{
-//映射文件的命名空间.SQL片段的ID，就可以调用对应的映射文件中的SQL
-//由于我们的参数超过了两个，而方法中只有一个Object参数收集，因此我们使用Map集合来装载我们的参数
-Map<String, Object> map = new HashMap();
-     map.put("start", start);
-     map.put("end", end);
-     return sqlSession.selectList("StudentID.pagination", map);
- }catch(Exception e){
-     e.printStackTrace();
-     sqlSession.rollback();
-    throw e; }
+   // 映射文件的命名空间.SQL片段的ID，就可以调用对应的映射文件中的SQL
+   // 由于我们的参数超过了两个，而方法中只有一个Object参数收集，因此我们使用Map集合来装载我们的参数
+   Map<String, Object> map = new HashMap();
+   map.put("start", start);
+   map.put("end", end);
+   return sqlSession.selectList("StudentID.pagination", map);
+}catch(Exception e){
+   e.printStackTrace();
+   sqlSession.rollback();
+   throw e; }
 finally{
- MybatisUtil.closeSqlSession();
- }
+   MybatisUtil.closeSqlSession();
+}
 ```
 
 15、Mybatis动态sql有什么用？执行原理？有哪些动态sql？
@@ -256,7 +266,7 @@ finally{
 
 Mybatis动态sql可以在Xml映射文件内，以标签的形式编写动态sql，执行原理是根据表达式的值 完成逻辑判断并动态拼接sql的功能。
 
-Mybatis提供了9种动态sql标签：trim | where | set | foreach | if | choose | when | otherwise | bind。
+Mybatis提供了9种动态sql标签：```trim | where | set | foreach | if | choose | when | otherwise | bind```。
 
 16、Xml映射文件中，除了常见的```select|insert|updae|delete```标签之外，还有哪些标签？
 ------
@@ -359,10 +369,13 @@ Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或�
 25、使用MyBatis的mapper接口调用时有哪些要求？
 ------
 
-①  Mapper接口方法名和mapper.xml中定义的每个sql的id相同；
-②  Mapper接口方法的输入参数类型和mapper.xml中定义的每个sql 的parameterType的类型相同；
-③  Mapper接口方法的输出参数类型和mapper.xml中定义的每个sql的resultType的类型相同；
-④  Mapper.xml文件中的namespace即是mapper接口的类路径。
+（1）Mapper接口方法名和mapper.xml中定义的每个sql的id相同；
+
+（2）Mapper接口方法的输入参数类型和mapper.xml中定义的每个sql 的parameterType的类型相同；
+
+（3）Mapper接口方法的输出参数类型和mapper.xml中定义的每个sql的resultType的类型相同；
+
+（4）Mapper.xml文件中的namespace即是mapper接口的类路径。
 
 26、Mapper编写有哪几种方式？
 ------
