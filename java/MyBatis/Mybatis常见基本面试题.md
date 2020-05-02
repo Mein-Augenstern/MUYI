@@ -153,27 +153,27 @@ Mybatis使用RowBounds对象进行分页，它是针对ResultSet结果集执行�
 然后在java代码中像下面这样执行批处理插入:
 
 ```java
-list<string> names = new arraylist();
-names.add(“fred”);
-names.add(“barney”);
-names.add(“betty”);
-names.add(“wilma”);
+List<String> names = new ArrayList<>()st<String>();
+names.add("fred");
+names.add("barney");
+names.add("betty");
+names.add("wilma");
 
 // 注意这里 executortype.batch
 sqlsession sqlsession = sqlsessionfactory.opensession(executortype.batch);
 try {
- namemapper mapper = sqlsession.getmapper(namemapper.class);
- for (string name : names) {
-     mapper.insertname(name);
- }
- sqlsession.commit();
+   namemapper mapper = sqlsession.getmapper(namemapper.class);
+   for (string name : names) {
+       mapper.insertname(name);
+   }
+   sqlsession.commit();
 }catch(Exception e){
- e.printStackTrace();
- sqlSession.rollback(); 
- throw e; 
+   e.printStackTrace();
+   sqlSession.rollback();
+   throw e;
 }
- finally {
-     sqlsession.close();
+finally {
+   sqlsession.close();
 }
 ```
 
