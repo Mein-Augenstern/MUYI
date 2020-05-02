@@ -39,6 +39,8 @@
 
 * <a href="https://github.com/DemoTransfer/JavaGuide/new/master/contents">网络</a>
 
+* <a href="">加解密</a>
+
 * <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/desgin-pattern.md">设计模式</a>
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/tree/master/sort">数据结构和算法</a>
@@ -46,6 +48,12 @@
 * <a href="https://github.com/DemoTransfer/LearningRecord/tree/master/linux/%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E8%B5%B7%E6%89%8B%E5%BC%8F%E5%91%BD%E4%BB%A4">操作系统</a>
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/docs/outside-reading/%E7%9E%8E%E7%9C%8B%E7%B3%BB%E5%88%97.md">杂文系列</a>
+
+* 工具
+
+   * <a href="">Git</a>
+
+   * <a href="">Maven</a>
 
 * <a href="https://github.com/DemoTransfer/JavaGuide/new/master/contents">素材文章来源</a>
 
