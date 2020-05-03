@@ -39,7 +39,7 @@
 
 * <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Database.md">数据库</a>
 
-* <a href="https://github.com/DemoTransfer/JavaGuide/new/master/contents">网络</a>
+* <a href="https://github.com/DemoTransfer/Java-Guide/blob/master/contents/Network.md">网络</a>
 
 * <a href="">加解密</a>
 
