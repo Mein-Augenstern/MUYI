@@ -5,7 +5,7 @@
 
 > * <a href="https://www.jianshu.com/p/d2bf42586071">Iass、Pass、SasS三种云服务区别</a>
 
-![sass-pass-iass-1]()
+![sass-pass-iass-1](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/%E4%B8%93%E4%B8%9A%E6%9C%AF%E8%AF%AD/picture/sass-pass-iass-1.jpg)
 
 你一定听说过云计算中的三个“高大上”的你一定听说过云计算中的三个“高大上”的概念：IaaS、PaaS和SaaS，这几个术语并不好理解。不过，如果你是个吃货，还喜欢披萨，这个问题就好解决了!好吧，其实你根本不是一个吃货，之所以自我标榜为吃货，其实是为了收获赞叹式的夸奖，“吃货还这么瘦，好羡慕啊!”或者，总得给伦家的微丰找个像样的理由。
 
@@ -13,35 +13,35 @@
 
 这真是个麻烦事，你的准备很多东西，发面、做面团、进烤箱。。。。。简单列一下，需要下图所示的一切：
 
-![sass-pass-iass-2]()
+![sass-pass-iass-2](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/%E4%B8%93%E4%B8%9A%E6%9C%AF%E8%AF%AD/picture/sass-pass-iass-2.jpg)
 
 <h4>2. 买好速食披萨回家自己做着吃</h4>
 
 你只需要从披萨店里买回成品，回家烘焙就好了，在自己的餐桌上吃。和自己在家做不同，你需要一个pizza供应商。
 
-![sass-pass-iass-3]()
+![sass-pass-iass-3](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/%E4%B8%93%E4%B8%9A%E6%9C%AF%E8%AF%AD/picture/sass-pass-iass-3.jpg)
 
 <h4>3. 打电话叫外卖将披萨送到家中</h4>
 
 打个电话，pizza就送到家门口。
 
-![sass-pass-iass-4]()
+![sass-pass-iass-4](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/%E4%B8%93%E4%B8%9A%E6%9C%AF%E8%AF%AD/picture/saa-pass-iass-4.jpg)
 
 <h4>4.在披萨店吃披萨</h4>
 
 你什么都不需要准备，连餐桌也是pizza店的。
 
-![sass-pass-iass-5]()
+![sass-pass-iass-5](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/%E4%B8%93%E4%B8%9A%E6%9C%AF%E8%AF%AD/picture/saa-pass-iass-5.jpg)
 
 总结一下，吃货可以通过如下途径吃披萨：
 
-![sass-pass-iass-6]()
+![sass-pass-iass-6](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/%E4%B8%93%E4%B8%9A%E6%9C%AF%E8%AF%AD/picture/sass-pass-iass-6.jpg)
 
 好了，现在忘掉pizza!
 
 假设你是一家超牛X的技术公司，根本不需要别人提供服务，你拥有基础设施、应用等等其它一切，你把它们分为三层：**基础设施(infrastructure)**、**平台(platform)**和**软件(software)**，如下图：
 
-![sass-pass-iass-7]()
+![sass-pass-iass-7](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/%E4%B8%93%E4%B8%9A%E6%9C%AF%E8%AF%AD/picture/sass-pass-iass-7.jpg)
 
 这其实就是云计算的三个分层，基础设施在最下端，平台在中间，软件在顶端，分别是分别是Infrastructure-as-a-Service(IaaS)，Platform-as-a-Service(PaaS)，Software-as-a-Service(SaaS)，别的一些“软”的层可以在这些层上面添加。
 
@@ -51,7 +51,7 @@
 
 用一张图来表示就是这样的。
 
-![sass-pass-iass-8]()
+![sass-pass-iass-8](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/%E4%B8%93%E4%B8%9A%E6%9C%AF%E8%AF%AD/picture/sass-pass-iass-8.jpg)
 
 现在我们来谈谈具体细节。
 
