@@ -7,7 +7,7 @@
 
 ![sass-pass-iass-1](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/%E4%B8%93%E4%B8%9A%E6%9C%AF%E8%AF%AD/picture/sass-pass-iass-1.jpg)
 
-你一定听说过云计算中的三个“高大上”的你一定听说过云计算中的三个“高大上”的概念：IaaS、PaaS和SaaS，这几个术语并不好理解。不过，如果你是个吃货，还喜欢披萨，这个问题就好解决了!好吧，其实你根本不是一个吃货，之所以自我标榜为吃货，其实是为了收获赞叹式的夸奖，“吃货还这么瘦，好羡慕啊!”或者，总得给伦家的微丰找个像样的理由。
+你一定听说过云计算中的三个“高大上”的概念：IaaS、PaaS和SaaS，这几个术语并不好理解。不过，如果你是个吃货，还喜欢披萨，这个问题就好解决了!好吧，其实你根本不是一个吃货，之所以自我标榜为吃货，其实是为了收获赞叹式的夸奖，“吃货还这么瘦，好羡慕啊!”或者，总得给伦家的微丰找个像样的理由。
 
 <h4>1. 在家自己做</h4>
 
@@ -43,7 +43,7 @@
 
 ![sass-pass-iass-7](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/%E4%B8%93%E4%B8%9A%E6%9C%AF%E8%AF%AD/picture/sass-pass-iass-7.jpg)
 
-这其实就是云计算的三个分层，基础设施在最下端，平台在中间，软件在顶端，分别是分别是Infrastructure-as-a-Service(IaaS)，Platform-as-a-Service(PaaS)，Software-as-a-Service(SaaS)，别的一些“软”的层可以在这些层上面添加。
+这其实就是云计算的三个分层，基础设施在最下端，平台在中间，软件在顶端，分别是Infrastructure-as-a-Service(IaaS)，Platform-as-a-Service(PaaS)，Software-as-a-Service(SaaS)，别的一些“软”的层可以在这些层上面添加。
 
 而你的公司什么都有，现在所处的状态叫本地部署(On-Premises)，就像在自己家做pizza一样。几年前如果你想在办公室或者公司的网站上运行一些企业应用，你需要去买服务器，或者别的高昂的硬件来控制本地应用，让你的业务运行起来，这就叫本地部署。
 
