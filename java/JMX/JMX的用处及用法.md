@@ -5,7 +5,7 @@
 
 JMX最常见的场景是监控Java程序的基本信息和运行情况，任何Java程序都可以开启JMX，然后使用JConsole或Visual VM进行预览。下图是使用Jconsle通过JMX查看Java程序的运行信息
 
-![jmx_1]()
+![jmx_1](https://github.com/DemoTransfer/Java-Guide/blob/master/java/JMX/picture/jmx_1.png)
 
 为Java程序开启JMX很简单，只要在运行Java程序的命令后面指定如下命令即可
 
@@ -67,11 +67,11 @@ public static void main(String[] args)  throws JMException, Exception{
 
 如果程序运行在本地，Jconsole会自动检测到程序的进程，鼠标双击进入即可
 
-![jmx_2]()
+![jmx_2](https://github.com/DemoTransfer/Java-Guide/blob/master/java/JMX/picture/jmx_2.png)
 
 在JConsole下面即会展示我们定义的MBean中的内容
 
-![jmx_3]()
+![jmx_3](https://github.com/DemoTransfer/Java-Guide/blob/master/java/JMX/picture/jmx_3.png)
 
 那么假如Java程序并非运行在本地而是运行在远端服务器上我们应该如何通过客户端去连接呢， 很简单，只要使用JDK提供的JMX类库监听端口提供服务即可
 
@@ -103,7 +103,7 @@ public class Main {
 
 然后使用JConsole的连接远端进程功能即可
 
-![jmx_4]()
+![jmx_4](https://github.com/DemoTransfer/Java-Guide/blob/master/java/JMX/picture/jmx_4.png)
 
 其余的操作和本地无差。
 
@@ -134,18 +134,18 @@ public class ServerInfo implements ServerInfoMBean {
 二、运行程序并使用JConsole连接
 ------
 
-![jmx_5]()
+![jmx_5](https://github.com/DemoTransfer/Java-Guide/blob/master/java/JMX/picture/jmx_5.png)
 
 mbean页签中出现了我们新添加的方法
 
 三、点击printString按钮调用方法
 ------
 
-![jmx_6]()
+![jmx_6](https://github.com/DemoTransfer/Java-Guide/blob/master/java/JMX/picture/jmx_6.png)
 
 方法被调用，同时控制台也打印了通过Jconsole传递的参数
 
-![jmx_7]()
+![jmx_7](https://github.com/DemoTransfer/Java-Guide/blob/master/java/JMX/picture/jmx_7.png)
 
 这里只是讲解了JMX的用处和最基础的使用方法，显然JMX真正提供的功能远不及此，比如它可以不用JConsole而是客户端编程的方式访问等等， 有兴趣的同学可以深入研究。
 
