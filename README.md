@@ -61,6 +61,8 @@
 
    * <a href="https://github.com/DemoTransfer/Java-Guide/blob/master/docs/BFF/BFF%20%E2%80%94%E2%80%94%20Backend%20For%20Frontend.MD">BFF —— Backend For Frontend</a>
 
+   * <a href="https://github.com/DemoTransfer/Java-Guide/blob/master/docs/BFF/BFF%E2%80%94%E2%80%94%E6%9C%8D%E5%8A%A1%E4%BA%8E%E5%89%8D%E7%AB%AF%E7%9A%84%E5%90%8E%E7%AB%AF.MD">BFF——服务于前端的后端</a>
+
 * 工具
 
    * <a href="">Git</a>
