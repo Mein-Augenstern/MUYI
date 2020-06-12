@@ -324,6 +324,18 @@
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/tree/master/sort">数据结构和算法</a>
 
+   * 排序算法
+   
+      * <a href="https://github.com/DemoTransfer/Java-Guide/blob/master/sort/BubbleSort">BubbleSort</a>
+      
+      * <a href="https://github.com/DemoTransfer/Java-Guide/blob/master/sort/InsertSelectSort">InsertSelectSort</a>
+      
+      * <a href="https://github.com/DemoTransfer/Java-Guide/blob/master/sort/QuickSort">QuickSort</a>
+      
+      * <a href="https://github.com/DemoTransfer/Java-Guide/blob/master/sort/QuickSortSecondImpl">QuickSortSecondImpl</a>
+      
+      * <a href="https://github.com/DemoTransfer/Java-Guide/blob/master/sort/SelectSort">SelectSort</a>
+
 * <a href="https://github.com/DemoTransfer/LearningRecord/tree/master/linux/%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E8%B5%B7%E6%89%8B%E5%BC%8F%E5%91%BD%E4%BB%A4">操作系统</a>
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/docs/outside-reading/%E7%9E%8E%E7%9C%8B%E7%B3%BB%E5%88%97.md">杂文系列</a>
