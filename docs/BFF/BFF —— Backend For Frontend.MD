@@ -19,26 +19,26 @@ Question
 
 BFF，即 Backend For Frontend（服务于前端的后端），也就是服务器设计 API 时会考虑前端的使用，并在服务端直接进行业务逻辑的处理，又称为用户体验适配器。BFF 只是一种逻辑分层，而非一种技术，虽然 BFF 是一个新名词，但它的理念由来已久。
 
-![BFF_1]()
+![BFF_1](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/BFF/picture/BFF_!.png)
 
 BFF 解决了什么问题
 ------
 
 如下图，在我们的前端页面时常存在，某个页面需要向 backend A、backend B 以及 backend C...... 发送请求，不同服务的返回值用于渲染页面中不同的 component，即一个页面存在很多请求的场景。
 
-![BFF_2]()
+![BFF_2](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/BFF/picture/BFF_2.png)
 
 此时，每次访问该页面都需要发送 3 个请求。同时为了保障 Android，iOS，以及 Web 端的不同需求，需要为不同的平台写不同的 API 接口，而每当值发生一些变化时，需要 Android，iOS，Web 做出修改。与此同时，当我们需要对一个字符串进行处理，如限定 140 个字符的时候，我们需要在每一个客户端（Android，iOS，Web）分别实现一遍，这样的代价显然相当大。
 
 于是，我们就需要 BFF 作为中间件。在这个中间件上我们将做一些业务逻辑处理：
 
-![BFF_3]()
+![BFF_3](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/BFF/picture/BFF_3.png)
 
 而当我们有了 BFF 这一层时，我们就不需要考虑系统后端的迁移。后端发生的变化都可以在 BFF 层做一些响应的修改。
 
 例如，我们加入 BFF 层，原本每次访问发送 3 请求页面，变成一个请求。
 
-![BFF_4]()
+![BFF_4](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/BFF/picture/BFF_4.png)
 
 使用 BFF 的正确姿势
 ------
