@@ -53,6 +53,10 @@
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/docs/outside-reading/%E7%9E%8E%E7%9C%8B%E7%B3%BB%E5%88%97.md">杂文系列</a>
 
+* <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/java/SPI">SPI</a>
+
+   * <a href="https://github.com/DemoTransfer/Java-Guide/blob/master/java/SPI/%E4%BA%86%E8%A7%A3%E7%AE%80%E5%8D%95%E7%9A%84SPI%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E5%92%8C%E8%BF%90%E7%94%A8.md">了解简单的SPI实现原理和运用</a>
+
 * 工具
 
    * <a href="">Git</a>
