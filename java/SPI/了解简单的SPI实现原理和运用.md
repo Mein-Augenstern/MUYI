@@ -6,7 +6,7 @@
 SPI原理
 ------
 
-![SPI-1]()
+![SPI-1](https://github.com/DemoTransfer/Java-Guide/blob/master/java/SPI/picture/spi_1.png)
 
 SPI的全名为Service Provider Interface.大多数开发人员可能不熟悉，因为这个是针对厂商或者插件的。在java.util.ServiceLoader的文档里有比较详细的介绍。简单的总结下java spi机制的思想。我们系统里抽象的各个模块，往往有很多不同的实现方案，比如日志模块的方案，xml解析模块、jdbc模块的方案等。面向对象的设计里，我们一般推荐模块之间基于接口编程，模块之间不使用实现类进行硬编码。一旦代码里涉及具体的实现类，就违反了可拔插的原则，如果需要替换一种实现，就需要修改代码。为了实现在模块装配的时候动态指定具体实现类，这就需要一种服务发现机制。 java spi就是提供这种功能的机制：为某个接口寻找服务实现的机制。有点类似IOC的思想，将装配的控制权移到程序之外，在模块化设计中这个机制尤其重要。 
 
@@ -25,7 +25,7 @@ java SPI应用场景很广泛，在Java底层和一些框架中都很常用，�
 SPI实现
 ------
 
-![spi_2]()
+![spi_2](https://github.com/DemoTransfer/Java-Guide/blob/master/java/SPI/picture/spi_2.png)
 
 (1) spi-demo-api 提供需要实现的接口
 
@@ -46,11 +46,11 @@ public class SpiDemoImpl1 implements SpiDemo {
 ```
 每一个SPI接口都需要在自己项目的静态资源目录中声明一个services文件，文件名为实现规范接口的类名全路径。在resources目录中创建\META-INF\services目录，创建以com.hanggle.spi.api.SpiDemo为名的文件。（文件名即是要实现的接口类的全路径如下图）
 
-![spi_3]()
+![spi_3](https://github.com/DemoTransfer/Java-Guide/blob/master/java/SPI/picture/spi_3.png)
 
-![spi_4]()
+![spi_4](https://github.com/DemoTransfer/Java-Guide/blob/master/java/SPI/picture/spi_4.png)
 
-![spi_5]()
+![spi_5](https://github.com/DemoTransfer/Java-Guide/blob/master/java/SPI/picture/spi_5.png)
 
 文件内容：
 
@@ -90,14 +90,14 @@ public static void main(String[] args) {
 
 运行结果：
 
-![spi_6]()
+![spi_6](https://github.com/DemoTransfer/Java-Guide/blob/master/java/SPI/picture/spi_6.png)
 
 SPI 源码
 ------
 
-![spi_7]()
+![spi_7](https://github.com/DemoTransfer/Java-Guide/blob/master/java/SPI/picture/spi_7.png)
 
-![spi_8]()
+![spi_8](https://github.com/DemoTransfer/Java-Guide/blob/master/java/SPI/picture/spi_8.png)
 
 有源代码可以，java会根据定义的路径去扫描可能存在的接口的实现。放在config中，然后使用parse方法将配置文件中的接口实现全路径放在pending中，并取得第一个实现类（变量nextName），
 
