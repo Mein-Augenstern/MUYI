@@ -10,7 +10,7 @@
 
 故事都得从long long ago说起，让我们先来回顾web 1.0，那时候的网站如下所示：
 
-![S_2]()
+![S_2](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/BFF/picture/S_2.png)
 
 第一代Web架构很简单，纯后端网页渲染；就是客户端每次向服务器请求都会返回一个特定的html页面，js都没啥大用场。我学生时代流行的JSP就属于这个范畴。后来上班了，发现厂里的操作更风骚，用的是string拼接html的动态渲染技术，当时极为震惊。
 
@@ -20,7 +20,7 @@
 
 这时候聪明的小伙子们想到了将数据格式转化成JSON，并通过api调用提供给前端使用——前后端解耦。
 
-![S_3]()
+![S_3](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/BFF/picture/S_3.png)
 
 此后的变化是一系列的JS前端框架方兴未艾；得益于技术演进，前后端技术正式分离，Web交互空前丰富。
 
@@ -28,7 +28,7 @@
 
 前端在剧烈演进，后端也悄然发生着变化：微服务、中台战略这类词汇充斥在各类技术架构中。
 
-![S_4]()
+![S_4](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/BFF/picture/S_4.png)
 
 客户端与微服务交互成为了新的考量。应对微服务的方案很多：
 
@@ -36,13 +36,13 @@
 
 比较直观的方案就是利用api网关分发请求：
 
-![S_5]()
+![S_5](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/BFF/picture/S_5.png)
 
 * CORS
 
 第二个想到的是前端跨域请求。前端分别向不同微服务发出请求，再将回调数据在Flux层处理后反映在DOM上。
 
-![S_6]()
+![S_6](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/BFF/picture/S_6.png)
 
 上述两种方案，在业务权责上有明显偏重。怎么看出来呢？看数据的组装、聚合、裁剪放在哪一块就行了。
 
@@ -57,7 +57,7 @@ BFF
 
 有没有更优雅的解决方式呢？嗯，不如将组装、聚合、裁剪这部分业务单独拎出来，组成一个叫Back-end for Front-end的中间层。
 
-![S_7]()
+![S_7](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/BFF/picture/S_7.png)
 
 > 没有什么是加一个中间层解决不了的，如果有，就加两个…… ——鲁迅
 
