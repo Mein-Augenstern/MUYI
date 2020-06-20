@@ -166,7 +166,7 @@ EventloopGroup 了解么?和 EventLoop 啥关系?
 
 面试官 ：刚刚你也介绍了 EventLoop。那你再说说 EventloopGroup 吧！和 EventLoop 啥关系?
 
-![Netty_Q_1]()
+![Netty_Q_1](https://github.com/DemoTransfer/Java-Guide/blob/master/java/web%20server/netty/picture/netty_Q_1.jpg)
 
 EventLoopGroup 包含多个 EventLoop（每一个 EventLoop 通常内部包含一个线程），上面我们已经说了 EventLoop 的主要作用实际就是负责监听网络事件并调用事件处理器进行相关 I/O 操作的处理。
 
@@ -345,7 +345,7 @@ try {
   //......
 ```
 
-![NETTY_Q_2]()
+![NETTY_Q_2](https://github.com/DemoTransfer/Java-Guide/blob/master/java/web%20server/netty/picture/netty_Q_2.jpg)
 
 3.主从多线程模型
 
@@ -363,7 +363,7 @@ try {
     //......
 ```
 
-![NETTY_Q_3]()
+![NETTY_Q_3](https://github.com/DemoTransfer/Java-Guide/blob/master/java/web%20server/netty/picture/NETTY_Q_3.jpg)
 
 Netty 服务端和客户端的启动过程了解么？
 ------
@@ -512,7 +512,7 @@ ChannelFuture f = b.connect(host, port).addListener(future -> {
 
 我 ：TCP 粘包/拆包 就是你基于 TCP 发送数据的时候，出现了多个字符串“粘”在了一起或者一个字符串被“拆”开的问题。比如你多次发送：“你好,你真帅啊！哥哥！”，但是客户端接收到的可能是下面这样的：
 
-![netty_q_5]()
+![netty_q_5](https://github.com/DemoTransfer/Java-Guide/blob/master/java/web%20server/netty/picture/nETTY_Q_4.jpg)
 
 面试官 ：那有什么解决办法呢?
 
