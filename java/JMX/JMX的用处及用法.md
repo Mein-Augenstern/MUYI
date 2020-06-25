@@ -3,6 +3,11 @@
 
 * <a href="https://www.jianshu.com/p/fa4e88f95631">JMX的用处及用法</a>
 
+<a href="https://baike.baidu.com/item/JMX/2829357?fr=aladdin">百度百科介绍</a>
+------
+
+> JMX（Java Management Extensions，即Java管理扩展）是一个为应用程序、设备、系统等植入管理功能的框架。JMX可以跨越一系列异构操作系统平台、系统体系结构和网络传输协议，灵活的开发无缝集成的系统、网络和服务管理应用。
+
 JMX最常见的场景是监控Java程序的基本信息和运行情况，任何Java程序都可以开启JMX，然后使用JConsole或Visual VM进行预览。下图是使用Jconsle通过JMX查看Java程序的运行信息
 
 ![jmx_1](https://github.com/DemoTransfer/Java-Guide/blob/master/java/JMX/picture/jmx_1.png)
