@@ -12,6 +12,17 @@ JMX最常见的场景是监控Java程序的基本信息和运行情况，任何J
 
 ![jmx_1](https://github.com/DemoTransfer/Java-Guide/blob/master/java/JMX/picture/jmx_1.png)
 
+<a href="https://baike.baidu.com/item/JMX/2829357?fr=aladdin">百度百科简介</a>
+------
+
+> JMX在Java编程语言中定义了应用程序以及网络管理和监控的体系结构、设计模式、应用程序接口以及服务。通常使用JMX来监控系统的运行状态或管理系统的某些方面，比如清空缓存、重新加载配置文件等
+优点是可以非常容易的使应用程序被管理
+伸缩性的架构使每个JMX Agent服务可以很容易的放入到Agent中，每个JMX的实现都提供几个核心的Agent服务，你也可以自己编写服务，服务可以很容易的部署，取消部署。
+主要作用是提供接口，允许有不同的实现
+
+<a href="https://www.jianshu.com/p/fa4e88f95631">JMX的用处及用法</a>
+------
+
 为Java程序开启JMX很简单，只要在运行Java程序的命令后面指定如下命令即可
 
 ```java
