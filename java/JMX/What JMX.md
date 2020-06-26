@@ -44,4 +44,26 @@ JMX最常见的场景是监控Java程序的基本信息和运行情况，任何J
 
 **ObjectName**: MBean在MBeanServer中的唯一标识。
 
+**Protocol Adapters and Connectors**: 
 
+JMX Agent通过各种各样的Adapter和Connector来与外界(JVM之外)进行通信。同样外界（JVM之外）也必须通过某个Adapter和Connector来向JMX Agent发送管理或控制请求。
+
+Adapter和Connector的区别在于：Adapter是使用某种Internet协议来与JMX Agent获得联系，Agent端会有一个对象(Adapter)来处理有关协议的细节。比如SNMP Adapter和HTTP Adapter。而Connector则是使用类似RPC的方式来访问Agent，在Agent端和客户端都必须有这样一个对象来处理相应的请求与应答。比如RMI Connector。
+
+JMX Agent可以带有任意多个Adapter，因此可以使用多种不同的方式访问Agent。
+
+**jmx中的三层结构**：
+
+**Instrumentation 层**：Instrumentation层主要包括了一系列的接口定义和描述如何开发MBean的规范。通常JMX所管理的资源有一个或多个MBean组成，因此这个资源可以是任何由Java语言开发的组件，或是一个JavaWrapper包装的其他语言开发的资源。
+
+**Agent 层**: Agent用来管理相应的资源，并且为远端用户提供访问的接口。Agent层构建在Intrumentation层之上，并且使用并管理Instrumentation层内部描述的组件。通常Agent由一个MBeanServer和多个系统服务组成。另外Agent还提供一个或多个Adapter或Connector以供外界的访问。JMX Agent并不关心它所管理的资源是什么。
+
+**Distributed 层**: Distributed层关心Agent如何被远端用户访问的细节。它定义了一系列用来访问Agent的接口和组件，包括Adapter和Connector的描述。
+
+![what_jmx_two]()
+
+1. 一个java进程里面可以有多个不同名字的mBeanServer ，每个mbs都是一个独立的容器，用了管理mbean
+
+2. 每个mbs都可以注册多个rmi port，http port等
+
+3. platformMBeanServer 是由jvm创建的，并添加了一些系统的mbean，如cpu，内存，网络，线程等等
