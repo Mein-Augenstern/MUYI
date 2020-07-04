@@ -142,3 +142,43 @@ public void testSqlMapClientTemplate() {
 	});
 }
 ```
+
+而直接使用SqlMapClient则需要很多关注很多细节，导致很多重复代码产生。
+
+```java
+@Test
+public void testFirst() throws SQLException {
+    UserModel model = new UserModel();
+    model.setMyName("test");
+    SqlMapSession session = null;
+    try {
+        session = sqlMapClient.openSession();
+        beginTransaction(session);
+        session.insert("UserSQL.insert", model);
+        commitTransaction(session);
+    } catch (SQLException e) {
+        rollbackTransacrion(session);
+        throw e;
+    } finally {
+        closeSession(session);
+    }
+}
+
+private void closeSession(SqlMapSession session) {
+   session.close();
+}
+
+private void rollbackTransacrion(SqlMapSession session) throws SQLException {
+    if(session != null) {
+        session.endTransaction();
+    }         
+}
+
+private void commitTransaction(SqlMapSession session) throws SQLException {
+    session.commitTransaction();
+}
+
+private void beginTransaction(SqlMapSession session) throws SQLException {
+    session.startTransaction();
+}
+```
