@@ -115,5 +115,30 @@ public abstract class SqlMapClientDaoSupport extends DaoSupport {
 	}
 
 }
+}
+```
 
+SqlMapClientTemplate模板类用于简化事务管理及常见操作，类似于JdbcTemplate模板类，对于复杂操作通过提供SqlMapClientCallback回调接口来允许更复杂的操作。
+
+示例代码
+-------
+
+```java
+@Test
+public void testSqlMapClientTemplate() {
+	SqlMapClientTemplate sqlMapClientTemplate = new SqlMapClientTemplate(sqlMapClient);
+	final UserModel model = new UserModel();
+	model.setMyName("myName");
+	sqlMapClientTemplate.insert("UserSQL.insert", model);
+	
+		//通过回调允许更复杂操作
+		sqlMapClientTemplate.execute(new SqlMapClientCallback<Void>() {
+		@Override
+		public Void doInSqlMapClient(SqlMapExecutor session) throws SQLException {
+		    session.insert("UserSQL.insert", model);
+		    return null;
+		}
+		
+	});
+}
 ```
