@@ -3,7 +3,7 @@
 ![草帽~](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/Monkey%20D%20Luffy/%E8%8D%89%E5%B8%BD~.jpg)
 
 
-> Java-Guide来源于<a href="https://github.com/Snailclimb/JavaGuide">SnailClimb的JavaGuide项目</a>，Java-Guide是2020年2月份开始原创和转载文章，也是新冠病毒较为严重的时候，希望武汉加油！中国加油！
+> Java-Guide来源于<a href="https://github.com/Snailclimb/JavaGuide">SnailClimb的JavaGuide项目</a>
 
 ### 开始阅读之前必看
 
