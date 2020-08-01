@@ -15,4 +15,4 @@
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%AD%E5%8F%A5%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5.md">数据库语句优化手段</a>
 
-* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E7%B4%A2%E5%BC%95.md">所以呢</a>
+* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E7%B4%A2%E5%BC%95.md">索引</a>
