@@ -314,6 +314,10 @@
 
 * <a href="">分布式事务</a>
 
+   * <a href="">分布式事务概念</a>
+
+   * <a href="">分布式事务常见实现方式</a>
+
 * <a href="https://github.com/DemoTransfer/Java-Guide/blob/master/contents/Network.md">网络</a>
 
    * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98.md">计算机网络常见面试题</a>
