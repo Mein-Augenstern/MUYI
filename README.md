@@ -14,7 +14,9 @@
 
 ### 目录
 
-* <a href="https://github.com/DemoTransfer/LearningRecord/tree/master/sort">数据结构和算法</a>
+* 数据结构和算法
+
+    * <a href="https://github.com/DemoTransfer/LearningRecord/tree/master/sort">排序算法</a>
 
 * Java
 
