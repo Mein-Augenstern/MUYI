@@ -68,19 +68,11 @@
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/tree/master/linux/%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E8%B5%B7%E6%89%8B%E5%BC%8F%E5%91%BD%E4%BB%A4">操作系统</a>
 
-* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/docs/outside-reading/%E7%9E%8E%E7%9C%8B%E7%B3%BB%E5%88%97.md">杂文系列</a>
-
 * <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/java/SPI">SPI</a>
-
-   * <a href="https://github.com/DemoTransfer/Java-Guide/blob/master/java/SPI/%E4%BA%86%E8%A7%A3%E7%AE%80%E5%8D%95%E7%9A%84SPI%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E5%92%8C%E8%BF%90%E7%94%A8.md">了解简单的SPI实现原理和运用</a>
 
 * <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/docs/BFF">BFF</a>
 
-   * <a href="https://github.com/DemoTransfer/Java-Guide/blob/master/docs/BFF/BFF%20%E2%80%94%E2%80%94%20Backend%20For%20Frontend.MD">BFF —— Backend For Frontend</a>
-
-   * <a href="https://github.com/DemoTransfer/Java-Guide/blob/master/docs/BFF/BFF%E2%80%94%E2%80%94%E6%9C%8D%E5%8A%A1%E4%BA%8E%E5%89%8D%E7%AB%AF%E7%9A%84%E5%90%8E%E7%AB%AF.MD">BFF——服务于前端的后端</a>
-
-* <a href="">Serverless</a>
+* Serverless
 
 * 工具
 
