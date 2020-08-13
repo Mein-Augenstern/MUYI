@@ -27,6 +27,8 @@
     * <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/JVM.md">JVM</a>
    
     * <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/java/SPI">SPI</a>
+    
+    * OSGI
   
 * 开发框架
 
