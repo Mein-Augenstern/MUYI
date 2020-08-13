@@ -1,5 +1,3 @@
-> Java-Guide来源于<a href="https://github.com/Snailclimb/JavaGuide">SnailClimb的JavaGuide项目</a>
-
 ### 开始阅读之前必看
 
 1. <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Good-Link.md">优秀链接</a>
