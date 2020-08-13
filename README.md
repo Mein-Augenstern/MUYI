@@ -1,8 +1,3 @@
-### 草帽团~
-
-![草帽~](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/Monkey%20D%20Luffy/%E8%8D%89%E5%B8%BD~.jpg)
-
-
 > Java-Guide来源于<a href="https://github.com/Snailclimb/JavaGuide">SnailClimb的JavaGuide项目</a>
 
 ### 开始阅读之前必看
