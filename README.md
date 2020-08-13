@@ -42,6 +42,7 @@
     
     * SpringCloud
     
+   * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Netty.md">Netty</a>
     
  * 开发规范
  
@@ -52,8 +53,7 @@
  * web服务器
  
    * <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/java/web%20server/tomcat">Tomcat</a>
-    
-   * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Netty.md">Netty</a>
+   
 
 * 数据库
 
