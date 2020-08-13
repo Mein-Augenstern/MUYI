@@ -31,6 +31,8 @@
     * <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/java/SPI">SPI</a>
     
     * OSGI
+
+    * JMX
   
 * 开发框架
 
