@@ -32,7 +32,7 @@
    
     * <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/java/SPI">SPI</a>
     
-    * OSGI
+    * <a href="https://github.com/DemoTransfer/MUYI/tree/master/contents">OSGI</a>
 
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/JMX.md">JMX</a>
   
