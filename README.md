@@ -56,9 +56,11 @@
    * Postgres
    
 
-* 分布式事务
+* 分布式
+   
+   * <a href="https://juejin.im/post/6844903967701336078">一文读懂分布式架构知识体系（内含超全核心知识大图）</a>
 
-   * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/distributed-transaction.md">分布式事务知识点</a>
+   * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/distributed-transaction.md">分布式事务</a>
 
 * <a href="https://github.com/DemoTransfer/Java-Guide/blob/master/contents/Network.md">网络</a>
 
