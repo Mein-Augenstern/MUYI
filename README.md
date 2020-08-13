@@ -34,7 +34,7 @@
     
     * OSGI
 
-    * JMX
+    * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/JMX.md">JMX</a>
   
 * 开发框架
 
