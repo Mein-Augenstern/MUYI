@@ -25,7 +25,9 @@
     * <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Java-concurrent.md">Java并发</a>
     
     * <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/JVM.md">JVM</a>
-    
+   
+    * <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/java/SPI">SPI</a>
+  
 * 开发框架
 
     * <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/java/MyBatis">MyBatis</a>
@@ -39,7 +41,9 @@
     
  * 开发规范
  
-   * <a href="">代码军规</a>
+   * 代码军规
+   
+   * 设计模式
     
  * web服务器
  
@@ -55,7 +59,6 @@
    
    * Postgres
    
-
 * 分布式
    
    * <a href="https://juejin.im/post/6844903967701336078">一文读懂分布式架构知识体系（内含超全核心知识大图）</a>
@@ -64,17 +67,9 @@
 
 * <a href="https://github.com/DemoTransfer/Java-Guide/blob/master/contents/Network.md">网络</a>
 
-* 设计模式
-
 * <a href="https://github.com/DemoTransfer/LearningRecord/tree/master/sort">数据结构和算法</a>
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/tree/master/linux/%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E8%B5%B7%E6%89%8B%E5%BC%8F%E5%91%BD%E4%BB%A4">操作系统</a>
-
-* <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/java/SPI">SPI</a>
-
-* <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/docs/BFF">BFF</a>
-
-* Serverless
 
 * 工具
 
@@ -85,6 +80,10 @@
    * <a href="">Docker</a>
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/docs/outside-reading/%E7%9E%8E%E7%9C%8B%E7%B3%BB%E5%88%97.md">杂文系列</a>
+
+   * <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/docs/BFF">BFF</a>
+
+   * Serverless
 
 * <a href="https://github.com/DemoTransfer/JavaGuide/new/master/contents">素材文章来源</a>
 
