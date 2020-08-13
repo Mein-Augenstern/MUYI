@@ -38,11 +38,25 @@
 
     * <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Spring.md">Spring</a>
 
+    * SpringMVC
+
     * SpringBoot
     
     * SpringCloud
     
-   * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Netty.md">Netty</a>
+    * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Netty.md">Netty</a>
+    
+    * Dubbo
+    
+    * Shiro
+    
+    * Ehcache
+    
+    * Quartz
+    
+    * Junit
+    
+    * Log4j
     
  * 开发规范
  
@@ -92,7 +106,3 @@
 ### 关于转载
 
 如果你需要转载本仓库的一些文章到自己的博客的话，记得注明原文地址就可以了。
-
-
-
-
