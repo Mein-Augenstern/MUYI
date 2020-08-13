@@ -46,11 +46,14 @@
 
    * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Database.md">数据库知识点</a>
 
+   * MySQL
+   
+   * Postgres
+   
+
 * 分布式事务
 
-   * <a href="">分布式事务概念</a>
-
-   * <a href="">分布式事务常见实现方式</a>
+   * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/distributed-transaction.md">分布式事务知识点</a>
 
 * <a href="https://github.com/DemoTransfer/Java-Guide/blob/master/contents/Network.md">网络</a>
 
