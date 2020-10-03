@@ -68,7 +68,7 @@
 
 * 分布式理论
 
-   * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/distributed-transaction.md">分布式事务</a>
+   * <a href="https://github.com/DemoTransfer/MUYI/tree/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA">分布式事务</a>
    
    * 分布式涉及算法
 
