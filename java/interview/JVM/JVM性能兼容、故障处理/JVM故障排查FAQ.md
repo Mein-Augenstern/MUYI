@@ -24,3 +24,15 @@ load高？性能差？
 * 从ps看进程状态有"T"字? 用kill -CONT [pid]恢复
 
 * 怀疑codecache问题? 应用日志codecache满
+
+挂了？JVM进程消失了
+------
+
+* 有crash日志？
+
+* 无crash日志,有core文件? $JAVA_HOME/bin/jstack $JAVA_HOME/bin/java core.xxx看jstack，是否有无限递归
+
+* 无crash日志,无core文件? dmesg | grep java 看是不是被oom killer杀死了，可能是内存配置太大。
+
+常见GC问题
+------
