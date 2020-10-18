@@ -14,15 +14,12 @@
 ### 目录
 
 * 书籍推荐
-
     * <a href="https://www.infoq.cn/article/talk-arch">《聊聊架构》</a>
 
 * 数据结构和算法
-
     * <a href="https://github.com/DemoTransfer/LearningRecord/tree/master/sort">排序算法</a>
 
 * Java
-
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Java-basic.md">Java基础</a>
     
     * <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Java-collections.md">Java集合</a>
