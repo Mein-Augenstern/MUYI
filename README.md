@@ -17,11 +17,8 @@
 
 * Java
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Java-basic.md">Java基础</a>
-    
     * <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Java-collections.md">Java集合</a>
-   
     * <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Java-IO.md">Java IO</a>
-    
     * <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Java-concurrent.md">Java并发</a>
     
     * <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/JVM.md">JVM</a>
