@@ -1,10 +1,6 @@
 ### 开始阅读之前必看
 
-本项目大部分内容来自<a href="https://github.com/Snailclimb/JavaGuide">JavaGuide</a>，版权归作者所有。我对这部分知识做了一个系统的整理，方便学习查阅。
-
-1. <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Good-Link.md">优秀链接</a>
-2. <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/java/interview/%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2.md">3W+2H</a>
-
+本项目大部分内容来自网上各优秀论坛（详情见：<a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Good-Link.md">优秀链接</a>），版权归作者所有。在此做了一个系统的整理，方便学习查阅。
 ### 关于Java技术体系
 
 * 支持Java程序运行的虚拟机
