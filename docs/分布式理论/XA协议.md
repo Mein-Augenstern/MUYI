@@ -49,7 +49,7 @@ X/Open的XA接口分为两类：
 
 下面是使用这些接口来描述的二阶段提交的一个流程示意图：
 
-![Descript 2PC with XA interface]()
+![Descript 2PC with XA interface](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/2-PC-XA-Interface.png)
 
 1、在开始一个全局事务之前，涉及的RM必须通过ax_regr()，向TM注册以加入集群；对应的，在没有事务需要处理的时候，RM可以通过ax_unreg()向TM要求注销，离开集群。
 
