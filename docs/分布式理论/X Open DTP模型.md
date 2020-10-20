@@ -18,7 +18,7 @@ DTP是一种实现分布式事务处理系统的概念模型，OSI和Open/X都�
 
 为了简化理解，我们只考虑它的静态结构。在DTP的经典结构图（下图）中，整套系统由三种角色构成。
 
-!![DTP](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/DTP.jpa.png)
+![DTP](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/DTP.jpa.png)
 
 * 应用程序（Application Program，AP）
 
