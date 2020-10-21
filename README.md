@@ -26,7 +26,6 @@
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/JMX.md">JMX</a>
   
 * 开发框架
-
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Mybatis.md">MyBatis</a>
     * <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Spring.md">Spring</a>
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Spring%20MVC.md">SpringMVC</a>
@@ -41,7 +40,8 @@
     * Log4j
 
 * 分布式事务
-
+	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%A7%91%E6%99%AE%EF%BC%88%E5%88%9D%E8%AF%86%E7%AF%87%EF%BC%89.md">分布式事务科普（初识篇）</a>
+	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%A7%91%E6%99%AE%EF%BC%88%E7%BB%88%E7%BB%93%E7%AF%87%EF%BC%89.md">分布式事务科普（终结篇）</a>
 	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/X%20Open%20DTP%E6%A8%A1%E5%9E%8B.md">X Open DTP模型</a>
 	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/XA%E5%8D%8F%E8%AE%AE.md">XA协议</a>
 	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA-CAP%E5%8E%9F%E5%88%99.md">分布式理论-CAP原则</a>
@@ -56,76 +56,62 @@
 * 分布式技术与理论业界实现
    
    * 缓存
-   
       * <a href="https://github.com/DemoTransfer/Redis-Guide">Redis</a>
       * Memcache
    
    * 消息
-  
       * <a href="https://github.com/DemoTransfer/RabbitMQ-Guide">RabbitMQ</a>
       * Kafka
       * RocketMQ
       
    * 负载均衡
-   
       * Nginx
       * LVS
 	  * F5
    
    * webserver
-   
       * <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/java/web%20server/tomcat">Tomcat</a>
       * Jboss
       * Apache
     
    * 容器
-   
       * Docker
       * Kubernetes
       
    * 协调中心
-   
       * Zookeeper
       * etcd
       
    * RPC
-   
       * Dubbo
       * grpc
       * brpc
       
    * 实时数据平台
-   
       * storm
       * akka
       
    * 离线数据平台
-   
       * hadoop
       * spark
       
    * 搜索
-   
       * elasticsearch
       * solr
       
    * 日志
-   
       * rsyslog
       * elk
       * flume
     
 * 开发规范
- 
    * 代码军规
    * 设计模式
    
-* 加解密技术  
-
+* 加解密技术
    * JWT
 
 * 数据库
-
    * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Database.md">数据库知识点</a>
    * MySQL
    * Postgres
@@ -137,14 +123,12 @@
 * <a href="https://github.com/DemoTransfer/LearningRecord/tree/master/linux/%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E8%B5%B7%E6%89%8B%E5%BC%8F%E5%91%BD%E4%BB%A4">操作系统</a>
 
 * 工具
-
    * <a href="">Git</a>
    * <a href="">Maven</a>
    * <a href="">Docker</a>
    * <a href="">Gradle</a>
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/docs/outside-reading/%E7%9E%8E%E7%9C%8B%E7%B3%BB%E5%88%97.md">杂文系列</a>
-
    * <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/docs/BFF">BFF</a>
    * Serverless
 
