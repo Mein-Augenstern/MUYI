@@ -1,19 +1,8 @@
 ### 开始阅读之前必看
 
 本项目大部分内容来自网上各优秀论坛（详情见：<a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Good-Link.md">优秀链接</a>），版权归作者所有。在此做了一个系统的整理，方便学习查阅。
-### 关于Java技术体系
-
-* 支持Java程序运行的虚拟机
-* 提供各开发领域接口支持的Java API
-* Java编程语言以及许多第三方Java框架（如Spring、Mybatis等）构成
 
 ### 目录
-
-* 书籍推荐
-    * <a href="https://www.infoq.cn/article/talk-arch">《聊聊架构》</a>
-
-* 数据结构和算法
-    * <a href="https://github.com/DemoTransfer/LearningRecord/tree/master/sort">排序算法</a>
 
 * Java
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Java-basic.md">Java基础</a>
