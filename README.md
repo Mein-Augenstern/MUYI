@@ -40,10 +40,18 @@
     * Junit
     * Log4j
 
-* 分布式理论
+* 分布式事务
 
-   * <a href="https://github.com/DemoTransfer/MUYI/tree/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA">分布式事务</a>
-   * 分布式涉及算法
+	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/X%20Open%20DTP%E6%A8%A1%E5%9E%8B.md">X Open DTP模型</a>
+	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/XA%E5%8D%8F%E8%AE%AE.md">XA协议</a>
+	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA-CAP%E5%8E%9F%E5%88%99.md">分布式理论-CAP原则</a>
+	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA-BASE.md">分布式理论-BASE</a>
+	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88.md">分布式事务解决方案</a>
+	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA-2PC.md">分布式理论-2PC</a>
+	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA-3PC.md">分布式理论-3PC</a>
+	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA-%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AERaft.md">分布式理论-一致性协议Raft</a>
+	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA-%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95Paxos.md">分布式理论-一致性算法Paxos</a>
+	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F%E4%BD%A0%E4%BB%AC%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E9%97%AE%E9%A2%98%E7%9A%84%EF%BC%9FTCC%20%E5%A6%82%E6%9E%9C%E5%87%BA%E7%8E%B0%E7%BD%91%E7%BB%9C%E8%BF%9E%E4%B8%8D%E9%80%9A%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9FXA%20%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%EF%BC%9F.md">分布式事务了解吗？你们如何解决分布式事务问题的？TCC 如果出现网络连不通怎么办？XA 的一致性如何保证？</a>
 
 * 分布式技术与理论业界实现
    
