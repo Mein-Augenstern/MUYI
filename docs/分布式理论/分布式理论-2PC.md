@@ -69,7 +69,7 @@ XA规范定义了交易中间件与数据库之间的接口规范（即接口函
 
 XA规范的流程，大致如图所示：
 
-![2pc-2]()
+![2pc-2](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/2pc-2.jpa.png)
 
 三、二阶段提交（2PC）
 ------
@@ -89,7 +89,7 @@ XA规范的流程，大致如图所示：
 
 准备阶段分为三个步骤：
 
-![2-pc-3]()
+![2-pc-3](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/2pc-3.png)
 
 a、事务询问
 
@@ -109,7 +109,7 @@ c、各参与者向协调者反馈事务询问的响应
 
 提交事务过程如下：
 
-![2-pc-4]()
+![2-pc-4](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/2pc-4.png)
 
 a、发送提交请求
 
@@ -129,7 +129,7 @@ d、事务提交确认
 
 中断事务过程如下：
 
-![2-pc-5]()
+![2-pc-5](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/2-pc-5.png)
 
 a、发送回滚请求
 
@@ -171,6 +171,6 @@ d、事务中断确认
 如果在二阶段提交的提交询问阶段中，参与者出现故障，导致协调者始终无法获取到所有参与者的确认信息，这时协调者只能依靠其自身的超时机制，判断是否需要中断事务。显然，这种策略过于保守。换句话说，二阶段提交协议没有设计较为完善的容错机制，任意一个节点是失败都会导致整个事务的失败。
 
 小结
-------
+====
 
 对于2PC协议存在的同步阻塞、单点问题，将在下一篇文章的3PC协议中引入解决方案。
