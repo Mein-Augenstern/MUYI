@@ -7,7 +7,7 @@
 
 本文要介绍的2PC协议，分为两个阶段提交一个事务。并通过协调者和各个参与者的配合，实现分布式一致性。
 
-![2pc-1]()
+![2pc-1](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/2pc-1.jpa.png)
 
 两个阶段事务提交协议，由协调者和参与者共同完成。
 
