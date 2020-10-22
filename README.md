@@ -45,8 +45,10 @@
 * 分布式技术与理论业界实现
    
    * 分布式事务解决方案
-      * <a href="http://seata.io/zh-cn/index.html">Seata 是一款阿里巴巴开源的分布式事务解决方案，致力于在微服务架构下提供高性能和简单易用的分布式事务服务。</a>
-   
+      * <a href="http://seata.io/zh-cn/index.html">Seata 是一款阿里巴巴开源的分布式事务解决方案，致力于在微服务架构下提供高性能和简单易用的分布式事务服务。</a>	
+      
+      	* <a href="https://github.com/seata/seata">Seata Github</a>
+	
    * 缓存
       * <a href="https://github.com/DemoTransfer/Redis-Guide">Redis</a>
       * Memcache
