@@ -9,7 +9,7 @@
 
 由于二阶段提交存在着诸如同步阻塞、单点问题、脑裂等缺陷。所以，研究者们在二阶段提交的基础上做了改进，提出了三阶段提交。
 
-![3-pc-1]()
+![3-pc-1](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/3pc-1.png)
 
 与两阶段提交不同的是，三阶段提交有两个改动点。
 
