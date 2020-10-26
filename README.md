@@ -136,6 +136,10 @@
    * 代码军规
    * 设计模式
    
+* 设计
+   
+   * <a href="https://github.com/DemoTransfer/MUYI/tree/master/java/%E7%8A%B6%E6%80%81%E6%9C%BA">状态机</a>
+
 * 加解密技术
    * JWT
 
