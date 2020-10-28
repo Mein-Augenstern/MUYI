@@ -135,6 +135,7 @@
 * 开发规范
    * 代码军规
    * 设计模式
+      * <a href="http://c.biancheng.net/view/8385.html">简单工厂模式</a>
    
 * 设计
    
