@@ -143,6 +143,7 @@
 
 * 加解密技术
    * JWT
+   * <a href="">浅谈常见的七种加密算法及实现</a>
 
 * 数据库
    * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Database.md">数据库知识点</a>
