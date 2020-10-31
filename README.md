@@ -134,11 +134,14 @@
     
 * 开发规范
    * 代码军规
+   * 面向对象设计原则
+      * <a href="http://c.biancheng.net/view/1322.html">开闭原则</a>
    * 设计模式
       * <a href="http://c.biancheng.net/view/8385.html">简单工厂模式(静态工厂方法模式)</a>
       	> 简单来说，简单工厂模式有一个具体的工厂类，可以生成多个不同的产品，属于创建型设计模式。简单工厂模式不在 GoF 23 种设计模式之列。简单工厂模式每增加一个产品就要增加一个具体产品类和一个对应的具体工厂类，这增加了系统的复杂度，违背了“开闭原则”。
       * <a href="http://c.biancheng.net/view/1348.html">工厂方法模式</a>
       * <a href="http://c.biancheng.net/view/1351.html">抽象工厂模式</a>
+      * <a href="http://c.biancheng.net/view/1343.html">原型模式（原型设计模式）</a>
    
 * 设计
    
