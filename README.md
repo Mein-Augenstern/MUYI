@@ -142,6 +142,7 @@
       * <a href="http://c.biancheng.net/view/1348.html">工厂方法模式</a>
       * <a href="http://c.biancheng.net/view/1351.html">抽象工厂模式</a>
       * <a href="http://c.biancheng.net/view/1343.html">原型模式（原型设计模式）</a>
+        > 在 Spring 中，原型模式应用的非常广泛，例如 scope='prototype'、JSON.parseObject() 等都是原型模式的具体应用。
    
 * 设计
    
