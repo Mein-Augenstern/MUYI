@@ -8,7 +8,7 @@
 
 早在 HTTP 建立之初，主要就是为了将超文本标记语言(HTML)文档从Web服务器传送到客户端的浏览器。也是说对于前端来说，我们所写的HTML页面将要放在我们的 web 服务器上，用户端通过浏览器访问url地址来获取网页的显示内容，但是到了 WEB2.0 以来，我们的页面变得复杂，不仅仅单纯的是一些简单的文字和图片，同时我们的 HTML 页面有了 CSS，Javascript，来丰富我们的页面展示，当 ajax 的出现，我们又多了一种向服务器端获取数据的方法，这些其实都是基于 HTTP 协议的。同样到了移动互联网时代，我们页面可以跑在手机端浏览器里面，但是和 PC 相比，手机端的网络情况更加复杂，这使得我们开始了不得不对 HTTP 进行深入理解并不断优化过程中。
 
-![http-his-1]()
+![http-his-1](https://github.com/DemoTransfer/MUYI/blob/master/java/interview/通信网络/picture/http-his-1.png)
 
 二、HTTP的基本优化
 ====
@@ -51,7 +51,7 @@ HTTP1.0最早在网页中使用是在1996年，那个时候只是使用一些较
 
 * HTTPS可以有效的防止运营商劫持，解决了防劫持的一个大问题。
 
-![http-his-2]()
+![http-his-2](https://github.com/DemoTransfer/MUYI/blob/master/java/interview/通信网络/picture/http-his-2.png)
 
 五、SPDY：HTTP1.x的优化
 ====
@@ -68,7 +68,7 @@ HTTP1.0最早在网页中使用是在1996年，那个时候只是使用一些较
 
 5、服务端推送（server push），采用了SPDY的网页，例如我的网页有一个sytle.css的请求，在客户端收到sytle.css数据的同时，服务端会将sytle.js的文件推送给客户端，当客户端再次尝试获取sytle.js时就可以直接从缓存中获取到，不用再发请求了。SPDY构成图：
 
-![http-his-3]()
+![http-his-3](https://github.com/DemoTransfer/MUYI/blob/master/java/interview/通信网络/picture/http-his-3.png)
 
 SPDY位于HTTP之下，TCP和SSL之上，这样可以轻松兼容老版本的HTTP协议(将HTTP1.x的内容封装成一种新的frame格式)，同时可以使用已有的SSL功能。
 
@@ -77,7 +77,7 @@ SPDY位于HTTP之下，TCP和SSL之上，这样可以轻松兼容老版本的HTT
 
 HTTP/2: the Future of the Internet https://link.zhihu.com/?target=https://http2.akamai.com/demo 是 Akamai 公司建立的一个官方的演示，用以说明 HTTP/2 相比于之前的 HTTP/1.1 在性能上的大幅度提升。 同时请求 379 张图片，从Load time 的对比可以看出 HTTP/2 在速度上的优势。
 
-![http-his-4]()
+![http-his-4](https://github.com/DemoTransfer/MUYI/blob/master/java/interview/通信网络/picture/http-his-4.png)
 
 七、HTTP2.0：SPDY的升级版
 ====
@@ -121,7 +121,7 @@ HTTP2.0的多路复用和HTTP1.X中的长连接复用有什么区别？
 
 * HTTP/2多个请求可同时在一个连接上并行执行。某个请求任务耗时严重，不会影响到其它连接的正常执行；
 
-![http-his-5]()
+![http-his-5](https://github.com/DemoTransfer/MUYI/blob/master/java/interview/通信网络/picture/http-his-5.png)
 
 服务器推送到底是什么？
 
@@ -129,11 +129,11 @@ HTTP2.0的多路复用和HTTP1.X中的长连接复用有什么区别？
 
 * 普通的客户端请求过程：
 
-![http-his-6]()
+![http-his-6](https://github.com/DemoTransfer/MUYI/blob/master/java/interview/通信网络/picture/http-his-6.png)
 
 * 服务端推送的过程：
 
-![http-his-7]()
+![http-his-7](https://github.com/DemoTransfer/MUYI/blob/master/java/interview/通信网络/picture/http-his-7.png)
 
 为什么需要头部压缩？
 
