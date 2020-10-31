@@ -165,7 +165,7 @@
    * 知识点扫盲
      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/通信网络/计算机网络常见面试题.md">计算机网络常见面试题</a>
      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/通信网络/网络常见的9个命令.md">网络常见的9个命令</a>
-     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/通信网络/http和socket之长连接和短连接区别.md">http和socket之长连接和短连接区别</a>
+     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/通信网络/http和socket之间的关系和区别.md">http和socket之间的关系和区别</a>
      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/通信网络/http和https区别和联系.md">http和https区别和联系</a>
      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/通信网络/TCP和UDP区别.md">TCP和UDP区别</a>
      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/通信网络/TCP%20三次握手和四次挥手.md">TCP 三次握手和四次挥手</a>
