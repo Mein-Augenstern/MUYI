@@ -163,6 +163,7 @@
    * 推荐书籍
      * 《图解HTTP》
    * 知识点扫盲
+     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/通信网络/HTTP1.0、HTTP1.1%20和%20HTTP2.0%20的区别.md">HTTP1.0、HTTP1.1 和 HTTP2.0 的区别</a>
      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/通信网络/计算机网络常见面试题.md">计算机网络常见面试题</a>
      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/通信网络/网络常见的9个命令.md">网络常见的9个命令</a>
      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/通信网络/http和socket之间的关系和区别.md">http和socket之间的关系和区别</a>
