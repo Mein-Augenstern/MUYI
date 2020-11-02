@@ -141,6 +141,7 @@
       	> 简单来说，简单工厂模式有一个具体的工厂类，可以生成多个不同的产品，属于创建型设计模式。简单工厂模式不在 GoF 23 种设计模式之列。简单工厂模式每增加一个产品就要增加一个具体产品类和一个对应的具体工厂类，这增加了系统的复杂度，违背了“开闭原则”。
       * <a href="http://c.biancheng.net/view/1348.html">工厂方法模式</a>
       * <a href="http://c.biancheng.net/view/1351.html">抽象工厂模式</a>
+      * <a href="http://c.biancheng.net/view/1338.html">单例模式（单例设计模式）</a>
       * <a href="http://c.biancheng.net/view/1343.html">原型模式（原型设计模式）</a>
         > 在 Spring 中，原型模式应用的非常广泛，例如 scope='prototype'、JSON.parseObject() 等都是原型模式的具体应用。
    
