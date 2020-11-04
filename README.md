@@ -44,10 +44,14 @@
 
 * 分布式技术与理论业界实现
    
-   * 分布式技术原理与算法解析
-      * 分布式协调与同步思维导图
-![分布式协调与同步思维导图](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%B0%83%E4%B8%8E%E5%90%8C%E6%AD%A5/picture/%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%B0%83%E4%B8%8E%E5%90%8C%E6%AD%A5.png)
-   
+   * 分布式技术原理与算法解析思维导图
+      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%B0%83%E4%B8%8E%E5%90%8C%E6%AD%A5/picture/%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%B0%83%E4%B8%8E%E5%90%8C%E6%AD%A5.png">分布式协调与同步</a>
+      * <a href="">分布式资源管理与负载调度</a>
+      * <a href="">分布式计算技术</a>	  
+      * <a href="">分布式数据存储</a>	 
+      * <a href="">分布式高可靠</a>
+      * <a href="">分布式核心知识串讲</a>
+	
    * 分布式事务解决方案
       * <a href="http://seata.io/zh-cn/index.html">Seata 是一款阿里巴巴开源的分布式事务解决方案，致力于在微服务架构下提供高性能和简单易用的分布式事务服务。</a>	
       	* <a href="https://github.com/seata/seata">Seata Github</a>
