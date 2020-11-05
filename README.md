@@ -145,6 +145,7 @@
    * 面向对象设计原则
       * <a href="http://c.biancheng.net/view/1322.html">开闭原则</a>
       * <a href="http://c.biancheng.net/view/1324.html">里氏替换原则</a>
+      * <a href="http://c.biancheng.net/view/1326.html">依赖倒置原则</a>
 
    * 设计模式
       * <a href="http://c.biancheng.net/view/8385.html">简单工厂模式(静态工厂方法模式)</a>
