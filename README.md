@@ -1,8 +1,10 @@
-### 开始阅读之前必看
+开始阅读之前必看
+====
 
 本项目大部分内容来自网上各优秀论坛（详情见：<a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Good-Link.md">优秀链接</a>），版权归作者所有。在此做了一个系统的整理，方便学习查阅。
 
-### 目录
+目录
+====
 
 * Java
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Java-basic.md">Java基础</a>
@@ -203,6 +205,7 @@
 
 * <a href="https://github.com/DemoTransfer/JavaGuide/new/master/contents">素材文章来源</a>
 
-### 关于转载
+关于转载
+====
 
 如果你需要转载本仓库的一些文章到自己的博客的话，记得注明原文地址就可以了。
