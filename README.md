@@ -106,7 +106,9 @@
       * Nginx
       * LVS
 	  * F5
-   
+      * Ribbon
+          * <a href="https://github.com/Netflix/ribbon">Ribbon是Netflix开源的基于HTTP和TCP等协议负载均衡组件，Ribbon 可以用来做客户端负载均衡，调用注册中心的服务，Ribbon的使用需要代码里手动调用目标服务，请参考官方示例</a>
+
    * webserver
       * <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/java/web%20server/tomcat">Tomcat</a>
       * Jboss
@@ -124,6 +126,10 @@
       * Dubbo
       * grpc
       * brpc
+      * Feign
+         * <a href="">Feign是Spring Cloud组件中的一个轻量级RESTful的HTTP服务客户端，Feign内置了Ribbon，用来做客户端负载均衡，去调用服务注册中心的服务。Feign的使用方式是：使用Feign的注解定义接口，调用这个接口，就可以调用服务注册中心的服务。Feign支持的注解和用法请参考官方文档。Feign本身不支持Spring MVC的注解，它有一套自己的注解</a>
+      * OpenFeign
+         * <a href="https://github.com/spring-cloud/spring-cloud-openfeign">OpenFeign是Spring Cloud 在Feign的基础上支持了Spring MVC的注解，如@RequesMapping等等。OpenFeign的@FeignClient可以解析SpringMVC的@RequestMapping注解下的接口，并通过动态代理的方式产生实现类，实现类中做负载均衡并调用其他服务。</a>
       
    * 实时数据平台
       * storm
