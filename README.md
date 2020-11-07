@@ -148,6 +148,15 @@
       * elk
       * flume
     
+   * 限流熔断
+      * Sentinel
+
+   * 配置管理服务注册中心
+      * Nacos
+
+   * 网关
+      * Spring Cloud Gateway
+
 * 开发规范
    * 代码军规
    * 面向对象设计原则
