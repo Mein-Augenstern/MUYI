@@ -222,8 +222,12 @@
    * <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/docs/BFF">BFF</a>
    * Serverless
 
-* <a href="https://github.com/DemoTransfer/JavaGuide/new/master/contents">素材文章来源</a>
-
+* 🤔🤔🤔🤔
+   * <a href="">问题定位步骤</a>
+   * <a href="">性能优化套路</a>
+   * <a href="">如何熟悉一个新的系统</a>
+   * <a href="">如何出一个技术方案</a>
+   
 关于转载
 ====
 
