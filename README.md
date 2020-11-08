@@ -225,7 +225,7 @@
 * 🤔🤔🤔🤔
    * <a href="">问题定位步骤</a>
    * <a href="">性能优化套路</a>
-   * <a href="">如何熟悉一个新的系统</a>
+   * <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E6%96%B9%E6%B3%95%E8%AE%BA/%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E7%86%9F%E6%82%89%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E7%B3%BB%E7%BB%9F.md">如何熟悉一个新的系统</a>
    * <a href="">如何出一个技术方案</a>
    
 关于转载
