@@ -165,6 +165,8 @@
       * <a href="http://c.biancheng.net/view/1326.html">依赖倒置原则</a>
       * <a href="http://c.biancheng.net/view/1327.html">单一职责原则</a>
       * <a href="http://c.biancheng.net/view/1330.html">接口隔离原则</a>
+      * <a href="http://c.biancheng.net/view/1331.html">迪米特法则</a>
+      * <a href="http://c.biancheng.net/view/1333.html">合成复用原则</a>
 
    * 设计模式
       * <a href="http://c.biancheng.net/view/8385.html">简单工厂模式(静态工厂方法模式)</a>
