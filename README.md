@@ -190,12 +190,25 @@
    * <a href="">浅谈常见的七种加密算法及实现</a>
 
 * 数据库
-   * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Database.md">数据库知识点</a>
    * MySQL
    * Postgres
    * MongoDB
    * HBase
-   
+   * 知识点扫盲
+      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9D%A2%E8%AF%95%E9%A2%98(%E5%BC%80%E5%8F%91%E8%80%85%E5%BF%85%E7%9C%8B)%20.md">数据库面试题(开发者必看)</a>
+      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E7%B4%A2%E5%BC%95.md">索引</a>
+      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%AD%E5%8F%A5%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5.md">数据库语句优化手段</a>
+      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E6%97%B6%E4%B8%BB%E8%A6%81%E6%B3%A8%E6%84%8F%E5%93%AA%E4%BA%9B%E4%BA%8B%E6%83%85%EF%BC%9F.md">数据库设计时主要注意哪些事情？</a>
+      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88%E6%80%BB%E7%BB%93.md">数据库索引失效总结</a>
+      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%80%8E%E4%B9%88%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8.md">数据库怎么分库分表</a>
+      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%A4%E5%A4%A7%E7%A5%9E%E5%99%A8%E4%B9%8B%E9%94%81.md">数据库两大神器之锁</a>
+      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%A4%E5%A4%A7%E7%A5%9E%E5%99%A8%E4%B9%8B%E7%B4%A2%E5%BC%95.md">数据库两大神器之索引</a>
+      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%96%E4%B8%99%E7%B3%BB%E5%88%97--%E6%88%91%E4%BB%A5%E4%B8%BA%E8%87%AA%E5%B7%B1%E5%AF%B9%E7%B4%A2%E5%BC%95%E5%BE%88%E4%BA%86%E8%A7%A3%EF%BC%8C%E7%9B%B4%E5%88%B0%E6%88%91%E9%81%87%E5%88%B0%E4%BA%86%E9%98%BF%E9%87%8C%E9%9D%A2%E8%AF%95%E5%AE%98.md">敖丙系列--我以为自己对索引很了解，直到我遇到了阿里面试官</a>
+      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%96%E4%B8%99%E7%B3%BB%E5%88%97--%E3%80%8A%E6%88%91%E4%BB%AC%E4%B8%80%E8%B5%B7%E8%BF%9B%E5%A4%A7%E5%8E%82%E3%80%8B%E7%B3%BB%E5%88%97-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80.md">敖丙系列--《我们一起进大厂》系列-数据库基础</a>
+      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E4%B8%80%E5%8D%83%E8%A1%8CMySQL%E5%91%BD%E4%BB%A4.md">一千行MySQL命令</a>
+      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/for%20update%E5%92%8Cfor%20update%20nowait.md">for update和for update nowait</a>
+      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/Insert%20into%20select%E8%AF%AD%E5%8F%A5.md">Insert into select语句</a>
+
 * 网络
    * 推荐书籍
      * 《图解HTTP》
