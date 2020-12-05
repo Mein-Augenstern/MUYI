@@ -239,10 +239,13 @@
    * Serverless
 
 * 🤔🤔🤔🤔
-   * <a href="">问题定位步骤</a>
-   * <a href="">性能优化套路</a>
+   * <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E6%96%B9%E6%B3%95%E8%AE%BA/%E9%97%AE%E9%A2%98%E5%AE%9A%E4%BD%8D%E6%AD%A5%E9%AA%A4.md">问题定位步骤</a>
+   * <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E6%96%B9%E6%B3%95%E8%AE%BA/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%A5%97%E8%B7%AF.md">性能优化套路</a>
    * <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E6%96%B9%E6%B3%95%E8%AE%BA/%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E7%86%9F%E6%82%89%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E7%B3%BB%E7%BB%9F.md">如何熟悉一个新的系统</a>
-   * <a href="">如何出一个技术方案</a>
+   * <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E6%96%B9%E6%B3%95%E8%AE%BA/%E5%A6%82%E4%BD%95%E5%87%BA%E4%B8%80%E4%B8%AA%E6%8A%80%E6%9C%AF%E6%96%B9%E6%A1%88.md">如何出一个技术方案</a>
+   * <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E6%96%B9%E6%B3%95%E8%AE%BA/%E7%B3%BB%E7%BB%9F%E5%88%87%E6%B5%81%E9%80%9A%E7%94%A8%E6%96%B9%E6%A1%88.md">新功能上线，切流方案怎么考虑的？</a>
+   * <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E6%96%B9%E6%B3%95%E8%AE%BA/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E5%A6%82%E4%BD%95%E5%85%A8%E6%96%B9%E4%BD%8D%E8%80%83%E8%99%91%E5%85%BC%E5%AE%B9%E6%80%A7%E9%97%AE%E9%A2%98.md">系统设计如何全方位考虑兼容性问题？</a>
+   * <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E6%96%B9%E6%B3%95%E8%AE%BA/CR%E7%9A%84%E6%8A%80%E5%B7%A7.md">CR的技巧</a>
    
 关于转载
 ====
