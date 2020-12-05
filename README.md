@@ -180,6 +180,9 @@
       * <a href="http://c.biancheng.net/view/1343.html">原型模式（原型设计模式）</a>
         > 在 Spring 中，原型模式应用的非常广泛，例如 scope='prototype'、JSON.parseObject() 等都是原型模式的具体应用。
    
+   * 设计模式的使用
+      * <a href="https://mp.weixin.qq.com/s/9gDGQhzRAL3pj35VAinZbQ">设计模式在外卖营销业务中的实践</a>
+
 * 设计
    * <a href="">DDD</a>
    * <a href="https://github.com/DemoTransfer/MUYI/tree/master/java/%E7%8A%B6%E6%80%81%E6%9C%BA">状态机</a>
