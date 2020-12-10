@@ -27,6 +27,10 @@
 
 * <a href="https://www.githubs.cn/">GitHub中文社区</a>
 
+* <a href="https://juejin.cn/user/3808363977648493">阿里巴巴云原生</a>
+
+* <a href="https://juejin.cn/user/782508007625389">楼下小黑哥</a>
+
 阅读推荐
 ====
 
