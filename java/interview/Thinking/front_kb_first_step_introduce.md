@@ -84,3 +84,47 @@ JavaScript/DOM
 10. webpack热更新 （webpack-dev-server --hot模式和react-hot-loader的区别）
 
 11. NodeJS 中模块module查找过程
+
+编程基础题
+====
+
+1. null和undefined的区别（深入问指针、对象、派生；undefined == null；//true）
+
+2. 有多少种变量申明方式？let和const的区别（深入作用域）
+
+3. 简单介绍下promise、async/await
+
+4. 什么是深拷贝，如何做深拷贝
+
+5. 如何用array来模拟一个栈（如何用array来模拟一个队列）
+
+6. call apply bind的区别
+
+7. setTimeout(0)，代码是即时执行的么？为什么?
+
+8. 两个大整数的，相加，相乘，相除
+
+算法题
+====
+
+1. 请做一个补位函数。请把场景考虑的尽量全面，方便应对不同的补位需求。 应用场景举例，注意只是一个举例：A同学需要把“origString”字符串用x补足到20位“xxxxxxxxxxorigString”。
+
+复杂度是O(N)的答案。只能说合格。使用二分法的答案。是优秀。使用位移运算符，有可能是做过这类型题目。需要问清楚为啥要用的原理。
+
+参照：https://www.cnblogs.com/shengxinjing/p/5315549.html
+
+较好的一种O(N)答案，如果把Array.prototype.join缓存到外部变量里，多次使用速度更快
+
+```js
+var _join = Array.prototype.join
+function leftpad(str, len, ch) {
+    if (!ch && ch !== 0) ch = ' ';
+    var len = len - str.length;
+    return _join.call({
+        length:len
+    },ch)+str;
+}
+```
+
+
+
