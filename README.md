@@ -188,7 +188,8 @@
       * <a href="https://github.com/DemoTransfer/MUYI/blob/master/pattern/using-pattern/设计模式在外卖营销业务中的实践.md">设计模式在外卖营销业务中的实践</a>
 
 * 设计
-   * <a href="">DDD</a>
+   * DDD
+      * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/DDD/领域驱动设计在互联网业务开发中的实践.md">领域驱动设计在互联网业务开发中的实践</a>
    * <a href="https://github.com/DemoTransfer/MUYI/tree/master/java/%E7%8A%B6%E6%80%81%E6%9C%BA">状态机</a>
    * 推荐书籍
       * 领域驱动设计精粹
