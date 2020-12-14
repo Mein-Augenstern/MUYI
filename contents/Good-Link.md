@@ -1,6 +1,10 @@
 文章清单
 ====
 
+* <a href="https://tech.meituan.com">美团技术团队</a>
+
+* <a href="https://tech.youzan.com">有赞技术团队</a>
+
 * <a href="https://coolshell.cn/">High一下! 酷 壳 – CoolShell/</a>
 
 * <a href="https://github.com/Snailclimb/JavaGuide">JavaGuide</a>
