@@ -5,7 +5,7 @@
 
 微服务（Microservices）是一种架构风格，一个大型复杂软件应用由一个或多个微服务组成。系统中的各个微服务可被独立部署，各个微服务之间是松耦合的。每个微服务仅关注于完成一件任务并很好地完成该任务。在所有情况下，每个任务代表着一个小的业务能力
 
-![service-mesh-sidecar-1]()
+![service-mesh-sidecar-1](https://github.com/Mein-Augenstern/MUYI/blob/master/docs/Service%20Mesh/picture/service-mesh-sidecar.png)
 
 形像一点来说，微服务架构就像搭积木，每个微服务都是一个零件，并使用这些零件组装出不同的形状。通俗来说，微服务架构就是把一个大系统按业务功能分解成多个职责单一的小系统，并利用简单的方法使多个小系统相互协作，组合成一个大系统。
 
