@@ -16,7 +16,7 @@
        * <a href="https://github.com/DemoTransfer/MUYI/tree/master/java/interview/JVM/JVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%90%E7%B3%BB%E7%BB%9F">JVM虚拟机子系统</a>
     * <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/java/SPI">SPI</a>
     * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/docs/OSGI">OSGI</a>
-    * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/JMX.md">JMX</a>
+    * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/java/JMX">JMX</a>
   
 * 开发框架
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Mybatis.md">MyBatis</a>
