@@ -165,6 +165,7 @@
 
    * Service Mesh
       * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/Service%20Mesh/Service%20Mesh%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88%E6%8A%80%E6%9C%AF.md">Service Mesh到底是什么技术</a>
+      * <a href="https://tech.meituan.com/2020/12/03/service-mesh-in-meituan.html">复杂环境下落地Service Mesh的挑战与实践（美团）</a>
 
 * 开发规范
    * 代码军规
