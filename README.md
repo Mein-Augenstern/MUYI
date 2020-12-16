@@ -248,7 +248,9 @@
    * <a href="">Gradle</a>
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/docs/outside-reading/%E7%9E%8E%E7%9C%8B%E7%B3%BB%E5%88%97.md">杂文系列</a>
-   * <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/docs/BFF">BFF</a>
+   * BFF
+      * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/BFF/BFF%20%E2%80%94%E2%80%94%20Backend%20For%20Frontend.MD">BFF —— Backend For Frontend</a>
+      * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/BFF/BFF%E2%80%94%E2%80%94%E6%9C%8D%E5%8A%A1%E4%BA%8E%E5%89%8D%E7%AB%AF%E7%9A%84%E5%90%8E%E7%AB%AF.MD">服务于前端的后端</a>
    * Serverless
 
 * 🤔🤔🤔🤔
