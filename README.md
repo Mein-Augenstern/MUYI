@@ -191,6 +191,12 @@
       * <a href="https://github.com/DemoTransfer/MUYI/blob/master/pattern/using-pattern/设计模式在外卖营销业务中的实践.md">设计模式在外卖营销业务中的实践</a>
 
 * 设计
+  
+   * 微服务
+      * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E4%BB%80%E4%B9%88%E6%98%AF%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%9F%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E9%97%B4%E6%98%AF%E5%A6%82%E4%BD%95%E7%8B%AC%E7%AB%8B%E9%80%9A%E8%AE%AF%E7%9A%84%EF%BC%9F.md">什么是微服务？微服务之间是如何独立通讯的</a>
+      * Chris Richardson 微服务系列
+          * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E3%80%8CChris%20Richardson%20%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%B3%BB%E5%88%97%E3%80%8D%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E7%9A%84%E5%8F%AF%E8%A1%8C%E6%96%B9%E6%A1%88%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5%E6%A1%88%E4%BE%8B.md">Chris Richardson 微服务系列」服务发现的可行方案以及实践案例</a>
+
    * DDD
       * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/DDD/领域驱动设计在互联网业务开发中的实践.md">领域驱动设计在互联网业务开发中的实践（美团）</a>
       * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/DDD/领域驱动设计（DDD）在有赞教育线索资源管理的实践.md">领域驱动设计（DDD）在有赞教育线索资源管理的实践（有赞）</a>
