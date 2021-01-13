@@ -25,6 +25,8 @@
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/SpringBoot.md">SpringBoot</a>
     * <a href="https://github.com/DemoTransfer/Spring-Cloud-Alibaba-Guide">Spring-Cloud-Alibaba-Guide</a>
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Netty.md">Netty</a>
+    	* 推荐书籍
+	   * 《Netty实战》
     * Dubbo
     * Shiro
     * Ehcache
