@@ -232,6 +232,9 @@
       * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%A4%E5%A4%A7%E7%A5%9E%E5%99%A8%E4%B9%8B%E7%B4%A2%E5%BC%95.md">数据库两大神器之索引</a>
       	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E7%B4%A2%E5%BC%95.md">索引</a>
       	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88%E6%80%BB%E7%BB%93.md">数据库索引失效总结</a>
+      * hint
+        * 如何通过Hint来强制sql走主库或者从库
+	* 如何通过Hint来强制走特定索引
       * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%96%E4%B8%99%E7%B3%BB%E5%88%97--%E6%88%91%E4%BB%A5%E4%B8%BA%E8%87%AA%E5%B7%B1%E5%AF%B9%E7%B4%A2%E5%BC%95%E5%BE%88%E4%BA%86%E8%A7%A3%EF%BC%8C%E7%9B%B4%E5%88%B0%E6%88%91%E9%81%87%E5%88%B0%E4%BA%86%E9%98%BF%E9%87%8C%E9%9D%A2%E8%AF%95%E5%AE%98.md">敖丙系列--我以为自己对索引很了解，直到我遇到了阿里面试官</a>
       * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%96%E4%B8%99%E7%B3%BB%E5%88%97--%E3%80%8A%E6%88%91%E4%BB%AC%E4%B8%80%E8%B5%B7%E8%BF%9B%E5%A4%A7%E5%8E%82%E3%80%8B%E7%B3%BB%E5%88%97-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80.md">敖丙系列--《我们一起进大厂》系列-数据库基础</a>
       * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E4%B8%80%E5%8D%83%E8%A1%8CMySQL%E5%91%BD%E4%BB%A4.md">一千行MySQL命令</a>
