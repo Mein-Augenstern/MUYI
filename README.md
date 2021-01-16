@@ -14,10 +14,15 @@
        * <a href="https://github.com/DemoTransfer/MUYI/tree/master/java/interview/JVM/JVM%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86">JVM内存管理</a>
        * <a href="https://github.com/DemoTransfer/MUYI/tree/master/java/interview/JVM/JVM%E6%80%A7%E8%83%BD%E5%85%BC%E5%AE%B9%E3%80%81%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86">JVM性能兼容、故障处理</a>
        * <a href="https://github.com/DemoTransfer/MUYI/tree/master/java/interview/JVM/JVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%90%E7%B3%BB%E7%BB%9F">JVM虚拟机子系统</a>
+       * 推荐书籍	
+       		* 《深入理解Java虚拟机》
     * <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/java/SPI">SPI</a>
     * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/docs/OSGI">OSGI</a>
     * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/java/JMX">JMX</a>
   
+* Linux
+    * Linux下常用命令
+
 * 开发框架
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Mybatis.md">MyBatis</a>
        * 工具
