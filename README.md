@@ -10,11 +10,14 @@
     * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/java/interview/java基础">Java集合</a>
     * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/java/interview/Java%20IO">Java IO</a>
     * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/java/interview/Java%20并发">Java并发</a>
+       * 推荐📚📚📚📚
+                * 《Java并发编程的艺术》
+
     * <a href="https://github.com/DemoTransfer/MUYI/tree/master/java/interview/JVM">JVM</a>
        * <a href="https://github.com/DemoTransfer/MUYI/tree/master/java/interview/JVM/JVM%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86">JVM内存管理</a>
        * <a href="https://github.com/DemoTransfer/MUYI/tree/master/java/interview/JVM/JVM%E6%80%A7%E8%83%BD%E5%85%BC%E5%AE%B9%E3%80%81%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86">JVM性能兼容、故障处理</a>
        * <a href="https://github.com/DemoTransfer/MUYI/tree/master/java/interview/JVM/JVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%90%E7%B3%BB%E7%BB%9F">JVM虚拟机子系统</a>
-       * 推荐书籍	
+       * 推荐📚📚📚📚
        		* 《深入理解Java虚拟机》
     * <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/java/SPI">SPI</a>
     * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/docs/OSGI">OSGI</a>
@@ -33,7 +36,7 @@
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/SpringBoot.md">SpringBoot</a>
     * <a href="https://github.com/DemoTransfer/Spring-Cloud-Alibaba-Guide">Spring-Cloud-Alibaba-Guide</a>
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Netty.md">Netty</a>
-    	* 推荐书籍
+    	* 推荐📚📚📚📚
 			* 《Netty实战》
     * Dubbo
     * Shiro
@@ -213,7 +216,7 @@
    * 状态机
       * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/java/状态机/什么是状态机？.md">什么是状态机？</a>
       * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/java/状态机/编程中的幂等性%20——%20HTTP幂等性.md">编程中的幂等性 —— HTTP幂等性</a>
-   * 推荐书籍
+   * 推荐📚📚📚📚
       * 领域驱动设计精粹
       * 数密集型应用系统设计
       * 实现领域驱动设计
@@ -249,7 +252,7 @@
       * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/Insert%20into%20select%E8%AF%AD%E5%8F%A5.md">Insert into select语句</a>
 
 * 网络
-   * 推荐书籍
+   * 推荐📚📚📚📚
      * 《图解HTTP》
    * 知识点扫盲
      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/通信网络/HTTP1.0、HTTP1.1%20和%20HTTP2.0%20的区别.md">HTTP1.0、HTTP1.1 和 HTTP2.0 的区别</a>
