@@ -27,6 +27,7 @@
         * 操作命令
         * 打包部署
         * 配置调优
+        * 问题诊断
 
 * 开发框架
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Mybatis.md">MyBatis</a>
