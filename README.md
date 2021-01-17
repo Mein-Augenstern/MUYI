@@ -34,9 +34,9 @@
        * 工具
        		* dalgen代码生成工具
 			* 插件
-    * <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/contents/Spring.md">Spring</a>
-    * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Spring%20MVC.md">SpringMVC</a>
-    * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/SpringBoot.md">SpringBoot</a>
+    * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/java/interview/Spring">Spring</a>
+    * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/java/SpringMVC">SpringMVC</a>
+    * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/java/SpringBoot">SpringBoot</a>
     * <a href="https://github.com/DemoTransfer/Spring-Cloud-Alibaba-Guide">Spring-Cloud-Alibaba-Guide</a>
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Netty.md">Netty</a>
     	* 推荐📚📚📚📚
