@@ -30,7 +30,7 @@
         * 问题诊断
 
 * 开发框架
-    * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Mybatis.md">MyBatis</a>
+    * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/java/MyBatis">MyBatis</a>
        * 工具
        		* dalgen代码生成工具
 			* 插件
