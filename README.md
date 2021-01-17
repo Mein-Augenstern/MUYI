@@ -49,6 +49,7 @@
     * Log4j
 
 * 分布式事务
+        * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%9A%E6%80%A7%E4%BA%8B%E5%8A%A1%E4%B8%8E%E6%9F%94%E6%80%A7%E4%BA%8B%E5%8A%A1.md">刚性事务与柔性事务</a>
 	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%A7%91%E6%99%AE%EF%BC%88%E5%88%9D%E8%AF%86%E7%AF%87%EF%BC%89.md">分布式事务科普（初识篇）</a>
 	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%A7%91%E6%99%AE%EF%BC%88%E7%BB%88%E7%BB%93%E7%AF%87%EF%BC%89.md">分布式事务科普（终结篇）</a>
 	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/X%20Open%20DTP%E6%A8%A1%E5%9E%8B.md">X Open DTP模型</a>
