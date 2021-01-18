@@ -234,6 +234,11 @@
    * JWT
    * <a href="">浅谈常见的七种加密算法及实现</a>
 
+* 大数据
+   * 大数据计算服务 · MaxCompute（大数据计算服务（MaxCompute，原名ODPS）是一种快速、完全托管的TB/PB级数据仓库解决方案。）
+       * <a href="https://www.aliyun.com/product/odps?spm=a2c4g.11174283.2.1.422f590eiYThZg">首页</a>
+       * <a href="https://help.aliyun.com/product/27797.html?spm=a2c4g.11186623.6.540.423234daCYQrjU">文档</a>
+
 * 数据库
    * MySQL
    * Postgres
