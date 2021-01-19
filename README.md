@@ -39,6 +39,14 @@
     * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/java/SpringBoot">SpringBoot</a>
     * <a href="https://github.com/DemoTransfer/Spring-Cloud-Alibaba-Guide">Spring-Cloud-Alibaba-Guide</a>
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Netty.md">Netty</a>
+        * Netty源码在线阅读
+			* Netty-4.1.x地址是：http://docs.52im.net/extend/docs/src/netty4_1/
+			* Netty-4.0.x地址是：http://docs.52im.net/extend/docs/src/netty4/
+			* Netty-3.x地址是：http://docs.52im.net/extend/docs/src/netty3/
+        * Netty在线API文档
+			* Netty-4.1.x API文档(在线版)：http://docs.52im.net/extend/docs/api/netty4_1/
+			* Netty-4.0.x API文档(在线版)：http://docs.52im.net/extend/docs/api/netty4/
+			* Netty-3.x API文档(在线版)：http://docs.52im.net/extend/docs/api/netty3/
     	* 推荐📚📚📚📚
 			* 《Netty实战》（翻译有点心痛，英文好的话最好直接阅读英文版本）
     * Dubbo
