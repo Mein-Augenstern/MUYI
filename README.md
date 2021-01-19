@@ -40,7 +40,7 @@
     * <a href="https://github.com/DemoTransfer/Spring-Cloud-Alibaba-Guide">Spring-Cloud-Alibaba-Guide</a>
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Netty.md">Netty</a>
     	* 推荐📚📚📚📚
-			* 《Netty实战》
+			* 《Netty实战》（翻译有点心痛，英文好的话最好直接阅读英文版本）
     * Dubbo
     * Shiro
     * Ehcache
