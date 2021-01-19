@@ -49,8 +49,6 @@
 			* Netty-3.x API文档(在线版)：http://docs.52im.net/extend/docs/api/netty3/
     	* 推荐📚📚📚📚
 			* 《Netty实战》（翻译有点心痛，英文好的话最好直接阅读英文版本）
-	* 知识点扫盲
-			* <a href="https://www.cnblogs.com/imstudy/p/9908791.html">新手入门：目前为止最透彻的的Netty高性能原理和框架架构解析</a>
     * Dubbo
     * Shiro
     * Ehcache
