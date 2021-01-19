@@ -138,7 +138,9 @@
     
    * 容器
       * Docker
+          * <a href="https://docs.docker.com/">docker英文官网</a>
       * Kubernetes
+          * <a href="https://kubernetes.io/zh/">Kubernetes中文官网</a>
       
    * 协调中心
       * Zookeeper
