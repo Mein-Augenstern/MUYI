@@ -143,6 +143,8 @@
       * <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/java/web%20server/tomcat">Tomcat</a>
       * Jboss
       * Apache
+      * 知识点扫盲
+      	  * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/%E5%B8%B8%E8%A7%81%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AE%97%E6%B3%95.md">常见负载均衡算法</a>
     
    * 容器
       * Docker
