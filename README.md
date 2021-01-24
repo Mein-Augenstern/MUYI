@@ -49,6 +49,8 @@
 			* Netty-3.x API文档(在线版)：http://docs.52im.net/extend/docs/api/netty3/
     	* 推荐📚📚📚📚
 			* 《Netty实战》（翻译有点心痛，英文好的话最好直接阅读英文版本）
+        * 知识扫盲
+			* <a href="https://tech.meituan.com/2018/10/18/netty-direct-memory-screening.html">Netty堆外内存泄露排查盛宴（源自美团）</a>
     * Dubbo
     * Shiro
     * Ehcache
