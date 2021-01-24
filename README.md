@@ -31,6 +31,8 @@
 
 * 开发框架
     * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/java/MyBatis">MyBatis</a>
+       * 知识扫盲
+            * <a href="https://tech.meituan.com/2018/01/19/mybatis-cache.html">聊聊MyBatis缓存机制</a>
        * 工具
        		* dalgen代码生成工具
 			* 插件
