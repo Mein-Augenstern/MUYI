@@ -60,6 +60,7 @@
     * Ehcache
     * Quartz
     * Junit
+                        * PowerMock
     * Log4j
 
 * 分布式事务
