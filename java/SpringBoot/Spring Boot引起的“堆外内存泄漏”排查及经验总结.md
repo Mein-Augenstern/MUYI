@@ -43,6 +43,19 @@ gperftools的使用方法可以参考<a href="https://github.com/gperftools/gper
 
 ![q-5-springboot]()
 
+**接着，使用GDB去dump可疑内存**
+
+因为使用strace没有追踪到可疑内存申请；于是想着看看内存中的情况。就是直接使用命令gdp -pid pid进入GDB之后，然后使用命令dump memory mem.bin startAddress endAddressdump内存，其中startAddress和endAddress可以从/proc/pid/smaps中查找。然后使用strings mem.bin查看dump的内容，如下：
+
+![q-6-springboot]()
+
+从内容上来看，像是解压后的JAR包信息。读取JAR包信息应该是在项目启动的时候，那么在项目启动之后使用strace作用就不是很大了。所以应该在项目启动的时候使用strace，而不是启动完成之后。
+
+**再次，项目启动时使用strace去追踪系统调用**
+
+项目启动使用strace追踪系统调用，发现确实申请了很多64M的内存空间，截图如下：
+
+![q-7-springboot]()
 
 
 
