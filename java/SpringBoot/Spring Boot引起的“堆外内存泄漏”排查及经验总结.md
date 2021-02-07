@@ -19,7 +19,7 @@
 
 ![q-2-springboot](https://github.com/Mein-Augenstern/MUYI/blob/master/java/SpringBoot/picture/q-2-springboot.png)
 
-发现命令显示的committed的内存小于物理内存，因为jcmd命令显示的内存包含堆内内存、Code区域、通过unsafe.allocateMemory和DirectByteBuffer申请的内存，但是不包含其他Native Code（C代码）申请的堆外内存。所以猜测是使用Native Code申请内存所导致的问题。
+发现命令显示的committed的内存小于物理内存，因为**jcmd命令**显示的内存包含**堆内内存**、**Code区域**、**通过unsafe.allocateMemory**和**DirectByteBuffer申请的内存**，但是**不包含其他Native Code（C代码）申请的堆外内存**。所以猜测是使用Native Code申请内存所导致的问题。
 
 为了防止误判，笔者使用了pmap查看内存分布，发现大量的64M的地址；而这些地址空间不在jcmd命令所给出的地址空间里面，基本上就断定就是这些64M的内存所导致。
 
