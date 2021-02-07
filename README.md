@@ -119,6 +119,7 @@
 		* <a href="https://github.com/DemoTransfer/Redis-Guide/blob/master/document/basic/%E5%9F%BA%E4%BA%8E%20Redis%20%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%98%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88%E5%8F%8A%E5%8F%AF%E9%9D%A0%E6%80%A7%E5%8A%A0%E5%9B%BA%E7%AD%96%E7%95%A5.md">基于 Redis 的分布式缓存实现方案及可靠性加固策略</a>
 		* <a href="https://github.com/DemoTransfer/Redis-Guide/blob/master/document/basic/%E5%9F%BA%E4%BA%8E%20Redis%20%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8F%8A%E8%B8%A9%E5%9D%91%E6%A1%88%E4%BE%8B.md">基于 Redis 的分布式锁实现及踩坑案例</a>
 		* <a href="https://github.com/DemoTransfer/Redis-Guide/blob/master/document/basic/%E9%98%BF%E9%87%8C%E9%9D%A2%E8%AF%95Redis%E6%9C%80%E5%B8%B8%E9%97%AE%E7%9A%84%E4%B8%89%E4%B8%AA%E9%97%AE%E9%A2%98%EF%BC%9A%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E7%A9%BF%E9%80%8F%EF%BC%88%E5%B8%A6%E7%AD%94%E6%A1%88%EF%BC%89.md">阿里面试Redis最常问的三个问题：缓存雪崩、击穿、穿透（带答案）.</a>
+		* <a href="https://github.com/Mein-Augenstern/Redis-Guide/blob/master/document/basic/%E8%BF%98%E5%9C%A8%E7%94%A8%20Guava%20Cache%EF%BC%9F%E5%AE%83%E6%89%8D%E6%98%AF%20Java%20%E6%9C%AC%E5%9C%B0%E7%BC%93%E5%AD%98%E4%B9%8B%E7%8E%8B%EF%BC%81.md">还在用 Guava Cache？它才是 Java 本地缓存之王！</a>
    * 消息
       * <a href="https://github.com/DemoTransfer/RabbitMQ-Guide">RabbitMQ</a>
       * Kafka
