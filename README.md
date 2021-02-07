@@ -260,6 +260,7 @@
       * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E4%B8%80%E5%8D%83%E8%A1%8CMySQL%E5%91%BD%E4%BB%A4.md">一千行MySQL命令</a>
       * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/for%20update%E5%92%8Cfor%20update%20nowait.md">for update和for update nowait</a>
       * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/Insert%20into%20select%E8%AF%AD%E5%8F%A5.md">Insert into select语句</a>
+      * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%9B%AA%E8%8A%B1%E7%AE%97%E6%B3%95%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8CJava%E5%AE%9E%E7%8E%B0.md">雪花算法的原理和Java实现</a>
 
 * 网络
    * 协议
