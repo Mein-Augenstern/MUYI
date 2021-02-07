@@ -8,7 +8,7 @@
 
 为了更好地实现对项目的管理，我们将组内一个项目迁移到MDP框架（基于Spring Boot），随后我们就发现系统会频繁报出Swap区域使用量过高的异常。笔者被叫去帮忙查看原因，发现配置了4G堆内内存，但是实际使用的物理内存竟然高达7G，确实不正常。JVM参数配置是“-XX:MetaspaceSize=256M -XX:MaxMetaspaceSize=256M -XX:+AlwaysPreTouch -XX:ReservedCodeCacheSize=128m -XX:InitialCodeCacheSize=128m, -Xss512k -Xmx4g -Xms4g,-XX:+UseG1GC -XX:G1HeapRegionSize=4M”，实际使用的物理内存如下图所示：
 
-![q-1-springboot]()
+![q-1-springboot](https://github.com/Mein-Augenstern/MUYI/blob/master/java/SpringBoot/picture/q-1-springboot.png)
 
 排查过程
 ------
@@ -17,13 +17,13 @@
 
 笔者在项目中添加```-XX:NativeMemoryTracking=detailJVM```参数重启项目，使用命令```jcmd pid VM.native_memory detail```查看到的内存分布如下：
 
-![q-2-springboot]()
+![q-2-springboot](https://github.com/Mein-Augenstern/MUYI/blob/master/java/SpringBoot/picture/q-2-springboot.png)
 
 发现命令显示的committed的内存小于物理内存，因为jcmd命令显示的内存包含堆内内存、Code区域、通过unsafe.allocateMemory和DirectByteBuffer申请的内存，但是不包含其他Native Code（C代码）申请的堆外内存。所以猜测是使用Native Code申请内存所导致的问题。
 
 为了防止误判，笔者使用了pmap查看内存分布，发现大量的64M的地址；而这些地址空间不在jcmd命令所给出的地址空间里面，基本上就断定就是这些64M的内存所导致。
 
-![q-3-springboot]()
+![q-3-springboot](https://github.com/Mein-Augenstern/MUYI/blob/master/java/SpringBoot/picture/q-3-springboot.png)
 
 **2. 使用系统层面的工具定位堆外内存**
 
@@ -33,7 +33,7 @@
 
 gperftools的使用方法可以参考<a href="https://github.com/gperftools/gperftools">gperftools</a>，gperftools的监控如下：
 
-![q-4-springboot]()
+![q-4-springboot](https://github.com/Mein-Augenstern/MUYI/blob/master/java/SpringBoot/picture/q-4-springboot.png)
 
 从上图可以看出：使用malloc申请的的内存最高到3G之后就释放了，之后始终维持在700M-800M。笔者第一反应是：难道Native Code中没有使用malloc申请，直接使用mmap/brk申请的？（gperftools原理就使用动态链接的方式替换了操作系统默认的内存分配器（glibc）。）
 
@@ -41,13 +41,13 @@ gperftools的使用方法可以参考<a href="https://github.com/gperftools/gper
 
 因为使用gperftools没有追踪到这些内存，于是直接使用命令“strace -f -e”brk,mmap,munmap” -p pid”追踪向OS申请内存请求，但是并没有发现有可疑内存申请。strace监控如下图所示:
 
-![q-5-springboot]()
+![q-5-springboot](https://github.com/Mein-Augenstern/MUYI/blob/master/java/SpringBoot/picture/q-5-springboot.png)
 
 **接着，使用GDB去dump可疑内存**
 
 因为使用strace没有追踪到可疑内存申请；于是想着看看内存中的情况。就是直接使用命令gdp -pid pid进入GDB之后，然后使用命令dump memory mem.bin startAddress endAddressdump内存，其中startAddress和endAddress可以从/proc/pid/smaps中查找。然后使用strings mem.bin查看dump的内容，如下：
 
-![q-6-springboot]()
+![q-6-springboot](https://github.com/Mein-Augenstern/MUYI/blob/master/java/SpringBoot/picture/q-6-springboot.png)
 
 从内容上来看，像是解压后的JAR包信息。读取JAR包信息应该是在项目启动的时候，那么在项目启动之后使用strace作用就不是很大了。所以应该在项目启动的时候使用strace，而不是启动完成之后。
 
@@ -55,21 +55,21 @@ gperftools的使用方法可以参考<a href="https://github.com/gperftools/gper
 
 项目启动使用strace追踪系统调用，发现确实申请了很多64M的内存空间，截图如下：
 
-![q-7-springboot]()
+![q-7-springboot](https://github.com/Mein-Augenstern/MUYI/blob/master/java/SpringBoot/picture/q-7-springboot.png)
 
 使用该mmap申请的地址空间在pmap对应如下：
 
-![q-8-springboot]()
+![q-8-springboot](https://github.com/Mein-Augenstern/MUYI/blob/master/java/SpringBoot/picture/q-8-springboot.png)
 
 **最后，使用jstack去查看对应的线程**
 
 因为strace命令中已经显示申请内存的线程ID。直接使用命令jstack pid去查看线程栈，找到对应的线程栈（注意10进制和16进制转换）如下：
 
-![q-9-springboot]()
+![q-9-springboot](https://github.com/Mein-Augenstern/MUYI/blob/master/java/SpringBoot/picture/q-9-springboot.png)
 
 这里基本上就可以看出问题来了：MCC（美团统一配置中心）使用了Reflections进行扫包，底层使用了Spring Boot去加载JAR。因为解压JAR使用Inflater类，需要用到堆外内存，然后使用Btrace去追踪这个类，栈如下：
 
-![q-10-springboot]()
+![q-10-springboot](https://github.com/Mein-Augenstern/MUYI/blob/master/java/SpringBoot/picture/q-10-springboot.png)
 
 然后查看使用MCC的地方，发现没有配置扫包路径，默认是扫描所有的包。于是修改代码，配置扫包路径，发布上线后内存问题解决。
 
@@ -92,11 +92,11 @@ gperftools的使用方法可以参考<a href="https://github.com/gperftools/gper
 
 继续探究，发现系统默认的内存分配器（glibc 2.12版本）和使用gperftools内存地址分布差别很明显，2.5G地址使用smaps发现它是属于Native Stack。内存地址分布如下：
 
-![q-11-springboot]()
+![q-11-springboot](https://github.com/Mein-Augenstern/MUYI/blob/master/java/SpringBoot/picture/q-11-springboot.png)
 
 到此，基本上可以确定是内存分配器在捣鬼；搜索了一下glibc 64M，发现glibc从2.11开始对每个线程引入内存池（64位机器大小就是64M内存），原文如下：
 
-![q-12-springboot]()
+![q-12-springboot](https://github.com/Mein-Augenstern/MUYI/blob/master/java/SpringBoot/picture/q-12-springboot.png)
 
 按照文中所说去修改```MALLOC_ARENA_MAX```环境变量，发现没什么效果。查看```tcmalloc```（```gperftools```使用的内存分配器）也使用了内存池方式。
 
@@ -167,7 +167,7 @@ void free (void* ptr )
 
 笔者做了一下测试，使用不同分配器进行不同程度的扫包，占用的内存如下：
 
-![q-13-springboot]()
+![q-13-springboot](https://github.com/Mein-Augenstern/MUYI/blob/master/java/SpringBoot/picture/q-12-springboot.png)
 
 为什么自定义的malloc申请800M，最终占用的物理内存在1.7G呢？
 
@@ -178,7 +178,7 @@ void free (void* ptr )
 总结
 ------
 
-![q-14-springboot]()
+![q-14-springboot](https://github.com/Mein-Augenstern/MUYI/blob/master/java/SpringBoot/picture/q-14-springboot.png)
 
 整个内存分配的流程如上图所示。MCC扫包的默认配置是扫描所有的JAR包。在扫描包的时候，Spring Boot不会主动去释放堆外内存，导致在扫描阶段，堆外内存占用量一直持续飙升。当发生GC的时候，Spring Boot依赖于finalize机制去释放了堆外内存；但是glibc为了性能考虑，并没有真正把内存归返到操作系统，而是留下来放入内存池了，导致应用层以为发生了“内存泄漏”。所以修改MCC的配置路径为特定的JAR包，问题解决。笔者在发表这篇文章时，发现Spring Boot的最新版本（2.0.5.RELEASE）已经做了修改，在ZipInflaterInputStream主动释放了堆外内存不再依赖GC；所以Spring Boot升级到最新版本，这个问题也可以得到解决。
 
@@ -190,19 +190,4 @@ void free (void* ptr )
 * Spring Boot：https://github.com/spring-projects/spring-boot
 * gperftools：https://github.com/gperftools/gperftools
 * Btrace：https://github.com/btraceio/btrace
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
