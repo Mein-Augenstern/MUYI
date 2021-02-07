@@ -41,7 +41,7 @@
     * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/java/SpringMVC">SpringMVC</a>
     * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/java/SpringBoot">SpringBoot</a> 
        * 知识扫盲
-            * <a href="https://tech.meituan.com/2019/01/03/spring-boot-native-memory-leak.html">Spring Boot引起的“堆外内存泄漏”排查及经验总结(源自美团)</a>
+            * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/java/SpringBoot/Spring%20Boot%E5%BC%95%E8%B5%B7%E7%9A%84%E2%80%9C%E5%A0%86%E5%A4%96%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E2%80%9D%E6%8E%92%E6%9F%A5%E5%8F%8A%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%93.md">Spring Boot引起的“堆外内存泄漏”排查及经验总结(源自美团)</a>
     * <a href="https://github.com/DemoTransfer/Spring-Cloud-Alibaba-Guide">Spring-Cloud-Alibaba-Guide</a>
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/contents/Netty.md">Netty</a>
         * Netty源码在线阅读
