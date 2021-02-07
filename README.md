@@ -222,6 +222,7 @@
    * DDD
       * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/DDD/领域驱动设计在互联网业务开发中的实践.md">领域驱动设计在互联网业务开发中的实践（美团）</a>
       * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/DDD/领域驱动设计（DDD）在有赞教育线索资源管理的实践.md">领域驱动设计（DDD）在有赞教育线索资源管理的实践（有赞）</a>
+      * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/DDD/%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%9E%8Bvs%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%EF%BC%8C%E5%BA%94%E8%AF%A5%E6%80%8E%E4%B9%88%E7%94%A8%EF%BC%9F.md">领域模型vs数据模型，应该怎么用？</a>
    * 状态机
       * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/java/状态机/什么是状态机？.md">什么是状态机？</a>
       * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/java/状态机/编程中的幂等性%20——%20HTTP幂等性.md">编程中的幂等性 —— HTTP幂等性</a>
