@@ -208,6 +208,7 @@
 * 设计 & 架构
    * 架构
       * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/%E6%9E%B6%E6%9E%84/%E5%85%B3%E4%BA%8E%E6%9E%B6%E6%9E%84%E5%B8%88%EF%BC%9A%E8%A7%92%E8%89%B2%E3%80%81%E8%83%BD%E5%8A%9B%E5%92%8C%E6%8C%91%E6%88%98.md">关于架构师：角色、能力和挑战</a>
+      * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/%E6%9E%B6%E6%9E%84/3%2B1%E4%BF%9D%E9%9A%9C%EF%BC%9A%E9%AB%98%E5%8F%AF%E7%94%A8%E7%B3%BB%E7%BB%9F%E7%A8%B3%E5%AE%9A%E6%80%A7%E6%98%AF%E5%A6%82%E4%BD%95%E7%82%BC%E6%88%90%E7%9A%84%EF%BC%9F.md">3+1保障：高可用系统稳定性是如何练成的？</a>
    * SOA
       * 待补充
    * 微服务
