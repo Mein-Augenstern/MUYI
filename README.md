@@ -80,7 +80,6 @@
 	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F%E4%BD%A0%E4%BB%AC%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E9%97%AE%E9%A2%98%E7%9A%84%EF%BC%9FTCC%20%E5%A6%82%E6%9E%9C%E5%87%BA%E7%8E%B0%E7%BD%91%E7%BB%9C%E8%BF%9E%E4%B8%8D%E9%80%9A%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9FXA%20%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%EF%BC%9F.md">分布式事务了解吗？你们如何解决分布式事务问题的？TCC 如果出现网络连不通怎么办？XA 的一致性如何保证？</a>
 
 * 分布式技术与理论业界实现
-   
    * 分布式技术原理与算法解析思维导图
       * <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%B0%83%E4%B8%8E%E5%90%8C%E6%AD%A5/picture/%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%B0%83%E4%B8%8E%E5%90%8C%E6%AD%A5.png">分布式协调与同步</a>
       * <a href="">分布式资源管理与负载调度</a>
@@ -88,11 +87,9 @@
       * <a href="">分布式数据存储</a>	 
       * <a href="">分布式高可靠</a>
       * <a href="">分布式核心知识串讲</a>
-	
    * 分布式事务解决方案
       * <a href="http://seata.io/zh-cn/index.html">Seata 是一款阿里巴巴开源的分布式事务解决方案，致力于在微服务架构下提供高性能和简单易用的分布式事务服务。</a>	
       	* <a href="https://github.com/seata/seata">Seata Github</a>
-	
    * 缓存
       * <a href="https://github.com/DemoTransfer/Redis-Guide">Redis</a>
       * Memcache
@@ -120,7 +117,6 @@
 		* <a href="https://github.com/DemoTransfer/Redis-Guide/blob/master/document/basic/%E5%9F%BA%E4%BA%8E%20Redis%20%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%98%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88%E5%8F%8A%E5%8F%AF%E9%9D%A0%E6%80%A7%E5%8A%A0%E5%9B%BA%E7%AD%96%E7%95%A5.md">基于 Redis 的分布式缓存实现方案及可靠性加固策略</a>
 		* <a href="https://github.com/DemoTransfer/Redis-Guide/blob/master/document/basic/%E5%9F%BA%E4%BA%8E%20Redis%20%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8F%8A%E8%B8%A9%E5%9D%91%E6%A1%88%E4%BE%8B.md">基于 Redis 的分布式锁实现及踩坑案例</a>
 		* <a href="https://github.com/DemoTransfer/Redis-Guide/blob/master/document/basic/%E9%98%BF%E9%87%8C%E9%9D%A2%E8%AF%95Redis%E6%9C%80%E5%B8%B8%E9%97%AE%E7%9A%84%E4%B8%89%E4%B8%AA%E9%97%AE%E9%A2%98%EF%BC%9A%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E7%A9%BF%E9%80%8F%EF%BC%88%E5%B8%A6%E7%AD%94%E6%A1%88%EF%BC%89.md">阿里面试Redis最常问的三个问题：缓存雪崩、击穿、穿透（带答案）.</a>
-   
    * 消息
       * <a href="https://github.com/DemoTransfer/RabbitMQ-Guide">RabbitMQ</a>
       * Kafka
@@ -137,33 +133,26 @@
 		* <a href="https://github.com/DemoTransfer/RabbitMQGuide/blob/master/document/basic/how-to-ensure-the-order-of-messages.md">如何保证消息的顺序性？</a>
 		* <a href="https://github.com/DemoTransfer/RabbitMQGuide/blob/master/document/basic/mq-time-delay-and-expired-failure.md">如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时，说说怎么解决？</a>
 		* <a href="https://github.com/DemoTransfer/RabbitMQGuide/blob/master/document/basic/mq-design.md">如果让你写一个消息队列，该如何进行架构设计啊？说一下你的思路。</a>
-
-
-      
    * 负载均衡
       * Nginx
       * LVS
 	  * F5
       * Ribbon
           * <a href="https://github.com/Netflix/ribbon">Ribbon是Netflix开源的基于HTTP和TCP等协议负载均衡组件，Ribbon 可以用来做客户端负载均衡，调用注册中心的服务，Ribbon的使用需要代码里手动调用目标服务，请参考官方示例</a>
-
    * webserver
       * <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/java/web%20server/tomcat">Tomcat</a>
       * Jboss
       * Apache
       * 知识点扫盲
       	  * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/%E5%B8%B8%E8%A7%81%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AE%97%E6%B3%95.md">常见负载均衡算法</a>
-    
    * 容器
       * Docker
           * <a href="https://docs.docker.com/">docker英文官网</a>
       * Kubernetes
           * <a href="https://kubernetes.io/zh/">Kubernetes中文官网</a>
-      
    * 协调中心
       * Zookeeper
       * etcd
-      
    * RPC
       * Dubbo
       * grpc
@@ -172,33 +161,25 @@
          * <a href="">Feign是Spring Cloud组件中的一个轻量级RESTful的HTTP服务客户端，Feign内置了Ribbon，用来做客户端负载均衡，去调用服务注册中心的服务。Feign的使用方式是：使用Feign的注解定义接口，调用这个接口，就可以调用服务注册中心的服务。Feign支持的注解和用法请参考官方文档。Feign本身不支持Spring MVC的注解，它有一套自己的注解</a>
       * OpenFeign
          * <a href="https://github.com/spring-cloud/spring-cloud-openfeign">OpenFeign是Spring Cloud 在Feign的基础上支持了Spring MVC的注解，如@RequesMapping等等。OpenFeign的@FeignClient可以解析SpringMVC的@RequestMapping注解下的接口，并通过动态代理的方式产生实现类，实现类中做负载均衡并调用其他服务。</a>
-      
    * 实时数据平台
       * storm
       * akka
-      
    * 离线数据平台
       * hadoop
       * spark
-      
    * 搜索
       * elasticsearch
       * solr
-      
    * 日志
       * rsyslog
       * elk
       * flume
-    
    * 限流熔断
       * Sentinel
-
    * 配置管理服务注册中心
       * Nacos
-
    * 网关
       * Spring Cloud Gateway
-
    * Service Mesh
       * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/Service%20Mesh/Service%20Mesh%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88%E6%8A%80%E6%9C%AF.md">Service Mesh到底是什么技术</a>
       * <a href="https://tech.meituan.com/2020/12/03/service-mesh-in-meituan.html">复杂环境下落地Service Mesh的挑战与实践（美团）</a>
@@ -213,7 +194,6 @@
       * <a href="http://c.biancheng.net/view/1330.html">接口隔离原则</a>
       * <a href="http://c.biancheng.net/view/1331.html">迪米特法则</a>
       * <a href="http://c.biancheng.net/view/1333.html">合成复用原则</a>
-
    * 设计模式
       * <a href="http://c.biancheng.net/view/8385.html">简单工厂模式(静态工厂方法模式)</a>
       	> 简单来说，简单工厂模式有一个具体的工厂类，可以生成多个不同的产品，属于创建型设计模式。简单工厂模式不在 GoF 23 种设计模式之列。简单工厂模式每增加一个产品就要增加一个具体产品类和一个对应的具体工厂类，这增加了系统的复杂度，违背了“开闭原则”。
@@ -222,20 +202,18 @@
       * <a href="http://c.biancheng.net/view/1338.html">单例模式（单例设计模式）</a>
       * <a href="http://c.biancheng.net/view/1343.html">原型模式（原型设计模式）</a>
         > 在 Spring 中，原型模式应用的非常广泛，例如 scope='prototype'、JSON.parseObject() 等都是原型模式的具体应用。
-   
    * 设计模式的使用
       * <a href="https://github.com/DemoTransfer/MUYI/blob/master/pattern/using-pattern/设计模式在外卖营销业务中的实践.md">设计模式在外卖营销业务中的实践</a>
 
-* 设计
-  
+* 设计 & 架构
+   * 架构
+      * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/%E6%9E%B6%E6%9E%84/%E5%85%B3%E4%BA%8E%E6%9E%B6%E6%9E%84%E5%B8%88%EF%BC%9A%E8%A7%92%E8%89%B2%E3%80%81%E8%83%BD%E5%8A%9B%E5%92%8C%E6%8C%91%E6%88%98.md">关于架构师：角色、能力和挑战</a>
    * SOA
       * 待补充
-
    * 微服务
       * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E4%BB%80%E4%B9%88%E6%98%AF%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%9F%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E9%97%B4%E6%98%AF%E5%A6%82%E4%BD%95%E7%8B%AC%E7%AB%8B%E9%80%9A%E8%AE%AF%E7%9A%84%EF%BC%9F.md">什么是微服务？微服务之间是如何独立通讯的</a>
       * Chris Richardson 微服务系列
           * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E3%80%8CChris%20Richardson%20%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%B3%BB%E5%88%97%E3%80%8D%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E7%9A%84%E5%8F%AF%E8%A1%8C%E6%96%B9%E6%A1%88%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5%E6%A1%88%E4%BE%8B.md">Chris Richardson 微服务系列」服务发现的可行方案以及实践案例</a>
-
    * DDD
       * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/DDD/领域驱动设计在互联网业务开发中的实践.md">领域驱动设计在互联网业务开发中的实践（美团）</a>
       * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/DDD/领域驱动设计（DDD）在有赞教育线索资源管理的实践.md">领域驱动设计（DDD）在有赞教育线索资源管理的实践（有赞）</a>
