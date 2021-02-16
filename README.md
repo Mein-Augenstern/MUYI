@@ -191,6 +191,7 @@
 * 开发规范
    * 代码军规
       * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/%E5%A4%8D%E6%9D%82%E7%B3%BB%E7%BB%9F%E5%A6%82%E4%BD%95%E4%BF%9D%E9%9A%9C%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F%EF%BC%9F%E8%AE%A9%E6%B5%8B%E8%AF%95%E5%85%88%E8%A1%8C.md">复杂系统如何保障代码质量？让测试先行</a>
+      * 函数式编程
    * 面向对象设计原则
       * <a href="http://c.biancheng.net/view/1322.html">开闭原则</a>
       * <a href="http://c.biancheng.net/view/1324.html">里氏替换原则</a>
