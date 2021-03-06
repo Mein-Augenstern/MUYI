@@ -215,6 +215,7 @@
    * 架构
       * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/%E6%9E%B6%E6%9E%84/%E5%85%B3%E4%BA%8E%E6%9E%B6%E6%9E%84%E5%B8%88%EF%BC%9A%E8%A7%92%E8%89%B2%E3%80%81%E8%83%BD%E5%8A%9B%E5%92%8C%E6%8C%91%E6%88%98.md">关于架构师：角色、能力和挑战</a>
       * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/%E6%9E%B6%E6%9E%84/3%2B1%E4%BF%9D%E9%9A%9C%EF%BC%9A%E9%AB%98%E5%8F%AF%E7%94%A8%E7%B3%BB%E7%BB%9F%E7%A8%B3%E5%AE%9A%E6%80%A7%E6%98%AF%E5%A6%82%E4%BD%95%E7%82%BC%E6%88%90%E7%9A%84%EF%BC%9F.md">3+1保障：高可用系统稳定性是如何练成的？</a>
+      * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/%E6%9E%B6%E6%9E%84/%E6%88%91%E6%B2%A1%E6%9C%89%E9%AB%98%E5%B9%B6%E5%8F%91%E9%A1%B9%E7%9B%AE%E7%BB%8F%E9%AA%8C%EF%BC%8C%E4%BD%86%E6%98%AF%E9%9D%A2%E8%AF%95%E7%9A%84%E6%97%B6%E5%80%99%E7%BB%8F%E5%B8%B8%E8%A2%AB%E9%97%AE%E5%88%B0%E9%AB%98%E5%B9%B6%E5%8F%91%E3%80%81%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E6%96%B9%E9%9D%A2%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%8C%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9E%E6%B3%95%E5%8F%AF%E4%BB%A5%E8%A7%A3%E5%86%B3%E5%90%97%EF%BC%9F.md">没有高并发项目经验，但是面试的时候经常被问到高并发、性能调优方面的问题，有什么办法可以解决吗？</a>
    * SOA
       * 待补充
    * 微服务
