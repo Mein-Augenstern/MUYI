@@ -69,7 +69,7 @@
 
 * 分布式事务
     * 推荐书籍
-    	* 《从PAXOS到ZOOKEEPER分布式一致性原理与实践》
+    	* 《从PAXOS到ZOOKEEPER分布式一致性原理与实践》（<a href="https://github.com/double-qiu/books/blob/master/%E4%BB%8EPAXOS%E5%88%B0ZOOKEEPER%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E8%B7%B5.pdf">电子书下载地址</a>）
     * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%9A%E6%80%A7%E4%BA%8B%E5%8A%A1%E4%B8%8E%E6%9F%94%E6%80%A7%E4%BA%8B%E5%8A%A1.md">刚性事务与柔性事务</a>
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%A7%91%E6%99%AE%EF%BC%88%E5%88%9D%E8%AF%86%E7%AF%87%EF%BC%89.md">分布式事务科普（初识篇）</a>
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%A7%91%E6%99%AE%EF%BC%88%E7%BB%88%E7%BB%93%E7%AF%87%EF%BC%89.md">分布式事务科普（终结篇）</a>
