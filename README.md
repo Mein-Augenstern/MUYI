@@ -23,12 +23,16 @@
     * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/docs/OSGI">OSGI</a>
     * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/java/JMX">JMX</a>
   
+ ------------------------------------------------------------------------------------------------------------------------------------------------------------------ 
+  
 * Linux
     * Linux下常用命令
         * 操作命令
         * 打包部署
         * 配置调优
         * 问题诊断
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 * 开发框架
     * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/java/MyBatis">MyBatis</a>
@@ -67,6 +71,8 @@
         * PowerMock
     * Log4j
 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 * 分布式事务
     * 推荐书籍
     	* 《从PAXOS到ZOOKEEPER分布式一致性原理与实践》（<a href="https://github.com/double-qiu/books/blob/master/%E4%BB%8EPAXOS%E5%88%B0ZOOKEEPER%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E8%B7%B5.pdf">电子书下载地址</a>）
@@ -83,23 +89,27 @@
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA-%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AERaft.md">分布式理论-一致性协议Raft</a>
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA-%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95Paxos.md">分布式理论-一致性算法Paxos</a>
     * <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F%E4%BD%A0%E4%BB%AC%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E9%97%AE%E9%A2%98%E7%9A%84%EF%BC%9FTCC%20%E5%A6%82%E6%9E%9C%E5%87%BA%E7%8E%B0%E7%BD%91%E7%BB%9C%E8%BF%9E%E4%B8%8D%E9%80%9A%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9FXA%20%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%EF%BC%9F.md">分布式事务了解吗？你们如何解决分布式事务问题的？TCC 如果出现网络连不通怎么办？XA 的一致性如何保证？</a>
-
-* 分布式技术与理论业界实现
-   * 分布式技术原理与算法解析思维导图
-      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%B0%83%E4%B8%8E%E5%90%8C%E6%AD%A5/picture/%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%B0%83%E4%B8%8E%E5%90%8C%E6%AD%A5.png">分布式协调与同步</a>
-      * <a href="">分布式资源管理与负载调度</a>
-      * <a href="">分布式计算技术</a>	  
-      * <a href="">分布式数据存储</a>	 
-      * <a href="">分布式高可靠</a>
-      * <a href="">分布式核心知识串讲</a>
-   * 分布式事务解决方案
+    * 分布式事务解决方案
       * <a href="http://seata.io/zh-cn/index.html">Seata 是一款阿里巴巴开源的分布式事务解决方案，致力于在微服务架构下提供高性能和简单易用的分布式事务服务。</a>	
       	* <a href="https://github.com/seata/seata">Seata Github</a>
-   * 缓存
-      * <a href="https://github.com/DemoTransfer/Redis-Guide">Redis</a>
-      * Memcache
-      * 知识点扫盲
-      	* <a href="https://www.cnblogs.com/kismetv/category/1186633.html">Redis内存模型、持久化、主从复制、哨兵、集群介绍</a>
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+* 分布式技术原理与算法解析思维导图
+	* <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%B0%83%E4%B8%8E%E5%90%8C%E6%AD%A5/picture/%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%B0%83%E4%B8%8E%E5%90%8C%E6%AD%A5.png">分布式协调与同步</a>
+	* <a href="">分布式资源管理与负载调度</a>
+	* <a href="">分布式计算技术</a>	  
+	* <a href="">分布式数据存储</a>	 
+	* <a href="">分布式高可靠</a>
+	* <a href="">分布式核心知识串讲</a>
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+* 缓存
+	* <a href="https://github.com/DemoTransfer/Redis-Guide">Redis</a>
+	* Memcache
+	* 知识点扫盲
+	* <a href="https://www.cnblogs.com/kismetv/category/1186633.html">Redis内存模型、持久化、主从复制、哨兵、集群介绍</a>
 			* <a href="https://www.cnblogs.com/kismetv/p/8654978.html">Redis内存模型</a>
 			* <a href="https://www.cnblogs.com/kismetv/p/9137897.html">Redis持久化</a>
 			* <a href="https://www.cnblogs.com/kismetv/p/9236731.html">Redis主从复制</a>
@@ -123,6 +133,11 @@
 		* <a href="https://github.com/DemoTransfer/Redis-Guide/blob/master/document/basic/%E5%9F%BA%E4%BA%8E%20Redis%20%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8F%8A%E8%B8%A9%E5%9D%91%E6%A1%88%E4%BE%8B.md">基于 Redis 的分布式锁实现及踩坑案例</a>
 		* <a href="https://github.com/DemoTransfer/Redis-Guide/blob/master/document/basic/%E9%98%BF%E9%87%8C%E9%9D%A2%E8%AF%95Redis%E6%9C%80%E5%B8%B8%E9%97%AE%E7%9A%84%E4%B8%89%E4%B8%AA%E9%97%AE%E9%A2%98%EF%BC%9A%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E7%A9%BF%E9%80%8F%EF%BC%88%E5%B8%A6%E7%AD%94%E6%A1%88%EF%BC%89.md">阿里面试Redis最常问的三个问题：缓存雪崩、击穿、穿透（带答案）.</a>
 		* <a href="https://github.com/Mein-Augenstern/Redis-Guide/blob/master/document/basic/%E8%BF%98%E5%9C%A8%E7%94%A8%20Guava%20Cache%EF%BC%9F%E5%AE%83%E6%89%8D%E6%98%AF%20Java%20%E6%9C%AC%E5%9C%B0%E7%BC%93%E5%AD%98%E4%B9%8B%E7%8E%8B%EF%BC%81.md">还在用 Guava Cache？它才是 Java 本地缓存之王！</a>
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+* 分布式技术与理论业界实现
+   
    * 消息
       * <a href="https://github.com/DemoTransfer/RabbitMQ-Guide">RabbitMQ</a>
       * Kafka
