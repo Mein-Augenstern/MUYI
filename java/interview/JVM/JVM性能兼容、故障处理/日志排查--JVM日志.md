@@ -62,3 +62,9 @@ CommandLine flags: -XX:+CMSClassUnloadingEnabled -XX:CMSFullGCsBeforeCompaction=
 2021-09-26T18:21:04.788+0800: 254312.868: [GC (Allocation Failure) 2021-09-26T18:21:04.788+0800: 254312.869: [ParNew: 2606284K->81645K(2831168K), 0.1010246 secs] 2863566K->338928K(5976896K), 0.1016492 secs] [Times: user=0.20 sys=0.00, real=0.11 secs] 
 2021-09-26T20:06:48.625+0800: 260656.706: [GC (Allocation Failure) 2021-09-26T20:06:48.626+0800: 260656.706: [ParNew: 2598253K->98941K(2831168K), 0.1181018 secs] 2855536K->356224K(5976896K), 0.1186520 secs] [Times: user=0.21 sys=0.00, real=0.12 secs]
 ```
+
+以其中一行GC日志为例解释GC日志代表的含义
+
+```
+2021-09-23T19:42:35.659+0800: 3.740: [GC (Allocation Failure) 2021-09-23T19:42:35.659+0800: 3.740: [ParNew: 2516608K->17451K(2831168K), 0.0275186 secs] 2516608K->17451K(5976896K), 0.0276535 secs] [Times: user=0.08 sys=0.02, real=0.03 secs] 
+```
