@@ -61,3 +61,4 @@ public class ArrayListCocurrentTest {
 
 }
 ```
+![ArrayList并发丢失数据结果示例](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%E9%9B%86%E5%90%88%E5%B9%B6%E5%8F%91%E9%97%AE%E9%A2%98/picture/ArrayList-%E5%B9%B6%E5%8F%91%E4%B8%A2%E5%A4%B1%E6%95%B0%E6%8D%AE.png)
