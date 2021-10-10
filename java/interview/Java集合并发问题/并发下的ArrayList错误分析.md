@@ -3,6 +3,11 @@
 
 * 并发下的ArrayList错误分析：https://blog.csdn.net/lan861698789/article/details/81697409
 
+现象举例
+====
+
+* 并发导致数据丢失样例
+* 并发导致数据新增为null情况
 
 并发导致数据丢失样例
 ------
@@ -12,9 +17,6 @@
 ```java
 /**
  * ArrayList并发错误演示
- *
- * @author xiaopu.gyy
- * @version $Id: ArrayListCocurrentTest.java, v 0.1 2021年10月09日 21:10 xiaopu.gyy Exp $
  */
 public class ArrayListCocurrentTest {
 
@@ -71,9 +73,6 @@ public class ArrayListCocurrentTest {
 ```java
 /**
  * ArrayList并发错误演示
- *
- * @author xiaopu.gyy
- * @version $Id: ArrayListCocurrentTest.java, v 0.1 2021年10月09日 21:10 xiaopu.gyy Exp $
  */
 public class ArrayListCocurrentTest {
 
