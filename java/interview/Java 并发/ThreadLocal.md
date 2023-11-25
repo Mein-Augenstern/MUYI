@@ -155,12 +155,12 @@ ThreadLocalMap getMap(Thread t) {
 
 ```ThreadLocalMap```是```ThreadLocal```的静态内部类。
 
-![ThreadLocalMap和ThreadLocal的UML图](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/ThreadLocalMap%E5%92%8CThreadLocal%E7%9A%84UML%E5%9B%BE.png)
+![ThreadLocalMap和ThreadLocal的UML图](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/picture/ThreadLocalMap%E5%92%8CThreadLocal%E7%9A%84UML%E5%9B%BE.png)
 
 首先来看看为什么ThreadLocal会产生内存泄漏
 ====
 
-![ThreadLocal](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/ThreadLocal.png)
+![ThreadLocal](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/picture/ThreadLocal.png)
 
 ```ThreadLocal```的实现是这样的：每个```Thread``` 维护一个 ```ThreadLocalMap``` 映射表，这个映射表的 ```key``` 是 ```ThreadLocal```实例本身，```value``` 是真正需要存储的 ```Object```。 
 
@@ -194,7 +194,7 @@ static class Entry extends WeakReference<ThreadLocal<?>> {
 
 **关于弱引用可以参照下面链接了解**
 
-<a href="https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/%E5%BC%BA%E5%BC%95%E7%94%A8%20%E3%80%81%E8%BD%AF%E5%BC%95%E7%94%A8%E3%80%81%20%E5%BC%B1%E5%BC%95%E7%94%A8%E3%80%81%E8%99%9A%E5%BC%95%E7%94%A8.md">强引用 、软引用、 弱引用、虚引用</a>
+<a href="https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/Java%20并发/java%E5%9F%BA%E7%A1%80/%E5%BC%BA%E5%BC%95%E7%94%A8%20%E3%80%81%E8%BD%AF%E5%BC%95%E7%94%A8%E3%80%81%20%E5%BC%B1%E5%BC%95%E7%94%A8%E3%80%81%E8%99%9A%E5%BC%95%E7%94%A8.md">强引用 、软引用、 弱引用、虚引用</a>
 
 如何避免ThreadLocal内存泄漏问题
 ====
