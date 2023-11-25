@@ -1,14 +1,13 @@
 ![synchronized](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/synchronized.png)
 
-synchronized关键字最主要的三种使用方式的总结
+synchronized关键字最主要的使用方式的总结
 ====
 
 * **修饰实例方法，作用于当前对象实例加锁，进入同步代码前要获得当前对象实例的锁**
 * **修饰静态方法，作用于当前类对象加锁，进入同步代码前要获得当前类对象的锁**。也就是给当前类加锁，会作用于类的所有对象实例，因为静态成员不属于任何一个实例对象，是类成员（ static 表明这是该类的一个静态资源，不管new了多少个对象，只有一份，所以对该类的所有对象都加了锁）。所以如果一个线程A调用一个实例对象的非静态 synchronized 方法，而线程B需要调用这个实例对象所属类的静态 synchronized 方法，是允许的，不会发生互斥现象，**因为访问静态 synchronized 方法占用的锁是当前类的锁，而访问非静态 synchronized 方法占用的锁是当前实例对象锁。**
 * **修饰代码块，指定加锁对象，对给定对象加锁，进入同步代码库前要获得给定对象的锁**。和 synchronized 方法一样，synchronized(this)代码块也是锁定当前对象的。synchronized 关键字加到 static 静态方法和 synchronized(class)代码块上都是是给 Class 类上锁。这里再提一下：synchronized关键字加到非 static 静态方法上是给对象实例上锁。另外需要注意的是：尽量不要使用 synchronized(String a) 因为JVM中，字符串常量池具有缓冲功能！
 
-下面我已一个常见的面试题为例讲解一下 synchronized 关键字的具体使用。
-====
+> 下面我已一个常见的面试题为例讲解一下 synchronized 关键字的具体使用。
 
 面试中面试官经常会说：“单例模式了解吗？来给我手写一下！给我解释一下双重检验锁方式实现单例模式的原理呗！”
 
@@ -48,6 +47,45 @@ synchronized关键字最主要的三种使用方式的总结
  但是由于 JVM 具有指令重排的特性，执行顺序有可能变成 1->3->2。指令重排在单线程环境下不会出现问题，但是在多线程环境下会导致一个线程获得还没有初始化的实例。例如，线程 T1 执行了 1 和 3，此时 T2 调用 getUniqueInstance() 后发现 uniqueInstance 不为空，因此返回 uniqueInstance，但此时 uniqueInstance 还未被初始化。
  
 使用 volatile 可以禁止 JVM 的指令重排，保证在多线程环境下也能正常运行。
+
+### synchronized 是公平锁吗？可以重入吗？
+
+**```synchronized```是非公平锁，可以重入**。
+
+**公平锁**
+
+获取不到锁的时候，会自动加入队列，等待线程释放后，队列的第一个线程获取锁
+
+**非公平锁**
+
+获取不到锁的时候，会自动加入队列，等待线程释放锁后所有等待的线程同时去竞争
+
+**什么是可重入**？
+
+同一个线程可以反复获取锁多次，然后需要释放多次
+
+### 在来看几个问题
+
+1. synchronized 加在 static 修饰的 方法上锁的是哪个对象？
+
+锁的是 Class 对象
+
+2. synchronized(this)  锁的是哪个对象？
+
+锁的是当前对象的实例也就是 new 出来的对象
+
+3. synchronized() 锁的是哪个对象？
+
+同  synchronized(this) 锁的也是当前对象的实例
+
+4. synchronized(lock) 锁的是哪个对象？
+
+锁的是 lock 对象
+
+5. 同一个对象里面 有 static 方法加了 synchronized 还有一个普通方法也加了  synchronized 如果这个时候有2个线程，一个先获取 了 static 方法上的锁，另外一个线程可以在 第一个线程释放锁之前获取 普通方法上的锁吗？反过来呢？
+
+可以的，因为这是 2 把锁，2 个线程分别获取2把锁，没有任何问题。
+
 
 synchronized 关键字底层原理总结
 ====
