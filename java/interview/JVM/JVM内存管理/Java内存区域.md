@@ -1,5 +1,4 @@
-看在前面
-====
+## 看在前面
 
 > * <a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/jvm/Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F.md">Java内存区域</a>
 > * 《深入理解 Java 虚拟机：JVM 高级特性与最佳实践（第二版》
@@ -10,15 +9,13 @@
 > * https://stackoverflow.com/questions/9095748/method-area-and-permgen
 > * 深入解析String#internhttps://tech.meituan.com/2014/03/06/in-depth-understanding-string-intern.html
 
-Java 内存区域详解
-====
+## Java 内存区域详解
 
 如果没有特殊说明，都是针对的是 HotSpot 虚拟机。
 
-写在前面 (常见面试题)
-====
+## 写在前面 (常见面试题)
 
-**<h3>基本问题</h3>**
+### 基本问题
 
 * 介绍下 Java 内存区域（运行时数据区）
 
@@ -26,46 +23,40 @@ Java 内存区域详解
 
 * 对象的访问定位的两种方式（句柄和直接指针两种方式）
 
-**<h3>拓展问题</h3>**
-
 * String 类和常量池
 
 * 8 种基本类型的包装类和常量池
 
-------
 
-一 概述
-====
+## 一 概述
 
 对于 Java 程序员来说，在虚拟机自动内存管理机制下，不再需要像 C/C++程序开发程序员这样为每一个 new 操作去写对应的 delete/free 操作，不容易出现内存泄漏和内存溢出问题。正是因为 Java 程序员把内存控制权利交给 Java 虚拟机，一旦出现内存泄漏和溢出方面的问题，如果不了解虚拟机是怎样使用内存的，那么排查错误将会是一个非常艰巨的任务。
 
-二 运行时数据区域
-====
+## 二 运行时数据区域
 
 Java 虚拟机在执行 Java 程序的过程中会把它管理的内存划分成若干个不同的数据区域。JDK. 1.8 和之前的版本略有不同，下面会介绍到。
 
 JDK 1.8 之前：
 
-![JDK1.8之前运行时数据区域分布](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/JDK1.8%E4%B9%8B%E5%89%8D%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F%E9%83%A8%E5%88%86.png)
+![JDK1.8之前运行时数据区域分布](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/picture/JDK1.8%E4%B9%8B%E5%89%8D%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F%E9%83%A8%E5%88%86.png)
 
 JDK 1.8 ：
 
-![JDK1.8运行时数据区域分布](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/jdk1.8%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F.png)
+![JDK1.8运行时数据区域分布](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/picture/jdk1.8%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F.png)
 
-**<h3>线程私有的：</h3>**
+**线程私有的**
 
 * 程序计数器
 * 虚拟机栈 
 * 本地方法栈
 
-**<h3>线程共享的：</h3>**
+**线程共享的**
 
 * 堆
 * 方法区
 * 直接内存 (非运行时数据区的一部分)
 
-2.1 程序计数器
------
+### 2.1 程序计数器
 
 程序计数器是一块较小的内存空间，可以看作是当前线程所执行的字节码的行号指示器。**字节码解释器工作时通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等功能都需要依赖这个计数器来完成**。
 
@@ -79,8 +70,7 @@ JDK 1.8 ：
 
 **注意：程序计数器是唯一一个不会出现 OutOfMemoryError 的内存区域，它的生命周期随着线程的创建而创建，随着线程的结束而死亡**。
 
-2.2 Java 虚拟机栈
-------
+### 2.2 Java 虚拟机栈
 
 **与程序计数器一样，Java 虚拟机栈也是线程私有的，它的生命周期和线程相同，描述的是 Java 方法执行的内存模型，每次方法调用的数据都是通过栈传递的**。
 
@@ -108,8 +98,7 @@ Java 方法有两种返回方式：
 
 不管哪种返回方式都会导致栈帧被弹出。
 
-2.3 本地方法栈
-------
+### 2.3 本地方法栈
 
 和虚拟机栈所发挥的作用非常相似，区别是：**虚拟机栈为虚拟机执行 Java 方法 （也就是字节码）服务，而本地方法栈则为虚拟机使用到的 Native 方法服务**。在 HotSpot 虚拟机中和 Java 虚拟机栈合二为一。
 
@@ -117,8 +106,7 @@ Java 方法有两种返回方式：
 
 方法执行完毕后相应的栈帧也会出栈并释放内存空间，也会出现 StackOverFlowError 和 OutOfMemoryError 两种错误。
 
-2.4 堆
-------
+### 2.4 堆
 
 Java 虚拟机所管理的内存中最大的一块，Java 堆是所有线程共享的一块内存区域，在虚拟机启动时创建。**此内存区域的唯一目的就是存放对象实例，几乎所有的对象实例以及数组都在这里分配内存**。
 
@@ -132,11 +120,11 @@ Java 堆是垃圾收集器管理的主要区域，因此也被称作**GC 堆**�
 
 3. 永生代(Permanent Generation)
 
-![JVM堆内存结构-JDK7](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/JVM%E5%A0%86%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84-JDK7.png)
+![JVM堆内存结构-JDK7](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/picture/JVM%E5%A0%86%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84-JDK7.png)
 
 JDK 8 版本之后方法区（HotSpot 的永久代）被彻底移除了（JDK1.7 就已经开始了），取而代之是元空间，元空间使用的是直接内存。
 
-![JVM堆内存结构-JDK8](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/JVM%E5%A0%86%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84-JDK8.png)
+![JVM堆内存结构-JDK8](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/picture/JVM%E5%A0%86%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84-JDK8.png)
 
 **上图所示的 Eden 区、两个 Survivor 区都属于新生代（为了区分，这两个 Survivor 区域按照顺序被命名为 from 和 to），中间一层属于老年代。**
 
@@ -168,18 +156,17 @@ uint ageTable::compute_tenuring_threshold(size_t survivor_capacity) {
 
 3. ......
 
-2.5 方法区
-------
+### 2.5 方法区
 
 方法区与 Java 堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。虽然 **Java 虚拟机规范把方法区描述为堆的一个逻辑部分**，但是它却有一个别名叫做 Non-Heap（非堆），目的应该是与 Java 堆区分开来。
 
 方法区也被称为永久代。很多人都会分不清方法区和永久代的关系，为此我也查阅了文献。JDK 1.8 的时候，方法区（HotSpot 的永久代）被彻底移除了（JDK1.7 就已经开始了），取而代之是元空间，元空间使用的是直接内存。
 
-<h5>2.5.1 方法区和永久代的关系</h5>
+#### 2.5.1 方法区和永久代的关系
 
 > 《Java 虚拟机规范》只是规定了有方法区这么个概念和它的作用，并没有规定如何去实现它。那么，在不同的 JVM 上方法区的实现肯定是不同的了。 方法区和永久代的关系很像 Java 中接口和类的关系，类实现了接口，而永久代就是 HotSpot 虚拟机对虚拟机规范中方法区的一种实现方式。 也就是说，永久代是 HotSpot 的概念，方法区是 Java 虚拟机规范中的定义，是一种规范，而永久代是一种实现，一个是标准一个是实现，其他的虚拟机实现并没有永久代这一说法。
 
-<h5>2.5.2 常用参数</h5>
+#### 2.5.2 常用参数
 
 JDK 1.8 之前永久代还没被彻底移除的时候通常通过下面这些参数来调节方法区大小
 
@@ -204,7 +191,7 @@ JDK 1.8 的时候，方法区（HotSpot 的永久代）被彻底移除了（JDK1
 
 与永久代很大的不同就是，如果不指定大小的话，随着更多类的创建，虚拟机会耗尽所有可用的系统内存。
 
-<h5>2.5.3 为什么要将永久代 (PermGen) 替换为元空间 (MetaSpace) 呢?</h5>
+#### 2.5.3 为什么要将永久代 (PermGen) 替换为元空间 (MetaSpace) 呢?
 
 1. 整个永久代有一个 JVM 本身设置固定大小上限，无法进行调整，而元空间使用的是直接内存，受本机可用内存的限制，虽然元空间仍旧可能溢出，但是比原来出现的几率会更小。
 
@@ -216,13 +203,13 @@ JDK 1.8 的时候，方法区（HotSpot 的永久代）被彻底移除了（JDK1
 
 3. 在 JDK8，合并 HotSpot 和 JRockit 的代码时, JRockit 从来没有一个叫永久代的东西, 合并之后就没有必要额外的设置这么一个永久代的地方了。
 
-<h5>2.5.4 方法区是 JVM 提出的规范，而各个虚拟机的实现可以是不同的。</h5>
+#### 2.5.4 方法区是 JVM 提出的规范，而各个虚拟机的实现可以是不同的。
 
 * 永久代则是 JDK8 前 Hotspot 虚拟机规范的实现（Java Heap 中）
 
 * 元空间 JRockit、J9、JDK8 后 HotSpot 虚拟机的实现（在本地内存）
 
-<h5>2.5.6 为什么 HotSpot 移除永久代？</h5>
+#### 2.5.5 为什么 HotSpot 移除永久代？
 
 * 移除永久代后，不会遇到永久代存在的内存溢出错误，也不会出现泄漏的数据移到交换区这样的事情。最终用户可以为元空间设置一个可用空间最大值，如果不进行设置，JVM 会自动根据类的元数据大小动态增加元空间的容量。
 
@@ -238,9 +225,7 @@ JDK 1.8 的时候，方法区（HotSpot 的永久代）被彻底移除了（JDK1
 
 <h5>HotSpot 虚拟机移除永久代改为元空间实现过程是？</h5>
 
-
-2.6 运行时常量池
-------
+### 2.6 运行时常量池
 
 运行时常量池是方法区的一部分。Class 文件中除了有类的版本、字段、方法、接口等描述信息外，还有常量池信息（用于存放编译期生成的各种字面量和符号引用）
 
@@ -252,8 +237,7 @@ JDK 1.8 的时候，方法区（HotSpot 的永久代）被彻底移除了（JDK1
 
 > * <a href= "https://blog.csdn.net/wangbiao007/article/details/78545189">方法区和常量池</a>
 
-2.7 直接内存
-------
+### 2.7 直接内存
 
 **直接内存并不是虚拟机运行时数据区的一部分，也不是虚拟机规范中定义的内存区域，但是这部分内存也被频繁地使用。而且也可能导致 OutOfMemoryError 错误出现**。
 
@@ -261,23 +245,21 @@ JDK1.4 中新加入的 ```NIO(New Input/Output)``` 类，引入了一种基于**
 
 本机直接内存的分配不会受到 Java 堆的限制，但是，既然是内存就会受到本机总内存大小以及处理器寻址空间的限制。
 
-三 HotSpot 虚拟机对象探秘
-====
+## 三 HotSpot 虚拟机对象探秘
 
 通过上面的介绍我们大概知道了虚拟机的内存情况，下面我们来详细的了解一下 HotSpot 虚拟机在 Java 堆中对象分配、布局和访问的全过程。
 
-3.1 对象的创建
-------
+### 3.1 对象的创建
 
 下图便是 Java 对象的创建过程，我建议最好是能默写出来，并且要掌握每一步在做什么。
 
-![Java对象创建过程](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/java%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B.png)
+![Java对象创建过程](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/picture/java%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B.png)
 
-**<h4>Step1:类加载检查</h4>**
+**Step1:类加载检查**
 
 虚拟机遇到一条 new 指令时，首先将去检查这个指令的参数是否能在常量池中定位到这个类的符号引用，并且检查这个符号引用代表的类是否已被加载过、解析和初始化过。如果没有，那必须先执行相应的类加载过程。
 
-**<h4>Step2:分配内存</h4>**
+**Step2:分配内存**
 
 在**类加载检查**通过后，接下来虚拟机将为新生对象**分配内存**。对象所需的内存大小在类加载完成后便可确定，为对象分配空间的任务等同于把一块确定大小的内存从 Java 堆中划分出来。**分配方式**有 “**指针碰撞**” 和 “**空闲列表**” 两种，**选择那种分配方式由 Java 堆是否规整决定，而 Java 堆是否规整又由所采用的垃圾收集器是否带有压缩整理功能决定**。
 
@@ -285,7 +267,7 @@ JDK1.4 中新加入的 ```NIO(New Input/Output)``` 类，引入了一种基于**
 
 选择以上两种方式中的哪一种，取决于 Java 堆内存是否规整。而 Java 堆内存是否规整，取决于 GC 收集器的算法是"标记-清除"，还是"标记-整理"（也称作"标记-压缩"），值得注意的是，复制算法内存也是规整的
 
-![内存分配的两种方式](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F.png)
+![内存分配的两种方式](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/picture/%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F.png)
 
 **内存分配并发问题（补充内容，需要掌握）**
 
@@ -295,21 +277,20 @@ JDK1.4 中新加入的 ```NIO(New Input/Output)``` 类，引入了一种基于**
 
 * **TLAB**：为每一个线程预先在 Eden 区分配一块儿内存，JVM 在给线程中的对象分配内存时，首先在 TLAB 分配，当对象大于 TLAB 中的剩余内存或 TLAB 的内存已用尽时，再采用上述的 CAS 进行内存分配
 
-**<h4>Step3:初始化零值</h4>**
+**Step3:初始化零值**
 
 内存分配完成后，虚拟机需要将分配到的内存空间都初始化为零值（不包括对象头），这一步操作保证了对象的实例字段在 Java 代码中可以不赋初始值就直接使用，程序能访问到这些字段的数据类型所对应的零值。
 
 
-**<h4>Step4:设置对象头</h4>**
+**Step4:设置对象头**
 
 初始化零值完成之后，**虚拟机要对对象进行必要的设置**，例如这个对象是那个类的实例、如何才能找到类的元数据信息、对象的哈希码、对象的 GC 分代年龄等信息。 **这些信息存放在对象头中**。 另外，根据虚拟机当前运行状态的不同，如是否启用偏向锁等，对象头会有不同的设置方式。
 
-**<h4>Step5:执行 init 方法</h4>**
+**Step5:执行 init 方法**
 
 在上面工作都完成之后，从虚拟机的视角来看，一个新的对象已经产生了，但从 Java 程序的视角来看，对象创建才刚开始，```<init>``` 方法还没有执行，所有的字段都还为零。所以一般来说，执行 new 指令之后会接着执行 ```<init>``` 方法，把对象按照程序员的意愿进行初始化，这样一个真正可用的对象才算完全产生出来。
 
-3.2 对象的内存布局
-------
+### 3.2 对象的内存布局
 
 在 Hotspot 虚拟机中，对象在内存中的布局可以分为 3 块区域：**对象头**、**实例数据**和**对齐填充**。
 
@@ -319,26 +300,23 @@ JDK1.4 中新加入的 ```NIO(New Input/Output)``` 类，引入了一种基于**
 
 **对齐填充部分不是必然存在的，也没有什么特别的含义，仅仅起占位作用**。 因为 Hotspot 虚拟机的自动内存管理系统要求对象起始地址必须是 8 字节的整数倍，换句话说就是对象的大小必须是 8 字节的整数倍。而对象头部分正好是 8 字节的倍数（1 倍或 2 倍），因此，当对象实例数据部分没有对齐时，就需要通过对齐填充来补全。
 
-3.3 对象的访问定位
-------
+### 3.3 对象的访问定位
 
 建立对象就是为了使用对象，我们的 Java 程序通过栈上的 reference 数据来操作堆上的具体对象。对象的访问方式由虚拟机实现而定，目前主流的访问方式有**①使用句柄**和**②直接指针**两种：
 
 1. **句柄**： 如果使用句柄的话，那么 Java 堆中将会划分出一块内存来作为句柄池，reference 中存储的就是对象的句柄地址，而句柄中包含了对象实例数据与类型数据各自的具体地址信息；
 
-![对象的访问定位-使用句柄](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%AE%BF%E9%97%AE%E5%AE%9A%E4%BD%8D-%E5%8F%A5%E6%9F%84.png)
+![对象的访问定位-使用句柄](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/picture/%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%AE%BF%E9%97%AE%E5%AE%9A%E4%BD%8D-%E5%8F%A5%E6%9F%84.png)
 
 2. **直接指针**： 如果使用直接指针访问，那么 Java 堆对象的布局中就必须考虑如何放置访问类型数据的相关信息，而 reference 中存储的直接就是对象的地址。
 
-![对象的访问定位-直接指针](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%AE%BF%E9%97%AE%E5%AE%9A%E4%BD%8D-%E7%9B%B4%E6%8E%A5%E6%8C%87%E9%92%88.png)
+![对象的访问定位-直接指针](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/picture/%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%AE%BF%E9%97%AE%E5%AE%9A%E4%BD%8D-%E7%9B%B4%E6%8E%A5%E6%8C%87%E9%92%88.png)
 
 **这两种对象访问方式各有优势。使用句柄来访问的最大好处是 reference 中存储的是稳定的句柄地址，在对象被移动时只会改变句柄中的实例数据指针，而 reference 本身不需要修改。使用直接指针访问方式最大的好处就是速度快，它节省了一次指针定位的时间开销**。
 
-四 重点补充内容
-====
+## 四 重点补充内容
 
-4.1 String 类和常量池
-------
+### 4.1 String 类和常量池
 
 **String 对象的两种创建方式**：
 
@@ -359,7 +337,7 @@ System.out.println(str2==str3);//false
 
 再给大家一个图应该更容易理解，图片来源：https://www.journaldev.com/797/what-is-java-string-pool
 
-![String-Pool-Java](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/String%E7%B1%BB%E5%92%8C%E5%B8%B8%E9%87%8F%E6%B1%A0.png)
+![String-Pool-Java](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/picture/String%E7%B1%BB%E5%92%8C%E5%B8%B8%E9%87%8F%E6%B1%A0.png)
 
 **String 类型的常量池比较特殊。它的主要使用方法有两种**：
 
@@ -389,12 +367,11 @@ System.out.println(str3 == str5);//true
 System.out.println(str4 == str5);//false
 ```
 
-![字符串拼接](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%BC%E6%8E%A5.png)
+![字符串拼接](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/picture/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%BC%E6%8E%A5.png)
 
 尽量避免多个字符串拼接，因为这样会重新创建对象。如果需要改变字符串的话，可以使用 StringBuilder 或者 StringBuffer。
 
-4.2 String s1 = new String("abc");这句话创建了几个字符串对象？
-------
+## 4.2 String s1 = new String("abc");这句话创建了几个字符串对象？
 
 **将创建 1 或 2 个字符串。如果池中已存在字符串常量“abc”，则只会在堆空间创建一个字符串常量“abc”。如果池中没有字符串常量“abc”，那么它将首先在池中创建，然后在堆空间中创建，因此将创建总共 2 个字符串对象**。
 
@@ -413,8 +390,7 @@ false
 true
 ```
 
-4.3 8 种基本类型的包装类和常量池
-------
+## 4.3 8 种基本类型的包装类和常量池
 
 **Java 基本类型的包装类的大部分都实现了常量池技术，即 Byte,Short,Integer,Long,Character,Boolean；前面 4 种包装类默认创建了数值[-128，127] 的相应类型的缓存数据，Character创建了数值在[0,127]范围的缓存数据，Boolean 直接返回True Or False。如果超出对应范围仍然会去创建新的对象**。为啥把缓存设置为[-128，127]区间？（<a href="https://github.com/Snailclimb/JavaGuide/issues/461">参见issue/461</a>）性能和资源之间的权衡。
 
