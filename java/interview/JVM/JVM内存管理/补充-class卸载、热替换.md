@@ -1,15 +1,13 @@
-看在前面
-====
+## 看在前面
+
 
 >  * <a href="http://www.blogjava.net/heavensay/archive/2012/11/07/389685.html">class卸载、热替换和Tomcat的热部署的分析</a>
 
-一、概述
-====
+## 一、概述
 
 名词解释：所谓热部署，就是在应用正在运行的时候升级软件，却不需要重新启动应用。本文主要是分析Tomcat中关于热部署和JSP更新替换的原理，在此之前先介绍class的热替换和class的卸载的原理。
 
-二、Class热替换
-====
+## 二、Class热替换
 
 ClassLoader中重要方法： loadClass：```ClassLoader.loadClass(...)``` 是ClassLoader的入口点。当一个类没有指明用什么加载器加载的时候，JVM默认采用```AppClassLoader```加载器加载没有加载过的class，调用的方法的入口就是```loadClass(...)```。如果一个class被自定义的ClassLoader加载，那么JVM也会调用这个自定义的```ClassLoader.loadClass(...)```方法来加载class内部引用的一些别的class文件。重载这个方法，能实现自定义加载class的方式，会抛弃双亲委托机制，但是即使不采用双亲委托机制，比如java.lang包中的相关类还是不能自定义一个同名的类来代替，主要因为JVM解析、验证class的时候，会进行相关判断。
 
@@ -20,7 +18,7 @@ java.lang.LinkageError
 attempted duplicate class definition
 ```
 
-所以一个class被一个ClassLoader实例加载过的话，就不能再被这个ClassLoader实例再次加载(这里的加载指的是，调用了```defineClass(...)```方法，重新加载字节码、解析、验证)。而系统默认的AppClassLoader加载器，他们内部会缓存加载过的class，重新加载的话，就直接取缓存。所与对于热加载的话，只能重新创建一个ClassLoader，然后再去加载已经被加载过的class文件。
+所以一个class被一个ClassLoader实例加载过的话，就不能再被这个ClassLoader实例再次加载(这里的加载指的是，调用了```defineClass(...)```方法，重新加载字节码、解析、验证)。而系统默认的AppClassLoader加载器，他们内部会缓存加载过的class，重新加载的话，就直接取缓存。**所与对于热加载的话，只能重新创建一个ClassLoader，然后再去加载已经被加载过的class文件**。
 
 下面看一个class热加载的例子： 代码：HotSwapURLClassLoader自定义classloader，实现热替换的关键
 
@@ -269,11 +267,11 @@ Hot.class
 
 所以HotSwapURLClassLoader是重加载了Hot类 。注意上面，其实当加载修改后的Hot时，HotSwapURLClassLoader实例跟加载没修改Hot的HotSwapURLClassLoader不是同一个。
 
-![HotSwapURLClassLoader加载一](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/HotSwapURLClassLoader%E5%8A%A0%E8%BD%BD%E4%B8%80.jpg)
+![HotSwapURLClassLoader加载一](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/JVM/picture/HotSwapURLClassLoader%E5%8A%A0%E8%BD%BD%E4%B8%80.jpg)
 
 总结：上述类热加载，需要自定义ClassLoader，并且只能重新实例化ClassLoader实例，利用新的ClassLoader实例才能重新加载之前被加载过的class。并且程序需要模块化，才能利用这种热加载方式。
 
-二、Class卸载
+## 二、Class卸载
 
 在Java中class也是可以unload。JVM中class和Meta信息存放在```PermGen space```区域。如果加载的class文件很多，那么可能导致PermGen space区域空间溢出。引起：```java.lang.OutOfMemoryErrorPermGen space```.  对于有些Class我们可能只需要使用一次，就不再需要了，也可能我们修改了class文件，我们需要重新加载 newclass，那么oldclass就不再需要了。那么JVM怎么样才能卸载Class呢。
 
@@ -421,7 +419,7 @@ public class TestClassUnLoad {
 
 运行的时候配置VM参数: ```-verbose:class```；用于查看class的加载与卸载情况。如果用的是Eclipse，在Run Configurations中配置此参数即可。
 
-![Run Configuration配置](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/RunConfigureation%E9%85%8D%E7%BD%AE.jpg)
+![Run Configuration配置](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/JVM/picture/RunConfigureation%E9%85%8D%E7%BD%AE.jpg)
 
 输出结果：
 
@@ -438,11 +436,11 @@ GC over
 
 程序运行中，引用没清楚前，内存中情况：
 
-![class_unload_1](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/class_unload_1.png)
+![class_unload_1](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/JVM/picture/class_unload_1.png)
 
 垃圾回收后，程序没结束前，内存中情况：
 
-![class_unload_2](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/class_unload_2.png)
+![class_unload_2](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/JVM/picture/class_unload_2.png)
 
 1. 由启动类加载器加载的类型在整个运行期间是不可能被卸载的(jvm和jls规范).
 
