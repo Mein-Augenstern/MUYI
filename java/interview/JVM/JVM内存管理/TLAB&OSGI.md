@@ -1,4 +1,4 @@
-## 看在前面
+## 本地线程分配缓冲（Thread Local Allocation Buffer,TLAB）
 
 > * <a href="http://www.hollischuang.com/archives/4510">Java堆内存是线程共享的！面试官：你确定吗？</a>
 
@@ -99,7 +99,7 @@ TLAB的空间其实并不大，所以大对象还是可能需要在堆内存中�
 
 ![30-27](https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/JVM/picture/30-27.png)
 
-## 看在前面
+## OSGi(Open Service Gateway Initiative) 技术是 Java 动态化模块化系统的一系列规范
 
 > * <a href="https://blog.csdn.net/xiaokui008/article/details/9662933">概述什么是OSGi框架</a>
 > * <a href="">初识OSGI-到底什么是OSGI</a>
