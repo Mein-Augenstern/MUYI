@@ -23,15 +23,6 @@
     * <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/java/SPI">SPI</a>
     * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/docs/OSGI">OSGI</a>
     * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/java/JMX">JMX</a>
-  
-
-* Linux
-    * Linux下常用命令
-        * 操作命令
-        * 打包部署
-        * 配置调优
-        * 问题诊断
-
 
 * 开发框架
     * <a href="https://github.com/Mein-Augenstern/MUYI/tree/master/java/MyBatis">MyBatis</a>
@@ -101,7 +92,7 @@
 	* <a href="">分布式核心知识串讲</a>
 
 
-* 缓存
+* 缓存中间件
 	* <a href="https://github.com/DemoTransfer/Redis-Guide">Redis</a>
 	* Memcache
 	* 知识点扫盲
@@ -131,7 +122,7 @@
 		* <a href="https://github.com/Mein-Augenstern/Redis-Guide/blob/master/document/basic/%E8%BF%98%E5%9C%A8%E7%94%A8%20Guava%20Cache%EF%BC%9F%E5%AE%83%E6%89%8D%E6%98%AF%20Java%20%E6%9C%AC%E5%9C%B0%E7%BC%93%E5%AD%98%E4%B9%8B%E7%8E%8B%EF%BC%81.md">还在用 Guava Cache？它才是 Java 本地缓存之王！</a>
 
 
-* 消息
+* 消息中间件
 	* <a href="https://github.com/DemoTransfer/RabbitMQ-Guide">RabbitMQ</a>
 	* Kafka
 	* RocketMQ
@@ -157,73 +148,33 @@
 	  * <a href="https://github.com/Netflix/ribbon">Ribbon是Netflix开源的基于HTTP和TCP等协议负载均衡组件，Ribbon 可以用来做客户端负载均衡，调用注册中心的服务，Ribbon的使用需要代码里手动调用目标服务，请参考官方示例</a>
 
 
-   * webserver
-      * <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/java/web%20server/tomcat">Tomcat</a>
-      * Jboss
-      * Apache
-      * 知识点扫盲
-      	  * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/%E5%B8%B8%E8%A7%81%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AE%97%E6%B3%95.md">常见负载均衡算法</a>
+* webserver
+	* <a href="https://github.com/DemoTransfer/Java-Guide/tree/master/java/web%20server/tomcat">Tomcat</a>
+	* Jboss
+	* Apache
+	* 知识点扫盲
+  		* <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/%E5%B8%B8%E8%A7%81%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AE%97%E6%B3%95.md">常见负载均衡算法</a>
 
+* 容器
+	* Docker：<a href="https://docs.docker.com/">docker英文官网</a>
+	* Kubernetes：<a href="https://kubernetes.io/zh/">Kubernetes中文官网</a>
 
-   * 容器
-      * Docker
-          * <a href="https://docs.docker.com/">docker英文官网</a>
-      * Kubernetes
-          * <a href="https://kubernetes.io/zh/">Kubernetes中文官网</a>
+* 协调中心
+	* Zookeeper
+	* etcd
 
+* RPC
+	* Dubbo
+	* grpc
+	* brpc
+	* Feign
+	 * <a href="">Feign是Spring Cloud组件中的一个轻量级RESTful的HTTP服务客户端，Feign内置了Ribbon，用来做客户端负载均衡，去调用服务注册中心的服务。Feign的使用方式是：使用Feign的注解定义接口，调用这个接口，就可以调用服务注册中心的服务。Feign支持的注解和用法请参考官方文档。Feign本身不支持Spring MVC的注解，它有一套自己的注解</a>
+	* OpenFeign
+	 * <a href="https://github.com/spring-cloud/spring-cloud-openfeign">OpenFeign是Spring Cloud 在Feign的基础上支持了Spring MVC的注解，如@RequesMapping等等。OpenFeign的@FeignClient可以解析SpringMVC的@RequestMapping注解下的接口，并通过动态代理的方式产生实现类，实现类中做负载均衡并调用其他服务。</a>
 
-   * 协调中心
-      * Zookeeper
-      * etcd
-
-
-   * RPC
-      * Dubbo
-      * grpc
-      * brpc
-      * Feign
-         * <a href="">Feign是Spring Cloud组件中的一个轻量级RESTful的HTTP服务客户端，Feign内置了Ribbon，用来做客户端负载均衡，去调用服务注册中心的服务。Feign的使用方式是：使用Feign的注解定义接口，调用这个接口，就可以调用服务注册中心的服务。Feign支持的注解和用法请参考官方文档。Feign本身不支持Spring MVC的注解，它有一套自己的注解</a>
-      * OpenFeign
-         * <a href="https://github.com/spring-cloud/spring-cloud-openfeign">OpenFeign是Spring Cloud 在Feign的基础上支持了Spring MVC的注解，如@RequesMapping等等。OpenFeign的@FeignClient可以解析SpringMVC的@RequestMapping注解下的接口，并通过动态代理的方式产生实现类，实现类中做负载均衡并调用其他服务。</a>
-
-
-   * 实时数据平台
-      * storm
-      * akka
-
-
-   * 离线数据平台
-      * hadoop
-      * spark
-
-
-   * 搜索
-      * elasticsearch
-      * solr
-
-
-   * 日志
-      * rsyslog
-      * elk
-      * flume
-
-
-   * 限流熔断
-      * Sentinel
-
-
-   * 配置管理服务注册中心
-      * Nacos
-
-
-   * 网关
-      * Spring Cloud Gateway
-
-
-   * Service Mesh
-      * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/Service%20Mesh/Service%20Mesh%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88%E6%8A%80%E6%9C%AF.md">Service Mesh到底是什么技术</a>
-      * <a href="https://tech.meituan.com/2020/12/03/service-mesh-in-meituan.html">复杂环境下落地Service Mesh的挑战与实践（美团）</a>
-
+* Service Mesh
+* <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/Service%20Mesh/Service%20Mesh%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88%E6%8A%80%E6%9C%AF.md">Service Mesh到底是什么技术</a>
+* <a href="https://tech.meituan.com/2020/12/03/service-mesh-in-meituan.html">复杂环境下落地Service Mesh的挑战与实践（美团）</a>
 
 * 开发规范
    * 代码军规
@@ -276,17 +227,14 @@
    * 流程图&架构图制图工具
       * Visual Paradigm
 
-
 * 加解密技术
    * JWT
    * <a href="">浅谈常见的七种加密算法及实现</a>
-
 
 * 大数据
    * 大数据计算服务 · MaxCompute（大数据计算服务（MaxCompute，原名ODPS）是一种快速、完全托管的TB/PB级数据仓库解决方案。）
        * <a href="https://www.aliyun.com/product/odps?spm=a2c4g.11174283.2.1.422f590eiYThZg">首页</a>
        * <a href="https://help.aliyun.com/product/27797.html?spm=a2c4g.11186623.6.540.423234daCYQrjU">文档</a>
-
 
 * 数据库
    * MySQL
@@ -312,7 +260,6 @@
       * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/Insert%20into%20select%E8%AF%AD%E5%8F%A5.md">Insert into select语句</a>
       * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%9B%AA%E8%8A%B1%E7%AE%97%E6%B3%95%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8CJava%E5%AE%9E%E7%8E%B0.md">雪花算法的原理和Java实现</a>
 
-
 * 网络
    * 协议
      * TCP
@@ -332,16 +279,13 @@
      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/通信网络/HTTP长连接、短连接究竟是什么.md">HTTP长连接、短连接究竟是什么</a>
      * <a href="https://github.com/DemoTransfer/MUYI/blob/master/java/interview/通信网络/HTTPS中的TLS.md">HTTPS中的TLS</a>
 
-
 * <a href="https://github.com/DemoTransfer/LearningRecord/tree/master/linux/%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E8%B5%B7%E6%89%8B%E5%BC%8F%E5%91%BD%E4%BB%A4">操作系统</a>
-
 
 * 工具
    * <a href="">Git</a>
    * <a href="">Maven</a>
    * <a href="">Docker</a>
    * <a href="">Gradle</a>
-
 
 * <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/docs/outside-reading/%E7%9E%8E%E7%9C%8B%E7%B3%BB%E5%88%97.md">杂文系列</a>
    * BFF
@@ -350,7 +294,6 @@
    * Serverless
       * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/ServerLess/%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%9AServerless%20%E6%9C%AA%E6%9D%A5%E5%8D%81%E5%B9%B4%E5%8F%91%E5%B1%95%E8%A7%A3%E8%AF%BB%EF%BC%88%E4%B8%8A%EF%BC%89.md">权威指南：Serverless 未来十年发展解读（上）</a> 	
       * <a href="https://github.com/Mein-Augenstern/MUYI/blob/master/docs/ServerLess/%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%EF%BC%9AServerless%20%E6%9C%AA%E6%9D%A5%E5%8D%81%E5%B9%B4%E5%8F%91%E5%B1%95%E8%A7%A3%E8%AF%BB%EF%BC%88%E4%B8%8B%EF%BC%89.md">权威指南：Serverless 未来十年发展解读（下）</a>
-
 
 * 🤔🤔🤔🤔
    * <a href="https://github.com/DemoTransfer/MUYI/blob/master/docs/%E6%96%B9%E6%B3%95%E8%AE%BA/%E9%97%AE%E9%A2%98%E5%AE%9A%E4%BD%8D%E6%AD%A5%E9%AA%A4.md">问题定位步骤</a>
