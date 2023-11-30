@@ -89,10 +89,80 @@
 
 **这两种对象访问方式各有优势。使用句柄来访问的最大好处是 reference 中存储的是稳定的句柄地址，在对象被移动时只会改变句柄中的实例数据指针，而 reference 本身不需要修改。使用直接指针访问方式最大的好处就是速度快，它节省了一次指针定位的时间开销**。
 
+### 3.4 如何判断对象是否是否存活
 
-## 四 重点补充内容
+来自：https://blog.csdn.net/TimHeath/article/details/53055193
 
-### 4.1 String 类和常量池
+堆中几乎存放着Java世界中所有的对象实例，垃圾收集器在对堆回收之前，第一件事情就是要确定这些对象哪些还“存活”着，哪些对象已经“死去”(即不可能再被任何途径使用的对象)，哪用什么办法去确认这些对象存活与否。在主流的商用程序语言中(Java和C#等)，都是使用可达性分析算法(Reachability Analysis)来判断对象是否存活的，但是又有很多人又认为是用引用计数算法(Reference Counting)来判断。接下来我会分别介绍这两种算法。
+
+**引用计数算法**
+
+很多教科书判断对象是否存活的算法是这样的：给对象中添加一个引用计数器，每当有一个地方引用它时，计数器值加1；当引用失效时，计数器减1；任何时刻计数器都为0的对象就是不可能再被使用的。
+
+引用计数算法(Reference Counting)的实现简单，判断效率也很高，在大部分情况下它都是一个不错的算法。但是Java语言中没有选用引用计数算法来管理内存，其中最主要的一个原因是它很难解决对象之间相互循环引用的问题。
+
+例如下面这段代码，对象objA和objB都有字段instance，赋值令objA.instance=objB及objB.instance=objA，除此之外这两个对象再无任何引用，实际上这两个对象都已经不能再被访问，但是它们因为相互引用着对象方，所以它们的引用计数都不为0，于是如果是使用引用计数算法的话就GC收集器就不会回收它们。
+
+```java
+public class ReferenceCountingGC {
+
+    private ReferenceCountingGC instance = null;
+    private static final int _1m = 1024*1024;
+    //只是为了占点内存
+    private byte[] bigSize = new byte[2*_1m];
+
+    public static void main(String[] args) {
+        ReferenceCountingGC objA = new ReferenceCountingGC();
+        ReferenceCountingGC objB = new ReferenceCountingGC();
+
+        objA.instance = objB;
+        objB.instance = objA;
+
+        objA = null;
+        objB = null;
+
+        System.gc();
+    }
+}
+```
+
+输出结果
+
+```java
+[GC (System.gc()) [PSYoungGen: 6758K->632K(38400K)] 6758K->640K(125952K), 0.0008264 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+[Full GC (System.gc()) [PSYoungGen: 632K->0K(38400K)] [ParOldGen: 8K->537K(87552K)] 640K->537K(125952K), [Metaspace: 2755K->2755K(1056768K)], 0.0053125 secs] [Times: user=0.00 sys=0.00, real=0.01 secs] 
+Heap
+ PSYoungGen      total 38400K, used 333K [0x00000000d5c00000, 0x00000000d8680000, 0x0000000100000000)
+  eden space 33280K, 1% used [0x00000000d5c00000,0x00000000d5c534a8,0x00000000d7c80000)
+  from space 5120K, 0% used [0x00000000d7c80000,0x00000000d7c80000,0x00000000d8180000)
+  to   space 5120K, 0% used [0x00000000d8180000,0x00000000d8180000,0x00000000d8680000)
+ ParOldGen       total 87552K, used 537K [0x0000000081400000, 0x0000000086980000, 0x00000000d5c00000)
+  object space 87552K, 0% used [0x0000000081400000,0x00000000814864e0,0x0000000086980000)
+ Metaspace       used 2762K, capacity 4486K, committed 4864K, reserved 1056768K
+  class space    used 299K, capacity 386K, committed 512K, reserved 1048576K
+```
+
+PSYoungGen: 6758K->632K(38400K)，新生代内存从6758K到清理后的632K，很明显GC收集器回收了objA和objB，所以HotSpot虚拟机并不是采用引用计数算法来判断一个对象存活与否。
+
+**可达性分析算法**
+
+这个算法的基本思路就是通过一系列的称为“GC Roots”的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为引用链（Reference Chain），当一个对象到GC Roots没有任何引用链相连（用图论的话来说，就是从GC Roots到这个对象不可达）时，则证明此对象是不可用的。如下图所示，对象object 5、object 6、object 7虽然互相有关联，但是它们到GC Roots是不可达的，所以它们将会被判定为是可回收的对象。
+
+![image](https://github.com/Mein-Augenstern/MUYI/assets/34135120/b5f798ac-14da-4680-849f-d18c6aca6835)
+
+在Java语言中，可作为GC Roots的对象包括下面几种：
+
+- 虚拟机栈（栈帧中的本地变量表）中引用的对象。
+
+- 方法区中类静态属性引用的对象。
+
+- 方法区中常量引用的对象。
+
+- 本地方法栈中JNI（即一般说的Native方法）引用的对象。
+
+## 重点补充内容
+
+### String 类和常量池
 
 **String 对象的两种创建方式**：
 
@@ -147,7 +217,7 @@ System.out.println(str4 == str5);//false
 
 尽量避免多个字符串拼接，因为这样会重新创建对象。如果需要改变字符串的话，可以使用 StringBuilder 或者 StringBuffer。
 
-## 4.2 String s1 = new String("abc");这句话创建了几个字符串对象？
+## String s1 = new String("abc");这句话创建了几个字符串对象？
 
 **将创建 1 或 2 个字符串。如果池中已存在字符串常量“abc”，则只会在堆空间创建一个字符串常量“abc”。如果池中没有字符串常量“abc”，那么它将首先在池中创建，然后在堆空间中创建，因此将创建总共 2 个字符串对象**。
 
@@ -166,7 +236,7 @@ false
 true
 ```
 
-## 4.3 8 种基本类型的包装类和常量池
+## 8 种基本类型的包装类和常量池
 
 **Java 基本类型的包装类的大部分都实现了常量池技术，即 Byte,Short,Integer,Long,Character,Boolean；前面 4 种包装类默认创建了数值[-128，127] 的相应类型的缓存数据，Character创建了数值在[0,127]范围的缓存数据，Boolean 直接返回True Or False。如果超出对应范围仍然会去创建新的对象**。为啥把缓存设置为[-128，127]区间？（<a href="https://github.com/Snailclimb/JavaGuide/issues/461">参见issue/461</a>）性能和资源之间的权衡。
 
