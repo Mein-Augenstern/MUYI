@@ -8,6 +8,7 @@
 > * https://dzone.com/articles/jvm-permgen-%E2%80%93-where-art-thou
 > * https://stackoverflow.com/questions/9095748/method-area-and-permgen
 > * 深入解析String#internhttps://tech.meituan.com/2014/03/06/in-depth-understanding-string-intern.html
+> * https://www.zhihu.com/question/49044988
 
 ## Java 内存区域详解
 
@@ -162,6 +163,9 @@ uint ageTable::compute_tenuring_threshold(size_t survivor_capacity) {
 
 > 《Java 虚拟机规范》只是规定了有方法区这么个概念和它的作用，并没有规定如何去实现它。那么，在不同的 JVM 上方法区的实现肯定是不同的了。 方法区和永久代的关系很像 Java 中接口和类的关系，类实现了接口，而永久代就是 HotSpot 虚拟机对虚拟机规范中方法区的一种实现方式。 也就是说，永久代是 HotSpot 的概念，方法区是 Java 虚拟机规范中的定义，是一种规范，而永久代是一种实现，一个是标准一个是实现，其他的虚拟机实现并没有永久代这一说法。
 
+![image](https://github.com/Mein-Augenstern/MUYI/assets/34135120/8d7a4637-8033-4c45-8085-8547afe33611)
+
+
 #### 2.5.2 常用参数
 
 JDK 1.8 之前永久代还没被彻底移除的时候通常通过下面这些参数来调节方法区大小
@@ -223,9 +227,7 @@ JDK 1.8 的时候，方法区（HotSpot 的永久代）被彻底移除了（JDK1
 
 ### 2.6 运行时常量池
 
-运行时常量池是方法区的一部分。Class 文件中除了有类的版本、字段、方法、接口等描述信息外，还有常量池信息（用于存放编译期生成的各种字面量和符号引用）
-
-既然运行时常量池是方法区的一部分，自然受到方法区内存的限制，当常量池无法再申请到内存时会抛出 OutOfMemoryError 错误。
+Class 文件中除了有类的版本、字段、方法、接口等描述信息外，还有用于存放编译期生成的各种字面量（Literal）和符号引用（Symbolic Reference）的 常量池表(Constant Pool Table) 。字面量是源代码中的固定值的表示法，即通过字面我们就能知道其值的含义。字面量包括整数、浮点数和字符串字面量，符号引用包括类符号引用、字段符号引用、方法符号引用和接口方法符号引用。常量池表会在类加载后存放到方法区的运行时常量池中。运行时常量池的功能类似于传统编程语言的符号表，尽管它包含了比典型符号表更广泛的数据。既然运行时常量池是方法区的一部分，自然受到方法区内存的限制，当常量池无法再申请到内存时会抛出 OutOfMemoryError 错误。
 
 **JDK1.7 及之后版本的 JVM 已经将运行时常量池从方法区中移了出来，在 Java 堆（Heap）中开辟了一块区域存放运行时常量池**。
 
@@ -233,7 +235,38 @@ JDK 1.8 的时候，方法区（HotSpot 的永久代）被彻底移除了（JDK1
 
 > * <a href= "https://blog.csdn.net/wangbiao007/article/details/78545189">方法区和常量池</a>
 
-### 2.7 直接内存
+### 2.7 字符串常量池
+
+字符串常量池 是 JVM 为了提升性能和减少内存消耗针对字符串（String 类）专门开辟的一块区域，主要目的是为了避免字符串的重复创建。
+
+```java
+// 在堆中创建字符串对象”ab“
+// 将字符串对象”ab“的引用保存在字符串常量池中
+String aa = "ab";
+// 直接返回字符串常量池中字符串对象”ab“的引用
+String bb = "ab";
+System.out.println(aa==bb);// true
+```
+
+HotSpot 虚拟机中字符串常量池的实现是 src/hotspot/share/classfile/stringTable.cpp ,StringTable 本质上就是一个HashSet<String> ,容量为 StringTableSize（可以通过 -XX:StringTableSize 参数来设置）。
+
+StringTable 中保存的是字符串对象的引用，字符串对象的引用指向堆中的字符串对象。
+
+JDK1.7 之前，字符串常量池存放在永久代。JDK1.7 字符串常量池和静态变量从永久代移动了 Java 堆中。
+
+![image](https://github.com/Mein-Augenstern/MUYI/assets/34135120/83f4b8ca-78be-49a9-a3a3-c4b6e00fc116)
+
+![image](https://github.com/Mein-Augenstern/MUYI/assets/34135120/b9e59070-351f-422d-afd8-db7b3fb7cda5)
+
+![image](https://github.com/Mein-Augenstern/MUYI/assets/34135120/7a2067d1-2270-44f6-b08f-264347304ae4)
+
+**JDK 1.7 为什么要将字符串常量池移动到堆中？**
+
+主要是因为永久代（方法区实现）的 GC 回收效率太低，只有在整堆收集 (Full GC)的时候才会被执行 GC。Java 程序中通常会有大量的被创建的字符串等待回收，将字符串常量池放到堆中，能够更高效及时地回收字符串内存。
+
+最后再来分享一段周志明老师在《深入理解 Java 虚拟机（第 3 版）》样例代码&勘误(https://link.zhihu.com/?target=https%3A//github.com/fenixsoft/jvm_book) Github 仓库的 issue#112(https://link.zhihu.com/?target=https%3A//github.com/fenixsoft/jvm_book/issues/112) 中说过的话：**运行时常量池、方法区、字符串常量池这些都是不随虚拟机实现而改变的逻辑概念，是公共且抽象的，Metaspace、Heap 是与具体某种虚拟机实现相关的物理概念，是私有且具体的。**
+
+### 2.8 直接内存
 
 **直接内存并不是虚拟机运行时数据区的一部分，也不是虚拟机规范中定义的内存区域，但是这部分内存也被频繁地使用。而且也可能导致 OutOfMemoryError 错误出现**。
 
