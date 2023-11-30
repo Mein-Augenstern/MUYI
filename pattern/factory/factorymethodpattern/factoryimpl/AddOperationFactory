@@ -1,8 +1,0 @@
-public class AddOperationFactory implements IFactoryMethodPattern {
-
-	@Override
-	public IOperation createOperation() {
-		return new Add();
-	}
-
-}

@@ -1,0 +1,14 @@
+*.tmp
+
+
+/build/
+
+
+*.log
+
+
+config.ini
+
+*.iml
+
+.idea/

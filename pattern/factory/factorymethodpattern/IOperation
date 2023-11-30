@@ -1,5 +1,0 @@
-public interface IOperation {
-
-	double getResult(double numberA, double numberB) throws Exception;
-
-}
