@@ -208,7 +208,7 @@ tryReleaseShared(int)//共享方式。尝试释放资源，成功则返回true�
 
 一般来说，自定义同步器要么是独占方法，要么是共享方式，他们也只需实现```tryAcquire-tryRelease```、```tryAcquireShared-tryReleaseShared```中的一种即可。但 AQS 也支持自定义同步器同时实现独占和共享两种方式，如```ReentrantReadWriteLock```。
 
-## 二、AQS源码阅读
+## 二、AQS源码阅读-前提在ReentrantLock的公平锁和非公平锁分析
 
 ### AQS属性介绍
 
@@ -267,9 +267,11 @@ static final class Node {
     static final Node EXCLUSIVE = null;
 
     /** waitStatus 的值表示线程已取消。 */
-    // 在AQS（AbstractQueuedSynchronizer）中，static final int CANCELLED = 1; 表示一个常量值，用于指示一个节点的等待状态（waitStatus）已经被取消。在AQS的上下文中，节点通常代表一个正在等待获取锁或者条件的线程。
+    // 在AQS（AbstractQueuedSynchronizer）中，static final int CANCELLED = 1; 表示一个常量值，用于指示一个节点的等待状态（waitStatus）已经被取消。
+        //在AQS的上下文中，节点通常代表一个正在等待获取锁或者条件的线程。
     // 当一个线程在同步队列中等待时，由于某些原因（比如超时或者中断），它可能决定不再等待资源的分配，此时它会被赋予一个“已取消”（CANCELLED）的状态。用于标示这个状态的整数值就是1。
-    // 这个值用来告诉AQS和与之相关的同步组件，这个特定的节点不应该再被考虑为正常等待资源的线程，应该从同步队列中移除。这对于资源的管理和线程的调度很重要，确保系统能够正确响应线程的取消操作，并保持同步队列的秩序和性能。
+    // 这个值用来告诉AQS和与之相关的同步组件，这个特定的节点不应该再被考虑为正常等待资源的线程，应该从同步队列中移除。
+    // 这对于资源的管理和线程的调度很重要，确保系统能够正确响应线程的取消操作，并保持同步队列的秩序和性能。
     /** waitStatus value to indicate thread has cancelled */
     static final int CANCELLED =  1;
 
@@ -323,7 +325,8 @@ static final class Node {
      * (or when possible, unconditional volatile writes).
      */
     // 状态字段，只取以下值：
-    // SIGNAL: 表示此节点的后继节点正在被阻塞（通过park），或将很快被阻塞，因此当前节点在释放或取消时必须唤醒其后继节点。为了避免竞争，获取方法必须首先表明它们需要一个信号，然后重试原子性获取，如果失败，再进行阻塞。
+    // SIGNAL: 表示此节点的后继节点正在被阻塞（通过park），或将很快被阻塞，因此当前节点在释放或取消时必须唤醒其后继节点。
+         // 为了避免竞争，获取方法必须首先表明它们需要一个信号，然后重试原子性获取，如果失败，再进行阻塞。
     // CANCELLED: 由于超时或中断，此节点已被取消。节点一旦处于此状态便永远不会离开。特别地，拥有已取消节点的线程将不再被阻塞。
     // CONDITION: 此节点当前位于条件队列中。在被转移之前，它不会作为同步队列节点使用，转移时状态将被设置为0。（此处使用此值与字段的其他用途无关，但简化了操作机制。）
     // PROPAGATE: 释放共享锁的操作应当被传播到其他节点。这一设置（仅针对头节点）是在doReleaseShared中进行的，以确保即使后面有其他操作介入，传播依然可以继续。
@@ -343,7 +346,8 @@ static final class Node {
      * cancelled thread never succeeds in acquiring, and a thread only
      * cancels itself, not any other node.
      */
-    // 指向前驱节点的链接，当前节点/线程依赖它来检查 waitStatus。在入队时分配，并且只有在出队时才置为 null（为了垃圾回收）。同时，当一个前驱节点被取消时，我们会快速寻找一个未被取消的节点，这样的节点总是存在的，
+    // 指向前驱节点的链接，当前节点/线程依赖它来检查 waitStatus。在入队时分配，并且只有在出队时才置为 null（为了垃圾回收）。
+    // 同时，当一个前驱节点被取消时，我们会快速寻找一个未被取消的节点，这样的节点总是存在的，
     // 因为头节点永远不会被取消：一个节点只有在成功获取资源后才成为头节点。被取消的线程永远不会成功获取资源，而且一个线程只会取消自己，不会取消任何其他节点。 
     volatile Node prev;
 
@@ -382,7 +386,8 @@ static final class Node {
      * mode.
      */
      // 指向等待条件的下一个节点的链接，或者是特殊值 SHARED。
-     // 因为条件队列只在持有独占模式时才被访问，我们只需要一个简单的链表队列来保存在等待条件时的节点。之后，这些节点会被转移到队列中以重新获取资源。并且由于条件只能是独占的，我们通过使用特殊值来指示共享模式来节省一个字段。
+     // 因为条件队列只在持有独占模式时才被访问，我们只需要一个简单的链表队列来保存在等待条件时的节点。
+     // 之后，这些节点会被转移到队列中以重新获取资源。并且由于条件只能是独占的，我们通过使用特殊值来指示共享模式来节省一个字段。
     Node nextWaiter;
 
     /**
@@ -422,6 +427,172 @@ static final class Node {
     Node(Thread thread, int waitStatus) { // Used by Condition
         this.waitStatus = waitStatus;
         this.thread = thread;
+    }
+}
+```
+
+### AQS-acquire
+
+```java
+/**
+* 以独占模式获取，忽略中断。通过至少调用一次 {@link #tryAcquire} 来实现，并在成功时返回。否则，线程将被加入队列，
+* 可能反复阻塞和解除阻塞，并调用 {@link #tryAcquire} 直到成功。此方法可用于实现方法 {@link Lock#lock}。
+* Acquires in exclusive mode, ignoring interrupts.  Implemented
+* by invoking at least once {@link #tryAcquire},
+* returning on success.  Otherwise the thread is queued, possibly
+* repeatedly blocking and unblocking, invoking {@link
+* #tryAcquire} until success.  This method can be used
+* to implement method {@link Lock#lock}.
+*
+* @param arg the acquire argument.  This value is conveyed to
+*        {@link #tryAcquire} but is otherwise uninterpreted and
+*        can represent anything you like.
+*/
+public final void acquire(int arg) {
+        if (
+            // 尝试获取资源
+            !tryAcquire(arg) &&
+            // 将当前线程放入队列中
+            acquireQueued(
+                // 将当前线程包装成独占模式的node，同时进入到队列中
+                addWaiter(Node.EXCLUSIVE),
+                arg
+              )
+        )
+        selfInterrupt();
+}
+```
+
+### ReentrantLock-FairSync-tryAcquire
+
+```java
+static final class FairSync extends Sync {
+    private static final long serialVersionUID = -3000897897090466540L;
+
+    // 尝试强锁
+    final void lock() {
+        acquire(1);
+    }
+
+    // 公平版本的 tryAcquire。
+    // 在AQS类中的 方法：public final void acquire(int arg) 执行时，若下面的方法返回true时，则AQS中acquire方法就直接结束了
+    // 若下面的方法返回false时，则AQS中的acquire方法会继续执行acquireQueued方法，将当前线程压入到队列中。
+    /**
+     * Fair version of tryAcquire.  Don't grant access unless
+     * recursive call or no waiters or is first.
+     */
+    protected final boolean tryAcquire(int acquires) {
+        final Thread current = Thread.currentThread();
+        int c = getState();
+
+        // state==0意味着资源还没有被其他线程抢占
+        if (c == 0) {
+            if (
+                // 确认是否有其他线程在队列中等待，在并发的场景下会发生。可参照：AQS-hasQueuedPredecessors 方法注释翻译。
+                // 如果下面的方法return true了，则说明虽然state==0了，但是依旧有其他线程抢先在队列中了。
+                !hasQueuedPredecessors()
+                &&
+                // CAS抢占更新state资源标记位
+                // 如果下面的CAS失败了，则说明并发强锁失败了
+                compareAndSetState(0, acquires)
+                ) {
+                // 强锁成功，将当前线程设置到资源持有的标记位上
+                setExclusiveOwnerThread(current);
+                return true;
+            }
+        }
+
+        // 此分支意味着当前线程锁重入了
+        else if (current == getExclusiveOwnerThread()) {
+            int nextc = c + acquires;
+
+            // 重入锁次数的校验
+            if (nextc < 0)
+                throw new Error("Maximum lock count exceeded");
+                
+            setState(nextc);
+            return true;
+        }
+
+        // 说明当前线程强锁失败
+        return false;
+    }
+}
+```
+
+### AQS-hasQueuedPredecessors
+
+简单点说，下面这个方法在ReentrantLock-FairSync-tryAcquire中调用时，起到的作用时尽可能保证公平，虽然在ReentrantLock-FairSync-tryAcquire中调用时代表锁是可用的，但考虑到是公平锁的前提，就得是FIFO，所以再二次判断下是否有其他线程在队列中等待了。
+
+```java
+// 查询是否有任何线程等待获取资源的时间比当前线程更长。
+// 调用此方法等同于（但可能比）以下操作更高效：
+// getFirstQueuedThread() != Thread.currentThread() && hasQueuedThreads()
+// 请注意，因为中断和超时导致的取消可以随时发生，返回true并不保证其他线程会在当前线程之前获取资源。
+// 同样，由于队列为空，此方法返回false后，其他线程可能会赢得入队竞争。
+// 此方法旨在被公平的同步器使用，以避免闯入。
+// 这样的同步器的tryAcquire方法应当在此方法返回true时返回false（除非这是一个可重入的获取），它的tryAcquireShared方法应当返回一个负值。
+public final boolean hasQueuedPredecessors() {
+    // The correctness of this depends on head being initialized
+    // before tail and on head.next being accurate if the current
+    // thread is first in queue.
+    Node t = tail; // Read fields in reverse initialization order
+    Node h = head;
+    Node s;
+    return h != t &&
+        ((s = h.next) == null || s.thread != Thread.currentThread());
+}
+```
+
+### AQS-acquire-addWaiter
+
+```java
+// 为当前线程及给定模式创建并入队节点。
+private Node addWaiter(Node mode) {
+    // 将当前线程包装成node节点对象
+    Node node = new Node(Thread.currentThread(), mode);
+
+    // 尝试快速路径入队；如果失败则回退到完整的入队操作。
+    // Try the fast path of enq; backup to full enq on failure
+
+    Node pred = tail;
+
+    // 如果下面的条件不成立，则说明队列为空，即tail==head的时候，其实队列是空的。
+    if (pred != null) {
+        node.prev = pred;
+        if (
+                // CAS设置队列尾节点失败时返回false时，则说明有并发
+                compareAndSetTail(pred, node)
+                ) {
+            pred.next = node;
+            return node;
+        }
+    }
+
+    // 走到下面这一步说明满足下面其中的一个场景
+    // 1、队列是空的
+    // 2、CAS失败
+    enq(node);
+    return node;
+}
+```
+
+### AQS-acquire-addWaiter-enq
+
+```java
+private Node enq(final Node node) {
+    for (;;) {
+        Node t = tail;
+        if (t == null) { // Must initialize
+            if (compareAndSetHead(new Node()))
+                tail = head;
+        } else {
+            node.prev = t;
+            if (compareAndSetTail(t, node)) {
+                t.next = node;
+                return t;
+            }
+        }
     }
 }
 ```
