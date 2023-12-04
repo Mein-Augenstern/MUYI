@@ -582,6 +582,7 @@ private Node addWaiter(Node mode) {
 
 ```java
 // 如果需要，将节点插入队列并进行初始化。
+// 采用自旋方式入队列
 private Node enq(final Node node) {
     for (;;) {
         Node t = tail;
@@ -613,7 +614,7 @@ final boolean acquireQueued(final Node node, int arg) {
         for (;;) {
             final Node p = node.predecessor();
 
-            // 若获取资源成功，则直接返回
+            // 强锁成功，则直接返回
             if (
                 // 若当前线程节点的前置节点是头节点
                 p == head
@@ -626,13 +627,90 @@ final boolean acquireQueued(final Node node, int arg) {
                 failed = false;
                 return interrupted;
             }
-            if (shouldParkAfterFailedAcquire(p, node) &&
-                parkAndCheckInterrupt())
+
+            // 强锁失败，则将线程挂起
+            if (
+                // 检查并更新一个未能获取资源的节点的状态
+                // 若返回false，继续for循环，留个点：若返回false时，为什么不挂起线程
+                                           // 是为了应对在经过这个方法后，node已经是head的直接后继节点了
+                shouldParkAfterFailedAcquire(p, node)
+                &&
+                // 挂起并检查当前线程
+                parkAndCheckInterrupt()
+               )
+                // 返回当前线程需要被挂起的标识
                 interrupted = true;
         }
     } finally {
         if (failed)
+            // 抛异常时会执行此代码，比如predecessor()方法主动抛出NPE、tryAcquire(arg)方法抛异常
             cancelAcquire(node);
     }
 }
 ```
+
+### AQS-shouldParkAfterFailedAcquire
+
+```java
+
+// 仔细看shouldParkAfterFailedAcquire(p, node)，我们可以发现，其实第一次进来的时候，一般都不会返回true的，
+// 原因很简单，前驱节点的waitStatus=-1是依赖于后置节点设置的。也就是说，我都还没给前驱设置-1呢，怎么可能是true呢，
+// 但是要看到，这个方法是套在循环里的，所以第二次进来的时候状态就是-1了。
+
+
+// 检查并更新一个未能获取资源的节点的状态。如果线程应该阻塞，则返回 true。
+// 这是所有获取循环中的主要信号控制。要求 pred == node.prev。
+private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
+    // 获取要入队列节点的前置节点状态
+    int ws = pred.waitStatus;
+
+    // 前置节点状态为 SIGNAL，说明前置节点状态正常，当前线程需要挂起，即返回挂起标志true
+    // 结合Node中SIGNAL状态的说明：
+    // 代表着通知状态，这个状态下的节点如果被唤醒，就有义务去唤醒它的后继节点。这也就是为什么一个节点的线程阻塞之前必须保证前一个节点是 SIGNAL 状态。
+    // 返回true，则意味着当前线程节点应该被阻塞
+    if (ws == Node.SIGNAL)
+        /*
+         * 这个节点已经设置了状态，请求一个释放信号来唤醒它，因此它可以安全地进行挂起。
+         * This node has already set status asking a release
+         * to signal it, so it can safely park.
+         */
+        return true;
+
+    // 前置节点状态大于0，意味着前置节点已经从队列中移除了
+    if (ws > 0) {
+        /*
+         * 前驱节点被取消了。跳过前驱节点，并表示需要重试。
+         * Predecessor was cancelled. Skip over predecessors and
+         * indicate retry.
+         */
+        do {
+            // 将当前节点的 prev 指针指向它前驱节点的前一个节点（即 pred 的前驱节点），同时也将 pred 变量更新为它之前的节点，
+                // 这样做的目的通常是为了移除当前节点 pred，并将其前一个节点连接到当前节点 node，或者是在节点插入队列时调整节点的位置。
+                // 在AQS的上下文中，该操作可能是在进行节点的取消排队（例如，当一个线程在同步队列中等待获取锁时决定不再等待，并需要被移除）或者在进行某些优化的重新排列时使用。
+            node.prev = pred = pred.prev;
+        } while (pred.waitStatus > 0);
+
+        pred.next = node;
+    }
+
+    // 前驱节点的waitStatus不等于-1和1，那也就是只可能是0，-2，-3
+    // 在我们前面的源码中，都没有看到有设置waitStatus的，所以每个新的node入队时，waitStatu都是0
+    // 正常情况下，前驱节点是之前的 tail，那么它的 waitStatus 应该是 0
+    // 用CAS将前驱节点的waitStatus设置为Node.SIGNAL(也就是-1)
+    else {
+        /*
+         * 等待状态必须是 0 或 PROPAGATE。
+         * 表示我们需要一个信号，但不要立即挂起。调用者需要重试以确保在挂起之前无法获取资源。
+         * waitStatus must be 0 or PROPAGATE.  Indicate that we
+         * need a signal, but don't park yet.  Caller will need to
+         * retry to make sure it cannot acquire before parking.
+         */
+        compareAndSetWaitStatus(pred, ws, Node.SIGNAL);
+    }
+
+    // 返回false，则说明外部调用此方法的地方，还得重新执行for循环，即自旋的过程
+    return false;
+}
+```
+
+
