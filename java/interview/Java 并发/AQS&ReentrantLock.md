@@ -478,6 +478,7 @@ static final class FairSync extends Sync {
     // 在AQS类中的 方法：public final void acquire(int arg) 执行时，若下面的方法返回true时，则AQS中acquire方法就直接结束了
     // 若下面的方法返回false时，则AQS中的acquire方法会继续执行acquireQueued方法，将当前线程压入到队列中。
     /**
+     * 公平版本的尝试获取资源。除非是递归调用、没有等待者或者是第一个请求者，否则不授予访问权限。
      * Fair version of tryAcquire.  Don't grant access unless
      * recursive call or no waiters or is first.
      */
@@ -580,19 +581,58 @@ private Node addWaiter(Node mode) {
 ### AQS-acquire-addWaiter-enq
 
 ```java
+// 如果需要，将节点插入队列并进行初始化。
 private Node enq(final Node node) {
     for (;;) {
         Node t = tail;
+        // 检测队列尾节点是否为空，若为空，则必须先初始化后，再重新将当前线程节点压入队列中。
         if (t == null) { // Must initialize
             if (compareAndSetHead(new Node()))
                 tail = head;
-        } else {
+        }
+        // 尝试将当前线程节点压入队列中
+        else {
             node.prev = t;
             if (compareAndSetTail(t, node)) {
                 t.next = node;
                 return t;
             }
         }
+    }
+}
+```
+
+### AQS-acquireQueued
+
+```java
+// 为队列中已存在的线程以排他的不可中断模式获取资源。这种方式被条件等待方法以及获取操作所使用。
+final boolean acquireQueued(final Node node, int arg) {
+    boolean failed = true;
+    try {
+        boolean interrupted = false;
+        for (;;) {
+            final Node p = node.predecessor();
+
+            // 若获取资源成功，则直接返回
+            if (
+                // 若当前线程节点的前置节点是头节点
+                p == head
+                        &&
+                        // 尝试获取获取资源
+                        tryAcquire(arg)) {
+                // 将
+                setHead(node);
+                p.next = null; // help GC
+                failed = false;
+                return interrupted;
+            }
+            if (shouldParkAfterFailedAcquire(p, node) &&
+                parkAndCheckInterrupt())
+                interrupted = true;
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
     }
 }
 ```
