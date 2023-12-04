@@ -431,6 +431,8 @@ static final class Node {
 }
 ```
 
+## 强锁过程分析
+
 ### AQS-acquire
 
 ```java
@@ -713,4 +715,133 @@ private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
 }
 ```
 
+## 解锁过程分析
+
+### ReentrantLock-unlock
+
+```java
+
+// ReentrantLock的解锁入口
+
+/**
+ * Attempts to release this lock.
+ *
+ * 如果当前线程是这个锁的持有者，那么持有计数将被减少。
+ * 如果持有计数现在为零，那么锁将被释放。如果当前线程不是这个锁的持有者，那么将抛出 {@link IllegalMonitorStateException} 异常。
+ * 
+ * <p>If the current thread is the holder of this lock then the hold
+ * count is decremented.  If the hold count is now zero then the lock
+ * is released.  If the current thread is not the holder of this
+ * lock then {@link IllegalMonitorStateException} is thrown.
+ *
+ * @throws IllegalMonitorStateException if the current thread does not
+ *         hold this lock
+ */
+public void unlock() {
+    sync.release(1);
+}
+```
+
+### AQS-release
+
+```java
+/**
+ * 
+ * 释放独占模式。如果{@link #tryRelease}返回true，则通过解除一个或多个线程的阻塞来实现。此方法可用于实现{@link Lock#unlock}方法。
+ * 
+ * Releases in exclusive mode.  Implemented by unblocking one or
+ * more threads if {@link #tryRelease} returns true.
+ * This method can be used to implement method {@link Lock#unlock}.
+ *
+ * @param arg the release argument.  This value is conveyed to
+ *        {@link #tryRelease} but is otherwise uninterpreted and
+ *        can represent anything you like.
+ * @return the value returned from {@link #tryRelease}
+ */
+public final boolean release(int arg) {
+    if (
+        tryRelease(arg)
+        ) {
+        Node h = head;
+        if (h != null && h.waitStatus != 0)
+            // 
+            unparkSuccessor(h);
+        return true;
+    }
+    return false;
+}
+```
+
+### ReentrantLock-Sync-tryRelease
+
+```java
+protected final boolean tryRelease(int releases) {
+    // 计算锁重入的次数减去要释放的次数
+    int c = getState() - releases;
+
+    // 判断持有锁的线程是否等于当前要释放锁的线程
+    if (Thread.currentThread() != getExclusiveOwnerThread())
+        throw new IllegalMonitorStateException();
+
+    // 判断是否当前是否需要释放锁
+    boolean free = false;
+    if (c == 0) {
+        free = true;
+        // help gc
+        setExclusiveOwnerThread(null);
+    }
+
+    // 更新锁被冲入的次数
+    setState(c);
+    return free;
+}
+```
+
+### AQS-unparkSuccessor
+
+```java
+/**
+ *
+ *如果节点的后继存在，则唤醒该后继节点。
+ * 
+ * Wakes up node's successor, if one exists.
+ *
+ * @param node the node
+ */
+private void unparkSuccessor(Node node) {
+    /*
+     *
+     * 如果状态是负的（即，可能需要信号），尝试在发出信号前清除它。如果这操作失败了，或者等待线程改变了状态，也是可以接受的。
+     * 
+     * If status is negative (i.e., possibly needing signal) try
+     * to clear in anticipation of signalling.  It is OK if this
+     * fails or if status is changed by waiting thread.
+     */
+    int ws = node.waitStatus;
+    if (ws < 0)
+        compareAndSetWaitStatus(node, ws, 0);
+
+
+        // 下面的代码就是唤醒后继节点，但是有可能后继节点取消了等待（waitStatus==1）
+        // 从队尾往前找，找到 waitStatus <= 0 的所有节点中排在最前面的
+    /*
+     * Thread to unpark is held in successor, which is normally
+     * just the next node.  But if cancelled or apparently null,
+     * traverse backwards from tail to find the actual
+     * non-cancelled successor.
+     */
+    Node s = node.next;
+    if (s == null || s.waitStatus > 0) {
+        s = null;
+        // 从后往前找，仔细看代码，不必担心中间有节点取消(waitStatus==1)的情况
+        for (Node t = tail; t != null && t != node; t = t.prev)
+            if (t.waitStatus <= 0)
+                s = t;
+    }
+
+    // 唤醒线程
+    if (s != null)
+        LockSupport.unpark(s.thread);
+}
+```
 
