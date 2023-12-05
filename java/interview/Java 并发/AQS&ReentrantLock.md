@@ -845,3 +845,54 @@ private void unparkSuccessor(Node node) {
 }
 ```
 
+## ReentrantLock的加锁和解锁示例图解析
+
+内容来自于：https://javadoop.com/post/AbstractQueuedSynchronizer
+
+下面属于回顾环节，用简单的示例来说一遍，如果上面的有些东西没看懂，这里还有一次帮助你理解的机会。
+
+首先，第一个线程调用 reentrantLock.lock()，翻到最前面可以发现，tryAcquire(1) 直接就返回 true 了，结束。只是设置了 state=1，连 head 都没有初始化，更谈不上什么阻塞队列了。要是线程 1 调用 unlock() 了，才有线程 2 来，那世界就太太太平了，完全没有交集嘛，那我还要 AQS 干嘛。
+
+如果线程 1 没有调用 unlock() 之前，线程 2 调用了 lock(), 想想会发生什么？
+
+线程 2 会初始化 head【new Node()】，同时线程 2 也会插入到阻塞队列并挂起 (注意看这里是一个 for 循环，而且设置 head 和 tail 的部分是不 return 的，只有入队成功才会跳出循环)
+
+```java
+private Node enq(final Node node) {
+    for (;;) {
+        Node t = tail;
+        if (t == null) { // Must initialize
+            if (compareAndSetHead(new Node()))
+                tail = head;
+        } else {
+            node.prev = t;
+            if (compareAndSetTail(t, node)) {
+                t.next = node;
+                return t;
+            }
+        }
+    }
+}
+```
+
+首先，是线程 2 初始化 head 节点，此时 head==tail, waitStatus==0
+
+<img width="992" alt="截屏2023-12-05 10 44 33" src="https://github.com/Mein-Augenstern/MUYI/assets/34135120/38bbc275-2711-45c7-9146-e7c40fae1d9e">
+
+然后线程 2 入队：
+
+<img width="986" alt="截屏2023-12-05 10 45 04" src="https://github.com/Mein-Augenstern/MUYI/assets/34135120/6ddcb715-fa59-46d1-9990-8f4d8418552b">
+
+同时我们也要看此时节点的 waitStatus，我们知道 head 节点是线程 2 初始化的，此时的 waitStatus 没有设置， java 默认会设置为 0，但是到 shouldParkAfterFailedAcquire 这个方法的时候，线程 2 会把前驱节点，也就是 head 的waitStatus设置为 -1。
+
+那线程 2 节点此时的 waitStatus 是多少呢，由于没有设置，所以是 0；
+
+如果线程 3 此时再进来，直接插到线程 2 的后面就可以了，此时线程 3 的 waitStatus 是 0，到 shouldParkAfterFailedAcquire 方法的时候把前驱节点线程 2 的 waitStatus 设置为 -1。
+
+<img width="975" alt="截屏2023-12-05 10 45 32" src="https://github.com/Mein-Augenstern/MUYI/assets/34135120/4b25b91b-e9cd-4dad-8664-1135809b6bfc">
+
+这里可以简单说下 waitStatus 中 SIGNAL(-1) 状态的意思，Doug Lea 注释的是：代表后继节点需要被唤醒。也就是说这个 waitStatus 其实代表的不是自己的状态，而是后继节点的状态，我们知道，每个 node 在入队的时候，都会把前驱节点的状态改为 SIGNAL，然后阻塞，等待被前驱唤醒。这里涉及的是两个问题：有线程取消了排队、唤醒操作。其实本质是一样的，读者也可以顺着 “waitStatus代表后继节点的状态” 这种思路去看一遍源码。
+
+
+
+
