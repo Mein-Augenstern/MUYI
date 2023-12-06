@@ -1213,7 +1213,7 @@ private Node addConditionWaiter() {
 
 上面的这块代码很简单，就是将当前线程进入到条件队列的队尾。在addWaiter 方法中，有一个 unlinkCancelledWaiters() 方法，该方法用于清除队列中已经取消等待的节点。当 await 的时候如果发生了取消操作（这点之后会说），或者是在节点入队的时候，发现最后一个节点是被取消的，会调用一次这个方法。
 
-### AQS-ConditionObject-unlinkCancelledWaiters
+**AQS-ConditionObject-unlinkCancelledWaiters**
 
 ```java
 // 等待队列是一个单向链表，遍历链表将已经取消等待的节点清除出去
@@ -1268,9 +1268,22 @@ private void unlinkCancelledWaiters() {
 }
 ```
 
-### AQS-ConditionObject-fullyRelease
+## 完全释放独占锁
+
+**AQS-ConditionObject-fullyRelease**
+
+回到 wait 方法，节点入队了以后，会调用 int savedState = fullyRelease(node); 方法释放锁，注意，这里是完全释放独占锁（fully release），因为 ReentrantLock 是可以重入的。
+
+> 考虑一下这里的 savedState。如果在 condition1.await() 之前，假设线程先执行了 2 次 lock() 操作，那么 state 为 2，我们理解为该线程持有 2 把锁，这里 await() 方法必须将 state 设置为 0，然后再进入挂起状态，这样其他线程才能持有锁。当它被唤醒的时候，它需要重新持有 2 把锁，才能继续下去。
 
 ```java
+
+// 首先，我们要先观察到返回值 savedState 代表 release 之前的 state 值
+// 对于最简单的操作：先 lock.lock()，然后 condition1.await()。
+//         那么 state 经过这个方法由 1 变为 0，锁释放，此方法返回 1
+//         相应的，如果 lock 重入了 n 次，savedState == n
+// 如果这个方法失败，会将节点设置为"取消"状态，并抛出异常 IllegalMonitorStateException
+
 /**
  * Invokes release with current state value; returns saved state.
  * Cancels node and throws exception on failure.
@@ -1280,7 +1293,10 @@ private void unlinkCancelledWaiters() {
 final int fullyRelease(Node node) {
     boolean failed = true;
     try {
+        // 获取当前线程重入锁的次数
         int savedState = getState();
+
+        // 这里使用了当前的 state 作为 release 的参数，也就是完全释放掉锁，将 state 置为 0
         if (release(savedState)) {
             failed = false;
             return savedState;
@@ -1293,6 +1309,29 @@ final int fullyRelease(Node node) {
     }
 }
 ```
+
+考虑一下，如果一个线程在不持有 lock 的基础上，就去调用 condition1.await() 方法，它能进入条件队列，但是在上面的这个方法中，由于它不持有锁，release(savedState) 这个方法肯定要返回 false，进入到异常分支，然后进入 finally 块设置 node.waitStatus = Node.CANCELLED，这个已经入队的节点之后会被后继的节点”请出去“。
+
+## 等待进入阻塞队列
+
+释放掉锁以后，接下来是这段，这边会自旋，如果发现自己还没到阻塞队列，那么挂起，等待被转移到阻塞队列。参照await方法
+
+```java
+int interruptMode = 0;
+// 如果不在阻塞队列中，注意了，是阻塞队列
+while (!isOnSyncQueue(node)) {
+    // 线程挂起
+    LockSupport.park(this);
+
+    // 这里可以先不用看了，等看到它什么时候被 unpark 再说
+    if ((interruptMode = checkInterruptWhileWaiting(node)) != 0)
+        break;
+}
+```
+
+isOnSyncQueue(Node node) 用于判断节点是否已经转移到阻塞队列了：
+
+
 
 
 
