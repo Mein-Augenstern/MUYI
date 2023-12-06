@@ -1190,18 +1190,22 @@ private Node addConditionWaiter() {
     if (t != null && t.waitStatus != Node.CONDITION) {
         // 清除队列中已经取消等待的节点
         unlinkCancelledWaiters();
+
+        // 更新最后一个等待者的引用，因为unlinkCancelledWaiters可能会改变它
         t = lastWaiter;
     }
 
     // node 在初始化的时候，指定 waitStatus 为 Node.CONDITION
     Node node = new Node(Thread.currentThread(), Node.CONDITION);
 
-    // t 此时是 lastWaiter，队尾
-    // 如果队列为空
+    // t 此时是 lastWaiter，即t 代表着的是等待着，如果t==null，即意味着队列中没有等待着，也就是说队列为空。
     if (t == null)
         firstWaiter = node;
+    // 更新当前节点的下一集节点指针
     else
         t.nextWaiter = node;
+
+    // 更新尾节点
     lastWaiter = node;
     return node;
 }
@@ -1221,25 +1225,75 @@ private Node addConditionWaiter() {
 // 因而，尽管这个方法可能会导致对整个队列的遍历，但它只在特定情况下才会被使用，即在没有信号传递时发生了超时或取消操作。
 // 此方法会遍历所有节点，而不是只停在某个特定节点上，这样做是为了一次性断开所有指向无用节点的连接，避免在发生大量取消操作时需要进行多次重复遍历。
 private void unlinkCancelledWaiters() {
+
     Node t = firstWaiter;
+
+    // 追踪变量，用于标记队列在每次循环后的最新有效节点
     Node trail = null;
+
+    // 循环队列节点，当循环到队列尾部时，即节点=null 时，跳出循环
     while (t != null) {
+
         Node next = t.nextWaiter;
+
         // 如果节点的状态不是 Node.CONDITION 的话，这个节点就是被取消的
         if (t.waitStatus != Node.CONDITION) {
             t.nextWaiter = null;
+
+            // 如果trail为null，意味着第一次循环的时候才会发生，意味着当前节点是队列的第一个节点
             if (trail == null)
+                // 将队列的第一个节点设置为当前节点的下一个节点
+                // or
+                // 更新队列的第一个节点内容，为当前节点的下一个节点。
                 firstWaiter = next;
+
+            // 将trail节点指向当前节点的下一个节点，从而移除当前节点
+            // 即将最新有效节点的下一个节点指针更新为当前节点的下一个节点，从而达到删除当前节点的目的
             else
                 trail.nextWaiter = next;
+
+            // 如果没有更多节点，确保更新lastWaiter指向正确的最后一个节点
             if (next == null)
                 lastWaiter = trail;
         }
+
+        // 当前节点未被取消，trail指向当前节点，作为下一个节点的前置节点
         else
+            // 将有效的节点赋值给追踪变量
             trail = t;
+
+        // 继续检查下一个节点
         t = next;
     }
 }
 ```
+
+### AQS-ConditionObject-fullyRelease
+
+```java
+/**
+ * Invokes release with current state value; returns saved state.
+ * Cancels node and throws exception on failure.
+ * @param node the condition node for this wait
+ * @return previous sync state
+ */
+final int fullyRelease(Node node) {
+    boolean failed = true;
+    try {
+        int savedState = getState();
+        if (release(savedState)) {
+            failed = false;
+            return savedState;
+        } else {
+            throw new IllegalMonitorStateException();
+        }
+    } finally {
+        if (failed)
+            node.waitStatus = Node.CANCELLED;
+    }
+}
+```
+
+
 
 
