@@ -1168,3 +1168,78 @@ public final void await() throws InterruptedException {
         reportInterruptAfterWait(interruptMode);
 }
 ```
+
+### 将节点加入到条件队列
+
+addConditionWaiter() 是将当前节点加入到条件队列，看图我们知道，这种条件队列内的操作是线程安全的。
+
+```java
+/**
+ *
+ * // 将当前线程对应的节点入队，插入队尾
+ * 
+ * Adds a new waiter to wait queue.
+ * @return its new wait node
+ */
+private Node addConditionWaiter() {
+    Node t = lastWaiter;
+
+    // 如果条件队列的最后一个节点取消了，将其清除出去
+    // 为什么这里把 waitStatus 不等于 Node.CONDITION，就判定为该节点发生了取消排队？
+    // If lastWaiter is cancelled, clean out.
+    if (t != null && t.waitStatus != Node.CONDITION) {
+        // 清除队列中已经取消等待的节点
+        unlinkCancelledWaiters();
+        t = lastWaiter;
+    }
+
+    // node 在初始化的时候，指定 waitStatus 为 Node.CONDITION
+    Node node = new Node(Thread.currentThread(), Node.CONDITION);
+
+    // t 此时是 lastWaiter，队尾
+    // 如果队列为空
+    if (t == null)
+        firstWaiter = node;
+    else
+        t.nextWaiter = node;
+    lastWaiter = node;
+    return node;
+}
+```
+
+上面的这块代码很简单，就是将当前线程进入到条件队列的队尾。在addWaiter 方法中，有一个 unlinkCancelledWaiters() 方法，该方法用于清除队列中已经取消等待的节点。当 await 的时候如果发生了取消操作（这点之后会说），或者是在节点入队的时候，发现最后一个节点是被取消的，会调用一次这个方法。
+
+### AQS-ConditionObject-unlinkCancelledWaiters
+
+```java
+// 等待队列是一个单向链表，遍历链表将已经取消等待的节点清除出去
+// 纯属链表操作，很好理解，看不懂多看几遍就可以了
+
+// 注释翻译：该方法用于在条件队列中移除那些已经取消的等待节点。这个操作只会在获取到锁的情况下进行。
+// 当条件等待过程中出现了取消行为，或者在向队列添加新的等待节点时发现最后一个等待节点已被取消，就会调用这个方法。
+// 我们需要这个方法来防止在没有信号传递的情况下出现内存垃圾累积。
+// 因而，尽管这个方法可能会导致对整个队列的遍历，但它只在特定情况下才会被使用，即在没有信号传递时发生了超时或取消操作。
+// 此方法会遍历所有节点，而不是只停在某个特定节点上，这样做是为了一次性断开所有指向无用节点的连接，避免在发生大量取消操作时需要进行多次重复遍历。
+private void unlinkCancelledWaiters() {
+    Node t = firstWaiter;
+    Node trail = null;
+    while (t != null) {
+        Node next = t.nextWaiter;
+        // 如果节点的状态不是 Node.CONDITION 的话，这个节点就是被取消的
+        if (t.waitStatus != Node.CONDITION) {
+            t.nextWaiter = null;
+            if (trail == null)
+                firstWaiter = next;
+            else
+                trail.nextWaiter = next;
+            if (next == null)
+                lastWaiter = trail;
+        }
+        else
+            trail = t;
+        t = next;
+    }
+}
+```
+
+
