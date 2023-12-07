@@ -1466,5 +1466,79 @@ final boolean transferForSignal(Node node) {
 
 假设发生了阻塞队列中的前驱节点取消等待，或者 CAS 失败，只要唤醒线程，让其进到下一步即可。
 
+## 唤醒后检查中断状态
 
+这个图看懂后，下面的代码分析就简单了。
+
+接下来，我们一步步按照流程来走代码分析，我们先来看看 wait 方法：
+
+```java
+int interruptMode = 0;
+while (!isOnSyncQueue(node)) {
+    // 线程挂起
+    LockSupport.park(this);
+    
+    if ((interruptMode = checkInterruptWhileWaiting(node)) != 0)
+        break;
+}
+```
+
+先解释下 interruptMode。interruptMode 可以取值为 REINTERRUPT（1），THROW_IE（-1），0
+
+- REINTERRUPT： 代表 await 返回的时候，需要重新设置中断状态
+- THROW_IE： 代表 await 返回的时候，需要抛出 InterruptedException 异常
+- 0 ：说明在 await 期间，没有发生中断
+
+有以下三种情况会让 LockSupport.park(this); 这句返回继续往下执行：
+
+1、常规路径。signal -> 转移节点到阻塞队列 -> 获取了锁（unpark）
+2、线程中断。在 park 的时候，另外一个线程对这个线程进行了中断
+3、signal 的时候我们说过，转移以后的前驱节点取消了，或者对前驱节点的CAS操作失败了
+4、假唤醒。这个也是存在的，和 Object.wait() 类似，都有这个问题
+
+线程唤醒后第一步是调用 checkInterruptWhileWaiting(node) 这个方法，此方法用于判断是否在线程挂起期间发生了中断，如果发生了中断，是 signal 调用之前中断的，还是 signal 之后发生的中断。
+
+```java
+// 1. 如果在 signal 之前已经中断，返回 THROW_IE
+// 2. 如果是 signal 之后中断，返回 REINTERRUPT
+// 3. 没有发生中断，返回 0
+private int checkInterruptWhileWaiting(Node node) {
+    return Thread.interrupted() ?
+        (transferAfterCancelledWait(node) ? THROW_IE : REINTERRUPT) :
+        0;
+}
+```
+
+**Thread.interrupted()：如果当前线程已经处于中断状态，那么该方法返回 true，同时将中断状态重置为 false，所以，才有后续的 重新中断（REINTERRUPT） 的使用。**
+
+看看怎么判断是 signal 之前还是之后发生的中断：
+
+```java
+// 只有线程处于中断状态，才会调用此方法
+// 如果需要的话，将这个已经取消等待的节点转移到阻塞队列
+// 返回 true：如果此线程在 signal 之前被取消，
+final boolean transferAfterCancelledWait(Node node) {
+    // 用 CAS 将节点状态设置为 0 
+    // 如果这步 CAS 成功，说明是 signal 方法之前发生的中断，因为如果 signal 先发生的话，signal 中会将 waitStatus 设置为 0
+    if (compareAndSetWaitStatus(node, Node.CONDITION, 0)) {
+        // 将节点放入阻塞队列
+        // 这里我们看到，即使中断了，依然会转移到阻塞队列
+        enq(node);
+        return true;
+    }
+
+    // 到这里是因为 CAS 失败，肯定是因为 signal 方法已经将 waitStatus 设置为了 0
+    // signal 方法会将节点转移到阻塞队列，但是可能还没完成，这边自旋等待其完成
+    // 当然，这种事情还是比较少的吧：signal 调用之后，没完成转移之前，发生了中断
+    while (!isOnSyncQueue(node))
+        Thread.yield();
+    return false;
+}
+```
+
+**这里再说一遍，即使发生了中断，节点依然会转移到阻塞队列。**
+
+到这里，大家应该都知道这个 while 循环怎么退出了吧。要么中断，要么转移成功。
+
+这里描绘了一个场景，本来有个线程，它是排在条件队列的后面的，但是因为它被中断了，那么它会被唤醒，然后它发现自己不是被 signal 的那个，但是它会自己主动去进入到阻塞队列。
 
