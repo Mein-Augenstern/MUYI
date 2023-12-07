@@ -1395,6 +1395,76 @@ private boolean findNodeFromTail(Node node) {
 
 回到小节：等待进入阻塞队列中的while循环，isOnSyncQueue(node) 返回 false 的话，那么进到 LockSupport.park(this); 这里线程挂起。
 
+## signal 唤醒线程，转移到阻塞队列
+
+为了大家理解，这里我们先看唤醒操作，因为刚刚到 LockSupport.park(this); 把线程挂起了，等待唤醒。
+
+唤醒操作通常由另一个线程来操作，就像生产者-消费者模式中，如果线程因为等待消费而挂起，那么当生产者生产了一个东西后，会调用 signal 唤醒正在等待的线程来消费。
+
+### AQS-ConditionObject-signal
+
+```java
+// 唤醒等待了最久的线程
+// 其实就是，将这个线程对应的 node 从条件队列转移到阻塞队列
+public final void signal() {
+    // 调用 signal 方法的线程必须持有当前的独占锁
+    if (!isHeldExclusively())
+        throw new IllegalMonitorStateException();
+    Node first = firstWaiter;
+    if (first != null)
+        doSignal(first);
+}
+```
+
+### AQS-ConditionObject-doSignal
+
+```java
+// 从条件队列队头往后遍历，找出第一个需要转移的 node
+// 因为前面我们说过，有些线程会取消排队，但是可能还在队列中
+private void doSignal(Node first) {
+    do {
+      	// 将 firstWaiter 指向 first 节点后面的第一个，因为 first 节点马上要离开了
+        // 如果将 first 移除后，后面没有节点在等待了，那么需要将 lastWaiter 置为 null
+        if ( (firstWaiter = first.nextWaiter) == null)
+            lastWaiter = null;
+        // 因为 first 马上要被移到阻塞队列了，和条件队列的链接关系在这里断掉
+        first.nextWaiter = null;
+    } while (!transferForSignal(first) &&
+             (first = firstWaiter) != null);
+      // 这里 while 循环，如果 first 转移不成功，那么选择 first 后面的第一个节点进行转移，依此类推
+}
+```
+
+### AQS-transferForsignal
+
+```java
+// 将节点从条件队列转移到阻塞队列
+// true 代表成功转移
+// false 代表在 signal 之前，节点已经取消了
+final boolean transferForSignal(Node node) {
+    
+    // CAS 如果失败，说明此 node 的 waitStatus 已不是 Node.CONDITION，说明节点已经取消，
+    // 既然已经取消，也就不需要转移了，方法返回，转移后面一个节点
+    // 否则，将 waitStatus 置为 0
+    if (!compareAndSetWaitStatus(node, Node.CONDITION, 0))
+        return false;
+  
+    // enq(node): 自旋进入阻塞队列的队尾
+    // 注意，这里的返回值 p 是 node 在阻塞队列的前驱节点
+    Node p = enq(node);
+    int ws = p.waitStatus;
+    // ws > 0 说明 node 在阻塞队列中的前驱节点取消了等待锁，直接唤醒 node 对应的线程。唤醒之后会怎么样，后面再解释
+    // 如果 ws <= 0, 那么 compareAndSetWaitStatus 将会被调用，上篇介绍的时候说过，节点入队后，需要把前驱节点的状态设为 Node.SIGNAL(-1)
+    if (ws > 0 || !compareAndSetWaitStatus(p, ws, Node.SIGNAL))
+        // 如果前驱节点取消或者 CAS 失败，会进到这里唤醒线程，之后的操作看下一节
+        LockSupport.unpark(node.thread);
+    return true;
+}
+```
+
+正常情况下，ws > 0 || !compareAndSetWaitStatus(p, ws, Node.SIGNAL) 这句中，ws <= 0，而且 compareAndSetWaitStatus(p, ws, Node.SIGNAL) 会返回 true，所以一般也不会进去 if 语句块中唤醒 node 对应的线程。然后这个方法返回 true，也就意味着 signal 方法结束了，节点进入了阻塞队列。
+
+假设发生了阻塞队列中的前驱节点取消等待，或者 CAS 失败，只要唤醒线程，让其进到下一步即可。
 
 
 
