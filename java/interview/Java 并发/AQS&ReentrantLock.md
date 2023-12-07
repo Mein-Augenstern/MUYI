@@ -1329,9 +1329,71 @@ while (!isOnSyncQueue(node)) {
 }
 ```
 
+### AQS-isOnSyncQueue
+
 isOnSyncQueue(Node node) 用于判断节点是否已经转移到阻塞队列了：
 
+```java
+/**
+ * Returns true if a node, always one that was initially placed on
+ * a condition queue, is now waiting to reacquire on sync queue.
+ * @param node the node
+ * @return true if is reacquiring
+ */
+final boolean isOnSyncQueue(Node node) {
 
+    // 移动过去的时候，node 的 waitStatus 会置为 0，这个之后在说 signal 方法的时候会说到
+    // 如果 waitStatus 还是 Node.CONDITION，也就是 -2，那肯定就是还在条件队列中
+    // 如果 node 的前驱 prev 指向还是 null，说明肯定没有在 阻塞队列(prev是阻塞队列链表中使用的)
+    if (node.waitStatus == Node.CONDITION || node.prev == null)
+        return false;
+
+    // 如果 node 已经有后继节点 next 的时候，那肯定是在阻塞队列了
+    if (node.next != null) // If has successor, it must be on queue
+        return true;
+
+    // 下面这个方法从阻塞队列的队尾开始从后往前遍历找，如果找到相等的，说明在阻塞队列，否则就是不在阻塞队列
+
+    // 可以通过判断 node.prev() != null 来推断出 node 在阻塞队列吗？答案是：不能。
+    // 这个可以看上面 AQS 中的入队方法，首先设置的是 node.prev 指向 tail，
+    // 然后是 CAS 操作将自己设置为新的 tail，可是这次的 CAS 是可能失败的。
+
+    /*
+     * node.prev can be non-null, but not yet on queue because
+     * the CAS to place it on queue can fail. So we have to
+     * traverse from tail to make sure it actually made it.  It
+     * will always be near the tail in calls to this method, and
+     * unless the CAS failed (which is unlikely), it will be
+     * there, so we hardly ever traverse much.
+     */
+    return findNodeFromTail(node);
+}
+```
+
+### AQS-findNodeFromTail
+
+```java
+/**
+ *
+ * 从阻塞队列的队尾往前遍历，如果找到，返回 true
+ *
+ * Returns true if node is on sync queue by searching backwards from tail.
+ * Called only when needed by isOnSyncQueue.
+ * @return true if present
+ */
+private boolean findNodeFromTail(Node node) {
+    Node t = tail;
+    for (;;) {
+        if (t == node)
+            return true;
+        if (t == null)
+            return false;
+        t = t.prev;
+    }
+}
+```
+
+回到小节：等待进入阻塞队列中的while循环，isOnSyncQueue(node) 返回 false 的话，那么进到 LockSupport.park(this); 这里线程挂起。
 
 
 
