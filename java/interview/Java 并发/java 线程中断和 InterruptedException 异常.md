@@ -46,7 +46,7 @@ while (!Thread.interrupted()) {
 来自 Thread 类的 join()、join(long)、join(long, int)、sleep(long)、sleep(long, int) 
 这几个方法的相同之处是，方法上都有: throws InterruptedException
  
-如果线程阻塞在这些方法上（我们知道，这些方法会让当前线程阻塞），这个时候如果其他线程对这个线程进行了中断，那么这个线程会从这些方法中立即返回，抛出 InterruptedException 异常，同时重置中断状态为 false。
+> 如果线程阻塞在这些方法上（我们知道，这些方法会让当前线程阻塞），这个时候如果其他线程对这个线程进行了中断，那么这个线程会从这些方法中立即返回，抛出 InterruptedException 异常，同时重置中断状态为 false。
  
 2.  实现了 InterruptibleChannel 接口的类中的一些 I/O 阻塞操作，如 DatagramChannel 中的 connect 方法和 receive 方法等 
 如果线程阻塞在这里，中断线程会导致这些方法抛出 ClosedByInterruptException 并重置中断状态。
@@ -115,7 +115,13 @@ public final void acquire(int arg) {
 在并发包中，有非常多的这种处理中断的例子，提供两个方法，分别为响应中断和不响应中断，对于不响应中断的方法，记录中断而不是丢失这个信息。如 Condition 中的两个方法就是这样的：
 
 ```java
+// 响应中断
+// await() 方法是响应中断的。当线程在调用 await() 方法时，如果其他线程对其执行了中断操作，await() 会触发 InterruptedException 来响应这个中断。
 void await() throws InterruptedException;
+
+// 不响应中断
+// awaitUninterruptibly() 方法不会对中断做出响应。即使线程在调用 awaitUninterruptibly() 方法期间被中断，
+// 它也会继续等待，直到被信号唤醒或者等待达到某种条件。在这个过程中，它不会抛出 InterruptedException，并且不会清除线程的中断状态。
 void awaitUninterruptibly();
 ```
 
