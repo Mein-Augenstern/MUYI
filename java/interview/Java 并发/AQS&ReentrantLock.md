@@ -846,8 +846,8 @@ private void unparkSuccessor(Node node) {
         compareAndSetWaitStatus(node, ws, 0);
 
 
-        // 下面的代码就是唤醒后继节点，但是有可能后继节点取消了等待（waitStatus==1）
-        // 从队尾往前找，找到 waitStatus <= 0 的所有节点中排在最前面的
+     // 下面的代码就是唤醒后继节点，但是有可能后继节点取消了等待（waitStatus==1）
+     // 从队尾往前找，找到 waitStatus <= 0 的所有节点中排在最前面的
     /*
      * Thread to unpark is held in successor, which is normally
      * just the next node.  But if cancelled or apparently null,
