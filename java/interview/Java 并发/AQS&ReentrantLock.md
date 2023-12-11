@@ -266,12 +266,13 @@ static final class Node {
     /** Marker to indicate a node is waiting in exclusive mode */
     static final Node EXCLUSIVE = null;
 
-    /** waitStatus 的值表示线程已取消。 */
     // 在AQS（AbstractQueuedSynchronizer）中，static final int CANCELLED = 1; 表示一个常量值，用于指示一个节点的等待状态（waitStatus）已经被取消。
-        //在AQS的上下文中，节点通常代表一个正在等待获取锁或者条件的线程。
+    // 在AQS的上下文中，节点通常代表一个正在等待获取锁或者条件的线程。
     // 当一个线程在同步队列中等待时，由于某些原因（比如超时或者中断），它可能决定不再等待资源的分配，此时它会被赋予一个“已取消”（CANCELLED）的状态。用于标示这个状态的整数值就是1。
     // 这个值用来告诉AQS和与之相关的同步组件，这个特定的节点不应该再被考虑为正常等待资源的线程，应该从同步队列中移除。
     // 这对于资源的管理和线程的调度很重要，确保系统能够正确响应线程的取消操作，并保持同步队列的秩序和性能。
+
+    /** waitStatus 的值表示线程已取消。 */
     /** waitStatus value to indicate thread has cancelled */
     static final int CANCELLED =  1;
 
@@ -326,7 +327,7 @@ static final class Node {
      */
     // 状态字段，只取以下值：
     // SIGNAL: 表示此节点的后继节点正在被阻塞（通过park），或将很快被阻塞，因此当前节点在释放或取消时必须唤醒其后继节点。
-         // 为了避免竞争，获取方法必须首先表明它们需要一个信号，然后重试原子性获取，如果失败，再进行阻塞。
+    // 为了避免竞争，获取方法必须首先表明它们需要一个信号，然后重试原子性获取，如果失败，再进行阻塞。
     // CANCELLED: 由于超时或中断，此节点已被取消。节点一旦处于此状态便永远不会离开。特别地，拥有已取消节点的线程将不再被阻塞。
     // CONDITION: 此节点当前位于条件队列中。在被转移之前，它不会作为同步队列节点使用，转移时状态将被设置为0。（此处使用此值与字段的其他用途无关，但简化了操作机制。）
     // PROPAGATE: 释放共享锁的操作应当被传播到其他节点。这一设置（仅针对头节点）是在doReleaseShared中进行的，以确保即使后面有其他操作介入，传播依然可以继续。
@@ -431,6 +432,10 @@ static final class Node {
 }
 ```
 
+注意：
+
+**头节点永远不会被取消：一个节点只有在成功获取资源后才成为头节点。被取消的线程永远不会成功获取资源，而且一个线程只会取消自己，不会取消任何其他节点。**
+
 ## 强锁过程分析
 
 ### AQS-acquire
@@ -477,7 +482,7 @@ static final class FairSync extends Sync {
     }
 
     // 公平版本的 tryAcquire。
-    // 在AQS类中的 方法：public final void acquire(int arg) 执行时，若下面的方法返回true时，则AQS中acquire方法就直接结束了
+    // 在AQS类中的 方法：public final void acquire(int arg) 执行时，若下面的方法返回true时，则AQS中acquire方法就直接结束了，就意味着当前线程已经抢锁成功
     // 若下面的方法返回false时，则AQS中的acquire方法会继续执行acquireQueued方法，将当前线程压入到队列中。
     /**
      * 公平版本的尝试获取资源。除非是递归调用、没有等待者或者是第一个请求者，否则不授予访问权限。
@@ -498,11 +503,12 @@ static final class FairSync extends Sync {
                 // CAS抢占更新state资源标记位
                 // 如果下面的CAS失败了，则说明并发强锁失败了
                 compareAndSetState(0, acquires)
-                ) {
-                // 强锁成功，将当前线程设置到资源持有的标记位上
-                setExclusiveOwnerThread(current);
-                return true;
-            }
+                )
+                        {
+                                // 强锁成功，将当前线程设置到资源持有的标记位上
+                                setExclusiveOwnerThread(current);
+                                return true;
+                        }
         }
 
         // 此分支意味着当前线程锁重入了
