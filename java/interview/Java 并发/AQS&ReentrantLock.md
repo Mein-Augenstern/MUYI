@@ -721,6 +721,24 @@ private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
 }
 ```
 
+### AQS-parkAndCheckInterrupt
+
+```java
+/**
+ * Convenience method to park and then check if interrupted
+ *
+ * @return {@code true} if interrupted
+ */
+private final boolean parkAndCheckInterrupt() {
+    // 挂起当前线程，线程会阻塞在这里，直到被唤醒或中断或虚假唤醒
+    LockSupport.park(this);
+
+    // 返回线程是否被中断并清理中断标识
+    // 再次说明下面的方法使用场景，比如：当你可能要被大量中断并且你想确保只处理一次中断时，就可以使用这个方法了
+    return Thread.interrupted();
+}
+```
+
 ## 解锁过程分析
 
 ### ReentrantLock-unlock
