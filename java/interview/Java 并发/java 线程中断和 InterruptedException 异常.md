@@ -21,11 +21,32 @@ public boolean isInterrupted() {}
 // Thread 中的静态方法，检测调用这个方法的线程是否已经中断
 // 注意：这个方法返回中断状态的同时，会将此线程的中断状态重置为 false
 // 所以，如果我们连续调用两次这个方法的话，第二次的返回值肯定就是 false 了
+// 当你可能要被大量中断并且你想确保只处理一次中断时，就可以使用这个方法了
 public static boolean interrupted() {}
 
 // Thread 类中的实例方法，用于设置一个线程的中断状态为 true
 public void interrupt() {}
 ```
+
+关于上面三个方法，还可以再看下文章：https://segmentfault.com/a/1190000022691446 介绍。
+
+```java
+public static void main(String[] args) {
+    System.out.println("start");
+    Thread.currentThread().interrupt();
+    System.out.println(Thread.interrupted());
+    System.out.println(Thread.currentThread().isInterrupted());
+    System.out.println("end");
+}
+```
+输出结果
+```java
+start
+true
+false
+end
+```
+
 
 我们说中断一个线程，其实就是设置了线程的 interrupted status 为 true，至于说被中断的线程怎么处理这个状态，那是那个线程自己的事。如以下代码：
 
@@ -136,3 +157,67 @@ public final void await() throws InterruptedException {
 ```
 
 熟练使用中断，对于我们写出优雅的代码是有帮助的，也有助于我们分析别人的源码。
+
+## 中断机制的使用场景
+
+通常，中断的使用场景有以下几个
+
+- 点击某个桌面应用中的关闭按钮时（比如你关闭 IDEA，不保存数据直接中断好吗？）；
+- 某个操作超过了一定的执行时间限制需要中止时；
+- 多个线程做相同的事情，只要一个线程成功其它线程都可以取消时；
+- 一组线程中的一个或多个出现错误导致整组都无法继续时；
+
+因为中断是一种协同机制，提供了更优雅中断方式，也提供了更多的灵活性，所以当遇到如上场景等，我们就可以考虑使用中断机制了。
+
+## 使用中断机制有哪些注意事项
+
+其实使用中断机制无非就是注意上面说的两项内容：
+
+原则一：（中断标识）如果遇到的是可中断的阻塞方法, 并抛出 InterruptedException，可以继续向方法调用栈的上层抛出该异常；如果检测到中断，则可清除中断状态并抛出 InterruptedException，使当前方法也成为一个可中断的方法
+
+原则二：（InterruptedException）若有时候不太方便在方法上抛出 InterruptedException，比如要实现的某个接口中的方法签名上没有 throws InterruptedException，这时就可以捕获可中断方法的 InterruptedException 并通过 Thread.currentThread.interrupt() 来重新设置中断状态。
+
+再通过个例子来加深一下理解：本意是当前线程被中断之后，退出while(true), 你觉得代码有问题吗？（先不要向下看）
+
+```java
+Thread th = Thread.currentThread();
+while(true) {
+  if(th.isInterrupted()) {
+    break;
+  }
+  // 省略业务代码
+  try {
+    Thread.sleep(100);
+  }catch (InterruptedException e){
+    e.printStackTrace();
+  }
+}
+```
+
+打开 Thread.sleep 方法：
+
+![image](https://github.com/Mein-Augenstern/MUYI/assets/34135120/61734a8f-b938-4875-b2a5-f6ea9b7004f1)
+
+sleep 方法抛出 InterruptedException后，中断标识也被清空置为 false，我们在catch 没有通过调用 th.interrupt() 方法再次将中断标识置为 true，这就导致无限循环了
+
+这两个原则很好理解。总的来说，我们应该留意 InterruptedException，当我们捕获到该异常时，绝不可以默默的吞掉它，什么也不做，因为这会导致上层调用栈什么信息也获取不到。其实在编写程序时，捕获的任何受检异常我们都不应该吞掉。
+
+## JDK 中有哪些使用中断机制的地方呢？
+
+**ThreadPoolExecutor**
+
+ThreadPoolExecutor 中的 shutdownNow 方法会遍历线程池中的工作线程并调用线程的 interrupt 方法来中断线程
+
+![image](https://github.com/Mein-Augenstern/MUYI/assets/34135120/31f719fa-a3d4-436f-ab74-e002dd9468e3)
+
+![image](https://github.com/Mein-Augenstern/MUYI/assets/34135120/e694a1a1-3162-4f59-ad35-2cacae481ddf)
+
+**FutureTask**
+
+FutureTask 中的 cancel 方法，如果传入的参数为 true，它将会在正在运行异步任务的线程上调用 interrupt 方法，如果正在执行的异步任务中的代码没有对中断做出响应，那么 cancel 方法中的参数将不会起到什么效果
+
+![image](https://github.com/Mein-Augenstern/MUYI/assets/34135120/e2b5dd14-a37d-41d3-92c1-cb7059311262)
+
+
+
+
