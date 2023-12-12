@@ -1222,7 +1222,7 @@ private Node addConditionWaiter() {
     // node 在初始化的时候，指定 waitStatus 为 Node.CONDITION
     Node node = new Node(Thread.currentThread(), Node.CONDITION);
 
-    // t 此时是 lastWaiter，即t 代表着的是等待着，如果t==null，即意味着队列中没有等待着，也就是说队列为空。
+    // t 此时是 lastWaiter，如果t==null，即意味着队列中没有等待者，也就是说队列为空。
     if (t == null)
         firstWaiter = node;
     // 更新当前节点的下一集节点指针
