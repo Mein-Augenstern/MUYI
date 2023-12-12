@@ -120,6 +120,7 @@ public CountDownLatch(int count) {
 }
 // 老套路了，内部封装一个 Sync 类继承自 AQS
 private static final class Sync extends AbstractQueuedSynchronizer {
+    // 构造方法
     Sync(int count) {
         // 这样就 state == count 了
         setState(count);
