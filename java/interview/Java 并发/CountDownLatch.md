@@ -103,8 +103,84 @@ class Worker implements Runnable {
 如果始终只有一个线程调用 await 方法等待任务完成，那么 CountDownLatch 就会简单很多，所以之后的源码分析读者一定要在脑海中构建出这么一个场景：有 m 个线程是做任务的，有 n 个线程在某个栅栏上等待这 m 个线程做完任务，直到所有 m 个任务完成后，n 个线程同时通过栅栏。
 
 ```java
-代码示例待补充
-有 m 个线程是做任务的，有 n 个线程在某个栅栏上等待这 m 个线程做完任务，直到所有 m 个任务完成后，n 个线程同时通过栅栏。
+public class CountDownLatchMAndNDemo {
+
+    public static void main(String[] args) {
+        int            m     = 5; // 工作线程的数量
+        int            n     = 3; // 等待线程的数量
+        CountDownLatch latch = new CountDownLatch(m);
+
+        // 创建并启动 m 个工作线程
+        for (int i = 0; i < m; i++) {
+            new Thread(new Worker(latch), "工作线程 " + i).start();
+        }
+
+        // 创建并启动 n 个等待线程
+        for (int i = 0; i < n; i++) {
+            new Thread(new WaitingTask(latch), "等待线程 " + i).start();
+        }
+
+        System.out.println("主线程：所有线程已启动");
+    }
+
+    static class Worker implements Runnable {
+        private final CountDownLatch latch;
+
+        Worker(CountDownLatch latch) {
+            this.latch = latch;
+        }
+
+        @Override
+        public void run() {
+            try {
+                // 模拟工作任务
+                System.out.println(Thread.currentThread().getName() + " 正在执行任务");
+                Thread.sleep((long) (Math.random() * 1000));
+                System.out.println(Thread.currentThread().getName() + " 完成任务");
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            } finally {
+                latch.countDown(); // 完成任务后，调用countDown
+            }
+        }
+    }
+
+    static class WaitingTask implements Runnable {
+        private final CountDownLatch latch;
+
+        WaitingTask(CountDownLatch latch) {
+            this.latch = latch;
+        }
+
+        @Override
+        public void run() {
+            try {
+                latch.await(); // 等待所有工作线程完成任务
+                System.out.println(Thread.currentThread().getName() + " 通过栅栏");
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
+}
+```
+输出结果如下：
+```java
+工作线程 0 正在执行任务
+工作线程 2 正在执行任务
+工作线程 1 正在执行任务
+工作线程 4 正在执行任务
+工作线程 3 正在执行任务
+主线程：所有线程已启动
+工作线程 3 完成任务
+工作线程 0 完成任务
+工作线程 4 完成任务
+工作线程 2 完成任务
+工作线程 1 完成任务
+等待线程 0 通过栅栏
+等待线程 2 通过栅栏
+等待线程 1 通过栅栏
 ```
 
 ### 源码分析
