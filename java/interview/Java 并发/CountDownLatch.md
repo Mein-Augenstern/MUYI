@@ -388,8 +388,12 @@ public final boolean releaseShared(int arg) {
 protected boolean tryReleaseShared(int releases) {
     for (;;) {
         int c = getState();
+
+        // 这段代码本人理解是为了退出和健壮性考虑
+        // 即允许多次调用countDown()方法而不报错，但其实并不会有变化
         if (c == 0)
             return false;
+
         int nextc = c-1;
         if (compareAndSetState(c, nextc))
             return nextc == 0;
@@ -404,6 +408,7 @@ countDown 方法就是每次调用都将 state 值减 1，如果 state 减到 0 
 private void doReleaseShared() {
     for (;;) {
         Node h = head;
+
         if (h != null && h != tail) {
             int ws = h.waitStatus;
             // t3 入队的时候，已经将头节点的 waitStatus 设置为 Node.SIGNAL（-1） 了
@@ -471,6 +476,9 @@ private void setHeadAndPropagate(Node node, int propagate) {
 }
 ```
 又回到这个方法了，那么接下来，我们好好分析 doReleaseShared 这个方法，我们根据流程，头节点 head 此时是 t3 节点了：
+
+**可以先看下有哪些方法触发doReleaseShared，会发现触发doReleaseShared时state一定等于0**
+
 ```java
 // 调用这个方法的时候，state == 0
 private void doReleaseShared() {
