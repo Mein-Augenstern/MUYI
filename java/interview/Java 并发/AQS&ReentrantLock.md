@@ -1516,8 +1516,11 @@ while (!isOnSyncQueue(node)) {
 有以下三种情况会让 LockSupport.park(this); 这句返回继续往下执行：
 
 1、常规路径。signal -> 转移节点到阻塞队列 -> 获取了锁（unpark）
+
 2、线程中断。在 park 的时候，另外一个线程对这个线程进行了中断
+
 3、signal 的时候我们说过，转移以后的前驱节点取消了，或者对前驱节点的CAS操作失败了
+
 4、假唤醒。这个也是存在的，和 Object.wait() 类似，都有这个问题
 
 线程唤醒后第一步是调用 checkInterruptWhileWaiting(node) 这个方法，此方法用于判断是否在线程挂起期间发生了中断，如果发生了中断，是 signal 调用之前中断的，还是 signal 之后发生的中断。
@@ -1562,7 +1565,20 @@ final boolean transferAfterCancelledWait(Node node) {
 
 **这里再说一遍，即使发生了中断，节点依然会转移到阻塞队列。**
 
-到这里，大家应该都知道这个 while 循环怎么退出了吧。要么中断，要么转移成功。
+到这里，大家应该都知道这个 while 循环（
+
+```java
+int interruptMode = 0;
+while (!isOnSyncQueue(node)) {
+    // 线程挂起
+    LockSupport.park(this);
+    
+    if ((interruptMode = checkInterruptWhileWaiting(node)) != 0)
+        break;
+}
+```
+
+）怎么退出了吧。要么中断，要么转移成功。
 
 这里描绘了一个场景，本来有个线程，它是排在条件队列的后面的，但是因为它被中断了，那么它会被唤醒，然后它发现自己不是被 signal 的那个，但是它会自己主动去进入到阻塞队列。
 
