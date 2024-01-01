@@ -309,7 +309,6 @@ java 还提供了其他的一些同步机制，比如对 volatile 变量的读�
 
   注意，这些线程恢复后，只有一个线程可以锁住监视器。
 
-
 > 本小节结束，通知操作相对来说还是很简单的吧。
 
 #### 17.2.3 中断（Interruptions）
@@ -376,8 +375,6 @@ java 还提供了其他的一些同步机制，比如对 volatile 变量的读�
 > 答案：存在这种场景。因为这种场景是满足上述条件的，而且此时 x 的中断状态是 true。
 
 注意，如果一个线程同时被中断和通知唤醒，同时这个线程通过抛出 InterruptedException 异常从 wait 中返回，那么等待集合中的某个其他线程一定会被通知。
-
-
 
 > 下面我们通过 3 个例子简单分析下 **wait、notify、中断** 它们的组合使用。
 >
@@ -590,9 +587,7 @@ public class WaitNotify {
 线程1 wait方法抛出了InterruptedException异常
 ```
 
-> 上述输出不是绝对的，再次感谢 **xupeng.zhang**。
->
-> 有可能发生 线程1 是正常恢复的，虽然发生了中断，它的中断状态也确实是 true，但是它没有抛出 InterruptedException，而是正常返回。此时，thread2 将得不到唤醒，一直 wait。
+**上述输出不是绝对的，再次感谢 xupeng.zhang。有可能发生 线程1 是正常恢复的，虽然发生了中断，它的中断状态也确实是 true，但是它没有抛出 InterruptedException，而是正常返回。此时，thread2 将得不到唤醒，一直 wait。**
 
 ### 17.3. 休眠和礼让（Sleep and Yield）
 
