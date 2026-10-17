@@ -75,7 +75,7 @@ Leader对一致性的影响
 
 Raft 协议 强依赖 Leader 节点的 可用性，以确保集群 数据的一致性。数据的流向 只能从 Leader 节点向 Follower 节点转移。具体过程如下：
 
-![Raft-4](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/Raft-4.png)
+![Raft-4](/images/legacy/Raft-4.png)
 
 1.当 Client 向集群 Leader 节点 提交数据 后，Leader 节点 接收到的数据 处于 未提交状态（Uncommitted）。
 

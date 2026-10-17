@@ -47,7 +47,7 @@ TLAB是虚拟机在堆内存的eden划分出来的一块专用空间，是线程
 
 并且，在TLAB分配之后，并不影响对象的移动和回收，也就是说，虽然对象刚开始可能通过TLAB分配内存，存放在Eden区，但是还是会被垃圾回收或者被移到Survivor Space、Old Gen等。
 
-![30-24](https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/JVM/picture/30-24.png)
+![30-24](/images/legacy/30-24.png)
 
 还有一点需要注意的是，我们说TLAB是在eden区分配的，因为eden区域本身就不太大，而且TLAB空间的内存也非常小，默认情况下仅占有整个Eden空间的1%。所以，必然存在一些大对象是无法在TLAB直接分配。
 
