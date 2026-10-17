@@ -76,6 +76,6 @@ JDK1.8 的 HashMap 在链表长度大于阈值（默认 8）时将链表转化�
 
 HashMap 不保证顺序，也不保证顺序随时间不变。
 
-更多对比细节见库内 [HashMap 和 Hashtable 的区别](HashMap-和-Hashtable-的区别.md)。
+更多对比细节见库内 [HashMap 和 Hashtable 的区别](HashMap、Hashtable、LinkedHashMap和TreeMap特点说明.md)。
 
 > 内容来源：[原文](https://www.jianshu.com/p/c955491a3398) · 2026-10 整理回填。

@@ -40,7 +40,7 @@ public synchronized boolean add(E e) {
 
 * **锁粒度粗**：```get```/```size``` 这类读方法也同步，读多场景下所有读操作串行化，吞吐急剧下降。
 * **单线程也要付费**：无竞争的 synchronized 经过锁升级优化后开销不大，但终究多了一条获取监视器锁的路径，JIT 优化也更受限。
-* **复合操作照样不安全**：```if (list.size() > 0) list.remove(list.size() - 1)``` 这种"先检查再操作"在两个线程交替执行时依然会越界——方法级同步只保证**单个方法**原子，不保证**调用方逻辑**原子。这个经典反例在 [CopyOnWriteArrayList源码](../../Java集合/CopyOnWriteArrayList源码.md) 一篇里有完整展开。
+* **复合操作照样不安全**：```if (list.size() > 0) list.remove(list.size() - 1)``` 这种"先检查再操作"在两个线程交替执行时依然会越界——方法级同步只保证**单个方法**原子，不保证**调用方逻辑**原子。这个经典反例在 [CopyOnWriteArrayList源码](../Java集合/CopyOnWriteArrayList源码.md) 一篇里有完整展开。
 
 2、ArrayList 干脆不同步
 
@@ -67,7 +67,7 @@ Vector    : 10 -> 20 -> 40 -> 80 -> 160 -> 320 -> 640 ...（×2，扩容次数�
 
 * 增长越保守，**内存浪费越小**：多扩出来的空间是白白占用的堆内存，大列表场景下差距明显。
 * 增长越激进，**拷贝次数越少**：每次扩容都是 Arrays.copyOf 全量搬迁，O(n) 动作。
-* 两者都可在构造时预估容量或调用 ensureCapacity 预分配，彻底规避扩容，详见 [ArrayList扩容](../../Java集合/ArrayList扩容.md)。
+* 两者都可在构造时预估容量或调用 ensureCapacity 预分配，彻底规避扩容，详见 [ArrayList扩容](../Java集合/ArrayList扩容.md)。
 
 四、失败机制：fail-fast
 ====
@@ -91,6 +91,6 @@ Vector    : 10 -> 20 -> 40 -> 80 -> 160 -> 320 -> 640 ...（×2，扩容次数�
 
 所以"要线程安全"**不再是保留 Vector 的理由**：它对标的每个场景都有更好的替代，而翻倍扩容、方法级粗锁这两个历史包袱是永久的。面试话术总结"为什么用 ArrayList 取代 Vector"：单线程下省掉同步开销；真需要线程安全时也轮不到 Vector，而是 CopyOnWriteArrayList 等并发容器。
 
-延伸阅读：[ArrayList扩容](../../Java集合/ArrayList扩容.md)、[ArrayList源码注释](../../Java集合/ArrayList源码注释.md)、[CopyOnWriteArrayList源码](../../Java集合/CopyOnWriteArrayList源码.md)、[快速失败（fail—fast）和安全失败（fail—safe）](快速失败（fail—fast）和安全失败（fail—safe）.md)、[Arraylist 与 LinkedList 区别](Arraylist%20与%20LinkedList%20区别.md)。
+延伸阅读：[ArrayList扩容](../Java集合/ArrayList扩容.md)、[ArrayList源码注释](../Java集合/ArrayList源码注释.md)、[CopyOnWriteArrayList源码](../Java集合/CopyOnWriteArrayList源码.md)、[快速失败（fail—fast）和安全失败（fail—safe）](快速失败（fail—fast）和安全失败（fail—safe）.md)、[Arraylist 与 LinkedList 区别](Arraylist%20与%20LinkedList%20区别.md)。
 
 > 2026-10 扩充（原内容过薄）。
