@@ -17,7 +17,7 @@
 
 下图便是 Java 对象的创建过程，我建议最好是能默写出来，并且要掌握每一步在做什么。
 
-![Java对象创建过程](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/picture/java%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B.png)
+![Java对象创建过程](/images/legacy/java对象创建过程.png)
 
 **Step1:类加载检查**
 
@@ -183,7 +183,7 @@ System.out.println(str2==str3);//false
 
 再给大家一个图应该更容易理解，图片来源：https://www.journaldev.com/797/what-is-java-string-pool
 
-![String-Pool-Java](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/picture/String%E7%B1%BB%E5%92%8C%E5%B8%B8%E9%87%8F%E6%B1%A0.png)
+![String-Pool-Java](/images/legacy/String类和常量池.png)
 
 **String 类型的常量池比较特殊。它的主要使用方法有两种**：
 
@@ -375,7 +375,7 @@ i4=i5+i6   true
 
 * 空闲列表：如果 Java 堆中的内存并不是规整的，虚拟机就必须维护一个列表，记录上哪些内存块是可用的，在分配的时候从列表中找到一块足够大的空间划分给对象实例，并更新列表上的记录。
 
-![指针碰撞和空闲列表](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/%E6%8C%87%E9%92%88%E7%A2%B0%E6%92%9E%E5%92%8C%E7%A9%BA%E9%97%B2%E5%88%97%E8%A1%A8.png)
+![指针碰撞和空闲列表](/images/legacy/指针碰撞和空闲列表.png)
 
 选择哪种分配方式由 Java 堆是否规整决定。因此：
 
@@ -415,7 +415,7 @@ i4=i5+i6   true
 
 > 通过其他方式创建的对象此时不一定执行构造方法，比如克隆对象。
 
-![虚拟机创建对象-流程图](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1-%E6%B5%81%E7%A8%8B%E5%9B%BE.png)
+![虚拟机创建对象-流程图](/images/legacy/虚拟机创建对象-流程图.png)
 
 ## 三、 对象的内存布局
 
@@ -499,7 +499,7 @@ synchronized (obj) {
 
 开启指针压缩，最终执行效果如下：
 
-![对象头信息打印](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/%E5%AF%B9%E8%B1%A1%E5%A4%B4%E4%BF%A1%E6%81%AF%E6%89%93%E5%8D%B0.jpeg)
+![对象头信息打印](/images/legacy/对象头信息打印.jpeg)
 
 ### 2. 实例数据
 
@@ -524,7 +524,7 @@ reference 类型在《Java 虚拟机规范》里面只规定了它是一个指�
 
 * 使用直接指针访问的话，Java 堆中对象的内存布局就必须考虑如何放置访问类型数据的相关信息，reference 中存储的直接就是对象地址，如果只是访问对象本身的话，就不需要多一次间接访问的开销，如下图所示。
 
-![对象访问方式](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/%E5%AF%B9%E8%B1%A1%E8%AE%BF%E9%97%AE%E6%96%B9%E5%BC%8F.jpeg)
+![对象访问方式](/images/legacy/对象访问方式.jpeg)
 
 访问方式比较：
 

@@ -35,7 +35,7 @@ Paxos 算法是 基于消息传递 且具有 高效容错特性 的一致性算�
 
 Paxos 算法主要就是解决如何在一个 发生如上故障 的分布式系统中，快速正确的在集群内 对某个值达成一致，并且保证 整个系统的一致性。
 
-![paxos-1](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/paxos-1.png)
+![paxos-1](/images/legacy/paxos-1.png)
 
 三、算法详解
 ------
@@ -54,7 +54,7 @@ Paxos 算法主要就是解决如何在一个 发生如上故障 的分布式系
 
 3、**Learner** : Acceptor 告诉 Learner 哪个提案被选定了，那么 Learner 就学习这个被选择的 value。
 
-![paxos-2](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/paxos-2.png)
+![paxos-2](/images/legacy/paxos-2.png)
 
 > 在具体的实现中，一个进程即可能是Proposer,也可能是Acceptor，也可能是Learner。
 
@@ -80,7 +80,7 @@ Paxos 算法的核心是 **一致性**。所以将从一致性问题的描述来
 
 <h4>3.3.1、只有一个Acceptor</h4>
 
-![paxos-3](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/paxos-3.png)
+![paxos-3](/images/legacy/paxos-3.png)
 
 一个 Acceptor 接受一个 P，那么只有一个 V 被选定。
 
@@ -88,7 +88,7 @@ Paxos 算法的核心是 **一致性**。所以将从一致性问题的描述来
 
 <h4>3.3.2、多个Acceptor</h4>
 
-![paxos-4](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/paxos-4.png)
+![paxos-4](/images/legacy/paxos-4.png)
 
 > 问题：如何在多 Proposer 和多 Acceptor 情况下，选定一个 value？
 
@@ -100,7 +100,7 @@ Paxos 算法的核心是 **一致性**。所以将从一致性问题的描述来
 
 如果每个 Proposer 会产生不同的 P，那么多个 Proposer 必定产生多个 P，发给多个 Acceptor。根据 约定 P1，Acceptor 分别接受到 P，就会导致不同的 V 被选定，如下图所示：
 
-![paxos-5](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/paxos-5.png)
+![paxos-5](/images/legacy/paxos-5.png)
 
 如上图所示，P1 会产生的问题: v1、v2、v3 都没有被选定，因为他们只有被一个 Acceptor 接受。
 
@@ -124,7 +124,7 @@ Paxos 算法的核心是 **一致性**。所以将从一致性问题的描述来
 
 只要满足 P2a，就能满足 P2。多提案被选择 的问题解决了，但是由于 网络不稳定 或者 宕机 的原因（不可避免），会产生新问题：
 
-![paxos-6](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/paxos-6.png)
+![paxos-6](/images/legacy/paxos-6.png)
 
 假设有 5 个 Acceptor。Proposer2 提出 [M1,V1]的提案，Acceptor2~5（半数以上）均接受了该提案，于是对于 Acceptor2~5 和 Proposer2 来讲，它们都认为 V1 被选定。Acceptor1 刚刚从 宕机状态 恢复过来（之前 Acceptor1 没有收到过任何提案），此时 Proposer1 向 Acceptor1 发送了 [M2,V2] 的提案 （V2≠V1且M2>M1）。对于 Acceptor1 来讲，这是它收到的 第一个提案。根据 P1（一个 Acceptor 必须接受它收到的 第一个提案），Acceptor1 必须接受该提案。同时 Acceptor1 认为 V2 被选定。
 
@@ -180,24 +180,24 @@ Acceptor 可以忽略任何请求（包括 Prepare 请求和 Accept 请求）而
 
 2.已响应的请求的最大编号。
 
-![paxos-7](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/paxos-7.png)
+![paxos-7](/images/legacy/paxos-7.png)
 
 四、Paxos算法描述
 ------
 
-![paxos-8](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/paxos-8.png)
+![paxos-8](/images/legacy/paxos-8.png)
 
 五、Learner学习提案
 ------
 
 Learner 学习（获取）被选定的 value 有如下三种方案:
 
-![paxos-9](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/paxos-9.png)
+![paxos-9](/images/legacy/paxos-9.png)
 
 六、如何保证Paxos算法的活性
 ------
 
-![paxos-10](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/paxos-10.png)
+![paxos-10](/images/legacy/paxos-10.png)
 
 小结
 ------

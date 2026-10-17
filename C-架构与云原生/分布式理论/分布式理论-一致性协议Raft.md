@@ -91,7 +91,7 @@ Raft 协议 强依赖 Leader 节点的 可用性，以确保集群 数据的一�
 
 > 数据到达 Leader 节点前，这个阶段 Leader 挂掉不影响一致性，不用多说。
 
-![Raft-5](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/Raft-5.png)
+![Raft-5](/images/legacy/Raft-5.png)
 
 <h3>情形2</h3>
 
@@ -99,7 +99,7 @@ Raft 协议 强依赖 Leader 节点的 可用性，以确保集群 数据的一�
 
 这个阶段 Leader 挂掉，数据属于 未提交状态，Client 不会收到 Ack 会认为 超时失败 可安全发起 重试。
 
-![Raft-6](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/Raft-6.png)
+![Raft-6](/images/legacy/Raft-6.png)
 
 <h3>情形3</h3>
 
@@ -107,7 +107,7 @@ Raft 协议 强依赖 Leader 节点的 可用性，以确保集群 数据的一�
 
 这个阶段 Leader 挂掉，虽然数据在 Follower 节点处于 未提交状态（Uncommitted），但是 保持一致 的。重新选出 Leader 后可完成 数据提交。
 
-![Raft-7](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/Raft-7.png)
+![Raft-7](/images/legacy/Raft-7.png)
 
 此时 Client 由于不知到底提交成功没有，可重试提交。针对这种情况 Raft 要求 RPC 请求实现 幂等性，也就是要实现 内部去重机制。
 
@@ -117,7 +117,7 @@ Raft 协议 强依赖 Leader 节点的 可用性，以确保集群 数据的一�
 
 这个阶段 Leader 挂掉，数据在 Follower 节点处于 未提交状态（Uncommitted）且 不一致。
 
-![Raft-8](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/Raft-8.png)
+![Raft-8](/images/legacy/Raft-8.png)
 
 Raft 协议要求投票只能投给拥有 最新数据 的节点。所以拥有最新数据的节点会被选为 Leader，然后再 强制同步数据 到其他 Follower，保证 数据不会丢失并 最终一致。
 
@@ -127,7 +127,7 @@ Raft 协议要求投票只能投给拥有 最新数据 的节点。所以拥有�
 
 这个阶段 Leader 挂掉，重新选出 新的 Leader 后的处理流程和阶段 3 一样。
 
-![Raft-9](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/Raft-9.png)
+![Raft-9](/images/legacy/Raft-9.png)
 
 <h3>情形6</h3>
 
@@ -135,7 +135,7 @@ Raft 协议要求投票只能投给拥有 最新数据 的节点。所以拥有�
 
 这个阶段 Leader 挂掉，集群内部数据其实已经是 一致的，Client 重复重试基于幂等策略对 一致性无影响。
 
-![Raft-10](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/Raft-10.png)
+![Raft-10](/images/legacy/Raft-10.png)
 
 <h3>情形7</h3>
 

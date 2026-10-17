@@ -155,12 +155,12 @@ ThreadLocalMap getMap(Thread t) {
 
 ```ThreadLocalMap```是```ThreadLocal```的静态内部类。
 
-![ThreadLocalMap和ThreadLocal的UML图](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/picture/ThreadLocalMap%E5%92%8CThreadLocal%E7%9A%84UML%E5%9B%BE.png)
+![ThreadLocalMap和ThreadLocal的UML图](/images/legacy/ThreadLocalMap和ThreadLocal的UML图.png)
 
 首先来看看为什么ThreadLocal会产生内存泄漏
 ====
 
-![ThreadLocal](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/picture/ThreadLocal.png)
+![ThreadLocal](/images/legacy/ThreadLocal.png)
 
 ```ThreadLocal```的实现是这样的：每个```Thread``` 维护一个 ```ThreadLocalMap``` 映射表，这个映射表的 ```key``` 是 ```ThreadLocal```实例本身，```value``` 是真正需要存储的 ```Object```。 
 

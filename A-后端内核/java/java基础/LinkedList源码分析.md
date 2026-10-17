@@ -12,7 +12,7 @@ List list=Collections.synchronizedList(new LinkedList(...));
 
 **如下图所示：**  
 
-![LinkedList内部结构](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/LinkedList%E5%86%85%E9%83%A8%E7%BB%93%E6%9E%84.jpeg)
+![LinkedList内部结构](/images/legacy/LinkedList内部结构.jpeg)
 
 看完了图之后，我们再看LinkedList类中的一个**内部私有类Node**就很好理解了：
 

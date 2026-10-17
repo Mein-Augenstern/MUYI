@@ -86,14 +86,14 @@ Java 类库提供了相应的类来解决这些难题，这些类就位于 java.
 
 Java IO 是面向流的 I/O，这意味着我们需要从流中读取一个或多个字节。它使用流来在数据源/槽和 Java 程序之间传输数据。使用此方法的 I/O 操作较慢。下面来看看在 Java 程序中使用输入/输出流的数据流图 (注意：图中输入/输出均以 Java Program 为参照物)：
 
-![Java-IO-stream示意图](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/Java-IO-stream%E7%A4%BA%E6%84%8F%E5%9B%BE.png)
+![Java-IO-stream示意图](/images/legacy/Java-IO-stream示意图.png)
 
 2.2 Buffer
 ------
 
 Buffer 是一个对象，它包含一些要写入或读出的数据。在 NIO 中，数据是放入 Buffer 对象的，而在 IO 中，数据是直接写入或者读到 Stream 对象的。应用程序不能直接对 Channel 进行读写操作，而必须通过 Buffer 来进行，即 Channel 是通过 Buffer 来读写数据的，如下示意图。
 
-![Java-NIO-Buffer示意图](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/Java-NIO-Buffer%E7%A4%BA%E6%84%8F%E5%9B%BE.png)
+![Java-NIO-Buffer示意图](/images/legacy/Java-NIO-Buffer示意图.png)
 
 在 NIO 中，所有的数据都是用 Buffer 处理的，它是 NIO 读写数据的中转池。Buffer 实质上是一个数组，通常是一个字节数据，但也可以是其他类型的数组。**但一个缓冲区不仅仅是一个数组，重要的是它提供了对数据的结构化访问，而且还可以跟踪系统的读写进程。**
 
@@ -171,7 +171,7 @@ public final Buffer flip() {
 }
 ```
 
-![Java-NIO-Buffer-读写模式](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/Java-NIO-Buffer-%E8%AF%BB%E5%86%99%E6%A8%A1%E5%BC%8F.jpeg)
+![Java-NIO-Buffer-读写模式](/images/legacy/Java-NIO-Buffer-读写模式.jpeg)
 
 2.4 Buffer 的选择
 ------
@@ -295,7 +295,7 @@ Selector 是一个对象，它可以接受多个 Channel 注册，监听各个 C
 
 下面这幅图展示了一个线程处理 3 个 Channel 的情况：
 
-![Java-NIO-一个线程处理三个Channel](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/Java-NIO-%E4%B8%80%E4%B8%AA%E7%BA%BF%E7%A8%8B%E5%A4%84%E7%90%86%E4%B8%89%E4%B8%AAChannel.png)
+![Java-NIO-一个线程处理三个Channel](/images/legacy/Java-NIO-一个线程处理三个Channel.png)
 
 4.2 Selector 使用
 ------

@@ -36,5 +36,5 @@ TPS：Transactions Per Second，意思是每秒事务数，一个事务是指一
 
 jmeter聚合报告中，Throughput是用来衡量请求的吞吐量，也就是tps
 
-![qps&tps](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/%E4%B8%93%E4%B8%9A%E6%9C%AF%E8%AF%AD/picture/qps%26tps.png)
+![qps&tps](/images/legacy/qps&tps.png)
 

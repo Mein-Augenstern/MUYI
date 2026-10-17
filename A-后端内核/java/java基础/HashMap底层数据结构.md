@@ -8,7 +8,7 @@
 Map接口UML图
 ====
 
-![Map接口UML图](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/Map%E6%8E%A5%E5%8F%A3UML%E5%9B%BE.png)
+![Map接口UML图](/images/legacy/Map接口UML图.png)
 
 
 HashMap 简介
@@ -66,12 +66,12 @@ static int hash(int h) {
 
 所谓 “拉链法” 就是：将链表和数组相结合。也就是说创建一个链表数组，数组中每一格就是一个链表。若遇到哈希冲突，则将冲突的值加到链表中即可。
 
-![](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/HashMap_1.png)
+![](/images/legacy/HashMap_1.png)
 
 **JDK1.8之后**
 
 相比于之前的版本，jdk1.8在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为8）时，将链表转化为红黑树，以减少搜索时间。
 
-![](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/HashMap_2.jpg)
+![](/images/legacy/HashMap_2.jpg)
 
 TreeMap、TreeSet以及JDK1.8之后的HashMap底层都用到了红黑树。红黑树就是为了解决二叉查找树的缺陷，因为二叉查找树在某些情况下会退化成一个线性结构。

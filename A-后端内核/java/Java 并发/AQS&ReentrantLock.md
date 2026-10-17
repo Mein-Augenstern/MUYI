@@ -26,7 +26,7 @@ AQS 是一个用来**构建锁和同步器的框架**，使用 AQS 能简单且�
 
 看个 AQS(AbstractQueuedSynchronizer)原理图：
 
-![AQS原理](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/AQS%E5%8E%9F%E7%90%86%E4%B8%80.png)
+![AQS原理](/images/legacy/AQS原理一.png)
 
 AQS 使用一个 int 成员变量来表示同步状态，通过内置的 FIFO 队列来完成获取资源线程的排队工作。AQS 使用 CAS 对该同步状态进行原子操作实现对其值的修改。
 

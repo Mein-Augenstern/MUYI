@@ -6,7 +6,7 @@
 一句话答案
 ====
 
-![计算机网络六](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C/picture/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%85%AD.jpg)
+![计算机网络六](/images/legacy/计算机网络六.jpg)
 
 UDP 在传送数据之前不需要先建立连接，远地主机在收到 UDP 报文后，不需要给出任何确认。虽然 UDP 不提供可靠交付，但在某些情况下 UDP 确是一种最有效的工作方式（一般用于即时通信），比如： QQ 语音、 QQ 视频 、直播等等
 

@@ -42,15 +42,15 @@ HTTP协议的长连接和短连接，实质上是TCP协议的长连接和短连�
 
 经典的三次握手建立连接示意图：
 
-![TCP连接一](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C/picture/TCP%E8%BF%9E%E6%8E%A5%E4%B8%80.jpg)
+![TCP连接一](/images/legacy/TCP连接一.jpg)
 
-![TCP连接二](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C/picture/TCP%E8%BF%9E%E6%8E%A5%E4%BA%8C.png)
+![TCP连接二](/images/legacy/TCP连接二.png)
 
 经典的四次握手关闭连接示意图：
 
-![TCP连接三](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C/picture/TCP%E8%BF%9E%E6%8E%A5%E4%B8%89.jpg)
+![TCP连接三](/images/legacy/TCP连接三.jpg)
 
-![TCP连接四](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C/picture/TCP%E8%BF%9E%E6%8E%A5%E5%9B%9B.jpg)
+![TCP连接四](/images/legacy/TCP连接四.jpg)
 
 <h3>3.2. TCP短连接</h3>
 
