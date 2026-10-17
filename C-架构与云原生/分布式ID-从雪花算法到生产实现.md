@@ -4,7 +4,7 @@
 看在前面
 ------
 
-库内已有两篇理论文：《雪花算法的原理和Java实现》（A-后端内核/java/数据库/）和《美团-Leaf——美团点评分布式ID生成系统》（同目录）。它们回答的是"雪花算法是什么、Leaf 怎么做"。这篇是**生产实践反哺**：star-site-backend 落地了一套分布式 ID 生产组件（雪花生成器 + 数据库 sequence 表分配机器位），把实战中真正踩到的问题——workerId 怎么分、时钟回拨怎么办、多服务怎么隔离、启动风暴怎么扛——回写进知识库。
+库内已有两篇理论文：《雪花算法的原理和Java实现》（A-后端内核/框架与中间件/数据库/）和《美团-Leaf——美团点评分布式ID生成系统》（同目录）。它们回答的是"雪花算法是什么、Leaf 怎么做"。这篇是**生产实践反哺**：star-site-backend 落地了一套分布式 ID 生产组件（雪花生成器 + 数据库 sequence 表分配机器位），把实战中真正踩到的问题——workerId 怎么分、时钟回拨怎么办、多服务怎么隔离、启动风暴怎么扛——回写进知识库。
 
 组件对应源码（阅读顺序即依赖顺序）：
 
@@ -351,7 +351,7 @@ Leaf 两条产品线（详见库内《美团-Leaf——美团点评分布式ID�
 参考
 ------
 
-* 库内：《雪花算法的原理和Java实现》（A-后端内核/java/数据库/）
-* 库内：《美团-Leaf——美团点评分布式ID生成系统》（A-后端内核/java/数据库/），原文 https://tech.meituan.com/2017/04/21/mt-leaf.html
+* 库内：《雪花算法的原理和Java实现》（A-后端内核/框架与中间件/数据库/）
+* 库内：《美团-Leaf——美团点评分布式ID生成系统》（A-后端内核/框架与中间件/数据库/），原文 https://tech.meituan.com/2017/04/21/mt-leaf.html
 * Flickr Ticket Servers（步长自增多机方案）: https://code.flickr.net/2010/02/08/ticket-servers-distributed-unique-primary-keys-on-the-cheap/
 * 源码：star-site-backend `star-site-common` 的 `common/util/IdGenerator.java`、`common/id/SequenceWorkerIdAllocator.java`、`common/log/StarSiteLogConfig.java`、`docker/mysql-init/22-sys-sequence.sql`
