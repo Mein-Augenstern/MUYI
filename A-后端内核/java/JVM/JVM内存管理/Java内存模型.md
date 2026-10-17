@@ -313,7 +313,7 @@ volatile 的禁止重排序并不局限于两个 volatile 的属性操作不能�
 x.finalField = v; ...; sharedRef = x;
 ```
 
-如果你还想查看更多的关于 final 的介绍，可以移步到我之前翻译的 Java 语言规范的 [final属性的语义](/post/Threads-And-Locks-md#17.5.%20final%20%E5%B1%9E%E6%80%A7%E7%9A%84%E8%AF%AD%E4%B9%89%EF%BC%88final%20Field%20Semantics%EF%BC%89) 部分。
+如果你还想查看更多的关于 final 的介绍，可以移步到我之前翻译的 Java 语言规范的 [final属性的语义](../../Java 并发/深入分析 java 8 编程语言规范：Threads and Locks.md) 部分。
 
 
 ## 小结
