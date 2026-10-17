@@ -15,7 +15,7 @@
 
 如果使用```Collections.synchronizedList(new ArrayList())```来使ArrayList变成是线程安全的话，也是几乎都是每个方法都加上synchronized关键字的，只不过**它不是加在方法的声明处，而是方法的内部**。
 
-![CopyOnWriteArrayList二](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/picture/CopyOnWriteArrayList%E4%BA%8C.PNG)
+![CopyOnWriteArrayList二](/images/legacy/CopyOnWriteArrayList二.PNG)
 
 1.2 Vector和SynchronizedList可能会出现的问题
 ------
@@ -84,7 +84,7 @@ public class UnsafeVectorHelpers {
 
 可以发现的是，有可能会抛出异常的：
 
-![CopyOnWriteArrayList三](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/picture/CopyOnWriteArrayList%E4%B8%89.PNG)
+![CopyOnWriteArrayList三](/images/legacy/CopyOnWriteArrayList三.PNG)
 
 * 线程A执行```getLast()```方法，线程B执行```deleteLast()```方法
 
@@ -156,7 +156,7 @@ public class UnsafeVectorHelpers {
 
 * 随后线程A执行```vector.get(i)```时，抛出异常
 
-![CopyOnWriteArrayList五](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/picture/CopyOnWriteArrayList%E4%BA%94.PNG)
+![CopyOnWriteArrayList五](/images/legacy/CopyOnWriteArrayList五.PNG)
 
 在JDK5以后，Java推荐使用```for-each```(迭代器)来遍历我们的集合，好处就是简洁、数组索引的边界值只计算一次。
 
@@ -166,7 +166,7 @@ public class UnsafeVectorHelpers {
 
 SynchronizedList在使用**迭代器遍历**的时候同样会有问题的，源码已经提醒我们要手动加锁了。
 
-![CopyOnWriteArrayList七](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/picture/CopyOnWriteArrayList%E4%B8%83.PNG)
+![CopyOnWriteArrayList七](/images/legacy/CopyOnWriteArrayList七.PNG)
 
 如果想要完美解决上面所讲的问题，我们可以在遍历前加锁：
 
@@ -213,9 +213,9 @@ SynchronizedList在使用**迭代器遍历**的时候同样会有问题的，源
 
 > 之前写博客的时候，如果是要看源码，一般会翻译一下源码的注释并用图贴在文章上的。Emmm，发现阅读体验并不是很好，所以我这里就直接概括一下源码注释说了什么吧。另外，如果使用IDEA的话，可以下一个插件Translation(免费好用).
 
-![CopyOnWriteArrayList八](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/picture/CopyOnWriteArrayList%E5%85%AB.PNG)
+![CopyOnWriteArrayList八](/images/legacy/CopyOnWriteArrayList八.PNG)
 
-![CopyOnWriteArrayList九](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/picture/CopyOnWriteArrayList%E4%B9%9D.png)
+![CopyOnWriteArrayList九](/images/legacy/CopyOnWriteArrayList九.png)
 
 概括一下CopyOnWriteArrayList源码注释介绍了什么：
 

@@ -34,7 +34,7 @@ JMX最常见的场景是监控Java程序的基本信息和运行情况，任何J
 
 一个典型的JMX架构图：
 
-![what_jmx_one](https://github.com/DemoTransfer/MUYI/blob/master/java/JMX/picture/WHAT_jmX_ONE.png)
+![what_jmx_one](/images/legacy/WHAT_jmX_ONE.png)
 
 **MBean**: 是Managed Bean的简称。在JMX中MBean代表一个被管理的资源实例，通过MBean中暴露的方法和属性，外界可以获取被管理的资源的状态和操纵MBean的行为。事实上，MBean就是一个Java Object，同JavaBean模型一样，外界使用自醒和反射来获取Object的值和调用Object的方法，只是MBean更为复杂和高级一些。
 
@@ -60,7 +60,7 @@ JMX Agent可以带有任意多个Adapter，因此可以使用多种不同的方�
 
 **Distributed 层**: Distributed层关心Agent如何被远端用户访问的细节。它定义了一系列用来访问Agent的接口和组件，包括Adapter和Connector的描述。
 
-![what_jmx_two](https://github.com/DemoTransfer/MUYI/blob/master/java/JMX/picture/WHAT_JMX_TWO.png)
+![what_jmx_two](/images/legacy/WHAT_JMX_TWO.png)
 
 1. 一个java进程里面可以有多个不同名字的mBeanServer ，每个mbs都是一个独立的容器，用了管理mbean
 

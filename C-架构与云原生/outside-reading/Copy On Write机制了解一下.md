@@ -120,7 +120,7 @@ exec函数的作用就是：**装载一个新的程序**（可执行映像）覆
 
 如果按**传统**的做法，会**直接**将父进程的数据拷贝到子进程中，拷贝完之后，父进程和子进程之间的数据段和堆栈是**相互独立的**。
 
-![cow二](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/picture/cow%E4%BA%8C.png)
+![cow二](/images/legacy/cow二.png)
 
 但是，以我们的使用经验来说：往往子进程都会执行exec()来做自己想要实现的功能。
 

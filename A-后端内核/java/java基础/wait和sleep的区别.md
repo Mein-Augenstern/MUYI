@@ -53,7 +53,7 @@ sleep vs wait
 线程的entry sets 和 wait sets
 ====
 
-![Entry and Wait Sets](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/Entry_and_Wait_Sets.gif)
+![Entry and Wait Sets](/images/legacy/Entry_and_Wait_Sets.gif)
 
 * 所有期待获得锁的线程，在锁已经被其它线程拥有的时候，这些期待获得锁的线程就进入了Object Lock的entry set区域。
 

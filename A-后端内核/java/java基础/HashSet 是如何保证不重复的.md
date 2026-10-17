@@ -34,7 +34,7 @@ Answer
 
 ```hashSet```底层是基于```hashMap```实现的，```hashSet```存储的元素对应```hashMap```的```key```，因为```hashMap```不能存储重复的```Key```，所以```hashSet```不能存放重复元素；由于```hashMap```的```key```是基于```hashCode```存储对象的，所以```hashSet```中存放的对象也是无序的；```hashSet```也没有提供```get```方法，可以通过```Iterator```迭代器获取数据。
 
-![HashSet源码方法](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/HashSet%E6%BA%90%E7%A0%81%E6%96%B9%E6%B3%95.PNG)
+![HashSet源码方法](/images/legacy/HashSet源码方法.PNG)
 
 
 核心成员变量

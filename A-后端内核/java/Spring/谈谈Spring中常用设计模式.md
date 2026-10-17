@@ -138,7 +138,7 @@ spring中在实例化对象的时候用到Strategy模式
 
 在SimpleInstantiationStrategy中有如下代码说明了策略模式的使用情况： 
 
-![Spring策略设计模式体现](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/Spring/picture/Spring%E7%AD%96%E7%95%A5%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.png)
+![Spring策略设计模式体现](/images/legacy/Spring策略设计模式.png)
 
 九、模板方法（Template Method）
 ====

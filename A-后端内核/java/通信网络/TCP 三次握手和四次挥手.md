@@ -10,11 +10,11 @@
 
 如下图所示，下面的两个机器人通过3次握手确定了对方能正确接收和发送消息(图片来源：《图解HTTP》)。
 
-![计算机网络三](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C/picture/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%89.png)
+![计算机网络三](/images/legacy/计算机网络三.png)
 
 简单示意图：
 
-![计算机网络四](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C/picture/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9B%9B.png)
+![计算机网络四](/images/legacy/计算机网络四.png)
 
 * 客户端–发送带有 SYN 标志的数据包–一次握手–服务端
 
@@ -47,7 +47,7 @@
 
 双方通信无误必须是两者互相发送信息都无误。传了 SYN，证明发送方到接收方的通道没有问题，但是接收方到发送方的通道还需要 ACK 信号来进行验证。
 
-![计算机网络五](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C/picture/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94.png)
+![计算机网络五](/images/legacy/计算机网络五.png)
 
 断开一个 TCP 连接则需要“四次挥手”：
 

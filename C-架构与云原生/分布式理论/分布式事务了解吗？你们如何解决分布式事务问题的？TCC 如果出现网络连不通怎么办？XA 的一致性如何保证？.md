@@ -40,7 +40,7 @@
 
 如果你要操作别人的服务的库，你必须是通过**调用别的服务的接口**来实现，绝对不允许交叉访问别人的数据库。
 
-![1](https://github.com/DemoTransfer/MUYI/blob/master/docs/分布式理论/picture/distributed-transaction-XA-1.jpa.png)
+![1](/images/legacy/distributed-transaction-XA-1.jpa.png)
 
 TCC 方案
 ------
@@ -59,7 +59,7 @@ TCC 的全称是： Try 、 Confirm 、 Cancel 。
 
 但是说实话，一般尽量别这么搞，自己手写回滚逻辑，或者是补偿逻辑，实在太恶心了，那个业务代码是很难维护的。
 
-![2](https://github.com/DemoTransfer/MUYI/blob/master/docs/分布式理论/picture/distributed-transaction-TCC-2.jpa.png)
+![2](/images/legacy/distributed-transaction-TCC-2.jpa.png)
 
 Saga 方案
 -------
@@ -70,7 +70,7 @@ Saga 方案
 
 业务流程中每个参与者都提交本地事务，若某一个参与者失败，则补偿前面已经成功的参与者。下图左侧是正常的事务流程，当执行到 T3 时发生了错误，则开始执行右边的事务补偿流程，反向执行 T3、T2、T1 的补偿服务 C3、C2、C1，将 T3、T2、T1 已经修改的数据补偿掉。
 
-![3](https://github.com/DemoTransfer/MUYI/blob/master/docs/分布式理论/picture/distributed-transaction-saga-3.jpa.png)
+![3](/images/legacy/distributed-transaction-saga-3.jpa.png)
 
 **使用场景**
 
@@ -114,7 +114,7 @@ Saga 方案
 
 这个方案说实话最大的问题就在于严重依赖于数据库的消息表来管理事务啥的，如果是高并发场景咋办呢？咋扩展呢？所以一般确实很少用。
 
-![4](https://github.com/DemoTransfer/MUYI/blob/master/docs/分布式理论/picture/distributed-transaction-local-message-table-4.jpa.png)
+![4](/images/legacy/distributed-transaction-local-message-table-4.jpa.png)
 
 可靠消息最终一致性方案
 ------
@@ -135,7 +135,7 @@ Saga 方案
 
 6、这个还是比较合适的，目前国内互联网公司大都是这么玩儿的，要不你就用 RocketMQ 支持的，要不你就自己基于类似 ActiveMQ？RabbitMQ？自己封装一套类似的逻辑出来，总之思路就是这样子的。
 
-![5](https://github.com/DemoTransfer/MUYI/blob/master/docs/分布式理论/picture/distributed-transaction-reliable-message-5.jpa.png)
+![5](/images/legacy/distributed-transaction-reliable-message-5.jpa.png)
 
 最大努力通知方案
 ------

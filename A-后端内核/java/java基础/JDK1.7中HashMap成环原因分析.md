@@ -159,7 +159,7 @@ void transfer(Entry[] newTable)
 
 * 接下来的三个步骤是Hash表 resize成4，然后所有的<key,value> 重新rehash的过程
 
-![正常的ReHash过程](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/HashMap%E7%9A%84ReHash%E8%BF%87%E7%A8%8B.jpg)
+![正常的ReHash过程](/images/legacy/HashMap的ReHash过程.jpg)
 
 并发下的Rehash
 ====
@@ -179,7 +179,7 @@ do {
 ```
 而我们的线程二执行完成了。于是我们有下面的这个样子。
 
-![HashMap并发下ReHash过程一](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/HashMap%E5%B9%B6%E5%8F%91%E4%B8%8B%E7%9A%84ReHash%E4%B8%80.jpg)
+![HashMap并发下ReHash过程一](/images/legacy/HashMap并发下的ReHash一.jpg)
 
 注意，**因为Thread1的 e 指向了key(3)，而next指向了key(7)，其在线程二rehash后，指向了线程二重组后的链表**。我们可以看到链表的顺序被反转后。
 
@@ -191,13 +191,13 @@ do {
 
 * **而下一次循环的next = e.next导致了next指向了key(3)**
 
-![HashMap并发下ReHash过程二](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/HashMap%E5%B9%B6%E5%8F%91%E4%B8%8B%E7%9A%84ReHash%E4%BA%8C.jpg)
+![HashMap并发下ReHash过程二](/images/legacy/HashMap并发下的ReHash二.jpg)
 
 **3）一切安好。**
 
 线程一接着工作。**把key(7)摘下来，放到newTable[i]的第一个，然后把e和next往下移。**
 
-![HashMap并发下ReHash过程三](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/HashMap%E5%B9%B6%E5%8F%91%E4%B8%8B%E7%9A%84ReHash%E4%B8%89.jpg)
+![HashMap并发下ReHash过程三](/images/legacy/HashMap并发下的ReHash三.jpg)
 
 **4）环形链接出现。**
 
@@ -205,7 +205,7 @@ do {
 
 **注意：此时的key(7).next 已经指向了key(3)， 环形链表就这样出现了。**
 
-![HashMap并发下ReHash过程四](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/HashMap%E5%B9%B6%E5%8F%91%E4%B8%8B%E7%9A%84ReHash%E5%9B%9B.jpg)
+![HashMap并发下ReHash过程四](/images/legacy/HashMap并发下的ReHash四.jpg)
 
 **于是，当我们的线程一调用到，HashTable.get(11)时，悲剧就出现了——Infinite Loop。**
 

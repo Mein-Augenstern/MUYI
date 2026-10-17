@@ -19,15 +19,15 @@ ConcurrentHashMap 和 Hashtable 的区别主要体现在实现线程安全的方
     
 **Hashtable**
 
-![Hashtable全表锁](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/Hashtable%E5%85%A8%E8%A1%A8%E9%94%81.png)
+![Hashtable全表锁](/images/legacy/Hashtable全表锁.png)
 
 **JDK1.7的ConcurrentHashMap**
 
-![ConcurrentHashMap分段锁](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/ConcurrentHashMap%E5%88%86%E6%AE%B5%E9%94%81.jpg)
+![ConcurrentHashMap分段锁](/images/legacy/ConcurrentHashMap分段锁.jpg)
 
 **JDK1.8的ConcurrentHashMap（TreeBin: 红黑二叉树节点 Node: 链表节点**
 
-![JDK1.8的ConcurrentHashMap](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/JDK1.8%E7%9A%84ConcurrentHashMap.jpg)
+![JDK1.8的ConcurrentHashMap](/images/legacy/JDK1.8的ConcurrentHashMap.jpg)
 
 HashMap在多线程环境下存在线程安全问题，那你一般都是怎么处理这种情况的？
 ------

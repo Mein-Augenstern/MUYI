@@ -3,7 +3,7 @@ ConcurrentHashMap线程安全的具体实现方式、底层具体实现
 
 **JDK1.7的ConcurrentHashMap**
 
-![ConcurrentHashMap分段锁](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/ConcurrentHashMap%E5%88%86%E6%AE%B5%E9%94%81.jpg)
+![ConcurrentHashMap分段锁](/images/legacy/ConcurrentHashMap分段锁.jpg)
 
 首先将数据分为一段一段的存储，然后给每一段数据配一把锁，当一个线程占用锁访问其中一个段数据时，其他段的数据也能被其他线程访问。
 
@@ -20,7 +20,7 @@ static class Segment<K,V> extends ReentrantLock implements Serializable {
 
 **JDK1.8的ConcurrentHashMap（TreeBin: 红黑二叉树节点 Node: 链表节点**
 
-![JDK1.8的ConcurrentHashMap](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/JDK1.8%E7%9A%84ConcurrentHashMap.jpg)
+![JDK1.8的ConcurrentHashMap](/images/legacy/JDK1.8的ConcurrentHashMap.jpg)
 
 ConcurrentHashMap取消了Segment分段锁，采用CAS和synchronized来保证并发安全。数据结构跟HashMap1.8的结构类似，数组+链表/红黑二叉树。Java 8在链表长度超过一定阈值（8）时将链表（寻址时间复杂度为O(N)）转换为红黑树（寻址时间复杂度为O(log(N))）
 

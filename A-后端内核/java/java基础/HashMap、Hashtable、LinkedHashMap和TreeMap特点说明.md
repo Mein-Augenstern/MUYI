@@ -1,6 +1,6 @@
 ```Java```为数据结构中的映射定义了一个接口```java.util.Map```，此接口主要有四个常用的实现类，分别是```HashMap```、```Hashtable```、```LinkedHashMap```和```TreeMap```，类继承关系如下图所示：
 
-![Map接口UML图](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/Map%E6%8E%A5%E5%8F%A3UML%E5%9B%BE.png)
+![Map接口UML图](/images/legacy/Map接口UML图.png)
 
 下面针对各个实现类的特点做一些说明：
 

@@ -56,7 +56,7 @@ Pooling is the grouping together of resources (assets, equipment, personnel, eff
 
 Java中的线程池核心实现类是ThreadPoolExecutor，本章基于JDK 1.8的源码来分析Java线程池的核心设计与实现。我们首先来看一下ThreadPoolExecutor的UML类图，了解下ThreadPoolExecutor的继承关系。
 
-![meituan-thread-pool-1](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-1.png)
+![meituan-thread-pool-1](/images/legacy/meituan-thread-pool-1.png)
 
 ThreadPoolExecutor实现的顶层接口是Executor，顶层接口Executor提供了一种思想：将任务提交和任务执行进行解耦。用户无需关注如何创建线程，如何调度线程来执行任务，用户只需提供Runnable对象，将任务的运行逻辑提交到执行器(Executor)中，由Executor框架完成线程的调配和任务的执行部分。
 
@@ -67,7 +67,7 @@ ExecutorService接口增加了一些能力：
 
 ThreadPoolExecutor是如何运行，如何同时维护线程和执行任务的呢？其运行机制如下图所示：
 
-![meituan-thread-pool-2](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-2.png)
+![meituan-thread-pool-2](/images/legacy/meituan-thread-pool-2.png)
 
 线程池在内部实际上构建了一个生产者消费者模型，将线程和任务两者解耦，并不直接关联，从而良好的缓冲任务，复用线程。线程池的运行主要分成两部分：任务管理、线程管理。任务管理部分充当生产者的角色，当任务提交后，线程池会判断该任务后续的流转：
 
@@ -101,11 +101,11 @@ private static int ctlOf(int rs, int wc) { return rs | wc; }   //通过状态和
 
 ThreadPoolExecutor的运行状态有5种，分别为：
 
-![meituan-thread-pool-3](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-3.png)
+![meituan-thread-pool-3](/images/legacy/meituan-thread-pool-3.png)
 
 其生命周期转换如下入所示：
 
-![meituan-thread-pool-4](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-4.png)
+![meituan-thread-pool-4](/images/legacy/meituan-thread-pool-4.png)
 
 2.3 任务执行机制
 ------
@@ -184,7 +184,7 @@ Worker这个工作线程，实现了Runnable接口，并持有一个线程thread
 
 Worker执行任务的模型如下图所示：
 
-![meituan-thread-pool-10](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-10.png)
+![meituan-thread-pool-10](/images/legacy/meituan-thread-pool-10.png)
 
 线程池需要管理线程的生命周期，需要在线程长时间不运行的时候进行回收。线程池使用一张Hash表去持有线程的引用，这样可以通过添加引用、移除引用这样的操作来控制线程的生命周期。这个时候重要的就是如何判断线程是否在运行。
 
@@ -197,13 +197,13 @@ Worker是通过继承AQS，使用AQS来实现独占锁这个功能。没有使�
 
 在线程回收过程中就使用到了这种特性，回收过程如下图所示：
 
-![meituan-thread-pool-11](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-11.png)
+![meituan-thread-pool-11](/images/legacy/meituan-thread-pool-11.png)
 
 **2.4.2 Worker线程增加**
 
 增加线程是通过线程池中的addWorker方法，该方法的功能就是增加一个线程，该方法不考虑线程池是在哪个阶段增加的该线程，这个分配线程的策略是在上个步骤完成的，该步骤仅仅完成增加线程，并使它运行，最后返回是否成功这个结果。addWorker方法有两个参数：firstTask、core。firstTask参数用于指定新增的线程执行的第一个任务，该参数可以为空；core参数为true表示在新增线程时会判断当前活动线程数是否少于corePoolSize，false表示新增线程前需要判断当前活动线程数是否少于maximumPoolSize，其执行流程如下图所示：
 
-![meituan-thread-pool-12](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-12.png)
+![meituan-thread-pool-12](/images/legacy/meituan-thread-pool-12.png)
 
 **2.4.3 Worker线程回收**
 
@@ -221,7 +221,7 @@ try {
 
 线程回收的工作是在processWorkerExit方法完成的。
 
-![meituan-thread-pool-13](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-13.png)
+![meituan-thread-pool-13](/images/legacy/meituan-thread-pool-13.png)
 
 事实上，在这个方法中，将线程引用移出线程池就已经结束了线程销毁的部分。但由于引起线程销毁的可能性有很多，线程池还要判断是什么引发了这次销毁，是否要改变线程池的现阶段状态，是否要根据新状态，重新分配线程。
 
@@ -237,7 +237,7 @@ try {
 
 执行流程如下图所示：
 
-![meituan-thread-pool-14](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-14.png)
+![meituan-thread-pool-14](/images/legacy/meituan-thread-pool-14.png)
 
 三、线程池在业务中的实践
 ====
@@ -253,7 +253,7 @@ try {
 
 **分析**：从用户体验角度看，这个结果响应的越快越好，如果一个页面半天都刷不出，用户可能就放弃查看这个商品了。而面向用户的功能聚合通常非常复杂，伴随着调用与调用之间的级联、多级级联等情况，业务开发同学往往会选择使用线程池这种简单的方式，将调用封装成任务并行的执行，缩短总体响应时间。另外，使用线程池也是有考量的，这种场景最重要的就是获取最大的响应速度去满足用户，所以应该不设置队列去缓冲并发任务，调高corePoolSize和maxPoolSize去尽可能创造多的线程快速执行任务。
 
-![meituan-thread-pool-15](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-15.png)
+![meituan-thread-pool-15](/images/legacy/meituan-thread-pool-15.png)
 
 **场景2：快速处理批量任务**
 
@@ -261,7 +261,7 @@ try {
 
 **分析**：这种场景需要执行大量的任务，我们也会希望任务执行的越快越好。这种情况下，也应该使用多线程策略，并行计算。但与响应速度优先的场景区别在于，这类场景任务量巨大，并不需要瞬时的完成，而是关注如何使用有限的资源，尽可能在单位时间内处理更多的任务，也就是吞吐量优先的问题。所以应该设置队列去缓冲并发任务，调整合适的corePoolSize去设置处理任务的线程数。在这里，设置的线程数过多可能还会引发线程上下文切换频繁的问题，也会降低处理任务的速度，降低吞吐量。
 
-![meituan-thread-pool-16](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-16.png)
+![meituan-thread-pool-16](/images/legacy/meituan-thread-pool-16.png)
 
 3.2 实际问题及方案思考
 ------
@@ -276,7 +276,7 @@ try {
 
 **事故原因**：该服务展示接口内部逻辑使用线程池做并行计算，由于没有预估好调用的流量，导致最大核心数设置偏小，大量抛出RejectedExecutionException，触发接口降级条件，示意图如下：
 
-![meituan-thread-pool-17](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-17.png)
+![meituan-thread-pool-17](/images/legacy/meituan-thread-pool-17.png)
 
 **Case2**：2018年XX业务服务不可用S2级故障
 
@@ -284,7 +284,7 @@ try {
 
 **事故原因**：该服务处理请求内部逻辑使用线程池做资源隔离，由于队列设置过长，最大线程数设置失效，导致请求数量增加时，大量任务堆积在队列中，任务执行时间过长，最终导致下游服务的大量调用超时失败。示意图如下：
 
-![meituan-thread-pool-18](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-18.png)
+![meituan-thread-pool-18](/images/legacy/meituan-thread-pool-18.png)
 
 业务中要使用线程池，而使用不当又会导致故障，那么我们怎样才能更好地使用线程池呢？针对这个问题，我们下面延展几个方向：
 
@@ -292,7 +292,7 @@ try {
 
 回到最初的问题，业务使用线程池是为了获取并发性，对于获取并发性，是否可以有什么其他的方案呢替代？我们尝试进行了一些其他方案的调研：
 
-![meituan-thread-pool-19](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-19.png)
+![meituan-thread-pool-19](/images/legacy/meituan-thread-pool-19.png)
 
 综合考虑，这些新的方案都能在某种情况下提升并行任务的性能，然而本次重点解决的问题是如何更简易、更安全地获得的并发性。另外，Actor模型的应用实际上甚少，只在Scala中使用广泛，协程框架在Java中维护的也不成熟。这三者现阶段都不是足够的易用，也并不能解决业务上现阶段的问题。
 
@@ -302,7 +302,7 @@ try {
 
 带着这样的疑问，我们调研了业界的一些线程池参数配置方案：
 
-![meituan-thread-pool-20](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-20.png)
+![meituan-thread-pool-20](/images/legacy/meituan-thread-pool-20.png)
 
 调研了以上业界方案后，我们并没有得出通用的线程池计算方式。并发任务的执行情况和任务类型相关，IO密集型和CPU密集型的任务运行起来的情况差异非常大，但这种占比是较难合理预估的，这导致很难有一个简单有效的通用公式帮我们直接计算出结果。
 
@@ -310,7 +310,7 @@ try {
 
 尽管经过谨慎的评估，仍然不能够保证一次计算出来合适的参数，那么我们是否可以将修改线程池参数的成本降下来，这样至少可以发生故障的时候可以快速调整从而缩短故障恢复的时间呢？基于这个思考，我们是否可以将线程池的参数从代码中迁移到分布式配置中心上，实现线程池参数可动态配置和即时生效，线程池参数动态化前后的参数修改流程对比如下：
 
-![meituan-thread-pool-21](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-21.png)
+![meituan-thread-pool-21](/images/legacy/meituan-thread-pool-21.png)
 
 基于以上三个方向对比，我们可以看出参数动态化方向简单有效。
 
@@ -329,7 +329,7 @@ try {
 
 * 增加线程池监控：对某事物缺乏状态的观测，就对其改进无从下手。在线程池执行任务的生命周期添加监控能力，帮助开发同学了解线程池状态。
 
-![meituan-thread-pool-22](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-22.png)
+![meituan-thread-pool-22](/images/legacy/meituan-thread-pool-22.png)
 
 **3.3.2 功能架构**
 
@@ -345,21 +345,21 @@ try {
 
 **权限校验**：只有应用开发负责人才能够修改应用的线程池参数。
 
-![meituan-thread-pool-23](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-23.png)
+![meituan-thread-pool-23](/images/legacy/meituan-thread-pool-23.png)
 
 **参数动态化**
 
 JDK原生线程池ThreadPoolExecutor提供了如下几个public的setter方法，如下图所示：
 
-![meituan-thread-pool-24](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-24.png)
+![meituan-thread-pool-24](/images/legacy/meituan-thread-pool-24.png)
 
 JDK允许线程池使用方通过ThreadPoolExecutor的实例来动态设置线程池的核心策略，以setCorePoolSize为方法例，在运行期线程池使用方调用此方法设置corePoolSize之后，线程池会直接覆盖原来的corePoolSize值，并且基于当前值和原始值的比较结果采取不同的处理策略。对于当前值小于当前工作线程数的情况，说明有多余的worker线程，此时会向当前idle的worker线程发起中断请求以实现回收，多余的worker在下次idel的时候也会被回收；对于当前值大于原始值且当前队列中有待执行任务，则线程池会创建新的worker线程来执行队列任务，setCorePoolSize具体流程如下：
 
-![meituan-thread-pool-25](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-25.png)
+![meituan-thread-pool-25](/images/legacy/meituan-thread-pool-25.png)
 
 线程池内部会处理好当前状态做到平滑修改，其他几个方法限于篇幅，这里不一一介绍。重点是基于这几个public方法，我们只需要维护ThreadPoolExecutor的实例，并且在需要修改的时候拿到实例修改其参数即可。基于以上的思路，我们实现了线程池参数的动态化、线程池参数在管理平台可配置可修改，其效果图如下图所示：
 
-![meituan-thread-pool-26](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-26.png)
+![meituan-thread-pool-26](/images/legacy/meituan-thread-pool-26.png)
 
 用户可以在管理平台上通过线程池的名字找到指定的线程池，然后对其参数进行修改，保存后会实时生效。目前支持的动态参数包括核心数、最大值、队列长度等。除此之外，在界面中，我们还能看到用户可以配置是否开启告警、队列等待任务告警阈值、活跃度告警等等。关于监控和告警，我们下面一节会对齐进行介绍。
 
@@ -371,23 +371,23 @@ JDK允许线程池使用方通过ThreadPoolExecutor的实例来动态设置线�
 
 线程池负载关注的核心问题是：基于当前线程池参数分配的资源够不够。对于这个问题，我们可以从事前和事中两个角度来看。事前，线程池定义了“活跃度”这个概念，来让用户在发生Reject异常之前能够感知线程池负载问题，线程池活跃度计算公式为：线程池活跃度 = activeCount/maximumPoolSize。这个公式代表当活跃线程数趋向于maximumPoolSize的时候，代表线程负载趋高。事中，也可以从两方面来看线程池的过载判定条件，一个是发生了Reject异常，一个是队列中有等待任务（支持定制阈值）。以上两种情况发生了都会触发告警，告警信息会通过大象推送给服务所关联的负责人。
 
-![meituan-thread-pool-27](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-27.png)
+![meituan-thread-pool-27](/images/legacy/meituan-thread-pool-27.png)
 
 **2. 任务级精细化监控**
 
 在传统的线程池应用场景中，线程池中的任务执行情况对于用户来说是透明的。比如在一个具体的业务场景中，业务开发申请了一个线程池同时用于执行两种任务，一个是发消息任务、一个是发短信任务，这两类任务实际执行的频率和时长对于用户来说没有一个直观的感受，很可能这两类任务不适合共享一个线程池，但是由于用户无法感知，因此也无从优化。动态化线程池内部实现了任务级别的埋点，且允许为不同的业务任务指定具有业务含义的名称，线程池内部基于这个名称做Transaction打点，基于这个功能，用户可以看到线程池内部任务级别的执行情况，且区分业务，任务监控示意图如下图所示：
 
-![meituan-thread-pool-28](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-28.png)
+![meituan-thread-pool-28](/images/legacy/meituan-thread-pool-28.png)
 
 **3. 运行时状态实时查看**
 
 用户基于JDK原生线程池ThreadPoolExecutor提供的几个public的getter方法，可以读取到当前线程池的运行状态以及参数，如下图所示：
 
-![meituan-thread-pool-29](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-29.png)
+![meituan-thread-pool-29](/images/legacy/meituan-thread-pool-29.png)
 
 动态化线程池基于这几个接口封装了运行时状态实时查看的功能，用户基于这个功能可以了解线程池的实时状态，比如当前有多少个工作线程，执行了多少个任务，队列中等待的任务数等等。效果如下图所示：
 
-![meituan-thread-pool-30](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-30.png)
+![meituan-thread-pool-30](/images/legacy/meituan-thread-pool-30.png)
 
 3.4 实践总结
 ------

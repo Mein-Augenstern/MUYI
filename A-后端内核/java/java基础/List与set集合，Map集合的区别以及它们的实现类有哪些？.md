@@ -11,7 +11,7 @@ ArrayList 和 Vector 内部是线性动态数组结构，在查询效率上会�
 
 LinkedList：是双向链表的数据结构存储数据，在做查询时会按照序号索引数据进行前向或后向遍历，查询效率偏低，但插入数据时只需要记录本项的前后项即可，所以插入速度较快。
 
-![集合UML类图](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/%E9%9B%86%E5%90%88%E7%B1%BBUML%E5%9B%BE.jpg)
+![集合UML类图](/images/legacy/集合类UML图.jpg)
 
 Set 的实现类有 HashSet 和 TreeSet；
 

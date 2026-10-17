@@ -69,7 +69,7 @@ XA规范定义了交易中间件与数据库之间的接口规范（即接口函
 
 XA规范的流程，大致如图所示：
 
-![2pc-2](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/2pc-2.jpa.png)
+![2pc-2](/images/legacy/2pc-2.jpa.png)
 
 三、二阶段提交（2PC）
 ------

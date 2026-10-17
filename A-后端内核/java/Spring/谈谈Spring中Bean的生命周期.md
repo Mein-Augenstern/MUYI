@@ -61,7 +61,7 @@ Spring上下文中的Bean生命周期也类似，如下：
 
 相比之下，Spring管理Bean的生命周期就复杂多了，正确理解Bean 的生命周期非常重要，因为Spring对Bean的管理可扩展性非常强，下面展示了一个Bean的构造过程：
 
-![Spring中Bean的生命周期](https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/picture/Spring%E4%B8%ADBean%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.jpg)
+![Spring中Bean的生命周期](/images/legacy/Spring中Bean的生命周期.jpg)
 
 如上图所示，Bean 的生命周期还是比较复杂的，下面来对上图每一个步骤做文字描述:
 
