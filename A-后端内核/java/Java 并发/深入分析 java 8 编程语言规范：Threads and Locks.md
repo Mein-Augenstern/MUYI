@@ -186,7 +186,7 @@ java 还提供了其他的一些同步机制，比如对 volatile 变量的读�
 
 - 如果线程 t 被中断，此时中断状态为 true，则 wait 方法将抛出 InterruptedException 异常，并将中断状态设置为 false。
 
-  > 中断，如果读者不了解这个概念，可以参考我在 [AQS(二)](/post/AbstractQueuedSynchronizer-2) 中的介绍，这是非常重要的知识。
+  > 中断，如果读者不了解这个概念，可以参考我在 [AQS(二)](乐观锁、悲观锁的AQS、Sync和Lock面试.md) 中的介绍，这是非常重要的知识。
 
 - 否则，下面的操作会**顺序**发生：
 
