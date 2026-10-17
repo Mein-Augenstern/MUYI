@@ -1,14 +1,83 @@
-文章清单
+# 计算机网络速查卡
+
+五层模型与协议
 ====
 
-* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98.md">计算机网络常见面试题</a>
+| 层 | 职责一句话 | 代表协议/数据单元 |
+|----|-----------|------------------|
+| 应用层 | 进程间交互规则 | HTTP、DNS、SMTP（报文） |
+| 运输层 | 进程到进程的通用传输，复用/分用 | TCP、UDP（段/数据报） |
+| 网络层 | 路由选择，主机到主机 | IP、路由协议（IP 数据报） |
+| 数据链路层 | 相邻节点成帧传送、检错 | 以太网（帧） |
+| 物理层 | 透明传送比特流 | （比特） |
 
-* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5%E3%80%81%E7%9F%AD%E8%BF%9E%E6%8E%A5%E7%A9%B6%E7%AB%9F%E6%98%AF%E4%BB%80%E4%B9%88.md">Http长连接、短连接究竟是什么？</a>
+TCP 三次握手 / 四次挥手
+----
 
-* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C/TCP%20%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B.md">TCP三次握手和四次挥手</a>
+1. 握手：Client SYN → Server SYN+ACK → Client ACK。
+2. 为什么三次：双方确认"自己与对方的发送、接收都正常"，两次不够（Server 无法确认 Client 收到自己消息）。
+3. 传回 SYN：证明"你发的我收到了"；再传 ACK：验证反向通道也没问题。
+4. 挥手：Client FIN → Server ACK →（Server 数据发完）Server FIN → Client ACK。
+5. 为什么四次：被动方收到 FIN 后可能还有数据要发（半关闭），ACK 与 FIN 分开发送。
 
-* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C/TCP%E5%92%8CUDP%E5%8C%BA%E5%88%AB.md">TCP和UDP区别</a>
+TCP vs UDP
+----
 
-* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C/http%E5%92%8Chttps%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB.md">http和https区别和联系</a>
+| 维度 | TCP | UDP |
+|------|-----|-----|
+| 连接 | 面向连接（先握手） | 无连接 |
+| 可靠性 | 确认、窗口、重传、拥塞控制 | 尽最大努力，不确认 |
+| 开销 | 首部大、占处理器资源 | 首部 8 字节，开销小 |
+| 传输方式 | 点对点，无广播/多播 | 支持一对多 |
+| 场景 | 文件传输、邮件、远程登录 | QQ 语音/视频、直播 |
 
-* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C/http%E5%92%8Csocket%E4%B9%8B%E9%95%BF%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%9F%AD%E8%BF%9E%E6%8E%A5%E5%8C%BA%E5%88%AB.md">http和socket之长连接和短连接区别</a>
+TCP 如何保证可靠传输
+----
+
+1. 数据分块；2. 序号排序；3. 校验和（差错即丢弃不确认）；4. 丢弃重复数据；5. 流量控制（滑动窗口，接收方窗口字段控制发送速率）；6. 拥塞控制；7. ARQ（停止等待/连续 ARQ+累积确认，Go-Back-N）；8. 超时重传。
+- 拥塞控制四算法：慢开始（cwnd 由 1 翻倍）、拥塞避免（每 RTT +1）、快重传（3 个重复 ACK 立即重传）、快恢复。
+- 流量控制是端到端问题；拥塞控制是全局问题。发送窗口 = min(cwnd, 接收窗口)。
+
+长连接 / 短连接
+----
+
+1. 本质：HTTP 长短连接 = TCP 长短连接（关闭策略不同）。
+2. HTTP/1.0 默认短连接（每次请求建一次连接）；HTTP/1.1 起默认长连接（`Connection: keep-alive`，有保持时间，双方都需支持）。
+3. 短连接：管理简单但频繁建连浪费时间和带宽；长连接：省去握手开销但服务端连接堆积，需关闭空闲连接 / 限制单客户端最大连接数。
+4. 选型：频繁点对点操作用长连接（如数据库连接）；并发大、单用户操作少用短连接（如 WEB 网站）。
+5. TCP 保活（keepalive）：2 小时无动作发探测报文，10 次 ×75s 无响应则断开（周期太长，应用层心跳更常用）。
+
+http 和 socket 的关系
+----
+
+1. Socket 是 OS 提供的网络通信抽象 API，多工作在传输层，可用于开发 TCP/UDP 应用；连接长短与 Socket 无关。
+2. HTTP 是基于 TCP 的应用层协议，建立在 socket 之上：一次请求 = 建 TCP 连接 → 发报文 → 收报文 → 关连接。
+3. HTTP Keep-Alive 不可控，双方可随时断开；另注意 unix domain socket 是基于本地文件的 IPC。
+
+http vs https
+----
+
+| 维度 | HTTP | HTTPS |
+|------|------|-------|
+| 端口 | 80 | 443 |
+| 传输 | TCP 之上明文 | SSL/TLS 之上（SSL/TLS 在 TCP 上） |
+| 安全 | 无法验证双方身份，明文 | 内容加密：对称加密传数据，密钥用证书非对称加密 |
+| 消耗 | 低 | 更耗服务器资源 |
+
+- 对称加密（DES/AES，快，单钥） vs 非对称加密（RSA/DSA，慢，公私钥成对）。
+
+无状态与会话保持
+----
+
+1. HTTP 无状态 = 协议对事务无记忆；不代表不能保持 TCP 连接，更不是 UDP。
+2. Session：服务端记录用户状态（内存/Redis），靠 Cookie 里的 Session ID 跟踪；Cookie 被禁用则 URL 重写附加 Session ID。
+3. Cookie vs Session：Cookie 存客户端（保存用户信息/Token，注意加密），Session 存服务端（安全性更高）。
+
+其他高频
+----
+
+1. 输入 URL 到显示主页：DNS 解析 → TCP 连接 → 发 HTTP 请求 → 服务器处理返回报文 → 浏览器解析渲染 → 连接结束。
+2. HTTP1.0 vs 1.1：默认长短连接（1.1 支持流水线）；新增 24 个状态码（409/410）；缓存控制更丰富（Entity tag、If-None-Match 等）；range 头支持断点续传（206）。
+3. URI vs URL：URI 统一资源标志符（身份证号），URL 是其子集、还指明如何定位（家庭住址）。
+
+> 内容来源：[计算机网络常见面试题](../计算机基础/通信网络/计算机网络常见面试题.md) · [TCP三次握手和四次挥手](../计算机基础/通信网络/TCP%20三次握手和四次挥手.md) · [HTTP长连接、短连接](../计算机基础/通信网络/HTTP长连接、短连接究竟是什么.md) · [TCP和UDP区别](../计算机基础/通信网络/TCP和UDP区别.md) · [http和https](../计算机基础/通信网络/http和https区别和联系.md) · [http和socket](../计算机基础/通信网络/http和socket之间的关系和区别.md) · 2026-10 整理回填。
