@@ -21,7 +21,7 @@ Java作为一种面向对象的，跨平台语言，其对象、内存等一直�
 
 但是，因为堆是全局共享的，因此在同一时间，可能有多个线程在堆上申请空间，那么，在并发场景中，如果两个线程先后把对象引用指向了同一个内存区域，怎么办。
 
-![30-19](https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/JVM/picture/30-19.png)
+![30-19](/images/legacy/30-19.png)
 
 为了解决这个并发问题，对象的内存分配过程就必须进行同步控制。但是我们都知道，**无论是使用哪种同步方案（实际上虚拟机使用的可能是CAS），都会影响内存的分配效率**。
 
@@ -41,7 +41,7 @@ TLAB是虚拟机在堆内存的eden划分出来的一块专用空间，是线程
 
 **这里值得注意的是，我们说TLAB是线程独享的，但是只是在“分配”这个动作上是线程独占的，至于在读取、垃圾回收等动作上都是线程共享的。而且在使用上也没有什么区别**。
 
-![30-23](https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/JVM/picture/30-23.png)
+![30-23](/images/legacy/30-23.png)
 
 也就是说，虽然每个线程在初始化时都会去堆内存中申请一块TLAB，并不是说这个TLAB区域的内存其他线程就完全无法访问了，其他线程的读取还是可以的，只不过无法在这个区域中分配内存而已。
 
@@ -97,7 +97,7 @@ TLAB的refill_waste也是可以调整的，默认值为64，即表示使用约�
 
 TLAB的空间其实并不大，所以大对象还是可能需要在堆内存中直接分配。那么，对象的内存分配步骤就是先尝试TLAB分配，空间不足之后，再判断是否应该直接进入老年代，然后再确定是再eden分配还是在老年代分配。
 
-![30-27](https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/JVM/picture/30-27.png)
+![30-27](/images/legacy/30-27.png)
 
 ## OSGi(Open Service Gateway Initiative) 技术是 Java 动态化模块化系统的一系列规范
 
@@ -112,7 +112,7 @@ TLAB的空间其实并不大，所以大对象还是可能需要在堆内存中�
 
 相信每个Java程序员都知道Classpath是什么。Java的类加载器(Classloader)是一种分层结构，如下图所示，分为引导类加载器(Bootstrap Class Loader)，扩展类加载器(Extension Class Loader)，系统类加载器(System Class Loader)以及用户定义的类加载器(User-defined Class Loader)。引导类加载器在JVM时负责加载rt.jar里面的类，扩展类加载器负责加载在扩展目录下的jar文件中的类，系统类加载器则在Classpath上面搜索类加载器，用户定义的类加载器则从用户指定的路径（比如一个网络URI）加载类。在该类加载体系中，一个类加载器总是先去上层类加载器加载类，一层一层迭代，当无法找到需要的类时在自己加载。
 
-![Java程序的类加载器结果](https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/JVM/picture/Java%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E7%BB%93%E6%9E%84.gif)
+![Java程序的类加载器结果](/images/legacy/Java程序的类加载器结构.gif)
 
 在这种类加载机制中，存在以下几个问题：1）类版本冲突：当类路径上存在同一个类的不同版本时，如果类加载器找到一个版本，则不再搜索加载下一个版本；2）无法确定jar之间的依赖关系：现有的JAR标准中缺乏对与Jar文件之间依赖关系的定义支持，因此只有在运行时间无法找到所需的类时，才会打出java.lang.ClassNotFoundException，但这通常不能有效帮助开发人员解决问题；3）信息隐藏：如果一个jar在类路径上并且被加载，那么所有该jar中的公共类（public class）都会被加载，无法避免某些类被隐藏从而不被加载。尽管在J2EE中改进了类加载机制，可以支持以war或者ear应用为单元进行加载，但是这些问题还是没有被很好地解决，并且热部署效果让人忧心。
 

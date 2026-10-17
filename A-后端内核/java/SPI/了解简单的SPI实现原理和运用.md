@@ -90,14 +90,14 @@ public static void main(String[] args) {
 
 运行结果：
 
-![spi_6](https://github.com/DemoTransfer/Java-Guide/blob/master/java/SPI/picture/spi_6.png)
+![spi_6](/images/legacy/spi_6.png)
 
 SPI 源码
 ------
 
-![spi_7](https://github.com/DemoTransfer/Java-Guide/blob/master/java/SPI/picture/spi_7.png)
+![spi_7](/images/legacy/spi_7.png)
 
-![spi_8](https://github.com/DemoTransfer/Java-Guide/blob/master/java/SPI/picture/spi_8.png)
+![spi_8](/images/legacy/spi_8.png)
 
 有源代码可以，java会根据定义的路径去扫描可能存在的接口的实现。放在config中，然后使用parse方法将配置文件中的接口实现全路径放在pending中，并取得第一个实现类（变量nextName），
 

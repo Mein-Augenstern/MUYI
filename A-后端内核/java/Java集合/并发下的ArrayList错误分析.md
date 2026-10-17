@@ -72,7 +72,7 @@ ensureCapacityInternal()这个方法的详细代码我们可以暂时不看，�
 
 * 线程B也开始进行设置值操作，它尝试设置elementData[10] = e，而elementData没有进行过扩容，它的下标最大为9。于是此时会报出一个数组越界的异常ArrayIndexOutOfBoundsException.
 
-![arraylist-并发数组越界问题出现](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%E9%9B%86%E5%90%88%E5%B9%B6%E5%8F%91%E9%97%AE%E9%A2%98/picture/%E6%95%B0%E7%BB%84%E8%B6%8A%E7%95%8C-arraylist.png)
+![arraylist-并发数组越界问题出现](/images/legacy/数组越界-arraylist.png)
 
 另外第二步 elementData[size++] = e 设置值的操作同样会导致线程不安全。从这儿可以看出，这步操作也不是一个原子操作，它由如下两步操作构成：
 
@@ -94,7 +94,7 @@ ensureCapacityInternal()这个方法的详细代码我们可以暂时不看，�
 
 * 这样线程AB执行完毕后，理想中情况为size为2，elementData下标0的位置为A，下标1的位置为B。而实际情况变成了size为2，elementData下标为0的位置变成了B，下标1的位置上什么都没有。并且后续除非使用set方法修改此位置的值，否则将一直为null，因为size为2，添加元素时会从下标为2的位置上开始。
 
-![arraylist-null和覆盖的情况出现](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%E9%9B%86%E5%90%88%E5%B9%B6%E5%8F%91%E9%97%AE%E9%A2%98/picture/null%E5%92%8C%E8%A6%86%E7%9B%96%E6%83%85%E5%86%B5-arraylist.png)
+![arraylist-null和覆盖的情况出现](/images/legacy/null和覆盖情况-arraylist.png)
 
 并发导致数据丢失样例
 ------
@@ -150,7 +150,7 @@ public class ArrayListCocurrentTest {
 
 }
 ```
-![ArrayList并发丢失数据结果示例](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%E9%9B%86%E5%90%88%E5%B9%B6%E5%8F%91%E9%97%AE%E9%A2%98/picture/ArrayList-%E5%B9%B6%E5%8F%91%E4%B8%A2%E5%A4%B1%E6%95%B0%E6%8D%AE.png)
+![ArrayList并发丢失数据结果示例](/images/legacy/ArrayList-并发丢失数据.png)
 
 并发导致数据新增为null情况
 ------
@@ -206,7 +206,7 @@ public class ArrayListCocurrentTest {
 
 }
 ```
-![ArrayList-新增元素null情况](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%E9%9B%86%E5%90%88%E5%B9%B6%E5%8F%91%E9%97%AE%E9%A2%98/picture/ArrayList-%E6%96%B0%E5%A2%9E%E5%85%83%E7%B4%A0null%E6%83%85%E5%86%B5.png)
+![ArrayList-新增元素null情况](/images/legacy/ArrayList-新增元素null情况.png)
 
 并发导致数据越界
 ------

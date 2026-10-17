@@ -7,7 +7,7 @@
 
 本文要介绍的2PC协议，分为两个阶段提交一个事务。并通过协调者和各个参与者的配合，实现分布式一致性。
 
-![2pc-1](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/2pc-1.jpa.png)
+![2pc-1](/images/legacy/2pc-1.jpa.png)
 
 两个阶段事务提交协议，由协调者和参与者共同完成。
 
@@ -89,7 +89,7 @@ XA规范的流程，大致如图所示：
 
 准备阶段分为三个步骤：
 
-![2-pc-3](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/2pc-3.png)
+![2-pc-3](/images/legacy/2pc-3.png)
 
 a、事务询问
 
@@ -109,7 +109,7 @@ c、各参与者向协调者反馈事务询问的响应
 
 提交事务过程如下：
 
-![2-pc-4](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/2pc-4.png)
+![2-pc-4](/images/legacy/2pc-4.png)
 
 a、发送提交请求
 
@@ -129,7 +129,7 @@ d、事务提交确认
 
 中断事务过程如下：
 
-![2-pc-5](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/2-pc-5.png)
+![2-pc-5](/images/legacy/2-pc-5.png)
 
 a、发送回滚请求
 

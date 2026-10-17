@@ -99,7 +99,7 @@ exec函数的作用就是：**装载一个新的程序**（可执行映像）覆
 
 我去画张图来理解一下：
 
-![cow一](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/picture/cow%E4%B8%80.png)
+![cow一](/images/legacy/cow一.png)
 
 <h3>参考资料</h3>
 
@@ -222,7 +222,7 @@ Copy-on-write在对数据进行修改的时候，不会直接在原来的数据�
 
 其实在Java里边，也有Copy On Write技术。
 
-![cow三](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/picture/cow%E4%B8%89.png)
+![cow三](/images/legacy/cow三.png)
 
 <h3>参考资料</h3>
 

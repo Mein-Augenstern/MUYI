@@ -28,7 +28,7 @@ Tip：比较+更新 整体是一个原子操作，当然这个流程还是有问
 
 他是乐观锁的一种实现，就是说认为数据总是不会被更改，我是乐观的仔，每次我都觉得你不会渣我，差不多是这个意思。
 
-![cas+syn_1](https://github.com/DemoTransfer/JavaGuide/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/picture/cas%2Bsyn_1.jpg)
+![cas+syn_1](/images/legacy/cas+syn_1.jpg)
 
 > 你这个栗子不错，他存在什么问题呢？
 
@@ -40,7 +40,7 @@ Tip：比较+更新 整体是一个原子操作，当然这个流程还是有问
 
 好的，我先介绍一下ABA这个问题，直接口述可能有点抽象，我画图解释一下：
 
-![cas+syn_2](https://github.com/DemoTransfer/JavaGuide/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/picture/cas_syn_2.jpg)
+![cas+syn_2](/images/legacy/cas_syn_2.jpg)
 
 1. 线程1读取了数据A
 
@@ -133,7 +133,7 @@ Data）和对齐填充（Padding）。
     
 你可以看到在对象头中保存了锁标志位和指向 monitor 对象的起始地址，如下图所示，右侧就是对象对应的 Monitor 对象。
 
-![cas_syn_3](https://github.com/DemoTransfer/JavaGuide/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/picture/cas_syn_3.jpg)
+![cas_syn_3](/images/legacy/cas_syn_3.jpg)
 
 
 当 Monitor 被某个线程持有后，就会处于锁定状态，如图中的 Owner 部分，会指向持有 Monitor 对象的线程。
@@ -261,15 +261,15 @@ public void syncTask();
 
 Tip：本来锁升级的过程我是搞了个贼详细贼复杂的图，但是我发现不便于理解，我就幼儿园化了，所以就有了个简单版本的，先看下复杂版本的：
 
-![cas_syn_4](https://github.com/DemoTransfer/JavaGuide/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/picture/cas_syn_4.jpg)
+![cas_syn_4](/images/legacy/cas_syn_4.jpg)
 
 幼儿园版本：
 
-![cas_syn_5](https://github.com/DemoTransfer/JavaGuide/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/picture/cas_syn_5.jpg)
+![cas_syn_5](/images/legacy/cas_syn_5.jpg)
 
 看到这你如果还想白嫖，我劝你善良，万水千山总是情，不要白嫖行不行？点个赞再走哈哈。
 
-![cas_syn_6](https://github.com/DemoTransfer/JavaGuide/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/picture/cas_syn_6.jpg)
+![cas_syn_6](/images/legacy/cas_syn_6.jpg)
 
 对了锁只能升级，不能降级。
 
@@ -281,7 +281,7 @@ AQS：也就是队列同步器，这是实现 ReentrantLock 的基础。
 
 AQS 有一个 state 标记位，值为1 时表示有线程占用，其他线程需要进入到同步队列等待，同步队列是一个双向链表。
 
-![cas_syn_7](https://github.com/DemoTransfer/JavaGuide/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/picture/cas_syn_7.jpg)
+![cas_syn_7](/images/legacy/cas_syn_7.jpg)
 
 当获得锁的线程需要等待某个条件时，会进入 condition 的等待队列，等待队列可以有多个。
 
@@ -291,7 +291,7 @@ ReentrantLock 就是基于 AQS 实现的，如下图所示，ReentrantLock 内�
 
 和 ReentrantLock 实现方式类似，Semaphore 也是基于 AQS 的，差别在于 ReentrantLock 是独占锁，Semaphore 是共享锁。
 
-![cas_syn_8](https://github.com/DemoTransfer/JavaGuide/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/picture/cas_syn_8.jpg)
+![cas_syn_8](/images/legacy/cas_syn_8.jpg)
 
 从图中可以看到，ReentrantLock里面有一个内部类Sync，Sync继承AQS（AbstractQueuedSynchronizer），添加锁和释放锁的大部分操作实际上都是在Sync中实现的。
 

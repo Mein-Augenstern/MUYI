@@ -11,7 +11,7 @@
 
 我们知道ArrayList是用于替代Vector的，Vector是线程安全的容器。因为它几乎在每个方法声明处都加了synchronized关键字来使容器安全。
 
-![CopyOnWriteArrayList一](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/picture/CopyOnWriteArrayList%E4%B8%80.PNG)
+![CopyOnWriteArrayList一](/images/legacy/CopyOnWriteArrayList一.PNG)
 
 如果使用```Collections.synchronizedList(new ArrayList())```来使ArrayList变成是线程安全的话，也是几乎都是每个方法都加上synchronized关键字的，只不过**它不是加在方法的声明处，而是方法的内部**。
 
@@ -94,7 +94,7 @@ public class UnsafeVectorHelpers {
 
 * 接着线程A得到CPU执行权，执行```list.get(lastIndex);```，发现已经没有下标为3的元素，抛出异常了
 
-![CopyOnWriteArrayList四](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/picture/CopyOnWriteArrayList%E5%9B%9B.PNG)
+![CopyOnWriteArrayList四](/images/legacy/CopyOnWriteArrayList四.PNG)
 
 出现这个问题的原因也很简单：
 
@@ -162,7 +162,7 @@ public class UnsafeVectorHelpers {
 
 如果使用```for-each```(迭代器)来做上面的操作，会抛出ConcurrentModificationException异常
 
-![CopyOnWriteArrayList六](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/picture/CopyOnWriteArrayList%E5%85%AD.PNG)
+![CopyOnWriteArrayList六](/images/legacy/CopyOnWriteArrayList六.PNG)
 
 SynchronizedList在使用**迭代器遍历**的时候同样会有问题的，源码已经提醒我们要手动加锁了。
 
@@ -392,7 +392,7 @@ public E set(int index, E element) {
 
 到这里，我们应该就可以想明白了！CopyOnWriteArrayList在使用迭代器遍历的时候，操作的都是原数组！
 
-![CopyOnWriteArrayList十](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/picture/CopyOnWriteArrayList%E5%8D%81.png)
+![CopyOnWriteArrayList十](/images/legacy/CopyOnWriteArrayList十.png)
 
 看了上面的实现源码，我们应该也大概能分析出CopyOnWriteArrayList的缺点了。
 
