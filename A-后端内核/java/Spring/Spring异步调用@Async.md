@@ -341,7 +341,7 @@ public class TaskService {
 
 **执行异步任务使用Spring CGLib动态代理AOP实现**
 
-![async异步执行一](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/Spring/picture/async%E4%B8%80.png)
+![async异步执行一](/images/legacy/async一.png)
 
 可以看出动态代理后使用AsyncExecutionInterceptor来处理异步逻辑，执行submit方法
 

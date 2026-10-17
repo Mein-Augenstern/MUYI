@@ -39,7 +39,7 @@
 
 选择以上两种方式中的哪一种，取决于 Java 堆内存是否规整。而 Java 堆内存是否规整，取决于 GC 收集器的算法是"标记-清除"，还是"标记-整理"（也称作"标记-压缩"），值得注意的是，复制算法内存也是规整的
 
-![内存分配的两种方式](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/picture/%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F.png)
+![内存分配的两种方式](/images/legacy/内存分配的两种方式.png)
 
 **内存分配并发问题**
 
@@ -81,11 +81,11 @@
 
 1. **句柄**： 如果使用句柄的话，那么 Java 堆中将会划分出一块内存来作为句柄池，reference 中存储的就是对象的句柄地址，而句柄中包含了对象实例数据与类型数据各自的具体地址信息；
 
-![对象的访问定位-使用句柄](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/picture/%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%AE%BF%E9%97%AE%E5%AE%9A%E4%BD%8D-%E5%8F%A5%E6%9F%84.png)
+![对象的访问定位-使用句柄](/images/legacy/对象的访问定位-句柄.png)
 
 2. **直接指针**： 如果使用直接指针访问，那么 Java 堆对象的布局中就必须考虑如何放置访问类型数据的相关信息，而 reference 中存储的直接就是对象的地址。
 
-![对象的访问定位-直接指针](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/picture/%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%AE%BF%E9%97%AE%E5%AE%9A%E4%BD%8D-%E7%9B%B4%E6%8E%A5%E6%8C%87%E9%92%88.png)
+![对象的访问定位-直接指针](/images/legacy/对象的访问定位-直接指针.png)
 
 **这两种对象访问方式各有优势。使用句柄来访问的最大好处是 reference 中存储的是稳定的句柄地址，在对象被移动时只会改变句柄中的实例数据指针，而 reference 本身不需要修改。使用直接指针访问方式最大的好处就是速度快，它节省了一次指针定位的时间开销**。
 
@@ -213,7 +213,7 @@ System.out.println(str3 == str5);//true
 System.out.println(str4 == str5);//false
 ```
 
-![字符串拼接](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/picture/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%BC%E6%8E%A5.png)
+![字符串拼接](/images/legacy/字符串拼接.png)
 
 尽量避免多个字符串拼接，因为这样会重新创建对象。如果需要改变字符串的话，可以使用 StringBuilder 或者 StringBuffer。
 

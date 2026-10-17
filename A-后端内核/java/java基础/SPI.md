@@ -12,7 +12,7 @@ SPI全称Service Provider Interface，是Java提供的一套用来被第三方�
 
 整体机制图如下：
 
-![SPI机制图](https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/picture/SPI%E6%9C%BA%E5%88%B6%E5%9B%BE.png)
+![SPI机制图](/images/legacy/SPI机制图.png)
 
 Java SPI 实际上是“**基于接口的编程＋策略模式＋配置文件**”组合实现的动态加载机制。
 

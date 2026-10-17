@@ -20,7 +20,7 @@ Raft 也是一个 一致性算法，和 Paxos 目标相同。但它还有另一�
 
 这个问题有两层意思，第一，有没有一种放法保证必赢？第二，如果有怎么证明？
 
-![Raft-1](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/Raft-1.png)
+![Raft-1](/images/legacy/Raft-1.png)
 
 上图回答了这个问题，那就是先行者必胜，这里使用了三种不同的思维方式来阐述:
 
@@ -57,7 +57,7 @@ Raft 协议将 Server 进程分成三类，分别是 Leader，Candidate，Follow
 
 三类角色的变迁图如下，结合后面的选举过程来看很容易理解。
 
-![Raft-2](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/Raft-2.png)
+![Raft-2](/images/legacy/Raft-2.png)
 
 Leader选举过程
 ------
@@ -66,7 +66,7 @@ Leader选举过程
 
 初始状态 ABC 都是 Follower，然后发起选举这时有 三种 可能的情形发生。下图中前二种都能选出 Leader，第三种则表明 本轮投票无效（Split Votes）。对于第三种，每方都投给了自己，结果没有任何一方获得多数票。之后 每个参与方 随机休息一阵（Election Timeout）重新发起投票直到一方获得多数票。这里的关键就是随机 timeout，最先从 timeout 中恢复发起投票的一方，向还在 timeout 中的另外两方 请求投票，这时它就只能投给自己，导致很快达成一致。
 
-![Raft-3](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/Raft-3.png)
+![Raft-3](/images/legacy/Raft-3.png)
 
 选出 Leader 后，Leader 通过 定期 向所有 Follower 发送 心跳信息 维持其统治。若 Follower 一段时间未收到 Leader 的 心跳，则认为 Leader 可能已经挂了，然后再次发起 选举 过程。
 
@@ -143,7 +143,7 @@ Raft 协议要求投票只能投给拥有 最新数据 的节点。所以拥有�
 
 网络分区 将原先的 Leader 节点和 Follower 节点分隔开，Follower 收不到 Leader 的 心跳 将 重新 发起选举产生新的 Leader，这时就产生了 双Leader 现象。
 
-![Raft-11](https://github.com/DemoTransfer/MUYI/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/picture/Raft-11.png)
+![Raft-11](/images/legacy/Raft-11.png)
 
 原先的 Leader 独自在一个区，向它提交数据不可能复制到多数节点所以永远提交不成功。向新的 Leader 提交数据可以提交成功。
 

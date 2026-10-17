@@ -124,7 +124,7 @@ ThreadPoolExecutor的运行状态有5种，分别为：
 
 其执行流程如下图所示：
 
-![meituan-thread-pool-5](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-5.png)
+![meituan-thread-pool-5](/images/legacy/meituan-thread-pool-5.png)
 
 **2.3.2 任务缓冲**
 
@@ -134,11 +134,11 @@ ThreadPoolExecutor的运行状态有5种，分别为：
 
 下图中展示了线程1往阻塞队列中添加元素，而线程2从阻塞队列中移除元素：
 
-![meituan-thread-pool-6](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-6.png)
+![meituan-thread-pool-6](/images/legacy/meituan-thread-pool-6.png)
 
 使用不同的队列可以实现不一样的任务存取策略。在这里，我们可以再介绍下阻塞队列的成员：
 
-![meituan-thread-pool-7](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-7.png)
+![meituan-thread-pool-7](/images/legacy/meituan-thread-pool-7.png)
 
 **2.3.3 任务申请**
 
@@ -146,7 +146,7 @@ ThreadPoolExecutor的运行状态有5种，分别为：
 
 线程需要从任务缓存模块中不断地取任务执行，帮助线程从阻塞队列中获取任务，实现线程管理模块和任务管理模块之间的通信。这部分策略由getTask方法实现，其执行流程如下图所示：
 
-![meituan-thread-pool-8](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-8.png)
+![meituan-thread-pool-8](/images/legacy/meituan-thread-pool-8.png)
 
 getTask这部分进行了多次判断，为的是控制线程的数量，使其符合线程池的状态。如果线程池现在不应该持有那么多线程，则会返回null值。工作线程Worker会不断接收新任务去执行，而当工作线程Worker接收不到任务的时候，就会开始被回收。
 
@@ -164,7 +164,7 @@ public interface RejectedExecutionHandler {
 
 用户可以通过实现这个接口去定制拒绝策略，也可以选择JDK提供的四种已有拒绝策略，其特点如下：
 
-![meituan-thread-pool-9](https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/picture/meituan-thread-pool-9.png)
+![meituan-thread-pool-9](/images/legacy/meituan-thread-pool-9.png)
 
 2.4 Worker线程管理
 ------

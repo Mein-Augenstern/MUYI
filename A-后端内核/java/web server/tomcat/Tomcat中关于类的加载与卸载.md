@@ -19,7 +19,7 @@ Tomcat启动的时候，ClassLoader加载的流程
 Tomcat加载资源的概况图
 ------
 
-![Tomcat加载资源的概况图](https://github.com/DemoTransfer/Java-Guide/blob/master/java/web%20server/tomcat/picture/loadprocess.jpg)
+![Tomcat加载资源的概况图](/images/legacy/loadprocess.jpg)
 
 当Jsp文件修改的时候，Tomcat更新步骤
 ------
@@ -32,7 +32,7 @@ Tomcat加载资源的概况图
 
 4. 返回修改后的1.jsp内容给用户。
 
-![Jsp清除引用和资源](https://github.com/DemoTransfer/Java-Guide/blob/master/java/web%20server/tomcat/picture/jsp_unload.jpg)
+![Jsp清除引用和资源](/images/legacy/jsp_unload.jpg)
 
 当app下面的class文件修改的时候，Tomcat更新步骤
 ------
@@ -43,7 +43,7 @@ Tomcat加载资源的概况图
 
 3. 然后创新创建一个WebClassLoader实例，重新加载app下面需要的class。
 
-![Context清除引用和资源 ](https://github.com/DemoTransfer/Java-Guide/blob/master/java/web%20server/tomcat/picture/servlet_unload.jpg)
+![Context清除引用和资源 ](/images/legacy/servlet_unload.jpg)
 
 在一个有一定规模的应用中，如果文件修改多次，重启多次的话，java.lang.OutOfMemoryErrorPermGen space这个错误的的出现非常频繁。主要就是因为每次重启重新加载大量的class，超过了PermGen space设置的大小。
 

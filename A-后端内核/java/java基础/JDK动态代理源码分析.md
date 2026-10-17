@@ -759,7 +759,7 @@ private byte[] generateClassFile() {
 
 这个方法中涉及到两个重要概念，一个是class字节码文件构造  参考如下  类型中u后面的数字则代表字节长度   。而上述方法中构造自字节码文件的15个步骤也是按照如下表一步一步构造的，最后没有属性表的值
 
-![JDK动态代理一](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/picture/JDK%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E4%B8%80.png)
+![JDK动态代理一](/images/legacy/JDK动态代理一.png)
 
 另一个是常量池 ，主要放置两大类常量，一个是字面量  即常见的字符串，以及声明为final的变量，另一个则是语言层面的符号引用，包含三类常量：类和接口的全限定名，字段的名称和描述符，方法的名称和描述符
 
