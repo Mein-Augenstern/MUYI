@@ -131,7 +131,7 @@ Nginx 开源版只有**被动检查**：`max_fails=2 fail_timeout=10s` = 10 秒�
  顺序错了：注册摘了但 LB 还转发 → 摘 LB 太急掐了在途请求 → 都会出现规律性 5xx 毛刺
 ```
 
-一句话记忆：**摘流量分三层（注册中心、LB、连接），恢复顺序正好反过来，每层之间等一个探活周期**。K8s 把这套手序内置成了 preStop + terminationGracePeriodSeconds，见[K8s生产排障手册](../../D-云原生/容器技术/Kubernetes/K8s生产排障手册.md)的滚动更新一节。
+一句话记忆：**摘流量分三层（注册中心、LB、连接），恢复顺序正好反过来，每层之间等一个探活周期**。K8s 把这套手序内置成了 preStop + terminationGracePeriodSeconds，见[K8s生产排障手册](../../../D-云原生/容器技术/Kubernetes/K8s生产排障手册.md)的滚动更新一节。
 
 追问链
 ------
