@@ -12,3 +12,4 @@ config.ini
 *.iml
 
 .idea/
+.mimosa/
