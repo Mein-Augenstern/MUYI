@@ -18,7 +18,7 @@ Insert into select请慎用。这天xxx接到一个需求，需要将表A的数�
 
 * 在迁移的过程中，应急群是先反应有小部分用户出现支付失败，随后反应大批用户出现支付失败的情况，以及初始化订单失败的情况，同时腾讯也开始报警。
 
-![怎么肥事](https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/picture/%E6%80%8E%E4%B9%88%E8%82%A5%E4%BA%8B.png)
+![怎么肥事](/images/legacy/怎么肥事.png)
 
 * 然后xxx就慌了，立即停止了迁移。
 
@@ -76,7 +76,7 @@ WHERE
 
 ![数据查询_1](/images/legacy/数据查询_1.png)
 
-![数据查询_2](https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/picture/%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2_2.png)
+![数据查询_2](/images/legacy/数据查询_2.png)
 
 ![数据查询_3](/images/legacy/数据查询_3.png)
 
@@ -89,7 +89,7 @@ WHERE
 
 分析执行过程。
 
-![数据分析_1](https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/picture/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90_1.png)
+![数据分析_1](/images/legacy/数据分析_1.png)
 
 通过观察迁移sql的执行情况你会发现order_today是全表扫描，也就意味着在执行insert into select from 语句时，mysql会从上到下扫描order_today内的记录并且加锁，这样一来不就和直接锁表是一样了。
 

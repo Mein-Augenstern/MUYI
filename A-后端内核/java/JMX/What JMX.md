@@ -15,7 +15,7 @@
 
 JMX最常见的场景是监控Java程序的基本信息和运行情况，任何Java程序都可以开启JMX，然后使用JConsole或Visual VM进行预览。下图是使用Jconsle通过JMX查看Java程序的运行信息
 
-![jmx_1](https://github.com/DemoTransfer/Java-Guide/blob/master/java/JMX/picture/jmx_1.png)
+![jmx_1](/images/legacy/jmx_1.png)
 
 <a href="https://baike.baidu.com/item/JMX/2829357?fr=aladdin">百度百科简介</a>
 ------
