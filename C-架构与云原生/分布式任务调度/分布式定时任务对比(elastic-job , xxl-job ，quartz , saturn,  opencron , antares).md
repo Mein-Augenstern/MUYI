@@ -130,5 +130,5 @@ antares
 
 此处列出了几个代表性的开源产品
 
-![比较](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/picture/%E6%AF%94%E8%BE%83%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%9B%BE.png)
+![比较](/images/legacy/比较系统架构图.png)
 

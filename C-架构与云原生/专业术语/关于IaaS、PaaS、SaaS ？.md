@@ -51,7 +51,7 @@
 
 用一张图来表示就是这样的。
 
-![sass-pass-iass-8](https://github.com/DemoTransfer/Java-Guide/blob/master/docs/%E4%B8%93%E4%B8%9A%E6%9C%AF%E8%AF%AD/picture/sass-pass-iass-8.jpg)
+![sass-pass-iass-8](/images/legacy/sass-pass-iass-8.jpg)
 
 现在我们来谈谈具体细节。
 
