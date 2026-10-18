@@ -1,4 +1,4 @@
-# A 轨 · TypeScript（全栈扩展）
+# F 轨 · TypeScript（全栈扩展）
 
 > 2026-10 新建。站长方向是全栈：Java 后端为主，前端用 TS——`star-site-app-demo2`（uni-app 微信小程序 + H5）
 > 与 `star-site-frontend`（Vue3 Web 管理端）两个生产项目滚动反哺。
