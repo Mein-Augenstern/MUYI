@@ -13,3 +13,7 @@ config.ini
 
 .idea/
 .mimosa/
+node_modules
+book/dist/
+book/.vitepress/cache/
+book/.vitepress/sidebar.json

@@ -33,8 +33,8 @@
 
 | 项目 | 技术栈 | 角色 |
 |---|---|---|
-| `/Users/guoyangyang/develop/star-site-app-demo2` | uni-app 3.0 + Vue 3.4 + TS 4.9 + Vite 5（pnpm） | 微信小程序 + H5 双端（`build:mp-weixin`） |
-| `/Users/guoyangyang/develop/star-site-frontend` | Vue 3.5 + TS 6.0 + Vite 8 + Element Plus + Pinia + Vue Router 4 | Web 管理端（`vue-tsc -b` 构建门禁） |
+| `~/develop/star-site-app-demo2` | uni-app 3.0 + Vue 3.4 + TS 4.9 + Vite 5（pnpm） | 微信小程序 + H5 双端（`build:mp-weixin`） |
+| `~/develop/star-site-frontend` | Vue 3.5 + TS 6.0 + Vite 8 + Element Plus + Pinia + Vue Router 4 | Web 管理端（`vue-tsc -b` 构建门禁） |
 
 核心素材文件（写作引用时的真实路径）：
 
