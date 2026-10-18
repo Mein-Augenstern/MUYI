@@ -33,7 +33,12 @@ mkdirSync(SRC, { recursive: true });
 for (const d of WHITELIST_DIRS) {
   cpSync(join(REPO, d), join(SRC, d), {
     recursive: true,
-    filter: (p) => !p.includes("node_modules") && !p.includes("/."),
+    filter: (p) =>
+      !p.includes("node_modules") &&
+      !p.includes("/.") &&
+      // 小写 readme.md 是配图目录说明（几十字），不是文章——不进书；
+      // 大写 README.md 是轨道导航页，保留
+      !/\/readme\.md$/.test(p),
   });
 }
 for (const [from, to] of Object.entries(WHITELIST_FILES)) {
