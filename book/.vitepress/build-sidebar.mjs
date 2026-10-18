@@ -1,9 +1,9 @@
-// 扫描 7 轨道目录生成 sidebar 结构（构建期运行，书导航自动跟随仓库生长）
-// 用法：node build-sidebar.mts  →  输出 .vitepress/sidebar.json
+// 扫描书源副本（book/src/，由 prepare-src.mjs 生成）生成 sidebar 结构。
+// 用法：node build-sidebar.mjs  →  输出 .vitepress/sidebar.json
 import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
 
-const ROOT = join(import.meta.dirname, "..", ".."); // 仓库根
+const ROOT = join(import.meta.dirname, "..", "src"); // 书源副本根
 const TRACKS = [
   "A-后端内核",
   "B-AI工程",

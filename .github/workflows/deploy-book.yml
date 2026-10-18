@@ -28,9 +28,10 @@ jobs:
       - name: Install deps
         run: npm ci
         working-directory: book
-      # 书源在仓库根而依赖在 book/ 下——仓库根建软链让 Rollup 向上解析命中（本地同款）
-      - name: Link node_modules at repo root
-        run: ln -sfn book/node_modules node_modules
+      # 书源副本化后（src 在 book/ 内），根软链 hack 不再需要
+      - name: Prepare book source (copy + HTML to MD)
+        run: node scripts/prepare-src.mjs
+        working-directory: book
       - name: Generate sidebar
         run: node .vitepress/build-sidebar.mjs
         working-directory: book
