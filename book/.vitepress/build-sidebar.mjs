@@ -23,39 +23,33 @@ function titleOf(mdPath) {
   return mdPath.split("/").pop().replace(/\.md$/, "");
 }
 
-function walk(dir, base) {
-  // 返回该目录下的 { pages, groups }：md 文件为页，子目录递归为组
-  const pages = [];
-  const groups = [];
+function walk(dir) {
+  // 返回 VitePress SidebarGroup 的 items 数组：md 文件为页项（{text,link}），
+  // 子目录递归为组项（{text,collapsed,items}）。统一用 items 字段——
+  // VitePress 只认 items，早前版本误用 pages/groups 导致子目录点击无反应。
+  const items = [];
   for (const name of readdirSync(dir).sort((a, b) => a.localeCompare(b, "zh"))) {
     if (name.startsWith(".") || name === "node_modules") continue;
     const full = join(dir, name);
     const rel = "/" + relative(ROOT, full).replaceAll("\\", "/");
     if (statSync(full).isDirectory()) {
-      const sub = walk(full, rel);
-      if (sub.pages.length || sub.groups.length) {
-        groups.push({
-          text: name,
-          collapsed: true,
-          ...sub,
-        });
+      const subItems = walk(full);
+      if (subItems.length) {
+        items.push({ text: name, collapsed: true, items: subItems });
       }
     } else if (name.endsWith(".md")) {
-      pages.push({ text: titleOf(full), link: rel });
+      items.push({ text: titleOf(full), link: rel });
     }
   }
-  return { pages, groups };
+  return items;
 }
 
 const sidebar = TRACKS.map((track) => {
   const abs = join(ROOT, track);
-  const { pages, groups } = walk(abs, "");
   return {
     text: track,
     collapsed: false,
-    items: [...pages, ...groups].filter(
-      (i) => !(i.link && i.link.endsWith("/README")) || true
-    ),
+    items: walk(abs),
   };
 });
 
