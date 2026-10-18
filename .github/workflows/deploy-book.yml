@@ -1,0 +1,53 @@
+name: Deploy Book to Pages
+
+# 书自动跟随仓库生长：push master 即重建部署（与"一篇一 commit"维护规约衔接）
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: book/package-lock.json
+      - name: Install deps
+        run: npm ci
+        working-directory: book
+      # 书源在仓库根而依赖在 book/ 下——仓库根建软链让 Rollup 向上解析命中（本地同款）
+      - name: Link node_modules at repo root
+        run: ln -sfn book/node_modules node_modules
+      - name: Generate sidebar
+        run: node .vitepress/build-sidebar.mjs
+        working-directory: book
+      - name: Build book
+        run: npx vitepress build .
+        working-directory: book
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: book/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
