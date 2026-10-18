@@ -95,4 +95,26 @@ const walkConvert = (dir) => {
   }
 };
 walkConvert(SRC);
-console.log(`书源就绪：${SRC}（预处理 ${files} 个 md）`);
+
+// ---- 第 3 步：敏感词断言（未来防线）----
+// 书是公开 Pages：书源里出现下述词即中断构建（历史教训：组织研究文、
+// 银行真名曾误入公开书）。改动若触发断言，先判断是脱敏遗漏还是白名单词。
+const SENSITIVE = ["样本银行A", "样本银行B", "样本银行B", "样本银行A", "某头部金融科技集团", "某头部金融科技集团", "组织研究"];
+const offenders = [];
+const walkScan = (dir) => {
+  for (const name of readdirSync(dir)) {
+    const full = join(dir, name);
+    if (statSync(full).isDirectory()) walkScan(full);
+    else if (name.endsWith(".md")) {
+      const text = readFileSync(full, "utf8");
+      for (const kw of SENSITIVE) if (text.includes(kw)) offenders.push(`${name}: ${kw}`);
+    }
+  }
+};
+walkScan(SRC);
+if (offenders.length) {
+  console.error("敏感词断言失败，构建中止：\n" + offenders.join("\n"));
+  process.exit(1);
+}
+
+console.log(`书源就绪：${SRC}（预处理 ${files} 个 md，敏感词断言通过）`);
