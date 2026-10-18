@@ -99,7 +99,7 @@ walkConvert(SRC);
 // ---- 第 3 步：敏感词断言（未来防线）----
 // 书是公开 Pages：书源里出现下述词即中断构建（历史教训：组织研究文、
 // 银行真名曾误入公开书）。改动若触发断言，先判断是脱敏遗漏还是白名单词。
-const SENSITIVE = ["样本银行A", "样本银行B", "样本银行B", "样本银行A", "某头部金融科技集团", "某头部金融科技集团", "组织研究"];
+const SENSITIVE = ["网商银行", "微众银行", "WeBank", "MYbank", "蚁蚁集团", "蚁蚁金服", "技术组织全景"];
 const offenders = [];
 const walkScan = (dir) => {
   for (const name of readdirSync(dir)) {
