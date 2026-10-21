@@ -37,6 +37,7 @@ export default defineConfig({
     nav: [
       { text: "首页", link: "/" },
       { text: "仓库说明", link: "/repo" },
+      { text: "个人主页", link: "https://mein-augenstern.github.io/" },
       { text: "GitHub", link: "https://github.com/Mein-Augenstern/MUYI" },
     ],
     outline: { level: [2, 3] },
