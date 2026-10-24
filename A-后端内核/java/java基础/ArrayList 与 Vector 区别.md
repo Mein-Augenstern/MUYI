@@ -4,7 +4,7 @@ ArrayList 与 Vector 区别呢?为什么要用Arraylist取代Vector呢？
 一句话答案
 ====
 
-```Vector``` 类的所有方法都是同步的。可以由两个线程安全地访问一个Vector对象、但是一个线程访问Vector的话代码要在同步操作上耗费大量的时间。
+```Vector``` 类的所有方法都是同步的。可以由两个线程安全地访问一个Vector对象。但是一个线程访问 Vector 时，代码要在同步操作上耗费时间。
 
 ```Arraylist```不是同步的，所以在不需要保证线程安全时建议使用Arraylist。
 
@@ -39,12 +39,12 @@ public synchronized boolean add(E e) {
 要点：
 
 * **锁粒度粗**：```get```/```size``` 这类读方法也同步，读多场景下所有读操作串行化，吞吐急剧下降。
-* **单线程也要付费**：无竞争的 synchronized 经过锁升级优化后开销不大，但终究多了一条获取监视器锁的路径，JIT 优化也更受限。
-* **复合操作照样不安全**：```if (list.size() > 0) list.remove(list.size() - 1)``` 这种"先检查再操作"在两个线程交替执行时依然会越界——方法级同步只保证**单个方法**原子，不保证**调用方逻辑**原子。这个经典反例在 [CopyOnWriteArrayList源码](../Java集合/CopyOnWriteArrayList源码.md) 一篇里有完整展开。
+* **单线程也要付费**：无竞争的 synchronized 经过锁升级优化后开销不大。但终究多了一条获取监视器锁的路径，JIT 优化也更受限。
+* **复合操作照样不安全**：```if (list.size() > 0) list.remove(list.size() - 1)``` 这种"先检查再操作"在两个线程交替执行时依然会越界。方法级同步只保证**单个方法**原子，不保证**调用方逻辑**原子。这个经典反例在 [CopyOnWriteArrayList源码](../Java集合/CopyOnWriteArrayList源码.md) 一篇里有完整展开。
 
 2、ArrayList 干脆不同步
 
-JDK 的取舍是：容器默认不为多线程付费，需要线程安全时由调用方显式选择并发容器或同步包装（见第五节）。
+JDK 的取舍是：容器默认不为多线程付费。需要线程安全时，由调用方显式选择并发容器或同步包装（见第五节）。
 
 三、扩容策略：1.5 倍 vs 2 倍
 ====
@@ -74,7 +74,7 @@ Vector    : 10 -> 20 -> 40 -> 80 -> 160 -> 320 -> 640 ...（×2，扩容次数�
 
 两者的迭代器都是 **fail-fast（快速失败）** 的：
 
-* 结构性修改（列表自身的 add/remove 等）会使 ```modCount++```；
+* 结构性修改（列表自身的 add、remove 这类方法）会使 ```modCount++```；
 * 迭代器每次 ```next()``` 前校验 ```modCount != expectedModCount```，一旦不等立即抛 ```ConcurrentModificationException```；
 * **注意 Vector 虽"线程安全"，迭代它同样需要外部同步**——同步的是单个方法，而迭代是跨多次调用的过程。正确姿势是 ```synchronized(list){ for(...){...} }``` 或统一用 ```iterator.remove()```。
 
@@ -89,7 +89,7 @@ Vector    : 10 -> 20 -> 40 -> 80 -> 160 -> 320 -> 640 ...（×2，扩容次数�
 | Collections.synchronizedList(new ArrayList<>()) | 低并发、写多读少 | 包装类在方法体内 synchronized，本质仍是粗粒度锁 |
 | CopyOnWriteArrayList | 读多写少（监听器列表、黑白名单） | 写时复制底层数组，读完全无锁，迭代不抛 CME |
 
-所以"要线程安全"**不再是保留 Vector 的理由**：它对标的每个场景都有更好的替代，而翻倍扩容、方法级粗锁这两个历史包袱是永久的。面试话术总结"为什么用 ArrayList 取代 Vector"：单线程下省掉同步开销；真需要线程安全时也轮不到 Vector，而是 CopyOnWriteArrayList 等并发容器。
+所以"要线程安全"**不再是保留 Vector 的理由**：它对比的每个场景都有更好的替代。翻倍扩容、方法级粗锁这两个历史包袱是永久的。面试话术总结"为什么用 ArrayList 取代 Vector"：单线程下省掉同步开销。真需要线程安全时也轮不到 Vector，而是 CopyOnWriteArrayList 这类并发容器。
 
 延伸阅读：[ArrayList扩容](../Java集合/ArrayList扩容.md)、[ArrayList源码注释](../Java集合/ArrayList源码注释.md)、[CopyOnWriteArrayList源码](../Java集合/CopyOnWriteArrayList源码.md)、[快速失败（fail—fast）和安全失败（fail—safe）](快速失败（fail—fast）和安全失败（fail—safe）.md)、[Arraylist 与 LinkedList 区别](Arraylist%20与%20LinkedList%20区别.md)。
 

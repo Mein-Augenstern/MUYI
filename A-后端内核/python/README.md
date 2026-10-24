@@ -1,7 +1,7 @@
 # Python 轨道：Java 工程师的全栈扩展
 
 > **站长背景**：Java 为主力语言（并发/JVM/集合源码级，见 [java/](../java/)），2026 年起深入 Python 并已有两个生产项目落地。
-> **这条轨道的写法**：不写语法扫盲——每个主题都用「Java 对照表」切入：*Java 里对应物是什么 → Python 的差异是什么 → 差异背后的生态原因 → 我的生产项目里怎么落的*。
+> **这条轨道的写法**：不写语法扫盲。每个主题都用「Java 对照表」切入。*Java 里对应物是什么 → Python 的差异是什么 → 差异背后的生态原因 → 我的生产项目里怎么落的*。
 > 所有代码段可追溯到真实仓库，不接受纸上谈兵。
 
 ## 学习方法：对照式迁移，而非从零学
@@ -85,13 +85,23 @@ Java 工程师学 Python 最大的坑不是语法，是**用 Java 直觉写 Pyth
 ### voice-utils（终端语音工程，即库 README 中的 voice-zcode，项目已更名、类名仍保留 VoiceZcodeError）
 
 - 路径：`~/develop/voice-utils`
-- 可挖素材：`pyproject.toml`（依赖区间约束 + 平台 wheel 钉版注释、`[tencent]`/`[macos]` 可选依赖组、ruff 配置、CLI 入口）、`src/voice_utils/domain/exceptions.py`（两层异常体系，message/detail 分流）、`src/voice_utils/`（asr/tts/agent/pipeline/storage 分层）、`Makefile` + `.venv` + `install.sh`（虚拟环境工作流）、`config.yaml` + pyyaml（本地配置加载）
+- 可挖素材：
+  - `pyproject.toml`（依赖区间约束 + 平台 wheel 钉版注释、`[tencent]`/`[macos]` 可选依赖组、ruff 配置、CLI 入口）
+  - `src/voice_utils/domain/exceptions.py`（两层异常体系，message/detail 分流）
+  - `src/voice_utils/`（asr/tts/agent/pipeline/storage 分层）
+  - `Makefile` + `.venv` + `install.sh`（虚拟环境工作流）
+  - `config.yaml` + pyyaml（本地配置加载）
 
 ### star-site-platform-ai-service（家庭健康平台 AI 服务，Java 微服务体系中的 Python 节点）
 
 - 路径：`~/develop/star-site-platform-ai-service`
-- 可挖素材：`app/config.py`（frozen dataclass + 环境变量驱动 + 无 key 自动沙箱模式）、`requirements.txt`（8 依赖全量 `==` 钉版，Docker 部署可复现）、`app/agents/`（assistant/报告解读/财务诊断/OCR 等 5 个 LangGraph 智能体）、`app/core/security.py`（JWT 自行验签，与 Java 网关体系对接）、`Dockerfile`
-- 诚实备注：该服务尚未迁移 pyproject（仍是 requirements.txt），voice-utils 也还没有锁文件——**现状本身就是写作素材**：两种钉版策略的取舍会写成复盘，改进后再回写对比篇。
+- 可挖素材：
+  - `app/config.py`（frozen dataclass + 环境变量驱动 + 无 key 自动沙箱模式）
+  - `requirements.txt`（8 依赖全量 `==` 钉版，Docker 部署可复现）
+  - `app/agents/`（assistant/报告解读/财务诊断/OCR 等 5 个 LangGraph 智能体）
+  - `app/core/security.py`（JWT 自行验签，与 Java 网关体系对接）
+  - `Dockerfile`
+- 诚实备注：该服务尚未迁移 pyproject（仍是 requirements.txt），voice-utils 也还没有锁文件。**现状本身就是写作素材**：两种钉版策略的取舍会写成复盘，改进后再回写对比篇。
 
 ## 维护规约
 

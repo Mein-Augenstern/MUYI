@@ -34,7 +34,7 @@ public class ArrayList<E> extends AbstractList<E>
 }
 ```
 
-所以通过这两个字段我们可以看出，ArrayList的实现主要就是用了一个Object的数组，用来保存所有的元素，以及一个size变量用来保存当前数组中已经添加了多少元素。接着我们看下最重要的add操作时的源代码：
+所以通过这两个字段我们可以看出，ArrayList的实现主要就是用了一个Object的数组，用来保存所有的元素。以及一个size变量用来保存当前数组中已经添加了多少元素。接着我们看下最重要的add操作时的源代码：
 
 ```java
 public boolean add(E e) {
@@ -49,18 +49,18 @@ public boolean add(E e) {
 }
 ```
 
-ensureCapacityInternal()这个方法的详细代码我们可以暂时不看，它的作用就是判断如果将当前的新元素加到列表后面，列表的elementData数组的大小是否满足，如果size + 1的这个需求长度大于了elementData这个数组的长度，那么就要对这个数组进行扩容。
+ensureCapacityInternal()这个方法的详细代码我们可以暂时不看。它的作用就是判断如果将当前的新元素加到列表后面，列表的elementData数组的大小是否满足。如果size + 1的这个需求长度大于了elementData这个数组的长度，那么就要对这个数组扩容。
 
 由此看到add元素时，实际做了两个大的步骤：
 
 * 判断elementData数组容量是否满足需求
 * 在elementData对应位置上设置值
 
-这样也就出现了第一个导致线程不安全的隐患，在多个线程进行add操作时可能会导致elementData数组越界。具体逻辑如下：
+这样也就出现了第一个导致线程不安全的隐患，在多个线程add操作时可能会导致elementData数组越界。具体逻辑如下：
 
 * 列表大小为9，即size=9
 
-* 线程A开始进入add方法，这时它获取到size的值为9，调用ensureCapacityInternal方法进行容量判断。
+* 线程A开始进入add方法，这时它获取到size的值为9，调用ensureCapacityInternal方法判断容量。
 
 * 线程B此时也进入add方法，它获取到size的值也为9，也开始调用ensureCapacityInternal方法。
 
@@ -68,9 +68,9 @@ ensureCapacityInternal()这个方法的详细代码我们可以暂时不看，�
 
 * 线程B也发现需求大小为10，也可以容纳，返回。
 
-* 线程A开始进行设置值操作， elementData[size++] = e 操作。此时size变为10。
+* 线程A开始设置值操作， elementData[size++] = e 操作。此时size变为10。
 
-* 线程B也开始进行设置值操作，它尝试设置elementData[10] = e，而elementData没有进行过扩容，它的下标最大为9。于是此时会报出一个数组越界的异常ArrayIndexOutOfBoundsException.
+* 线程B也开始设置值操作，它尝试设置elementData[10] = e，而elementData没有扩容过，它的下标最大为9。于是此时会报出一个数组越界的异常ArrayIndexOutOfBoundsException.
 
 ![arraylist-并发数组越界问题出现](/images/legacy/数组越界-arraylist.png)
 
@@ -80,7 +80,7 @@ ensureCapacityInternal()这个方法的详细代码我们可以暂时不看，�
 
 * size = size + 1;
 
-在单线程执行这两条代码时没有任何问题，但是当多线程环境下执行时，可能就会发生一个线程的值覆盖另一个线程添加的值，具体逻辑如下：
+在单线程执行这两条代码时没有任何问题。但是当多线程环境下执行时，可能就会发生一个线程的值覆盖另一个线程添加的值。具体逻辑如下：
 
 * 列表大小为0，即size=0
 
@@ -92,7 +92,7 @@ ensureCapacityInternal()这个方法的详细代码我们可以暂时不看，�
 
 * 线程B开始将size的值增加为2
 
-* 这样线程AB执行完毕后，理想中情况为size为2，elementData下标0的位置为A，下标1的位置为B。而实际情况变成了size为2，elementData下标为0的位置变成了B，下标1的位置上什么都没有。并且后续除非使用set方法修改此位置的值，否则将一直为null，因为size为2，添加元素时会从下标为2的位置上开始。
+* 这样线程AB执行完毕后，理想中情况为size为2，elementData下标0的位置为A，下标1的位置为B。而实际情况变成了size为2，elementData下标为0的位置变成了B，下标1的位置上什么都没有。并且后续除非使用set方法修改此位置的值，否则将一直为null。因为size为2，添加元素时会从下标为2的位置上开始。
 
 ![arraylist-null和覆盖的情况出现](/images/legacy/null和覆盖情况-arraylist.png)
 

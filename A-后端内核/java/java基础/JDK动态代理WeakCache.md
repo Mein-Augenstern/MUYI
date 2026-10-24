@@ -5,7 +5,7 @@
 
 > * <a href="https://blog.csdn.net/sinat_36945592/article/details/88071228#_1">Java源码阅读------WeakCache</a>
 
-在讨论Proxy类之前，不得不先了解这个类，这个类是用来干嘛的呢？从其英文意义上来看，它是弱缓存类，也就是说它是一个起着缓存作用的类，它用来存贮软引用类型的实例，从该类在Proxy类中的实例化可以看出：
+在讨论Proxy类之前，必须先了解这个类。这个类的作用：从其英文意义上来看，它是弱缓存类，即一个起着缓存作用的类。它用来存储弱引用类型的实例，从该类在Proxy类中的实例化可以看出：
 
 ```java
 private static final WeakCache<ClassLoader, Class<?>[], Class<?>>
@@ -19,7 +19,7 @@ WeakCache是缓存类加载器以及该加载器加载的委托类的。其中Ke
 WeakCache类作用
 ------
 
-WeakCache类的实质作用是缓存实现了代理目标接口的类的信息以及对这些类的一些操作，以及这些类的类加载器的。其中的重要的方法是get方法，该方法是来获取WeakCache缓存中与委托类的Class类对象的。WeakCache重要的方法是，get方法，该方法实现了缓存的机制，其源码以及注释如下：
+WeakCache类缓存实现了代理目标接口的类的信息。它也缓存对这些类的一些操作，以及这些类的类加载器。其中重要的方法是get方法。该方法是来获取WeakCache缓存中委托类的Class类对象的，实现了缓存的机制。其源码以及注释如下：
 
 ```java
 public V get(K key, P parameter) {
@@ -80,6 +80,6 @@ public V get(K key, P parameter) {
 	}
 }
 ```
-get方法利用ConcurrentMap类来进行缓存，里面存贮Key对象以及Factory对象，Factory类用来存贮缓存的信息的，其实现了Supplier接口，其get方法里面调用了ProxyClassFactory类的apply方法来返回Class类对象，而且get方法是一个同步的方法，也表明WeakCache缓存是线程安全的。
+get方法利用ConcurrentMap类来缓存，里面存贮Key对象以及Factory对象。Factory类用来存贮缓存的信息，其实现了Supplier接口。其get方法里面调用了ProxyClassFactory类的apply方法来返回Class类对象。get方法是一个同步的方法，也表明WeakCache缓存是线程安全的。
 
 

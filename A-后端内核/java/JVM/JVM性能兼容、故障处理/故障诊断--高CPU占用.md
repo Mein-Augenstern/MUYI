@@ -63,7 +63,7 @@ jstack 10834 |grep 2b05 -A 30
 扩展
 ====
 
-根据实际线程情况定位相关代码，如果定位到 GC 相关线程引起高 CPU 问题，可使用 <a href="https://blog.csdn.net/xiaohulunb/article/details/103887785">jstat</a> 相关命令观察 GC 情况
+根据实际线程情况定位相关代码。如果定位到 GC 相关线程引起高 CPU 问题，可使用 <a href="https://blog.csdn.net/xiaohulunb/article/details/103887785">jstat</a> 命令观察 GC 情况
 例如： jstat -gcutil -t -h 5 PID 500 10
 
 说明
@@ -71,7 +71,7 @@ jstack 10834 |grep 2b05 -A 30
 
 相关测试代码参考-<a href="https://github.com/GourdErwa/java-advanced/tree/master/java-jvm/src/main/java/io/gourd/java/jvm/oom">源码</a>
 
-实际生产过程中我们可以选择更多的工具进行运行监控、分析 dump 文件：
+实际生产过程中我们可以选择更多的工具用于运行监控、分析 dump 文件：
 
 * <a href="https://www.eclipse.org/mat/">推荐 Memory Analyzer (MAT)</a>
 

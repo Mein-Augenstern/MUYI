@@ -36,15 +36,15 @@ public class HashMap<K,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneabl
 ```
 * **loadFactor加载因子**
 
-loadFactor加载因子是控制数组存放数据的疏密程度，loadFactor越趋近于1，那么 数组中存放的数据(entry)也就越多，也就越密，也就是会让链表的长度增加，loadFactor越小，也就是趋近于0，数组中存放的数据(entry)也就越少，也就越稀疏。
+loadFactor加载因子是控制数组存放数据的疏密程度。loadFactor越趋近于1，那么 数组中存放的数据(entry)也就越多，也就越密，也就是会让链表的长度增加。loadFactor越小，也就是趋近于0，数组中存放的数据(entry)也就越少，也就越稀疏。
 
-**loadFactor太大导致查找元素效率低，太小导致数组的利用率低，存放的数据会很分散。loadFactor的默认值为0.75f是官方给出的一个比较好的临界值。**
+**loadFactor太大导致查找元素效率低，太小导致数组的利用率低，存放的数据会很分散。loadFactor的默认值为0.75f是官方给出的一个临界值。**
 
-给定的默认容量为 16，负载因子为 0.75。Map 在使用过程中不断的往里面存放数据，当数量达到了 16 * 0.75 = 12 就需要将当前 16 的容量进行扩容，而扩容这个过程涉及到 rehash、复制数据等操作，所以非常消耗性能。
+给定的默认容量为 16，负载因子为 0.75。Map 在使用过程中不断的往里面存放数据，当数量达到了 16 * 0.75 = 12 就需要将当前 16 的容量扩容。而扩容这个过程涉及到 rehash、复制数据这类操作，所以非常消耗性能。
 
 * **threshold**
 
-**threshold = capacity * loadFactor，当Size>=threshold**的时候，那么就要考虑对数组的扩增了，也就是说，这个的意思就是 **衡量数组是否需要扩增的一个标准**。
+**threshold = capacity * loadFactor，当Size>=threshold**的时候，那么就要考虑对数组的扩增了。即这个的意思就是 **衡量数组是否需要扩增的一个标准**。
 
 Node节点类源码
 ====
@@ -184,7 +184,7 @@ HashMap只提供了put用于添加元素，**putVal方法只是给put方法调�
 对putVal方法添加元素的分析如下：
 
 * ①如果定位到的数组位置没有元素 就直接插入。
-* ②如果定位到的数组位置有元素就和要插入的key比较，如果key相同就直接覆盖，如果key不相同，就判断p是否是一个树节点，如果是就调用e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value)将元素添加进入。如果不是就遍历链表插入(插入的是链表尾部)。
+* ②如果定位到的数组位置有元素就和要插入的key比较。如果key相同就直接覆盖。如果key不相同，就判断p是否是一个树节点。如果是就调用e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value)将元素添加进入。如果不是就遍历链表插入(插入的是链表尾部)。
 
 ![putVal方法添加元素流程图](/images/legacy/putVal方法添加元素流程图.png)
 
@@ -261,12 +261,12 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
     return null;
 } 
 ```
-**我们再来对比一下 JDK1.7 put方法的代码**
+**我们再来对比 JDK1.7 put方法的代码**
 
 **对于put方法的分析如下：**
 
 * ①如果定位到的数组位置没有元素 就直接插入。
-* ②如果定位到的数组位置有元素，遍历以这个元素为头结点的链表，依次和插入的key比较，如果key相同就直接覆盖，不同就采用头插法插入元素。
+* ②如果定位到的数组位置有元素，遍历以这个元素为头结点的链表，依次和插入的key比较。如果key相同就直接覆盖，不同就采用头插法插入元素。
 
 ```java
 public V put(K key, V value) {
@@ -336,7 +336,7 @@ final Node<K,V> getNode(int hash, Object key) {
 resize方法
 ====
 
-进行扩容，会伴随着一次重新hash分配，并且会遍历hash表中所有的元素，是非常耗时的。在编写程序中，要尽量避免resize。
+扩容会伴随着一次重新hash分配，并且会遍历hash表中所有的元素，是非常耗时的。在编写程序中，要尽量避免resize。
 
 ```java
 final Node<K,V>[] resize() {

@@ -41,7 +41,7 @@
 
 * 8 种基本类型：byte(1字节)、short(2)、int(4)、long(8)、float(4)、double(8)、char(2)、boolean。
 
-* 数量级速记：int 约 ±21 亿；long 约 ±922 亿亿；金额计算用 long（分为单位）或 BigDecimal，禁用 float/double（二进制无法精确表示十进制小数）。
+* 数量级速记：int 约 ±21 亿。long 约 ±922 亿亿。金额计算用 long（分为单位）或 BigDecimal，禁用 float/double（二进制无法精确表示十进制小数）。
 
 * 包装类缓存池：Byte/Short/Integer/Long 缓存 -128~127，Character 缓存 0~127，Boolean 只有 true/false；Float/Double 无缓存。
 
@@ -54,9 +54,9 @@
 
 * ==：基本类型比较值；引用类型比较地址（是否同一个对象）。
 
-* equals：Object 里的默认实现就是 ==；String、Integer 等重写后比较内容。重写要满足自反、对称、传递、一致，且与 null 比较返回 false。
+* equals：Object 里的默认实现就是 ==；例如 String、Integer 重写后比较内容。重写要满足自反、对称、传递、一致，且与 null 比较返回 false。
 
-* 与 hashCode 的契约：equals 相等则 hashCode 必须相等；hashCode 相等 equals 未必相等（哈希冲突）；只重写 equals 不重写 hashCode，对象放进 HashMap/HashSet 后会"存得进、取不出"。
+* 与 hashCode 的契约：equals 相等则 hashCode 必须相等。hashCode 相等 equals 未必相等（哈希冲突）。只重写 equals 不重写 hashCode，对象放进 HashMap/HashSet 后会"存得进、取不出"。
 
 * String 重写 equals 的判断顺序：同一引用 → instanceof → 长度相等 → 逐字符比较，短路上先做便宜的判断。
 
@@ -69,7 +69,7 @@
 | 线程安全 | 不可变天然安全 | 不安全 | 安全（方法加 synchronized） |
 | 典型场景 | 常量、少量操作 | 单线程拼接（默认选它） | 多线程拼接（罕见） |
 
-* String 不可变的三件套：内部数组 private final、类被 final 修饰不可继承、不暴露任何修改入口；换来 hashCode 缓存、常量池复用、安全性（防篡改）。
+* String 不可变的三件套：内部数组 private final、类被 final 修饰不可继承、不暴露任何修改入口。换来 hashCode 缓存、常量池复用、安全性（防篡改）。
 
 * 循环里拼接必须用 StringBuilder；"a" + "b" 这类编译期常量会被折叠成一个字面量，无性能问题。
 
@@ -78,13 +78,13 @@
 五、散装高频考点
 ------
 
-* 参数传递：Java 只有值传递。基本类型拷贝值本身，对象拷贝"引用的值"——方法内对参数重新赋值不影响外部，修改对象内容则会影响外部。
+* 参数传递：Java 只有值传递。基本类型拷贝值本身，对象拷贝"引用的值"。方法内对参数重新赋值不影响外部，修改对象内容则会影响外部。
 
 * 深拷贝与浅拷贝：浅拷贝只复制引用，深拷贝连引用指向的对象一起复制。
 
 * switch 支持 String（JDK7 起），底层靠 hashCode + equals 定位 case。
 
-* 反射与 SPI 是框架两大地基：反射在运行期操作类（见 [Java反射](../java/java基础/Java反射.md)），SPI 按 META-INF/services 声明做服务发现（见 [SPI](../java/java基础/SPI.md)），JDBC 驱动加载就是典型。
+* 反射与 SPI 是框架两大地基：反射在运行期操作类（见 [Java反射](../java/java基础/Java反射.md)）。SPI 按 META-INF/services 声明做服务发现（见 [SPI](../java/java基础/SPI.md)）。JDBC 驱动加载就是典型。
 
 延伸阅读
 ------

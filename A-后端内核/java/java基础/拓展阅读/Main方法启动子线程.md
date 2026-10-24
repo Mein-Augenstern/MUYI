@@ -11,7 +11,7 @@ Question
 一、JVM 的退出条件
 ====
 
-Java 语言规范对初始退出条件的描述可以概括为：当 JVM 中**只剩 daemon 线程**在运行时，JVM 正常终止。也就是说：
+Java 语言规范对初始退出条件的描述可以概括为：当 JVM 中**只剩 daemon 线程**在运行时，JVM 正常终止。即：
 
 * main 线程没有任何特殊地位，它结束只是"少了一个非 daemon 线程"；
 * 判断进程活不活，数的是**非 daemon 线程的个数**：还有 1 个，JVM 就不退；
@@ -36,7 +36,7 @@ child  └────────── 仍在运行 tick...tick... ───�
 | 栈 | 独立线程栈 | 独立线程栈 |
 | 结束的影响 | 不影响子线程继续运行 | 非 daemon 未结束则 JVM 不退出 |
 
-线程之间是**平级**关系，"父子"只体现在创建瞬间传承的少量属性：daemon 标志、优先级、contextClassLoader、InheritableThreadLocal——运行期互相不依赖，谁先死都不影响对方。
+线程之间是**平级**关系，"父子"只体现在创建瞬间传承的少量属性：daemon 标志、优先级、contextClassLoader、InheritableThreadLocal。运行期互相不依赖，谁先死都不影响对方。
 
 三、代码验证
 ====
@@ -96,11 +96,11 @@ t.setDaemon(true);
 t.start();
 ```
 
-陷阱二：**别让守护线程干落盘的活**。日志异步刷盘、缓冲落库这类任务放 daemon 里，进程退出就可能丢最后一批数据（Logback 异步 Appender 专门用 shutdownHook 处理这件事）。
+陷阱二：**别让守护线程干落盘的活**。日志异步刷盘、缓冲落库这类任务放 daemon 里，进程退出就可能丢最后一批数据。Logback 异步 Appender 专门用 shutdownHook 处理这件事。
 
 陷阱三：**线程池默认非 daemon**。`Executors.newFixedThreadPool()` 的工作线程都是普通线程，单测里建了池忘 shutdown，测试方法结束后 JVM 迟迟不退，就是这个原因。
 
-适用判断：心跳、监控上报等"丢了无所谓"的后台任务用 daemon；凡是结果要落地的任务，不用。
+适用判断：心跳、监控上报这类"丢了无所谓"的后台任务用 daemon。凡是结果要落地的任务，不用。
 
 五、实战清单
 ====

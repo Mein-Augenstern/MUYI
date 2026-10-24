@@ -3,14 +3,12 @@
 
 > * <a href="https://blog.csdn.net/l18848956739/article/details/80917853">Spring如何管理Bean</a>
 
-常常听老师说容器，容器是什么？```Spring```中是如何体现的？一直有疑惑，这两天看了一下```Spring```管理```bean```的```Demo```，对于```Spring```中的容器有了简单的认识。我们知道，容器是一个空间的概念，一般理解为可盛放物体的地方。在```Spring```容器通常理解为```BeanFactory```或者```ApplicationContext```。我们知道```Spring```的```IOC```容器能够帮我们创建对象，对象交给```Spring```管理之后我们就不用手动去```new```对象。
+常常听老师说容器，一直有疑惑：容器是什么，```Spring```中是如何体现的。这两天看了```Spring```管理```bean```的```Demo```，对于```Spring```中的容器有了简单的认识。我们知道，容器是一个空间的概念，一般理解为可盛放物体的地方。在```Spring```容器通常理解为```BeanFactory```或者```ApplicationContext```。我们知道```Spring```的```IOC```容器能够帮我们创建对象。对象交给```Spring```管理之后我们就不用手动去```new```对象。
 
 BeanFactory与ApplicationContext的区别是什么？
 ====
 
-```BeanFactory```采用了工厂设计模式，负责读取```bean```配置文档，管理```bean```的加载，实例化，维护```bean```之间的依赖关系，负责```bean```的声明周期。而```ApplicationContext```除了提供上述```BeanFactory```所能提供的功能之外，还提供了更完整的框架功能：国际化支持、aop、事务等。同时```BeanFactory```在解析配置文件时并不会初始化对象，只有在使用对象```getBean()```才会对该对象进行初始化，而```ApplicationContext```在解析配置文件时对配置文件中的所有对象都初始化了，```getBean()```方法只是获取对象的过程。
-
-因此我们一般在使用的时候尽量使用```ApplicationContext```。
+简单说：```BeanFactory``` 是 Spring 最底层的容器接口，采用延迟加载（```getBean()``` 时才实例化）；```ApplicationContext``` 作为它的派生接口，额外提供国际化、事件、多配置文件加载等更完整的框架功能，并在容器启动时一次性创建所有 Bean。两者详细的对比见 [Spring中BeanFactory和ApplicationContext有什么区别](Spring中BeanFactory和ApplicationContext有什么区别.md)。
 
 ApplicationContext是如何管理Bean呢？
 ====
@@ -169,4 +167,4 @@ public class SpringTest {
 ```
 通过调用```save()```方法可以调到```PersonServiceBean```中去。
 
-通过这样的```Demo```，可以清楚看到```Spring```容器做的事情。它在初始化的时候将配置文件中```bean```以及相对应关系的配置都加入到```ApplicationContext```,通过一系列的转换将这些```bean```实例化，```bean```被它进行了管理，所以```ApplicationContext```就扮演了一个容器的角色。
+通过这样的```Demo```，可以清楚看到```Spring```容器做的事情。它在初始化的时候将配置文件中```bean```以及相对应关系的配置都加入到```ApplicationContext```,通过一系列的转换将这些```bean```实例化，它管理了这些```bean```，所以```ApplicationContext```就扮演了一个容器的角色。

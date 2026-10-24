@@ -77,6 +77,6 @@ DispatcherServlet 请求流程（必背，按编号说）
 * **过滤器 vs 拦截器**：Filter 是 Servlet 规范、依赖容器、能改请求/响应流；Interceptor 是 Spring 机制、能拿到 HandlerMethod、可注入 Bean。
 * **无 web.xml 怎么启动**：Servlet 3.0 SPI——容器扫描 `ServletContainerInitializer`，Spring 提供 `WebApplicationInitializer` 注册 DispatcherServlet；SpringBoot 打 war 时用 `SpringBootServletInitializer`。
 * **一个请求多个匹配**：更精确的 pattern 优先（精确 > 路径 > 通配）。
-* **DispatcherServlet 初始化时机**：默认随容器首次请求懒加载（load-on-startup=1 则随容器启动），先建父子容器（Root MVC 时代）——SpringBoot 已是单容器。
+* **DispatcherServlet 初始化时机**：默认随容器首次请求懒加载（load-on-startup=1 则随容器启动）。先建父子容器（Root MVC 时代）——SpringBoot 已是单容器。
 
 > 2026-10 依据主题重写（原文件为空壳）。

@@ -20,7 +20,12 @@ MyBatis vs Hibernate
 优缺点速记
 ----
 
-1. 优点：SQL 与代码解耦（XML 统一管理）、动态 SQL 标签、比 JDBC 省约 50% 代码、JDBC 支持的库都支持、与 Spring 集成好。
+1. 优点包括 5 项：
+   - SQL 与代码解耦（XML 统一管理）
+   - 动态 SQL 标签
+   - 比 JDBC 省约 50% 代码
+   - JDBC 支持的库都支持
+   - 与 Spring 集成好
 2. 缺点：SQL 工作量大、依赖数据库方言导致移植性差。
 
 高频考点
@@ -66,7 +71,9 @@ Mapper 接口原理
 
 1. 两种映射形式：`<resultMap>` 或 SQL 列别名；底层反射创建对象并逐属性赋值。
 2. 一对一：`<association>`；一对多：`<collection>`。
-3. 联合查询（一次 SQL）与嵌套查询（先查主表再按外键查关联，select 属性配置）两种实现。
+3. 两种实现：联合查询与嵌套查询。
+   - 联合查询：一次 SQL。
+   - 嵌套查询：先查主表再按外键查关联，select 属性配置。
 
 缓存
 ----
@@ -75,7 +82,7 @@ Mapper 接口原理
 |----|---------|---------|
 | 作用域 | SqlSession | Mapper（Namespace） |
 | 结构 | PerpetualCache + HashMap | 同左，可换 Ehcache 等 |
-| 默认 | 开启 | 关闭（`<cache/>` 开启，需 Serializable） |
+| 默认 | 启用 | 关闭（`<cache/>` 启用，需 Serializable） |
 | 失效 | flush/close 或 C/U/D 后清空 | 按配置判断刷新 |
 
 其他高频
@@ -87,9 +94,10 @@ Mapper 接口原理
 4. 动态 SQL 9 标签：`if / where / set / trim / foreach / choose / when / otherwise / bind`，原理 = 按表达式值逻辑判断动态拼 SQL。
 5. XML 其余标签：`<resultMap> <parameterMap> <sql> <include> <selectKey>`。
 6. 不同 XML 的 id 可否重复：配置了 namespace 即可重复（namespace+id 是 key）；新版 namespace 必填。
-7. 延迟加载：仅 association/collection 支持，配置 `lazyLoadingEnabled`；原理 = CGLIB 代理，调用 `a.getB()` 发现为 null 时才发 SQL 查 B 并 setB。
+7. 延迟加载：仅 association/collection 支持，配置 `lazyLoadingEnabled`。
+   - 原理 = CGLIB 代理，调用 `a.getB()` 发现为 null 时才发 SQL 查 B 并 setB。
 8. 接口绑定两种方式：注解（`@Select` 等，简单 SQL）/ XML（namespace = 接口全路径，复杂 SQL 常用）。
-9. Mapper 接口要求：方法名 = statement id；入参类型 = parameterType；返回类型 = resultType；namespace = 接口全路径。
+9. Mapper 接口要求：方法名 = statement id；参数类型 = parameterType；返回类型 = resultType；namespace = 接口全路径。
 10. 插件只能拦截 4 种对象：ParameterHandler、ResultSetHandler、StatementHandler、Executor；实现 Interceptor 接口 + 注解指定拦截点 + 配置注册。
 
 > 内容来源：[原文](../框架与中间件/MyBatis/Mybatis常见基本面试题.md) · 2026-10 整理回填。

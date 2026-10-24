@@ -8,9 +8,10 @@
 | 目录 | 范围 | 首批素材（来自实战） |
 |---|---|---|
 | llm基础/ | Transformer 直觉、token 与上下文窗口、温度与解码策略、幻觉成因与缓解 | ai-service 的 chat_model 工厂、temperature 选型 |
-| rag/ | 文档切分策略、嵌入模型选型、向量库（pgvector/Milvus）、检索重排、评测 | 体检报告解读链路（结构化指标→LLM） |
-| agent/ | ReAct 模式、工具调用设计、LangGraph 状态机、记忆系统、SSE 流式 | ai-service 的 ReAct 图 + ContextVar 身份注入 + astream_events 流式 |
+| rag/ | 文档切分策略、嵌入模型选型、向量库（pgvector/Redis/Milvus/Qdrant）、检索重排、评测 | 体检报告解读链路（结构化指标→LLM） |
+| agent/ | ReAct 模式、MCP 协议、结构化输出、工具调用设计、LangGraph 状态机、记忆系统、SSE 流式 | ai-service 的 ReAct 图 + ContextVar 身份注入 + astream_events 流式 |
 | prompt/ | 吴恩达 Prompt Engineering 课程笔记、系统提示词工程 | 财务诊断/报告解读的系统提示词演进 |
+| 推理与部署/ | 自托管 LLM 推理、推理引擎选型（vLLM/SGLang）、KV cache 与吞吐 | 自托管LLM推理-vLLM与SGLang.md |
 | 面试题/ | LLM 应用岗高频：上下文工程、多轮状态、提示注入防护、成本控制 | — |
 
 ## 写作规范

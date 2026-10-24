@@ -1,39 +1,41 @@
 文章清单
 ====
 
-* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9D%A2%E8%AF%95%E9%A2%98(%E5%BC%80%E5%8F%91%E8%80%85%E5%BF%85%E7%9C%8B)%20.md">数据库面试题（开发者必看）</a>
+* [数据库面试题（开发者必看）](../框架与中间件/数据库/数据库面试题%28开发者必看%29%20.md)
 
-* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E4%B8%80%E5%8D%83%E8%A1%8CMySQL%E5%91%BD%E4%BB%A4.md">一千行MySQL命令</a>
+* [一千行MySQL命令](../框架与中间件/数据库/一千行MySQL命令.md)
 
-* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%A4%E5%A4%A7%E7%A5%9E%E5%99%A8%E4%B9%8B%E7%B4%A2%E5%BC%95.md">数据库两大神器之索引</a>
+* [数据库两大神器之索引](../框架与中间件/数据库/数据库两大神器之索引.md)
 
-* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%A4%E5%A4%A7%E7%A5%9E%E5%99%A8%E4%B9%8B%E9%94%81.md">数据库两大神器之锁</a>
+* [数据库两大神器之锁](../框架与中间件/数据库/数据库两大神器之锁.md)
 
-* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E5%B8%B8%E8%A7%81%E6%96%B9%E6%A1%88.md">数据库常见分库分表方案</a>
+* [数据库常见分库分表方案](../框架与中间件/数据库/数据库怎么分库分表.md)
 
-* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88%E6%80%BB%E7%BB%93.md">数据库索引失效总结</a>
+* [数据库索引失效总结](../框架与中间件/数据库/数据库索引失效总结.md)
 
-* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%AD%E5%8F%A5%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5.md">数据库语句优化手段</a>
+* [数据库语句优化手段](../框架与中间件/数据库/数据库语句优化手段.md)
 
-* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/%E6%95%B0%E6%8D%AE%E5%BA%93/%E7%B4%A2%E5%BC%95.md">索引</a>
+* [索引（原独立篇目已并入《数据库两大神器之索引》）](../框架与中间件/数据库/数据库两大神器之索引.md)
+
+<!-- 原头部外链清单来自 DemoTransfer/LearningRecord java/interview/数据库 目录，2026-10 本地化。原《索引》《数据库常见分库分表方案》篇目已分别并入/对应库内《数据库两大神器之索引》《数据库怎么分库分表》。 -->
 
 一、索引要点
 ------
 
-* 为什么快：B+ 树把无序数据组织成有序目录，全表扫描 O(N) 降为树高查找 O(logN)，3~4 层树高即可支撑千万级表。
+* 为什么快：B+ 树把无序数据组织成有序目录，全表扫描 O(N) 降为树高查找 O(logN)。3~4 层树高即可支撑千万级表。
 
-* 聚簇索引与回表：InnoDB 主键索引即聚簇索引（叶子存整行），二级索引叶子只存主键值，查非索引列要拿主键回表；覆盖索引（查询列全在索引里）可免回表。
+* 聚簇索引与回表：InnoDB 主键索引即聚簇索引（叶子存整行），二级索引叶子只存主键值。查非索引列要拿主键回表。覆盖索引（查询列全在索引里）可免回表。
 
-* 最左前缀原则：联合索引 (a,b,c) 相当于 (a)、(a,b)、(a,b,c) 三套索引；跳过左列、范围查询右侧的列都用不上索引。
+* 最左前缀原则：联合索引 (a,b,c) 相当于 (a)、(a,b)、(a,b,c) 三套索引。跳过左列、范围查询右侧的列都用不上索引。
 
-* 常见失效场景：索引列上做函数/运算、隐式类型转换（字符串列传数字）、like '%xx' 前置模糊、or 两侧不全是索引列。
+* 常见失效场景：索引列上做函数/运算、隐式类型转换（字符串列传数字）。还有 like '%xx' 前置模糊、or 两侧不全是索引列。
 
-* 唯一索引 vs 普通索引：读差不多（InnoDB 找到一条即停 vs 顺着多读几条），写唯一索引要校验唯一性、用不上 change buffer，详见 [索引](../框架与中间件/数据库/索引.md)。
+* 唯一索引 vs 普通索引：读差不多（InnoDB 找到一条即停 vs 顺着多读几条）。写唯一索引要校验唯一性、用不上 change buffer。详见 [数据库两大神器之索引](../框架与中间件/数据库/数据库两大神器之索引.md)。
 
 二、事务要点
 ------
 
-* ACID 各自由谁保证：原子性靠 undo log 回滚，持久性靠 redo log 刷盘，隔离性靠锁 + MVCC，一致性是前三者共同追求的结果。
+* ACID 各自由谁保证：原子性靠 undo log 回滚，持久性靠 redo log 刷盘。隔离性靠锁 + MVCC，一致性是前三者共同追求的结果。
 
 * 隔离级别速记（脏读 / 不可重复读 / 幻读，细节见 [脏读、幻读、不可重复读区别](../框架与中间件/数据库/脏读、幻读、不可重复读区别.md)）：
 
@@ -44,18 +46,18 @@
 | 可重复读 RR（MySQL 默认） | 不会 | 不会 | 基本不会（临键锁+MVCC） |
 | 串行化 | 不会 | 不会 | 不会 |
 
-* MVCC：隐藏事务列 + undo log 版本链 + ReadView 实现快照读，读写互不阻塞；RC 每条语句生成一个 ReadView，RR 复用事务内的第一个 ReadView——这是两者隔离差异的根源。
+* MVCC：隐藏事务列 + undo log 版本链 + ReadView 实现快照读，读写互不阻塞。RC 每条语句生成一个 ReadView，RR 复用事务内的第一个 ReadView——这是两者隔离差异的根源。
 
 三、锁要点
 ------
 
 * 按粒度：表锁开销小加锁快、并发低；行锁开销大加锁慢、并发高。InnoDB 行锁锁的是索引，条件没走索引会退化为锁全表记录。
 
-* 按模式：共享锁 S（读锁）与排他锁 X（写锁），读读兼容、读写与写写互斥；意向锁（IS/IX）是表级"占位"锁，让行锁与表锁能快速判断冲突。
+* 按模式：共享锁 S（读锁）与排他锁 X（写锁），读读兼容、读写与写写互斥。意向锁（IS/IX）是表级"占位"锁，让行锁与表锁能快速判断冲突。
 
-* 行锁三兄弟：记录锁锁一行、间隙锁锁一个区间、临键锁（Next-Key）= 记录 + 前面的间隙，RR 级别靠它挡住幻读；唯一索引等值命中会退化为纯记录锁。
+* 行锁三兄弟：记录锁锁一行、间隙锁锁一个区间、临键锁（Next-Key）= 记录 + 前面的间隙。RR 级别靠它挡住幻读。唯一索引等值命中会退化为纯记录锁。
 
-* 死锁姿势：按相同顺序访问表和行、事务尽量小、给条件建索引避免锁放大；排查用 show engine innodb status 看 LATEST DETECTED DEADLOCK，详见 [数据库两大神器之锁](../框架与中间件/数据库/数据库两大神器之锁.md)。
+* 死锁姿势：按相同顺序访问表和行、事务尽量小、给条件建索引避免锁放大。排查用 show engine innodb status 看 LATEST DETECTED DEADLOCK。详见 [数据库两大神器之锁](../框架与中间件/数据库/数据库两大神器之锁.md)。
 
 四、日志三件套：redo / undo / binlog
 ------
@@ -67,7 +69,7 @@
 | 作用 | 崩溃恢复，保证持久性 | 回滚 + 给 MVCC 提供版本链 | 主从复制、按时间点恢复 |
 | 写法 | 固定大小，环形循环写 | 随事务写，不能关闭 | 追加写，写满换文件 |
 
-* 两阶段提交：redo log 写 prepare → 写 binlog → redo log 写 commit，保证 redo 与 binlog 的一致性；少了这步，崩溃恢复后主库与从库会出现不一致。
+* 两阶段提交：redo log 写 prepare → 写 binlog → redo log 写 commit，保证 redo 与 binlog 的一致性。少了这步，崩溃恢复后主库与从库会出现不一致。
 
 * 刷盘参数 innodb_flush_log_at_trx_commit：1=每次提交刷盘最安全，0/2=性能换安全；binlog 的 sync_binlog 同理，"双 1"是最安全组合。
 
@@ -76,12 +78,12 @@
 
 * 为什么池化：建连成本高（TCP 握手 + 认证 + 权限校验），复用连接、削峰限流，还能控制 DB 侧连接总数。
 
-* 核心参数：最小/最大连接数、空闲超时、最大存活时间、获取连接超时；HikariCP 建议池大小从 "核数 * 2" 起估再压测校准，不是越大越好。
+* 核心参数：最小/最大连接数、空闲超时、最大存活时间、获取连接超时。HikariCP 建议池大小从 "核数 * 2" 起估再压测校准，不是越大越好。
 
-* 连接过多反而慢：MySQL 每个连接一个线程，连接数暴涨带来上下文切换，RT 先恶化；让请求在池里排队，好过在 DB 里排队。
+* 连接过多反而慢：MySQL 每个连接一个线程，连接数暴涨带来上下文切换，RT 先恶化。让请求在池里排队，好过在 DB 里排队。
 
-* 保活与校验：空闲检测 + testWhileIdle 防止连接被 DB/防火墙悄悄掐断；获取超时先看连接被什么占着（慢 SQL、长事务、大结果集未读完），再查池配置。
+* 保活与校验：空闲检测 + testWhileIdle 防止连接被 DB/防火墙悄悄掐断。获取超时先看连接被什么占着（慢 SQL、长事务、大结果集未读完），再查池配置。
 
-* 排查套路：连接超时 → show processlist 看活跃连接在等什么 → 慢 SQL 与未提交事务 → 最后才考虑加连接数；扩展见 [MySQL8新特性速览](../框架与中间件/数据库/MySQL8新特性速览.md) 与 [数据库怎么分库分表](../框架与中间件/数据库/数据库怎么分库分表.md)。
+* 排查套路：连接超时 → show processlist 看活跃连接在等什么 → 慢 SQL 与未提交事务 → 最后才考虑加连接数。扩展见 [MySQL8新特性速览](../框架与中间件/数据库/MySQL8新特性速览.md) 与 [数据库怎么分库分表](../框架与中间件/数据库/数据库怎么分库分表.md)。
 
 > 2026-10 扩充（Round1 查漏）。

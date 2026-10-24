@@ -13,16 +13,16 @@
 
 ![CopyOnWriteArrayList一](/images/legacy/CopyOnWriteArrayList一.PNG)
 
-如果使用```Collections.synchronizedList(new ArrayList())```来使ArrayList变成是线程安全的话，也是几乎都是每个方法都加上synchronized关键字的，只不过**它不是加在方法的声明处，而是方法的内部**。
+如果使用```Collections.synchronizedList(new ArrayList())```来使ArrayList变成是线程安全，也是几乎都是每个方法都加上synchronized关键字的。只不过**它不是加在方法的声明处，而是方法的内部**。
 
 ![CopyOnWriteArrayList二](/images/legacy/CopyOnWriteArrayList二.PNG)
 
 1.2 Vector和SynchronizedList可能会出现的问题
 ------
 
-在讲解CopyOnWrite容器之前，我们还是先来看一下线程安全容器的一些**可能没有注意到**的地方~
+在讲解CopyOnWrite容器之前，我们还是先来看线程安全容器的一些**可能没有注意到**的地方~
 
-下面我们直接来看一下这段代码：
+下面我们直接来看这段代码：
 
 ```java
     // 得到Vector最后一个元素
@@ -38,13 +38,13 @@
     }
 ```
 
-以我们第一反应来分析一下上面两个方法：在多线程环境下，是否有问题？
+以我们第一反应来分析上面两个方法，结论是在多线程环境下有问题：
 
 * 我们可以知道的是Vector的```size()```和```get()```以及```remove()```都被synchronized修饰的。
 
 答案：从调用者角度来看是有问题的
 
-我们可以写段代码测试一下：
+我们可以写段代码测试：
 
 ```java
 
@@ -98,11 +98,11 @@ public class UnsafeVectorHelpers {
 
 出现这个问题的原因也很简单：
 
-* getLast()和deleteLast()这两个方法并不是原子性的，即使他们**内部的每一步操作是原子性**的(被Synchronize修饰就可以实现原子性)，但是内部之间还是可以交替执行。
+* getLast()和deleteLast()这两个方法并不是原子性的。即使他们**内部的每一步操作是原子性**的(被Synchronize修饰就可以实现原子性)。但是内部之间还是可以交替执行。
 
-	* 这里的意思就是：```size()和get()以及remove()```都是原子性的，但是如果并发执行```getLast()和deleteLast()```，方法里面的```size()和get()以及remove()```是可以交替执行的。
+	* 这里的意思就是：```size()和get()以及remove()```都是原子性的。但是如果并发执行```getLast()和deleteLast()```，方法里面的```size()和get()以及remove()```是可以交替执行的。
 	
-要解决上面这种情况也很简单，因为我们都是对Vector进行操作的，**只要操作Vector前把它锁住就没毛病了**！
+要解决上面这种情况也很简单。因为我们都是对Vector操作的，**只要操作Vector前把它锁住就没毛病了**。
 
 所以我们可以改成这样子：
 
@@ -123,7 +123,7 @@ public class UnsafeVectorHelpers {
     }
 ```
 
-> ps:如果有人去测试一下，发现会抛出异常java.lang.ArrayIndexOutOfBoundsException: -1，这是没有检查角标的异常，不是并发导致的问题。
+> ps:如果有人去测试，发现会抛出异常java.lang.ArrayIndexOutOfBoundsException: -1，这是没有检查角标的异常，不是并发导致的问题。
 
 经过上面的例子我们可以看看下面的代码：
 
@@ -148,7 +148,7 @@ public class UnsafeVectorHelpers {
     }
 ```
 
-同样地：如果在遍历Vector的时候，有别的线程修改了Vector的长度，那还是会**有问题**！
+同样地：如果在遍历Vector的时候，有别的线程修改了Vector的长度，那还是**有问题**的。
 
 * 线程A遍历Vector，执行```vector.size()```时，发现Vector的长度为5
 
@@ -158,7 +158,7 @@ public class UnsafeVectorHelpers {
 
 ![CopyOnWriteArrayList五](/images/legacy/CopyOnWriteArrayList五.PNG)
 
-在JDK5以后，Java推荐使用```for-each```(迭代器)来遍历我们的集合，好处就是简洁、数组索引的边界值只计算一次。
+在JDK5以后，Java推荐使用```for-each```(迭代器)来遍历我们的集合。好处就是简洁，数组索引的边界值只计算一次。
 
 如果使用```for-each```(迭代器)来做上面的操作，会抛出ConcurrentModificationException异常
 
@@ -181,9 +181,9 @@ SynchronizedList在使用**迭代器遍历**的时候同样会有问题的，源
 
 ```
 
-有经验的同学就可以知道：**哇，遍历一下容器都要我加上锁，这这这不是要慢死了吗**。的确是挺慢的..
+有经验的同学就可以知道：**哇，遍历容器都要我加上锁，这这这不是要慢死了吗**。的确是挺慢的..
 
-所以我们的CopyOnWriteArrayList就登场了！
+所以我们的CopyOnWriteArrayList就登场了。
 
 二、CopyOnWriteArrayList(Set)介绍
 ====
@@ -194,30 +194,30 @@ SynchronizedList在使用**迭代器遍历**的时候同样会有问题的，源
 
 * Hashtable、Vector加锁的粒度大(直接在方法声明处使用synchronized)
 
-* ConcurrentHashMap、CopyOnWriteArrayList加锁粒度小(用各种的方式来实现线程安全，比如我们知道的ConcurrentHashMap用了cas锁、volatile等方式来实现线程安全..)
+* ConcurrentHashMap、CopyOnWriteArrayList加锁粒度小。用各种的方式来实现线程安全，比如我们知道的ConcurrentHashMap用了cas锁、volatile等方式来实现线程安全..
 
 * JUC下的线程安全容器在遍历的时候不会抛出ConcurrentModificationException异常
 
-所以一般来说，我们都会**使用JUC包下给我们提供的线程安全容器**，而不是使用老一代的线程安全容器。
+所以一般来说，我们都会**使用JUC包下给我们提供的线程安全容器**。而不是使用老一代的线程安全容器。
 
-下面我们来看看CopyOnWriteArrayList是怎么实现的，为什么使用**迭代器遍历**的时候就**不用额外加锁**，也不会抛出ConcurrentModificationException异常。
+下面我们来看看CopyOnWriteArrayList是怎么实现的。为什么使用**迭代器遍历**的时候就**不用额外加锁**，也不会抛出ConcurrentModificationException异常。
 
 2.1 CopyOnWriteArrayList实现原理
 ------
 
-我们还是先来回顾一下COW：
+我们还是先来回顾COW：
 
 > 如果有多个调用者（callers）同时请求相同资源（如内存或磁盘上的数据存储），他们会共同获取相同的指针指向相同的资源，直到某个调用者试图修改资源的内容时，系统才会真正复制一份专用副本（private copy）给该调用者，而其他调用者所见到的最初的资源仍然保持不变。优点是如果调用者没有修改该资源，就不会有副本（private copy）被建立，因此多个调用者只是读取操作时可以共享同一份资源。
 
 参考自维基百科：<a href="https://zh.wikipedia.org/wiki/%E5%AF%AB%E5%85%A5%E6%99%82%E8%A4%87%E8%A3%BD">zh.wikipedia.org/wiki/%E5%AF…</a>
 
-> 之前写博客的时候，如果是要看源码，一般会翻译一下源码的注释并用图贴在文章上的。Emmm，发现阅读体验并不是很好，所以我这里就直接概括一下源码注释说了什么吧。另外，如果使用IDEA的话，可以下一个插件Translation(免费好用).
+> 之前写博客的时候，如果是要看源码，一般会翻译源码的注释并用图贴在文章上的。Emmm，发现阅读体验并不是很好，所以我这里就直接概括源码注释说了什么吧。另外，如果使用IDEA，可以下一个插件Translation(免费好用).
 
 ![CopyOnWriteArrayList八](/images/legacy/CopyOnWriteArrayList八.PNG)
 
 ![CopyOnWriteArrayList九](/images/legacy/CopyOnWriteArrayList九.png)
 
-概括一下CopyOnWriteArrayList源码注释介绍了什么：
+概括CopyOnWriteArrayList源码注释介绍了什么：
 
 * CopyOnWriteArrayList是线程安全容器(相对于ArrayList)，底层通过复制数组的方式来实现。
 
@@ -225,7 +225,7 @@ SynchronizedList在使用**迭代器遍历**的时候同样会有问题的，源
 
 * 元素可以为null
 
-2.1.1看一下CopyOnWriteArrayList基本的结构
+2.1.1看CopyOnWriteArrayList基本的结构
 ------
 
 ```java
@@ -299,7 +299,7 @@ CopyOnWriteArrayList使用迭代器遍历时不需要显示加锁，看看```add
 
 ```
 
-通过代码我们可以知道：在添加的时候就上锁，并**复制一个新数组，增加操作在新数组上完成，将array指向到新数组中**，最后解锁。
+通过代码我们可以知道：在添加的时候就上锁。并**复制一个新数组，增加操作在新数组上完成，将array指向到新数组中**，最后解锁。
 
 再来看看size()方法：
 
@@ -359,7 +359,7 @@ public E set(int index, E element) {
 2.1.3 剖析为什么遍历时不用调用者显式加锁
 ------
 
-常用的方法实现我们已经基本了解了，但还是不知道为啥能够在容器遍历的时候对其进行修改而不抛出异常。所以，来看一下他的迭代器吧：
+常用的方法实现我们已经基本了解了。但还是不知道为啥能够在容器遍历的时候修改它而不抛出异常。所以，来看他的迭代器吧：
 
 ```java
 
@@ -390,13 +390,13 @@ public E set(int index, E element) {
 	//.... 可以发现的是，迭代器所有的操作都基于snapshot数组，而snapshot是传递进来的array数组
 ```
 
-到这里，我们应该就可以想明白了！CopyOnWriteArrayList在使用迭代器遍历的时候，操作的都是原数组！
+到这里，我们应该就可以想明白了。CopyOnWriteArrayList在使用迭代器遍历的时候，操作的都是原数组。
 
 ![CopyOnWriteArrayList十](/images/legacy/CopyOnWriteArrayList十.png)
 
 看了上面的实现源码，我们应该也大概能分析出CopyOnWriteArrayList的缺点了。
 
-* **内存占用**：如果CopyOnWriteArrayList经常要增删改里面的数据，经常要执行add()、set()、remove()的话，那是比较耗费内存的。
+* **内存占用**：如果CopyOnWriteArrayList经常要增删改里面的数据，经常要执行add()、set()、remove()，那是比较耗费内存的。
 
 	* 因为我们知道每次add()、set()、remove()这些增删改操作都要复制一个数组出来。
 

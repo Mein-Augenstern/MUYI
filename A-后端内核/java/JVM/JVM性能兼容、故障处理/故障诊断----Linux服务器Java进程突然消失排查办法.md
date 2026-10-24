@@ -8,8 +8,8 @@
 现象特征
 ====
 
-* 多台服务器部署同一应用，部分机器上的服务进程**无故消失**，程序自身日志中没有任何异常输出（没有 OOM 栈、没有 error）。
-* 程序日志干净恰恰是关键线索：**堆内 OOM 会抛出 OutOfMemoryError 并留下日志；进程"无声无息消失"通常是系统级动作（最常见是 OOM Killer）**。
+* 多台服务器部署同一应用，部分机器上的服务进程**无故消失**。程序自身日志中没有任何异常输出（没有 OOM 栈、没有 error）。
+* 程序日志干净恰恰是关键线索：**堆内 OOM 会抛出 OutOfMemoryError 并留下日志。进程"无声无息消失"通常是系统级动作（最常见是 OOM Killer）**。
 
 排查过程（真实案例回放）
 ====
@@ -17,7 +17,7 @@
 第一步：查程序日志
 ----
 
-* 日志无异常输出，排除应用层错误抛出、System.exit 等代码主动退出的可能。
+* 日志无异常输出，排除应用层错误抛出、System.exit 这类代码主动退出的可能。
 
 第二步：查磁盘空间
 ----
@@ -55,7 +55,7 @@ dmesg | grep -i "killed process"
 free -m
 ```
 
-* 观察到 total 和 used 相差无几，机器物理内存被占满，系统触发 OOM Killer，选择了占内存最大的进程（正是 Java 进程）将其 kill。
+* 观察到 total 和 used 相差无几，机器物理内存被占满。系统触发 OOM Killer，选择了占内存最大的进程（正是 Java 进程）将其 kill。
 
 根因与解决
 ====
@@ -63,7 +63,7 @@ free -m
 根因
 ----
 
-* 检查 JVM 启动参数发现 `-Xmx` 配置与机器物理内存几乎相等，堆可以无限膨胀到吃满整机内存，内核 OOM Killer 直接杀进程。
+* 检查 JVM 启动参数发现 `-Xmx` 配置与机器物理内存几乎相等。堆可以无限膨胀到吃满整机内存，内核 OOM Killer 直接杀进程。
 
 解决方案
 ----
@@ -76,7 +76,7 @@ free -m
 进程消失的可能原因清单
 ----
 
-* 代码里调用了 `System.exit()`；被 shell 以 `kill -9` 杀掉（`kill -9` 不给 JVM 机会执行 ShutdownHook，日志无痕）；运维脚本/守护进程误杀；**系统 OOM Killer**（最常见且最隐蔽）。
+* 代码里调用了 `System.exit()`。被 shell 以 `kill -9` 杀掉（`kill -9` 不给 JVM 机会执行 ShutdownHook，日志无痕）。运维脚本/守护进程误杀。**系统 OOM Killer**（最常见且最隐蔽）。
 
 快速定位三板斧
 ----
@@ -98,7 +98,8 @@ free -m
 
 * 合理设置 `-Xmx`/`-Xms` 与堆外内存上限（DirectMemory、线程栈、Metaspace 都在堆外），总量必须小于物理内存。
 * 保持 `-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=...` 常开，配合 GC 日志留档。
-* 云主机/容器环境注意 cgroup 内存 limit：容器内 JVM 即使 -Xmx 合理，cgroup 超限同样会触发 OOM Kill（Java 10+ 可用 `-XX:+UseContainerSupport` 自动感知）。
-* 区分 heap 与 non-heap：堆内存不足会抛 OOM 异常有迹可循；进程"无缘无故消失"要优先怀疑堆外/系统级内存问题。其他会触发 OOM Killer 的场景还有如用 VIM 编辑超大文件把机器内存耗尽等。
+* 云主机/容器环境注意 cgroup 内存 limit。容器内 JVM 即使 -Xmx 合理，cgroup 超限同样会触发 OOM Kill（Java 10+ 可用 `-XX:+UseContainerSupport` 自动感知）。
+* 区分 heap 与 non-heap：堆内存不足会抛 OOM 异常有迹可循。进程"无缘无故消失"要优先怀疑堆外/系统级内存问题。其他会触发 OOM Killer 的场景还有如用 VIM 编辑超大文件把机器内存耗尽等。
 
 > 内容来源：[记一次Java进程突然消失问题](https://developer.aliyun.com/article/657791) · 2026-10 整理回填。
+> 延伸：更多按症状分类的 JVM 故障排查入口见 [JVM故障排查FAQ](JVM故障排查FAQ.md)。

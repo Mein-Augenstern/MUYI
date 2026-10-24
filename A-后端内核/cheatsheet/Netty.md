@@ -50,15 +50,15 @@ Bootstrap / ServerBootstrap
 TCP 粘包 / 拆包
 ----
 
-1. 现象：多次发送的消息在接收端"粘"在一起或被"拆"开（TCP 是字节流，无消息边界）。
-2. Netty 自带解码器：LineBasedFrameDecoder（换行分隔）、DelimiterBasedFrameDecoder（自定义分隔符，前者是其特例）、FixedLengthFrameDecoder（定长）、LengthFieldBasedFrameDecoder（长度域）。
+1. 现象：多次发送的消息在接收端"粘"在一起或被"拆"开（TCP 字节流无消息边界）。
+2. Netty 自带解码器：LineBasedFrameDecoder（换行分隔）、DelimiterBasedFrameDecoder（自定义分隔符，前者是其特例）。FixedLengthFrameDecoder（定长）、LengthFieldBasedFrameDecoder（长度域）。
 3. 自定义序列化编解码：Java Serializable 性能差不推荐；常用 Kryo/FST（Java 专用）、Protostuff/ProtoBuf/Thrift/Avro/MsgPack（跨语言）、Hessian2/JSON。
 
 长连接与心跳
 ----
 
-1. 长连接：一次读写后不关闭连接，后续复用；省去反复握手/挥手开销，适合频繁请求。
-2. 心跳机制：idle 状态下定期互发特殊包（PING-PONG）确认对方在线；TCP 自带 SO_KEEPALIVE 但不灵活，通常在应用层实现。
+1. 长连接：一次读写后不关闭连接，后续复用。省去反复握手/挥手开销，适合频繁请求。
+2. 心跳机制：idle 状态下定期互发特殊包（PING-PONG）确认对方在线。TCP 自带 SO_KEEPALIVE 但不灵活，通常在应用层实现。
 3. Netty 核心：`IdleStateHandler`，空闲事件触发后可主动关闭无效连接。
 
 零拷贝

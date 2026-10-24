@@ -4,13 +4,13 @@
 
 ## CyclicBarrier
 
-字面意思是“可重复使用的栅栏”或“周期性的栅栏”，总之不是用了一次就没用了的，CyclicBarrier 相比 CountDownLatch 来说，要简单很多，其源码没有什么高深的地方，它是 ReentrantLock 和 Condition 的组合使用。看如下示意图，CyclicBarrier 和 CountDownLatch 是不是很像，只是 CyclicBarrier 可以有不止一个栅栏，因为它的栅栏（Barrier）可以重复使用（Cyclic）。
+字面意思是“可重复使用的栅栏”或“周期性的栅栏”，总之不是用了一次就没用了的。CyclicBarrier 相比 CountDownLatch 来说，要简单很多。其源码没有什么高深的地方，它是 ReentrantLock 和 Condition 的组合使用。看如下示意图，CyclicBarrier 和 CountDownLatch 是不是很像，只是 CyclicBarrier 可以有不止一个栅栏，因为它的栅栏（Barrier）可以重复使用（Cyclic）。
 
 ![image](https://github.com/Mein-Augenstern/MUYI/assets/34135120/a4409e64-7755-4b41-bcfc-507aec8b52f6)
 
 首先，CyclicBarrier 的源码实现和 CountDownLatch 大相径庭，CountDownLatch 基于 AQS 的共享模式的使用，而 CyclicBarrier 基于 Condition 来实现。
 
-因为 CyclicBarrier 的源码相对来说简单许多，读者只要熟悉了前面关于 Condition 的分析，那么这里的源码是毫无压力的，就是几个特殊概念罢了。
+因为 CyclicBarrier 的源码相对来说简单许多。读者只要熟悉了前面关于 Condition 的分析，那么这里的源码是毫无压力的，就是几个特殊概念罢了。
 
 先用一张图来描绘下 CyclicBarrier 里面的一些概念，和它的基本使用流程：
 
@@ -58,7 +58,7 @@ public class CyclicBarrier {
         this(parties, null);
     }
 ```
-首先，先看怎么开启新的一代：
+首先，先看怎么开始新的一代：
 
 ```java
 // 开启新的一代，当最后一个线程到达栅栏上的时候，调用这个方法来唤醒其他线程，同时初始化“下一代”
@@ -71,7 +71,7 @@ private void nextGeneration() {
     generation = new Generation();
 }
 ```
-**开启新的一代，类似于重新实例化一个 CyclicBarrier 实例**
+**开始新的一代，类似于重新实例化一个 CyclicBarrier 实例**
 
 看看怎么打破一个栅栏：
 
@@ -247,9 +247,9 @@ public void reset() {
     }
 }
 ```
-我们设想一下，如果初始化时，指定了线程 parties = 4，前面有 3 个线程调用了 await 等待，在第 4 个线程调用 await 之前，我们调用 reset 方法，那么会发生什么？
+我们设想：如果初始化时指定线程 parties = 4，前面有 3 个线程调用了 await 等待。在第 4 个线程调用 await 之前，我们调用 reset 方法。此时发生的两步如下：
 
-首先，打破栅栏，那意味着所有等待的线程（3个等待的线程）会唤醒，await 方法会通过抛出 BrokenBarrierException 异常返回。然后开启新的一代，重置了 count 和 generation，相当于一切归零了。
+首先，打破栅栏，那意味着所有等待的线程（3个等待的线程）会唤醒，await 方法会通过抛出 BrokenBarrierException 异常返回。然后开始新的一代，重置了 count 和 generation，相当于一切归零了。
 
 怎么样，CyclicBarrier 源码很简单吧。
 
@@ -257,9 +257,9 @@ public void reset() {
 
 CyclicBarrier 和 CountDownLatch 非常类似，它也可以实现线程间的技术等待，但是它的功能比 CountDownLatch 更加复杂和强大。主要应用场景和 CountDownLatch 类似。
 
-CyclicBarrier 的字面意思是可循环使用（Cyclic）的屏障（Barrier）。它要做的事情是，让一组线程到达一个屏障（也可以叫同步点）时被阻塞，直到最后一个线程到达屏障时，屏障才会开门，所有被屏障拦截的线程才会继续干活。CyclicBarrier 默认的构造方法是```CyclicBarrier(int parties)```，其参数表示屏障拦截的线程数量，每个线程调用```await```方法告诉 CyclicBarrier 我已经到达了屏障，然后当前线程被阻塞。
+CyclicBarrier 的字面意思是可循环使用（Cyclic）的屏障（Barrier）。它要做的事情是，让一组线程到达一个屏障（也可以叫同步点）时被阻塞。直到最后一个线程到达屏障时，屏障才会开门，所有被屏障拦截的线程才会继续干活。CyclicBarrier 默认的构造方法是```CyclicBarrier(int parties)```，其参数表示屏障拦截的线程数量。每个线程调用```await```方法告诉 CyclicBarrier 我已经到达了屏障，然后当前线程被阻塞。
 
-再来看一下它的构造函数：
+再来看它的构造函数：
 
 ```java
 public CyclicBarrier(int parties) {
@@ -274,11 +274,11 @@ public CyclicBarrier(int parties, Runnable barrierAction) {
 }
 ```
 
-其中，parties 就代表了有拦截的线程的数量，当拦截的线程数量达到这个值的时候就打开栅栏，让所有线程通过。
+其中，parties 就代表了有拦截的线程的数量。当拦截的线程数量达到这个值的时候就打开栅栏，让所有线程通过。
 
 ### CyclicBarrier 的应用场景
 
-CyclicBarrier 可以用于多线程计算数据，最后合并计算结果的应用场景。比如我们用一个 Excel 保存了用户所有银行流水，每个 Sheet 保存一个帐户近一年的每笔银行流水，现在需要统计用户的日均银行流水，先用多线程处理每个 sheet 里的银行流水，都执行完之后，得到每个 sheet 的日均银行流水，最后，再用 barrierAction 用这些线程的计算结果，计算出整个 Excel 的日均银行流水。
+CyclicBarrier 可以用于多线程计算数据，最后合并计算结果的应用场景。比如我们用一个 Excel 保存了用户所有银行流水，每个 Sheet 保存一个帐户近一年的每笔银行流水。现在需要统计用户的日均银行流水。先用多线程处理每个 sheet 里的银行流水，都执行完之后，得到每个 sheet 的日均银行流水。最后，再用 barrierAction 用这些线程的计算结果，计算出整个 Excel 的日均银行流水。
 
 ### CyclicBarrier 的使用示例
 
@@ -358,7 +358,7 @@ threadnum:6is finish
 
 可以看到当线程数量也就是请求数量达到我们定义的 5 个的时候， await方法之后的方法才被执行。
 
-另外，```CyclicBarrier``` 还提供一个更高级的构造函数```CyclicBarrier(int parties, Runnable barrierAction)```，用于在线程到达屏障时，优先执行```barrierAction```，方便处理更复杂的业务场景。示例代码如下：
+另外，```CyclicBarrier``` 还提供一个更高级的构造函数```CyclicBarrier(int parties, Runnable barrierAction)```。它用于在线程到达屏障时，优先执行```barrierAction```，方便处理更复杂的业务场景。示例代码如下：
 
 ```java
 import java.util.concurrent.BrokenBarrierException;
@@ -431,7 +431,7 @@ threadnum:7is finish
 
 ### CyclicBarrier记录
 
-当调用 ```CyclicBarrier``` 对象调用 ```await()``` 方法时，实际上调用的是```dowait(false, 0L)```方法。 ```await()``` 方法就像树立起一个栅栏的行为一样，将线程挡住了，当拦住的线程数量达到 ```parties``` 的值时，栅栏才会打开，线程才得以通过执行。
+当调用 ```CyclicBarrier``` 对象调用 ```await()``` 方法时，调用的是```dowait(false, 0L)```方法。 ```await()``` 方法就像树立起一个栅栏的行为一样，将线程挡住了。当拦住的线程数量达到 ```parties``` 的值时，栅栏才会打开，线程才得以通过执行。
 
 ```java
 public int await() throws InterruptedException, BrokenBarrierException {
@@ -517,4 +517,4 @@ private int dowait(boolean timed, long nanos)
 }
 ```
 
-总结：```CyclicBarrier``` 内部通过一个 ```count``` 变量作为计数器，```count``` 的初始值为 ```parties``` 属性的初始化值，每当一个线程到了栅栏这里了，那么就将计数器减一。如果 ```count``` 值为 0 了，表示这是这一代最后一个线程到达栅栏，就尝试执行我们构造方法中输入的任务。
+总结：```CyclicBarrier``` 内部通过一个 ```count``` 变量作为计数器。```count``` 的初始值为 ```parties``` 属性的初始化值。每当一个线程到了栅栏这里了，那么就将计数器减一。如果 ```count``` 值为 0 了，表示这是这一代最后一个线程到达栅栏，就尝试执行我们构造方法中输入的任务。

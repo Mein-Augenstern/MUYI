@@ -9,9 +9,9 @@
 
 > 目前正在联系GitChat获取转载权限，若有权限，立马删除^^。
 
-在 JDK1.4 之后，为了提高 Java IO 的效率，Java 提供了一套 New IO (NIO)，之所以称之为 New，原因在于它相对于之前的 IO 类库是新增的。此外，旧的 IO 类库提供的 IO 方法是阻塞的，New IO 类库则让 Java 可支持非阻塞 IO，所以，更多的人喜欢称之为非阻塞 IO（Non-blocking IO）。
+在 JDK1.4 之后，为了提高 Java IO 的效率，Java 提供了一套 New IO (NIO)。之所以称之为 New，原因在于它相对于之前的 IO 类库是新增的。此外，旧的 IO 类库提供的 IO 方法是阻塞的，New IO 类库则让 Java 可支持非阻塞 IO。所以，更多的人喜欢称之为非阻塞 IO（Non-blocking IO）。
 
-NIO 应用非常广泛，是 Java 进阶的必学知识，此外，在 Java 相关岗位的面试中也是“常客”，对于准备深入学习 Java 的读者，了解 NIO 确有必要。
+NIO 应用广泛，是 Java 进阶的必学知识。此外，在 Java 相关岗位的面试中也是“常客”。对于准备深入学习 Java 的读者，了解 NIO 确有必要。
 
 Question
 ====
@@ -27,57 +27,57 @@ Question
 1.1 IO 的含义
 ------
 
-讲 NIO 之前，我们先来看一下 IO。
+讲 NIO 之前，我们先来看 IO。
 
-Java IO 即 Java 输入输出。在开发应用软件时，很多时候都需要和各种输入输出相关的媒介打交道。与媒介进行 IO 操作的过程十分复杂，需要考虑众多因素，比如：进行 IO 操作**媒介的类型**（文件、控制台、网络）、**通信方式**（顺序、随机、二进制、按字符、按字、按行等等）。
+Java IO 即 Java 输入输出。在开发应用软件时，很多时候都需要和各种输入输出相关的媒介打交道。与媒介的 IO 操作过程十分复杂，需要考虑众多因素。比如：IO 操作**媒介的类型**（文件、控制台、网络）和**通信方式**（例如顺序、随机、二进制、按字符、按字、按行）。
 
-Java 类库提供了相应的类来解决这些难题，这些类就位于 java.io 包中， 在整个 java.io 包中最重要的就是 5 个类和一个接口。5 个类指的是 ```File```、```OutputStream```、```InputStream```、```Writer```、```Reader```；一个接口指的是 ```Serializable```。
+Java 类库提供了相应的类来解决这些难题，这些类就位于 java.io 包中。 在整个 java.io 包中最重要的就是 5 个类和一个接口。5 个类指的是 ```File```、```OutputStream```、```InputStream```、```Writer```、```Reader```；一个接口指的是 ```Serializable```。
 
-由于老的 Java IO 标准类提供 IO 操作（如 ```read()```，```write()```）都是同步阻塞的，因此，IO 通常也被称为阻塞 IO（即 BIO，```Blocking I/O```）。
+由于老的 Java IO 标准类提供 IO 操作（如 ```read()```，```write()```）都是同步阻塞的。因此，IO 通常也被称为阻塞 IO（即 BIO，```Blocking I/O```）。
 
 1.2 NIO 含义
 ------
 
-在 JDK1.4 之后，为了提高 Java IO 的效率，Java 又提供了一套 New IO（NIO），原因在于它相对于之前的 IO 类库是新增的。此外，旧的 IO 类库提供的 IO 方法是阻塞的，New IO 类库则让 Java 可支持非阻塞 IO，所以，更多的人喜欢称之为非阻塞 IO（Non-blocking IO）。
+在 JDK1.4 之后，为了提高 Java IO 的效率，Java 又提供了一套 New IO（NIO）。原因在于它相对于之前的 IO 类库是新增的。此外，旧的 IO 类库提供的 IO 方法是阻塞的，New IO 类库则让 Java 可支持非阻塞 IO。所以，更多的人喜欢称之为非阻塞 IO（Non-blocking IO）。
 
 1.3 四种 IO 模型
 ------
 
 **同步阻塞 IO：**
 
-在此种方式下，用户进程在发起一个 IO 操作以后，必须等待 IO 操作的完成，只有当真正完成了 IO 操作以后，用户进程才能运行。 Java 传统的 IO 模型属于此种方式！ 
+在此种方式下，用户进程在发起一个 IO 操作以后，必须等待 IO 操作的完成。只有当真正完成了 IO 操作以后，用户进程才能运行。 Java 传统的 IO 模型属于此种方式。 
 
 **同步非阻塞 IO：**
 
-在此种方式下，用户进程发起一个 IO 操作以后 便可返回做其它事情，但是用户进程需要时不时的询问 IO 操作是否就绪，这就要求用户进程不停的去询问，从而引入不必要的 CPU 资源浪费。**其中目前 Java 的 NIO 就属于同步非阻塞 IO** 。 
+在此种方式下，用户进程发起一个 IO 操作以后 便可返回做其它事情。但是用户进程需要时不时的询问 IO 操作是否就绪。这就要求用户进程不停的去询问，从而引入不必要的 CPU 资源浪费。**其中目前 Java 的 NIO 就属于同步非阻塞 IO** 。 
 
 **异步阻塞 IO：**
 
-此种方式下是指应用发起一个 IO 操作以后，不等待内核 IO 操作的完成，等内核完成 IO 操作以后会通知应用程序，这其实就是同步和异步最关键的区别，同步必须等待或者主动的去询问 IO 是否完成，那么为什么说是阻塞的呢？因为此时是通过 select 系统调用来完成的，而 select 函数本身的实现方式是阻塞的，而采用 select 函数有个好处就是它可以同时监听多个文件句柄，从而提高系统的并发性！ 
+此种方式下是指应用发起一个 IO 操作以后，不等待内核 IO 操作的完成。等内核完成 IO 操作以后会通知应用程序。这就是同步和异步最关键的区别：同步必须等待或者主动的去询问 IO 是否完成。说是阻塞的原因：此时是通过 select 系统调用来完成的，而 select 函数本身的实现方式是阻塞的。而采用 select 函数有个好处就是它可以同时监听多个文件句柄，从而提高系统的并发性。 
 
 **异步非阻塞 IO：**
 
-在此种模式下，用户进程只需要发起一个 IO 操作然后立即返回，等 IO 操作真正的完成以后，应用程序会得到 IO 操作完成的通知，此时用户进程只需要对数据进行处理就好了，不需要进行实际的 IO 读写操作，因为 真正的 IO 读取或者写入操作已经由 内核完成了。目前 Java 中还没有支持此种 IO 模型。
+在此种模式下，用户进程只需要发起一个 IO 操作然后立即返回。等 IO 操作真正的完成以后，应用程序会得到 IO 操作完成的通知。此时用户进程只需要处理数据就好了，不需要执行实际的 IO 读写操作。因为 真正的 IO 读取或者写入操作已经由 内核完成了。目前 Java 中还没有支持此种 IO 模型。（注：原文为 JDK 1.4 时代观点；Java 7 起已提供 AsynchronousSocketChannel 等 AIO API，Linux 平台支持较弱）
 
 1.4 小结
 ------
 
 所有的系统 I/O 都分为两个阶段：**等待就绪和操作**。举例来说，读函数，分为等待系统可读和真正的读；同理，写函数分为等待网卡可以写和真正的写。Java IO 的各种流是阻塞的。这意味着当线程调用 write() 或 read() 时，线程会被阻塞，直到有一些数据可用于读取或数据被完全写入。
 
-需要说明的是等待就绪引起的 “阻塞” 是不使用 CPU 的，是在 “空等”；而真正的读写操作引起的“阻塞” 是使用 CPU 的，是真正在”干活”，而且这个过程非常快，属于 memory copy，带宽通常在 1GB/s 级别以上，可以理解为基本不耗时。因此，所谓 “阻塞” 主要是指等待就绪的过程。
+需要说明的是等待就绪引起的 “阻塞” 是不使用 CPU 的，是在 “空等”。而真正的读写操作引起的“阻塞” 是使用 CPU 的，是真正在”干活”，属于 memory copy。带宽通常在 1 GB/s 级别以上，耗时可以忽略。因此，所谓 “阻塞” 主要是指等待就绪的过程。
 
 **以socket.read()为例子：**
 
-传统的阻塞 IO(BIO) 里面 socket.read()，如果接收缓冲区里没有数据，函数会一直阻塞，直到收到数据，返回读到的数据。
+传统的阻塞 IO(BIO) 里面 socket.read()，如果接收缓冲区里没有数据，函数会一直阻塞。直到收到数据，返回读到的数据。
 
-而对于非阻塞 IO(NIO)，如果接收缓冲区没有数据，则直接返回 0，而不会阻塞；如果接收缓冲区有数据，就把数据从网卡读到内存，并且返回给用户。
+而对于非阻塞 IO(NIO)，如果接收缓冲区没有数据，则直接返回 0，而不会阻塞。如果接收缓冲区有数据，就把数据从网卡读到内存，并且返回给用户。
 
-说得接地气一点，BIO 里用户最关心 “我要读”，NIO 里用户最关心” 我可以读了”。NIO 一个重要的特点是：socket 主要的读、写、注册和接收函数，在等待就绪阶段都是非阻塞的，真正的 I/O 操作是同步阻塞的（消耗 CPU 但性能非常高）。
+说得接地气一点，BIO 里用户最关心 “我要读”，NIO 里用户最关心” 我可以读了”。NIO 一个重要的特点是：socket 主要的读、写、注册和接收函数，在等待就绪阶段都是非阻塞的。真正的 I/O 操作是同步阻塞的（消耗 CPU 但性能高）。
 
 2 NIO 核心对象 Buffer 详解
 ====
 
-> 为什么说 NIO 是基于缓冲区的 IO 方式呢？因为，当一个链接建立完成后，IO 的数据未必会马上到达，为了当数据到达时能够正确完成 IO 操作，在 BIO（阻塞 IO）中，等待 IO 的线程必须被阻塞，以全天候地执行 IO 操作。为了解决这种 IO 方式低效的问题，引入了缓冲区的概念，当数据到达时，可以预先被写入缓冲区，再由缓冲区交给线程，因此线程无需阻塞地等待 IO。
+> NIO 是基于缓冲区的 IO 方式。原因：当一个链接建立完成后，IO 的数据未必会立即到达。在 BIO（阻塞 IO）中，等待 IO 的线程必须被阻塞，以全天候地执行 IO 操作。这样，数据到达时才能正确完成 IO 操作。为了解决这种 IO 方式低效的问题，引入了缓冲区的概念。当数据到达时，可以预先被写入缓冲区，再由缓冲区交给线程，因此线程无需阻塞地等待 IO。
 
 在正式介绍 Buffer 之前，我们先来 Stream，以便更深刻的理解 Java IO 与 NIO 的不同。
 
@@ -91,11 +91,11 @@ Java IO 是面向流的 I/O，这意味着我们需要从流中读取一个或�
 2.2 Buffer
 ------
 
-Buffer 是一个对象，它包含一些要写入或读出的数据。在 NIO 中，数据是放入 Buffer 对象的，而在 IO 中，数据是直接写入或者读到 Stream 对象的。应用程序不能直接对 Channel 进行读写操作，而必须通过 Buffer 来进行，即 Channel 是通过 Buffer 来读写数据的，如下示意图。
+Buffer 是一个对象，它包含一些要写入或读出的数据。在 NIO 中，数据是放入 Buffer 对象的，而在 IO 中，数据是直接写入或者读到 Stream 对象的。应用程序不能直接读写 Channel，而必须通过 Buffer 来读写。即 Channel 是通过 Buffer 来读写数据的，如下示意图。
 
 ![Java-NIO-Buffer示意图](/images/legacy/Java-NIO-Buffer示意图.png)
 
-在 NIO 中，所有的数据都是用 Buffer 处理的，它是 NIO 读写数据的中转池。Buffer 实质上是一个数组，通常是一个字节数据，但也可以是其他类型的数组。**但一个缓冲区不仅仅是一个数组，重要的是它提供了对数据的结构化访问，而且还可以跟踪系统的读写进程。**
+在 NIO 中，所有的数据都是用 Buffer 处理的，它是 NIO 读写数据的中转池。Buffer 实质上是一个数组，通常是一个字节数据，但也可以是其他类型的数组。**但一个缓冲区不仅仅是一个数组。重要的是它提供了对数据的结构化访问，而且还可以跟踪系统的读写进程。**
 
 **Buffer 读写步骤，使用 Buffer 读写数据一般遵循以下四个步骤：**
 
@@ -129,13 +129,13 @@ private int limit;
 private int capacity;
 ```
 
-结合如下结构图解释一下：
+结合如下结构图解释：
 
-* position 记录当前读取或者写入的位置，写模式下等于当前写入的单位数据数量，从写模式切换到读模式时，置为 0，在读的过程中等于当前读取单位数据的数量；
-* limit 代表最多能写入或者读取多少单位的数据，写模式下等于最大容量 capacity；从写模式切换到读模式时，等于 position，然后再将 position 置为 0，所以，读模式下，limit 表示最大可读取的数据量，这个值与实际写入的数量相等。
+* position 记录当前读取或者写入的位置，写模式下等于当前写入的单位数据数量。从写模式切换到读模式时，置为 0。在读的过程中等于当前读取单位数据的数量；
+* limit 代表最多能写入或者读取多少单位的数据，写模式下等于最大容量 capacity。从写模式切换到读模式时，等于 position，然后再将 position 置为 0。所以，读模式下，limit 表示最大可读取的数据量，这个值与实际写入的数量相等。
 * capacity 表示 buffer 容量，创建时分配。
 
-之所以介绍这一节是为了更好的解释为何写/读模式切换时需要调用 flip() 方法，通过上述解释，相信读者已经明白为何写/读模式切换需要调用 flip() 方法了。附上 flip() 方法的解释：
+之所以介绍这一节，是为了更好的解释为何写/读模式切换时需要调用 flip() 方法。通过上述解释，相信读者已经明白为何写/读模式切换需要调用 flip() 方法了。附上 flip() 方法的解释：
 
 > Flips this buffer. The limit is set to the current position and then the position is set to zero. If the mark is defined then it is discarded.
 
@@ -186,7 +186,7 @@ public final Buffer flip() {
  1. 将数据从网卡拷贝到系统空间；
  2. 将数据从系统空间拷贝到用户空间。
 
-对于 NIO 来说，缓存的使用可以使用```DirectByteBuffer```（堆外内存，关于堆外内存，如果存在疑问请阅读<a href="https://gitbook.cn/gitchat/activity/5af07387585c260a21a32b97">作为 Java 开发者，你需要了解的堆外内存知识</a>）和 HeapByteBuffer（堆外内存）。如果使用了 DirectByteBuffer，一般来说可以减少一次系统空间到用户空间的拷贝。但Buffer创建和销毁的成本更高，更不宜维护，通常会用内存池来提高性能。如果数据量比较小的中小应用情况下，可以考虑使用 heapBuffer；反之可以用 directBuffer。
+对于 NIO 来说，缓存的使用可以使用```DirectByteBuffer``` 和 HeapByteBuffer（堆外内存）。关于堆外内存，如果存在疑问请阅读<a href="https://gitbook.cn/gitchat/activity/5af07387585c260a21a32b97">作为 Java 开发者，你需要了解的堆外内存知识</a>。如果使用了 DirectByteBuffer，一般来说可以减少一次系统空间到用户空间的拷贝。但Buffer创建和销毁的成本更高，更不宜维护，通常会用内存池来提高性能。在数据量小的中小应用情况下，可以考虑使用 heapBuffer；反之可以用 directBuffer。
 
 2.5 Buffer 使用实例
 ------
@@ -247,7 +247,7 @@ public class IO_Demo
 
 第一节中的例子所示，当执行：```fileChannelOut.write(buffer)```，便将一个 buffer 写到了一个通道中。相较于缓冲区，通道更加抽象，因此，我在第一节详细介绍了缓冲区，并穿插了通道的内容。
 
-引用 Java NIO 中权威的说法：通道是 I/O 传输发生时通过的入口，而缓冲区是这些数据传输的来源或目标。对于离开缓冲区的传输，需要输出的数据被置于一个缓冲区，然后写入通道。对于传回缓冲区的传输，一个通道将数据写入缓冲区中。
+引用 Java NIO 中权威的说法：通道是 I/O 传输发生时通过的入口。而缓冲区是这些数据传输的来源或目标。对于离开缓冲区的传输，需要输出的数据被置于一个缓冲区，然后写入通道。对于传回缓冲区的传输，一个通道将数据写入缓冲区中。
 
 例如：
 
@@ -265,10 +265,10 @@ public class IO_Demo
 Channel 是一个对象，可以通过它读取和写入数据。可以把它看做 IO 中的流。但是它和流相比还有一些不同：
 
 * Channel 是双向的，既可以读又可以写，而流是单向的（所谓输入/输出流）；
-* Channel 可以进行异步的读写；
+* Channel 支持异步读写；
 * 对 Channel 的读写必须通过 buffer 对象；
 
-正如上面提到的，所有数据都通过 Buffer 对象处理，所以，输出操作时不会将字节直接写入到 Channel 中，而是将数据写入到 Buffer 中；同样，输入操作也不会从 Channel 中读取字节，而是将数据从 Channel 读入 Buffer，再从 Buffer 获取这个字节。
+正如上面提到的，所有数据都通过 Buffer 对象处理。所以，输出操作时不会将字节直接写入到 Channel 中，而是将数据写入到 Buffer 中。同样，输入操作也不会从 Channel 中读取字节，而是将数据从 Channel 读入 Buffer。再从 Buffer 获取这个字节。
 
 因为 Channel 是双向的，所以 Channel 可以比流更好地反映出底层操作系统的真实情况。特别是在 Unix 模型中，底层操作系统通常都是双向的。
 
@@ -285,15 +285,15 @@ Channel 是一个对象，可以通过它读取和写入数据。可以把它看
 4.1 关于 Selector
 ------
 
-通道和缓冲区的机制，使得 Java NIO 实现了同步非阻塞 IO 模式，在此种方式下，用户进程发起一个 IO 操作以后便可返回做其它事情，而无需阻塞地等待 IO 事件的就绪，但是用户进程需要时不时的询问 IO 操作是否就绪，这就要求用户进程不停的去询问，从而引入不必要的 CPU 资源浪费。
+通道和缓冲区的机制，使得 Java NIO 实现了同步非阻塞 IO 模式。在此种方式下，用户进程发起一个 IO 操作以后便可返回做其它事情。而无需阻塞地等待 IO 事件的就绪。但是用户进程需要时不时的询问 IO 操作是否就绪。这就要求用户进程不停的去询问，从而引入不必要的 CPU 资源浪费。
 
-鉴于此，需要有一个机制来监管这些 IO 事件，如果一个 Channel 不能读写（返回 0），我们可以把这件事记下来，然后切换到其它就绪的连接（channel）继续进行读写。在 Java NIO 中，这个工作由 selector 来完成，这就是所谓的同步。
+鉴于此，需要有一个机制来监管这些 IO 事件。如果一个 Channel 不能读写（返回 0），我们可以把这件事记下来。然后切换到其它就绪的连接（channel）继续读写。在 Java NIO 中，这个工作由 selector 来完成，这就是所谓的同步。
 
-Selector 是一个对象，它可以接受多个 Channel 注册，监听各个 Channel 上发生的事件，并且能够根据事件情况决定 Channel 读写。这样，通过一个线程可以管理多个 Channel，从而避免为每个 Channel 创建一个线程，节约了系统资源。如果你的应用打开了多个连接（Channel），但每个连接的流量都很低，使用 Selector 就会很方便。
+Selector 是一个对象，它可以接受多个 Channel 注册，监听各个 Channel 上发生的事件。并且能够根据事件情况决定 Channel 读写。这样，通过一个线程可以管理多个 Channel。从而避免为每个 Channel 创建一个线程，节约了系统资源。如果你的应用打开了多个连接（Channel），但每个连接的流量低，使用 Selector 就方便。
 
 要使用 Selector，就需要向 Selector 注册 Channel，然后调用它的 select() 方法。这个方法会一直阻塞到某个注册的通道有事件就绪，这就是所说的轮询。一旦这个方法返回，线程就可以处理这些事件。
 
-下面这幅图展示了一个线程处理 3 个 Channel 的情况：
+下面这幅图展示了一个线程处理 3 个 Channel 的场景：
 
 ![Java-NIO-一个线程处理三个Channel](/images/legacy/Java-NIO-一个线程处理三个Channel.png)
 
@@ -317,16 +317,16 @@ channel.configureBlocking(false);
 SelectionKey key =channel.register(selector,SelectionKey.OP_READ);
 ```
  
-注意，注册的 Channel 必须设置成异步模式才可以，否则异步 IO 就无法工作，这就意味着我们不能把一个 FileChannel 注册到 Selector，因为 FileChannel 没有异步模式，但是网络编程中的 SocketChannel 是可以的。
+注意，注册的 Channel 必须设置成异步模式才可以，否则异步 IO 就无法工作。这就意味着我们不能把一个 FileChannel 注册到 Selector，因为 FileChannel 没有异步模式。但是网络编程中的 SocketChannel 是可以的。
  
-需要注意 register() 方法的第二个参数，它是一个“interest set”，意思是注册的 Selector 对 Channel 中的哪些事件感兴趣，事件类型有四种（对应 SelectionKey 的四个常量）：
+需要注意 register() 方法的第二个参数，它是一个“interest set”。意思是注册的 Selector 对 Channel 中的哪些事件感兴趣。事件类型有四种（对应 SelectionKey 的四个常量）：
 
 * OP_ACCEPT
 * OP_CONNECT
 * OP_READ
 * OP_WRITE
 
-通道触发了一个事件意思是该事件已经 Ready（就绪）。所以，某个 Channel 成功连接到另一个服务器称为 Connect Ready。一个 ServerSocketChannel 准备好接收新连接称为 Accept Ready，一个有数据可读的通道可以说是 Read Ready，等待写数据的通道可以说是 Write Ready。
+通道触发了一个事件意思是该事件已经 Ready（就绪）。所以，某个 Channel 成功连接到另一个服务器称为 Connect Ready。一个 ServerSocketChannel 准备好接收新连接称为 Accept Ready。一个有数据可读的通道可以说是 Read Ready。等待写数据的通道可以说是 Write Ready。
 
 如果你对多个事件感兴趣，可以通过 or 操作符来连接这些常量：
 
@@ -336,7 +336,7 @@ int interestSet = SelectionKey.OP_READ | SelectionKey.OP_WRITE;
 
 **3. 关于 SelectionKey**
 
-请注意对 register() 的调用的返回值是一个 SelectionKey。 SelectionKey 代表这个通道在此 Selector 上的这个注册。当某个 Selector 通知您某个传入事件时，它是通过提供对应于该事件的 SelectionKey 来进行的。SelectionKey 还可以用于取消通道的注册。SelectionKey 中包含如下属性：
+请注意对 register() 的调用的返回值是一个 SelectionKey。 SelectionKey 代表这个通道在此 Selector 上的这个注册。当某个 Selector 通知您某个传入事件时，它通过提供对应于该事件的 SelectionKey 来通知。SelectionKey 还可以用于取消通道的注册。SelectionKey 中包含如下属性：
 
 * The interest set
 * The ready set
@@ -344,7 +344,7 @@ int interestSet = SelectionKey.OP_READ | SelectionKey.OP_WRITE;
 * The Selector
 * An attached object (optional)
 
-这几个属性很好理解，interest set 代表感兴趣事件的集合；ready set 代表通道已经准备就绪的操作的集合；Channel 和 Selector：我们可以通过 SelectionKey 获得 Selector 和注册的 Channel；attached object ：可以将一个对象或者更多信息 attach 到 SelectionKey 上，这样就能方便的识别某个给定的通道。例如，可以附加与通道一起使用的 Buffer。
+这几个属性很好理解。interest set 代表感兴趣事件的集合。ready set 代表通道已经准备就绪的操作的集合。Channel 和 Selector：我们可以通过 SelectionKey 获得 Selector 和注册的 Channel。attached object ：可以将一个对象或者更多信息 attach 到 SelectionKey 上，这样就能方便的识别某个给定的通道。例如，可以附加与通道一起使用的 Buffer。
 
 SelectionKey 还有几个重要的方法，用于检测 Channel 中什么事件或操作已经就绪，它们都会返回一个布尔类型：
 
@@ -357,7 +357,7 @@ selectionKey.isWritable();
 
 **4. 通过 SelectionKeys() 遍历**
 
-从上文我们知道，对于每一个注册到 Selector 中的 Channel 都有一个对应的 SelectionKey，那么，多个 Channel 注册到 Selector 中，必然形成一个 SelectionKey 集合，通过 SelectionKeys() 方法可以获取这个集合。因此，当 Selector 检测到有通道就绪后，我们可以通过调用 selector.selectedKeys() 方法返回的 SelectionKey 集合来遍历，进而获得就绪的 Channel，再进一步处理。实例代码如下：
+从上文我们知道，对于每一个注册到 Selector 中的 Channel 都有一个对应的 SelectionKey。那么，多个 Channel 注册到 Selector 中，必然形成一个 SelectionKey 集合。通过 SelectionKeys() 方法可以获取这个集合。因此，当 Selector 检测到有通道就绪后，我们可以遍历 selector.selectedKeys() 方法返回的 SelectionKey 集合。进而获得就绪的 Channel，再进一步处理。实例代码如下：
 
 ```java
 // 获取注册到selector中的Channel对应的selectionKey集合
@@ -390,7 +390,7 @@ while (keyIterator.hasNext()) {
 
 **5. select() 方法检测 Selector 中是否有 Channel 就绪**
 
-在进行遍历之前，我们至少应该知道是否已经有 Channel 就绪，否则遍历完全是徒劳。Selector 提供了 select() 方法，它会返回一个数值，代表就绪 Channel 的数量，如果没有 Channel 就绪，将一直阻塞。除了 select()，还有其它几种，如下：
+在遍历之前，我们至少应该知道是否已经有 Channel 就绪，否则遍历完全是徒劳。Selector 提供了 select() 方法，它会返回一个数值，代表就绪 Channel 的数量，如果没有 Channel 就绪，将一直阻塞。除了 select()，还有其它几种，如下：
 
 * int select()： 阻塞到至少有一个通道就绪；
 * int select(long timeout)：select() 一样，除了最长会阻塞 timeout 毫秒（参数），超时后返回0，表示没有通道就绪；
@@ -610,9 +610,9 @@ public class NIOElementSelectorLearningDemo {
 4.4 小结
 ------
 
-如从上述实例所示，可以将多个 Channel 注册到同一个 Selector 对象上，实现一个线程同时监控多个 Channel 的请求状态，但有一个不容忽视的缺陷：
+如从上述实例所示，可以将多个 Channel 注册到同一个 Selector 对象上。实现一个线程同时监控多个 Channel 的请求状态。但有一个不容忽视的缺陷：
 
-所有读/写请求以及对新连接请求的处理都在同一个线程中处理，无法充分利用多 CPU 的优势，同时读/写操作也会阻塞对新连接请求的处理。因此，有必要进行优化，可以引入多线程，并行处理多个读/写操作。
+所有读/写请求以及对新连接请求的处理都在同一个线程中处理，无法充分利用多 CPU 的优势。同时读/写操作也会阻塞对新连接请求的处理。因此，有必要优化，可以引入多线程，并行处理多个读/写操作。
 
 一种优化策略是：
 

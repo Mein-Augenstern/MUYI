@@ -8,7 +8,7 @@
 一、举例
 ====
 
-使用cglib代理需要引入两个包，maven的话包引入如下
+使用cglib代理需要引入两个包，maven 包引入如下
 
 ```java
 <!-- https://mvnrepository.com/artifact/cglib/cglib -->
@@ -119,9 +119,9 @@ intercept方法四个参数含义如下
 1 Enhancer.create()方法
 ------
 
-通过上面代码，相信大家都能知道主要创建代理类的方法为Enhancer.create()方法，但是我们在执行这个方法之前设置了两个值，可以分别看下方法体
+通过上面代码，相信大家都能知道主要创建代理类的方法为Enhancer.create()方法。但是我们在执行这个方法之前设置了两个值。可以分别看下方法体
 
-**```setCallbacks()```，即设置回调，我们创建出代理类后调用方法则是使用的这个回调接口，类似于jdk动态代理中的```InvocationHandler```**
+**```setCallbacks()```，即设置回调。我们创建出代理类后调用方法则是使用的这个回调接口，类似于jdk动态代理中的```InvocationHandler```**
 
 ```java
 public void setCallbacks(Callback[] callbacks) {
@@ -132,7 +132,7 @@ public void setCallbacks(Callback[] callbacks) {
 }
 ```
 
-**setSuperClass 即设置代理类，这儿可以看到做了个判断，如果为interface则设置interfaces,如果是Object则设置为null(因为所有类都自动继承Object),如果为普通class则设置class，可以看到cglib代理不光可以代理接口，也可以代理普通类**
+**setSuperClass 即设置代理类，这儿可以看到做了个判断。如果为interface则设置interfaces,如果是Object则设置为null(因为所有类都自动继承Object),如果为普通class则设置class。可以看到cglib代理不光可以代理接口，也可以代理普通类**
 
 ```java
 /**
@@ -230,7 +230,7 @@ private static final CallbackInfo[] CALLBACKS = {
 	new CallbackInfo(ProxyRefDispatcher.class, DispatcherGenerator.PROXY_REF_INSTANCE),
 };
 ```
-方法主要做了下验证并确定Callback类型，我们使用的是MethodIntercepter。然后创建当前代理类的标识代理类，用这个标识代理类调用父类(AbstractClassGenerator)的create(key方法创建)，我们主要分析下标识代理类创建的逻辑和后面父类创建我们需要的代理类逻辑。
+方法主要做了验证并确定Callback类型，我们使用的是MethodIntercepter。然后创建当前代理类的标识代理类，用这个标识代理类调用父类(AbstractClassGenerator)的create(key方法创建)。我们主要分析下标识代理类创建的逻辑和后面父类创建我们需要的代理类逻辑。
 
 标识代理类的创建类成员变量即KEY_FACTORY是创建代理类的核心，我们先分析下这个
 
@@ -277,7 +277,7 @@ public static KeyFactory create(ClassLoader loader, Class keyInterface, KeyFacto
 3.3 Generator的create方法
 ------
 
-这儿创建了一个简易的代理类生成器(KeyFactory的内部类Generator ，与Enhancer一样继承自抽象类AbstractClassGenerator)来生成我们需要的标识代理类，我们接着看gen.create()方法
+这儿创建了一个简易的代理类生成器，即 KeyFactory 的内部类 Generator。它与 Enhancer 一样继承自抽象类 AbstractClassGenerator，用来生成我们需要的标识代理类。我们接着看gen.create()方法
 
 ```java
 public KeyFactory create() {
@@ -341,9 +341,9 @@ protected Object create(Object key) {
 }
 ```
 
-这个方法可以看到主要为根据类加载器定义一个缓存，里面装载了缓存的类信息，然后调用这个ClassLoaderData的get方法获取到数据，如果为class信息 那么直接使用反射实例化，如果返回的是实体类，则解析实体类的信息，调用其newInstance方法重新生成一个实例(**cglib的代理类都会生成newInstance方法**)
+这个方法可以看到主要为根据类加载器定义一个缓存，里面装载了缓存的类信息。然后调用这个ClassLoaderData的get方法获取到数据。如果为class信息 那么直接使用反射实例化。如果返回的是实体类，则解析实体类的信息，调用其newInstance方法重新生成一个实例。**cglib的代理类都会生成newInstance方法**
 
-具体根据class信息或者实体信息实例化数据都比较简单，相信代码大家都能看懂，这儿就不讲解了。核心点还是在于如何根据生成器来返回代理类或者代理类信息，我们继续查看data.get(this,getUseCache)
+具体根据class信息或者实体信息实例化数据都简单，相信代码大家都能看懂，这儿就不讲解了。核心点还是在于如何根据生成器来返回代理类或者代理类信息，我们继续查看data.get(this,getUseCache)
 
 3.5 data.get(this,getUseCache)
 ------
@@ -363,7 +363,7 @@ public Object get(AbstractClassGenerator gen, boolean useCache) {
 }
 ```
 
-这儿可以看到  如果可以用缓存 则调用缓存，不能调用缓存则直接生成， 这儿我们先看调用缓存的，在看之前需要再看一个东西，就是3.4之中，我们设置了一个key为ClassLoader，值为ClassLoaderData的缓存，这儿我们new了一个ClassLoaderData 并将类加载器传了进去 ，并且设置了这个Generator的key，我们看下new的逻辑
+这儿可以看到  如果可以用缓存 则调用缓存，不能调用缓存则直接生成。 这儿我们先看调用缓存的。在看之前需要再看一个东西，就是3.4之中，我们设置了一个key为ClassLoader，值为ClassLoaderData的缓存。这儿我们new了一个ClassLoaderData 并将类加载器传了进去 ，并且设置了这个Generator的key。我们看下new的逻辑
 
 ```java
 public ClassLoaderData(ClassLoader classLoader) {
@@ -393,13 +393,13 @@ public ClassLoaderData(ClassLoader classLoader) {
 };
 ```
 
-可以看到每个类加载器都对应着一个代理类缓存对象 ，这里面定义了类加载器，缓存调用没查询到的调用函数，以及新建了一个LoadingCache来缓存这个类加载器对应的缓存，这儿传入的两个参数，load代表缓存查询失败时的回调函数，而GET_KEY则是回调时获取调用生成器的key  即3.4中传入的key  也即是我们的代理类标识符。 然后我们接着看generatedClasses.get(gen);的方法
+可以看到每个类加载器都对应着一个代理类缓存对象 。这里面定义了类加载器，缓存调用没查询到的调用函数。以及新建了一个LoadingCache来缓存这个类加载器对应的缓存。这儿传入的两个参数，load代表缓存查询失败时的回调函数。而GET_KEY则是回调时获取调用生成器的key  即3.4中传入的key  也即是我们的代理类标识符。 然后我们接着看generatedClasses.get(gen);的方法
 
 
 3.6 generatedClasses.get(gen)
 ------
 
-这个方法主要传入代理类生成器  并根据代理类生成器获取值返回。这儿主要涉及到的类就是LoadingCache，这个类可以看做是某个CLassLoader对应的所有代理类缓存库，是真正缓存东西的地方。我们分析下这个类
+这个方法主要传入代理类生成器  并根据代理类生成器获取值返回。这儿主要涉及到的类就是LoadingCache。这个类可以看做是某个CLassLoader对应的所有代理类缓存库，是真正缓存东西的地方。我们分析下这个类
 
 ```java
 package net.sf.cglib.core.internal;
@@ -503,7 +503,9 @@ public class LoadingCache<K, KK, V> {
 }
 ```
 
-通过上面的分析可以得知，这个类主要作用是传入代理类生成器，根据这个代理类生成器以及代理类生成器的key来获取缓存，如果没有获取到则构建一个FutureTask来回调我们之前初始化时传入的 回调函数，并调用其中的apply方法，而具体调用的则是我们传入的代理类生成器的generate(LoadClassData)方法，将返回值覆盖之前的FutureTask成为真正的缓存。所以这个类的主要作用还是缓存。  这样则和3.5中不使用缓存时调用了一样的方法。所以我们接着来分析生成方法 generate(ClassLoadData),这儿因为我们使用的代理类生成器是Genrator，该类没有重写generate方法，所以回到了父类AbstractClassGenerator的generate方法。
+通过上面的分析可以得知，这个类主要作用是传入代理类生成器。根据这个代理类生成器以及代理类生成器的key来获取缓存。如果没有获取到则构建一个FutureTask来回调我们之前初始化时传入的 回调函数，并调用其中的apply方法。而具体调用的则是我们传入的代理类生成器的generate(LoadClassData)方法。将返回值覆盖之前的FutureTask成为真正的缓存。所以这个类的主要作用还是缓存。
+
+这样则和3.5中不使用缓存时调用了一样的方法。所以我们接着来分析生成方法 generate(ClassLoadData)。这儿因为我们使用的代理类生成器是Genrator，该类没有重写generate方法。所以回到了父类AbstractClassGenerator的generate方法。
 
 3.7 AbstractClassGenerator.generate 方法
 ------
@@ -571,7 +573,7 @@ protected Class generate(ClassLoaderData data) {
 }
 ```
 
-这个方法主要设置了下当前类生成器的类名，然后调用stratege的generate方法返回字节码，根据字节码  类名 类加载器将字节码所代表的类加载到内存中，这个功能看一下大概就懂，我们接下来主要分析字节码生成方法
+这个方法主要设置了当前类生成器的类名，然后调用stratege的generate方法返回字节码。根据字节码  类名 类加载器将字节码所代表的类加载到内存中。这个功能看下大概就懂，我们接下来主要分析字节码生成方法
 
 3.8 DefaultGeneratorStrategy.generate(ClassGenerator cg)
 ------
@@ -587,7 +589,7 @@ public byte[] generate(ClassGenerator cg) throws Exception {
 }
 ```
 
-这里面主要是新建一个写入器，然后执行我们代理类生成器的generateClass方法将class信息写入这个ClassWriter  最后将里面的东西转换为byte数组返回，所以又回到了我们的代理类生成器的generateClass方法，这儿进入的是Generator的generateClass方法
+这里面主要是新建一个写入器，然后执行我们代理类生成器的generateClass方法将class信息写入这个ClassWriter。 最后将里面的东西转换为byte数组返回。所以又回到了我们的代理类生成器的generateClass方法。这儿进入的是Generator的generateClass方法
 
 3.9 Generator.generateClass（ClassVisitor v）
 ------
@@ -718,7 +720,7 @@ public byte[] generate(ClassGenerator cg) throws Exception {
 }
 ```
 
-这个方法主要将一个完整的类信息写入ClassVisitor中，例如目前实现的Enhancer.EnhancerKey代理，即实现了newInstance方法，  重写了HashCode,toSting,equals方法，并将newInstance的所有参数作为了成员变量，这儿我们也可以看下具体实现newInstance方法的逻辑  即这个代码  EmitUtils.factory_method(ce, ReflectUtils.getSignature(newInstance)); 具体内容如下   其他的写入内容大致命令也是这样，如果有兴趣可以去研究asm字节码写入的操作
+这个方法主要将一个完整的类信息写入ClassVisitor中。例如目前实现的Enhancer.EnhancerKey代理，即实现了newInstance方法，  重写了HashCode,toSting,equals方法。并将newInstance的所有参数作为了成员变量。这儿我们也可以看下具体实现newInstance方法的逻辑  即这个代码  EmitUtils.factory_method(ce, ReflectUtils.getSignature(newInstance)); 具体内容如下。  其他的写入内容大致命令也是这样，如果有兴趣可以去研究asm字节码写入的操作
 
 ```java
 public static void factory_method(ClassEmitter ce, Signature sig) {
@@ -738,7 +740,7 @@ public static void factory_method(ClassEmitter ce, Signature sig) {
 }
 ```
 
-所以通过方法构造指令可以得知 我们通过Generator创建的代理类大致内容应该如下，Enhancer.EhancerKey代理类字节码的class内容应该是把参数换为newInstance中的参数
+所以通过方法构造指令可以得知 我们通过Generator创建的代理类大致内容应该如下。Enhancer.EhancerKey代理类字节码的class内容应该是把参数换为newInstance中的参数
 
 ```java
 public class EnhancerKeyProxy extends xxx implements xxx{
@@ -778,7 +780,7 @@ public class EnhancerKeyProxy extends xxx implements xxx{
 
 最后执行传入的ClassVisitor  即我们传入的实例DebuggingClassWriter的toByteArray即可以将写入的内容转换为byte[]返回
 
-至此 我们的成功的生成了Enhancer.EnhancerKey的代理类，也就是我们需要的代理类标识类  用来标识被代理的类，这个代理类主要用来作为被代理类的标识，在进行缓存时作为判断相等的依据。可以看到 cglib代理主要也是利用我们传入的被代理类信息来生成对应的代理类字节码，然后用类加载器加载到内存中。虽然我们的实际的代理任务才刚刚开始，但是要了解的东西已经基本上差不多了，对具体的我们案例中的ProxyFactory代理时，只是生成器Enhancer对比生成器Generator在生成过程中重写了一些操作而已
+至此 我们的成功的生成了Enhancer.EnhancerKey的代理类，也就是我们需要的代理类标识类  用来标识被代理的类。这个代理类主要用来作为被代理类的标识，在缓存时作为判断相等的依据。可以看到 cglib代理主要也是利用我们传入的被代理类信息来生成对应的代理类字节码。然后用类加载器加载到内存中。虽然我们的实际的代理任务才刚刚开始，但是要了解的东西已经差不多了。而对我们案例中的ProxyFactory代理，只是生成器Enhancer对比生成器Generator在生成过程中重写了一些操作而已
 
 现在我们重新回看步骤2中的代码
 
@@ -801,16 +803,16 @@ private Object createHelper() {
 }
 ```
 
-可以看到获取到代理类标志类后 将其设置为当前代理类生成器的正在代理的类 并同样调用父类AbstractClassGenerator中create(key)的方法
+可以看到获取到代理类标志类后 将其设置为当前代理类生成器的正在代理的类。并同样调用父类AbstractClassGenerator中create(key)的方法
 
 下面开始分析Ehancer生成器的逻辑，由于部分逻辑和Generator生成器一致  所以一样的我会略过
 
 4 AbstractClassGenerator.create方法
 ------
 
-这个逻辑和步骤3.4一致，查询当前key即代理类标志类对应的ClassLoadData缓存，如果没有则建一个空的缓存并初始化一个对应的ClassLoadData,传入相应的生成器，生成失败回调函数等
+这个逻辑和步骤3.4一致，查询当前key即代理类标志类对应的ClassLoadData缓存。如果没有则建一个空的缓存并初始化一个对应的ClassLoadData,传入相应的生成器、生成失败回调函数
 
-按照同样的逻辑一直走到3.5中的generate(ClassLoadData)方法时，由于Enhancer生成器重写了这个方法 所以我们分析Enahncer的生成逻辑
+按照同样的逻辑一直走到3.5中的generate(ClassLoadData)方法时，由于Enhancer生成器重写了这个方法。所以我们分析Enahncer的生成逻辑
 
 5 Enhancer.generate(ClassLoadData data)
 ------
@@ -828,7 +830,7 @@ protected Class generate(ClassLoaderData data) {
 }
 ```
 
-可以发现ehancer生成器只是做了个检查命名操作  在上面的Generator中也是做了个命名操作，然后继续执行父类的generate(data)方法，这个和步骤3.7一致，我们主要看其中生成字节码的方法，即最后调用的Enhancer.generatorClass(ClassVisitor c)方法，
+可以发现ehancer生成器只是做了个检查命名操作  在上面的Generator中也是做了个命名操作。然后继续执行父类的generate(data)方法，这个和步骤3.7一致。我们主要看其中生成字节码的方法，即最后调用的Enhancer.generatorClass(ClassVisitor c)方法，
 
 方法代码如下
 
@@ -961,13 +963,13 @@ public void generateClass(ClassVisitor v) throws Exception {
         e.end_class();
 ```
 
-可以看到这儿也是声明一个写入类 然后按照Ehancer的代理生成策略写入符合的class信息然后返回，最红依旧会执行toByteArray方法返回byte[]数组，这样则又回到了步骤3.5中 根据类加载器 字节码数组来动态将代理类加载进内存中的方法了。最后我们回到3.4中根据class获取实例的代码即可返回被代理实例。 而我们执行方法时执行的是代理类中对应的方法，然后调用我们传入的callback执行 原理和jdk动态代理类似，至此  cglib动态代理源码分析到此结束
+可以看到这儿也是声明一个写入类 然后按照Ehancer的代理生成策略写入符合的class信息然后返回。最红依旧会执行toByteArray方法返回byte[]数组。这样则又回到了步骤3.5中 根据类加载器 字节码数组来动态将代理类加载进内存中的方法了。最后我们回到3.4中根据class获取实例的代码即可返回被代理实例。 而我们执行方法时执行的是代理类中对应的方法，然后调用我们传入的callback执行。原理和jdk动态代理类似。至此  cglib动态代理源码分析到此结束
 
 总结
 ====
 
 对比jdk动态代理和cglib动态代理我们可以得知
 
-> jdk动态代理只能代理接口，而cglib动态代理可以代理类或者接口，说明cglib的优势更加明显。但是jdk动态代理是java原生支持，所以不需要引入额外的包，cglib需要引入额外的包。二者的原理类似，都是在内存中根据jvm的字节码文件规范动态创建class并使用传入的类加载器加载到内存中，再反射调用生成代理实例，并且都根据类加载器做了相应的缓存。实际使用中应根据利弊按需使用
+> jdk动态代理只能代理接口，而cglib动态代理可以代理类或者接口，说明cglib的优势更加明显。但是jdk动态代理是java原生支持，所以不需要引入额外的包，cglib需要引入额外的包。二者的原理类似。都是在内存中根据jvm的字节码文件规范动态创建class，并使用传入的类加载器加载到内存中。再反射调用生成代理实例，并且都根据类加载器做了相应的缓存。实际使用中应根据利弊按需使用
 
 

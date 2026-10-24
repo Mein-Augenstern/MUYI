@@ -57,7 +57,7 @@ public @interface Component {
 
 <h4>使用场景</h4>
 
-当你不确定是属于哪一层的时候使用。对那些比较中立的类进行使用。
+当你不确定是属于哪一层的时候使用。对那些比较中立的类使用。
 
 
 @Controller注解源码
@@ -232,6 +232,8 @@ public @interface Repository {
 小结
 ------
 
-spring 2.5 中除了提供 @Component 注释外，还定义了几个拥有特殊语义的注释，它们分别是：@Repository、@Service 和 @Controller。在目前的 Spring 版本中，这 3 个注释和 @Component 是等效的，但是从注释类的命名上，很容易看出这 3 个注释分别和持久层、业务层和控制层（Web 层）相对应。虽然目前这 3 个注释和 @Component 相比没有什么新意，但 Spring 将在以后的版本中为它们添加特殊的功能。所以，如果Web 应用程序采用了经典的三层分层结构的话，最好在持久层、业务层和控制层分别采用@Repository、@Service 和 @Controller 对分层中的类进行注释，而用 @Component 对那些比较中立的类进行注释。 
+spring 2.5 中除了提供 @Component 注释外，还定义了几个拥有特殊语义的注释，它们分别是：@Repository、@Service 和 @Controller。在目前的 Spring 版本中，这 3 个注释和 @Component 是等效的。但是从注释类的命名上，容易看出这 3 个注释分别和持久层、业务层和控制层（Web 层）相对应。
 
-在一个稍大的项目中，通常会有上百个组件，如果这些组件采用xml的bean定义来配置，显然会增加配置文件的体积，查找以及维护起来也不太方便。 Spring2.5为我们引入了组件自动扫描机制，他可以在类路径底下寻找标注了@Component,@Service,@Controller,@Repository注解的类，并把这些类纳入进spring容器中管理。
+虽然目前这 3 个注释和 @Component 相比没有什么新意，但 Spring 将在以后的版本中为它们添加特殊的功能。所以，如果 Web 应用程序采用了经典的三层分层结构。建议在持久层、业务层和控制层分别采用@Repository、@Service 和 @Controller 对分层中的类注释。而用 @Component 对那些比较中立的类注释。 
+
+在一个稍大的项目中，通常会有上百个组件。如果这些组件采用xml的bean定义来配置，会增加配置文件的体积，查找以及维护起来也不太方便。 Spring2.5为我们引入了组件自动扫描机制。他可以在类路径底下寻找标注了@Component,@Service,@Controller,@Repository注解的类，并把这些类纳入进spring容器中管理。

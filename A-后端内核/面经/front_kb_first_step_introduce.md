@@ -22,9 +22,9 @@ HTML/CSS
 JavaScript/DOM
 ====
 
-1. 常用字符串操作方法，substr/slice/replace等
+1. 常用字符串操作方法，substr/slice/replace 这类
 
-2. 常用数组操作方法，pop/push/slice等；额外考察ES5之后的数组操作方法使用和区别，map/filter/reduce，特别是reduce用途和入参
+2. 常用数组操作方法，pop/push/slice 这类。额外考察 ES5 之后的数组操作方法使用和区别：map/filter/reduce。特别是 reduce 用途和参数
 
 3. ES6相关：const定义的数组可以使用push方法修改吗。箭头函数和匿名函数的区别是什么。ES6相较于ES5有了哪些改变？
 
@@ -36,7 +36,7 @@ JavaScript/DOM
 
 7. this指向, bind, call, apply
 
-8. 金额千位分隔符问题，看解题思路；简单版考察字符串转数组、数组倒序、三位取余数做法，复杂版提示用正则表达式解题，考察正则表达式熟悉程度和递归思想
+8. 金额千位分隔符问题，看解题思路。简单版考察字符串转数组、数组倒序、3 位取余数做法。复杂版提示用正则表达式解题，考察正则表达式熟悉程度和递归思想
 
 9. JavaScript实现模块的方式（AMD/CommonJS/UMD）
 
@@ -50,7 +50,7 @@ JavaScript/DOM
 
 14. addClass、removeClass的实现思路，是否知道classList
 
-15. 正则表达式相关：问号的几个含义，URL、邮箱如何匹配，replace、match、exec、test等正则相关JS方法
+15. 正则表达式相关：问号的几个含义，URL、邮箱如何匹配。replace、match、exec、test 这类正则相关 JS 方法
 
 16. 解释浏览器同源策略，解决跨域问题的方法，各方法所存在的问题
 
@@ -107,7 +107,7 @@ JavaScript/DOM
 算法题
 ====
 
-1. 请做一个补位函数。请把场景考虑的尽量全面，方便应对不同的补位需求。 应用场景举例，注意只是一个举例：A同学需要把“origString”字符串用x补足到20位“xxxxxxxxxxorigString”。
+1. 做一个补位函数。把场景考虑的尽量全面，方便应对不同的补位需求。应用场景举例，注意只是一个举例。A同学需要把“origString”字符串用 x 补足到 20 位“xxxxxxxxxxorigString”。
 
 复杂度是O(N)的答案。只能说合格。使用二分法的答案。是优秀。使用位移运算符，有可能是做过这类型题目。需要问清楚为啥要用的原理。
 

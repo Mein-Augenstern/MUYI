@@ -4,12 +4,12 @@ Dockerfile 与镜像分层
 看在前面
 ------
 
-镜像是 Docker 的核心抽象：**分层、只读、可复用**——这三词展开就是缓存命中、多阶段构建、瘦身三板斧，也正好是面试 Docker 的三连问。后半接 compose 编排，素材取自 star-site 的 16 容器编排实践（`docker-compose.yml` + `docker/mysql-init/*.sql`），K8s 侧见[《K8s核心对象与架构》](../Kubernetes/K8s核心对象与架构.md)。
+镜像是 Docker 的核心抽象：**分层、只读、可复用**。这三词展开就是缓存命中、多阶段构建、瘦身三板斧，也正好是面试 Docker 的三连问。后半接 compose 编排，素材取自 star-site 的 16 容器编排实践（`docker-compose.yml` + `docker/mysql-init/*.sql`），K8s 侧见[《K8s核心对象与架构》](../Kubernetes/K8s核心对象与架构.md)。
 
 一、分层与缓存：为什么 Dockerfile 的行序是性能问题
 ------
 
-镜像 = 一叠只读层 + 一个可写层的"洋葱"。Dockerfile 每条指令（FROM/RUN/COPY...）产出一层，层被内容寻址地存于本地，**两个镜像共享同底层**——同一台机器拉 10 个 Java 服务镜像，temurin 基础层只存一份：
+镜像 = 一叠只读层 + 一个可写层的"洋葱"。Dockerfile 每条指令（FROM/RUN/COPY...）产出一层，层被内容寻址地存于本地。**两个镜像共享同底层**——同一台机器拉 10 个 Java 服务镜像，temurin 基础层只存一份：
 
 ```
  FROM eclipse-temurin:17     层 1  ┐
@@ -20,7 +20,7 @@ Dockerfile 与镜像分层
  RUN mvn package             层 6  ┘
 ```
 
-缓存判定规则（BuildKit）：**指令内容 + 父层 ID + COPY 文件的内容校验和**全部一致才命中。推论就是那句军规——**"变的行放后面，不变的行放前面"**：先 COPY 依赖清单再 COPY 源码，日常改动只重建最末两层；反着写（先 COPY src）则每次提交都从依赖下载开始重来。
+缓存判定规则（BuildKit）：**指令内容 + 父层 ID + COPY 文件的内容校验和**全部一致才命中。推论就是那句军规——**"变的行放后面，不变的行放前面"**。先 COPY 依赖清单再 COPY 源码，日常改动只重建最末两层。反着写（先 COPY src）则每次提交都从依赖下载开始重来。
 
 ```
  好的顺序                          坏的顺序
@@ -30,7 +30,7 @@ Dockerfile 与镜像分层
  RUN mvn package         重建       RUN mvn dep:go-offline
 ```
 
-调试技巧：`docker history <image>` 逐层看大小，找出门毯层（通常是那个 `RUN curl | tar` 装了工具又没删的层）；层是只读叠加，**层内删文件不减体积**（上层的删除标记盖不住下层的 blob）——清理必须在同一条 RUN 里完成。
+调试技巧：`docker history <image>` 逐层看大小，找出门毯层（通常是那个 `RUN curl | tar` 装了工具又没删的层）。层是只读叠加，**层内删文件不减体积**（上层的删除标记盖不住下层的 blob）。清理必须在同一条 RUN 里完成。
 
 二、多阶段构建：构建工具不进运行镜像
 ------
@@ -56,7 +56,7 @@ EXPOSE 8080
 ENTRYPOINT ["java", "-XX:MaxRAMPercentage=70", "-jar", "app.jar"]
 ```
 
-收益清单：镜像从 JDK+Maven 缓存（800MB+）降到 JRE+jar（~200MB）；攻击面同步缩小（没有 mvn、没有编译器、没有源码）；`MaxRAMPercentage` 顺手接上容器内存感知（配[排障手册](../Kubernetes/K8s生产排障手册.md)的 OOMKilled 一节）。
+收益清单：镜像从 JDK+Maven 缓存（800 MB+）降到 JRE+jar（~200 MB）。攻击面同步缩小（没有 mvn、没有编译器、没有源码）。`MaxRAMPercentage` 顺手接上容器内存感知（配[排障手册](../Kubernetes/K8s生产排障手册.md)的 OOMKilled 一节）。
 
 三、镜像瘦身清单
 ------
@@ -87,7 +87,7 @@ README.md
 四、compose 编排要点：star-site 16 容器实践
 ------
 
-star-site 本地一键起全栈：MySQL/Redis/Nacos 等基础设施 + 11 个 Java 微服务（gateway/auth/health/finance/payment...）+ Python ai-service + 前端，共 16 个容器。编排的核心不是"写 16 个 service"，而是把**启动顺序、健康门槛、配置注入**三件事声明清楚：
+star-site 本地一键起全栈：MySQL/Redis/Nacos 这类基础设施 + 11 个 Java 微服务（gateway/auth/health/finance/payment...）+ Python ai-service + 前端，共 16 个容器。编排的核心不是"写 16 个 service"，而是把**启动顺序、健康门槛、配置注入**三件事声明清楚：
 
 ```yaml
 services:
@@ -118,21 +118,21 @@ volumes:
 
 四条要点展开：
 
-* **`depends_on` 带 `condition: service_healthy`**：等 MySQL"健康"而不只是"启动"——MySQL 进程起来到可写入之间有数十秒空窗，只依赖启动顺序的 Java 服务会在注册中心里带着连不上的数据源反复崩溃（compose 里就是 CrashLoop 的翻版）；
-* **healthcheck 是全编排的时钟**：MySQL → Nacos → Java 服务逐级 gate，链路上每一环用它自己的"可用性判据"（mysqladmin ping / HTTP 探活）；
-* **镜像不含环境，环境变量注入**：同一镜像跑本地/测试/生产，差异全在 environment 与外部配置中心（Nacos），这也是 K8s ConfigMap 思想的单机版；
-* **网络与暴露面**：compose 默认单 bridge 网络，容器名即 DNS；只有 gateway/前端映射宿主端口，数据库不对外暴露——最小暴露面原则。
+* **`depends_on` 带 `condition: service_healthy`**：等 MySQL"健康"而不只是"启动"。MySQL 进程起来到可写入之间有数十秒空窗。只依赖启动顺序的 Java 服务会在注册中心里带着连不上的数据源反复崩溃（compose 里就是 CrashLoop 的翻版）。
+* **healthcheck 是全编排的时钟**：MySQL → Nacos → Java 服务逐级 gate，链路上每一环用它自己的"可用性判据"（mysqladmin ping / HTTP 探活）。
+* **镜像不含环境，环境变量注入**：同一镜像跑本地/测试/生产，差异全在 environment 与外部配置中心（Nacos）。这也是 K8s ConfigMap 思想的单机版。
+* **网络与暴露面**：compose 默认单 bridge 网络，容器名即 DNS。只有 gateway/前端映射宿主端口，数据库不对外暴露——最小暴露面原则。
 
 追问链
 ------
 
 > **面试官：RUN、CMD、ENTRYPOINT 什么区别？**
 
-RUN 是**构建期**执行并产生新层（装依赖）；CMD/ENTRYPOINT 是**运行期**启动命令。ENTRYPOINT 定住"这个镜像是什么程序"，CMD 给默认参数——容器启动时命令行传参会**整体替换 CMD**但只**追加到 ENTRYPOINT**。所以 ENTRYPOINT 用 exec 数组形式写 `["java","-jar","app.jar"]`，让 java 成为 PID 1 信号接收者（能收到 SIGTERM 优雅退出）；写成 shell 形式则 java 挂在 sh 下面，docker stop 的信号到不了应用。
+RUN 是**构建期**执行并产生新层（装依赖）；CMD/ENTRYPOINT 是**运行期**启动命令。ENTRYPOINT 定住"这个镜像是什么程序"，CMD 给默认参数——容器启动时命令行传参会**整体替换 CMD**但只**追加到 ENTRYPOINT**。所以 ENTRYPOINT 用 exec 数组形式写 `["java","-jar","app.jar"]`，让 java 成为 PID 1 信号接收者（能收到 SIGTERM 优雅退出）。写成 shell 形式则 java 挂在 sh 下面，docker stop 的信号到不了应用。
 
 > **面试官：镜像里删了文件为什么体积没变小？**
 
-层是叠加的只读 blob：下层 100MB 的文件，上层一条 `rm` 只是加了条"删除标记"，拉取时两层都要下。要么把删除并进产生它的那条 RUN（同层内删除才是真删除），要么多阶段构建只 COPY 需要的产物。
+层是叠加的只读 blob：下层 100 MB 的文件，上层一条 `rm` 只是加了条"删除标记"，拉取时两层都要下。要么把删除并进产生它的那条 RUN（同层内删除才是真删除），要么多阶段构建只 COPY 需要的产物。
 
 > **面试官：COPY 和 ADD 用哪个？**
 
@@ -140,15 +140,15 @@ RUN 是**构建期**执行并产生新层（装依赖）；CMD/ENTRYPOINT 是**�
 
 > **面试官：容器一启动就退，怎么排查？**
 
-先 `docker run -it --entrypoint sh <image>` 进去手动跑 ENTRYPOINT 命令看报错；再查两件事：前台进程是否后台化了（主进程退出容器就退）；PID 1 是否是 shell 包装（信号问题）。这在 K8s 里就是 CrashLoopBackOff 秒退的镜像侧排查，见[排障手册](../Kubernetes/K8s生产排障手册.md)。
+先 `docker run -it --entrypoint sh <image>` 进去手动跑 ENTRYPOINT 命令查看错误。再查两件事：前台进程是否后台化了（主进程退出容器就退）。PID 1 是否是 shell 包装（信号问题）。这在 K8s 里就是 CrashLoopBackOff 秒退的镜像侧排查，见[排障手册](../Kubernetes/K8s生产排障手册.md)。
 
 面试官视角小结
 ------
 
-1. **分层三性质**：只读叠加、内容寻址缓存、跨镜像共享底层的判定是"指令+父层+文件校验和"——所以行序即性能，"变的放后面"；
-2. **多阶段一句话**：构建工具与运行产物分离，体积、攻击面、缓存粒度三收；层内删文件不减体积，清理必须同 RUN 完成；
+1. **分层三性质**：只读叠加、内容寻址缓存、跨镜像共享底层。共享的判定是"指令+父层+文件校验和"。所以行序即性能，"变的放后面"；
+2. **多阶段一句话**：构建工具与运行产物分离，体积、攻击面、缓存粒度三收。层内删文件不减体积，清理必须同 RUN 完成；
 3. **瘦身清单按序背**：基础镜像换小 → 多阶段 → .dockerignore → RUN 合并清理 → 固定 tag → 非 root；
-4. **compose 编排三件事**：healthcheck 做时钟、depends_on condition 做门槛、环境变量做配置注入；star-site 16 容器靠"MySQL 健康才起 Nacos、Nacos 健康才起 Java 服务"的链式 gate 一键起全栈；
+4. **compose 编排三件事**：healthcheck 做时钟、depends_on condition 做门槛、环境变量做配置注入。star-site 16 容器靠"MySQL 健康才起 Nacos、Nacos 健康才起 Java 服务"的链式 gate 一键起全栈；
 5. **RUN/CMD/ENTRYPOINT**：构建期 vs 运行期；exec 形式让应用当 PID 1，信号才通。
 
 > 2026-10 新增（留白补齐）。姊妹篇：[K8s核心对象与架构](../Kubernetes/K8s核心对象与架构.md)。

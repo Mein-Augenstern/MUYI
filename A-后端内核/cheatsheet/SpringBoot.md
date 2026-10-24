@@ -4,7 +4,7 @@ SpringBoot 速查卡
 一句话定位
 ----
 
-* SpringBoot ≠ 新框架，是 Spring 的**快速开发脚手架**：约定优于配置 + 自动配置 + starter 依赖管理 + 内嵌容器，达到"开箱即用、java -jar 直跑"。
+* SpringBoot ≠ 新框架，是 Spring 的**快速开发脚手架**：约定优于配置 + 自动配置 + starter 依赖管理 + 内嵌容器。由此达到"开箱即用、java -jar 直跑"。
 
 @SpringBootApplication 三件套（必背）
 ----
@@ -13,7 +13,7 @@ SpringBoot 速查卡
 |---|---|---|
 | @SpringBootConfiguration | 就是 @Configuration | 声明配置类，注册 Bean |
 | @ComponentScan | 包扫描 | 默认扫**主类所在包及子包**（所以主类要放根包） |
-| @EnableAutoConfiguration | @Import(AutoConfigurationImportSelector) | 开启自动配置，入口中的入口 |
+| @EnableAutoConfiguration | @Import(AutoConfigurationImportSelector) | 启用自动配置，入口中的入口 |
 
 自动配置原理（标准答题线）
 ----
@@ -67,7 +67,7 @@ SpringBoot vs Spring 差异表
 | 维度 | Spring | SpringBoot |
 |---|---|---|
 | 定位 | IoC/AOP 基础框架 | 快速构建脚手架（仍是 Spring 生态） |
-| 配置 | XML/JavaConfig 手动配 MVC、数据源等 | 自动配置 + 约定优于配置，yml 只改差异项 |
+| 配置 | XML/JavaConfig 手动配 MVC、数据源这类组件 | 自动配置 + 约定优于配置，yml 只改差异项 |
 | 依赖管理 | 手动挑版本，易冲突 | parent BOM + starter 一键引入、版本托管 |
 | 部署 | 通常 war + 外部 Tomcat | 内嵌 Tomcat/Jetty/Undertow，jar 直接 `java -jar` |
 | 运维 | 无内置 | Actuator：健康检查/指标/环境信息 |

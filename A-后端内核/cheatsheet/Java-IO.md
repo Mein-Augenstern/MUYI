@@ -41,7 +41,7 @@ Buffer（缓冲区）
 2. Buffer = 数组 + 结构化访问 + 读写进度跟踪；类型：ByteBuffer/CharBuffer/IntBuffer/LongBuffer/DoubleBuffer/ShortBuffer/FloatBuffer。
 3. 读写四步：写入 Buffer → `flip()` 切读模式 → 读取 → `clear()`（全清）/ `compact()`（只清已读）。
 4. 四属性：`mark <= position <= limit <= capacity`；flip 即 `limit=position; position=0`。
-5. HeapByteBuffer vs DirectByteBuffer：后者（堆外）可省一次内核态↔用户态拷贝，但创建销毁贵（用内存池）；数据量小用 heap，大/IO 密集用 direct。
+5. HeapByteBuffer vs DirectByteBuffer：后者（堆外）可省一次内核态↔用户态拷贝，但创建销毁贵（用内存池）。数据量小用 heap，大/IO 密集用 direct。
 
 Channel（通道）
 ----
@@ -52,7 +52,7 @@ Channel（通道）
 Selector（选择器）
 ----
 
-1. 一个 Selector 可注册多个 Channel，单线程管理多连接，避免每连接一线程；适合连接多、流量低的场景。
+1. 一个 Selector 可注册多个 Channel，单线程管理多连接，避免每连接一线程。适合连接多、流量低的场景。
 2. 使用步骤：`Selector.open()` → Channel `configureBlocking(false)` → `register(selector, 事件)` → 循环 `select()` → 遍历 `selectedKeys()` 处理 → `keyIterator.remove()`。
 3. 四种事件：OP_ACCEPT / OP_CONNECT / OP_READ / OP_WRITE；可用 `|` 组合。
 4. SelectionKey 含：interest set、ready set、channel、selector、attachment（可附 Buffer）。
@@ -64,11 +64,11 @@ Selector（选择器）
 ====
 
 1. 是什么：JVM Heap 之外的内存块，非 JVM 规范定义区域；`ByteBuffer.allocateDirect()` → 底层 DirectByteBuffer → `unsafe.allocateMemory()`（native，C malloc）。
-2. 为什么：堆内数据写 Socket/文件前要先拷到堆外，直接放堆外省一次拷贝（Netty/RPC 常用）。
-3. 分配流程（Bits.reserveMemory）：额度够 → 直接分配；不够 → 触发 `Reference#tryHandlePending(false)` 释放已 GC 的 DirectBuffer；仍不够 → `System.gc()`（Full GC）后最多 9 次循环重试；仍失败 → `OutOfMemoryError: Direct buffer memory`。
+2. 为什么：堆内数据写 Socket/文件前要先拷到堆外。直接放堆外省一次拷贝（Netty/RPC 常用）。
+3. 分配流程（Bits.reserveMemory）：额度够 → 直接分配。不够 → 触发 `Reference#tryHandlePending(false)` 释放已 GC 的 DirectBuffer。仍不够 → `System.gc()`（Full GC）后最多 9 次循环重试。仍失败 → `OutOfMemoryError: Direct buffer memory`。
 4. 额度：`-XX:MaxDirectMemorySize` 显式指定；否则默认 `Runtime.maxMemory()`（≈ -Xmx 减一个 survivor 预留）。
 5. 回收：DirectByteBuffer 是"冰山对象"（堆内小、堆外大），被 GC 时通过 Cleaner（PhantomReference 子类）→ ReferenceHandler 线程调 `clean()` → Deallocator.run() → `unsafe.freeMemory()`。
-6. 坑：小对象易进老年代不触发 Full GC → 堆外先 OOM；`-XX:+DisableExplicitGC` 会掐断 System.gc() 保险（Netty 因此自己做内存池主动释放）。
+6. 坑：小对象易进老年代不触发 Full GC → 堆外先 OOM。`-XX:+DisableExplicitGC` 会掐断 System.gc() 保险（Netty 因此自己做内存池主动释放）。
 7. 人工释放：反射调用 DirectByteBuffer 私有 cleaner 的 clean()。
 
 > 内容来源：[字符流和字节流区别](../java/Java%20IO/字节流和字符流区别.md) · [谈谈NIO](../java/Java%20IO/谈谈NIO.md) · [深入解读 Java 堆外内存](../java/JVM/JVM内存管理/补充-深入解读%20Java%20堆外内存（直接内存）.md) · 2026-10 整理回填。

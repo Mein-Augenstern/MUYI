@@ -1,7 +1,7 @@
 JDK25 并发终局：ScopedValue 与结构化并发
 ====
 
-JDK21 用虚拟线程解决了「线程贵」（见 [虚拟线程-vs-线程池-JDK21](./虚拟线程-vs-线程池-JDK21.md)），JDK25（2025-09 GA，LTS）补上配套的两块拼图。一句话定位：**ScopedValue（JEP 506）转正，接替 ThreadLocal 做线程上下文载体；结构化并发（JEP 505）进入第 5 轮预览，JEP 543 已 targeted 到 JDK 28 转正**。面试里这是同一条链：虚拟线程便宜了 → 每任务一线程 → ThreadLocal 模式崩 → ScopedValue + 结构化并发接管。能把链条讲通，比单背 API 值钱。
+JDK21 用虚拟线程解决了「线程贵」（见 [虚拟线程-vs-线程池-JDK21](./虚拟线程-vs-线程池-JDK21.md)），JDK25（2025-09 GA，LTS）补上配套的两块拼图。一句话定位：**ScopedValue（JEP 506）转正，接替 ThreadLocal 做线程上下文载体。结构化并发（JEP 505）进入第 5 轮预览，JEP 543 已 targeted 到 JDK 28 转正**。面试里这是同一条链：虚拟线程便宜了 → 每任务一线程 → ThreadLocal 模式崩 → ScopedValue + 结构化并发接管。能把链条讲通，比单背 API 值钱。
 
 1 从 ThreadLocal 到 ScopedValue
 ------
@@ -25,9 +25,9 @@ String tid = TRACE_ID.orElse("none"); // 可能未绑定时的兜底
 
 四条核心语义，每条都对着 ThreadLocal 的软肋：
 
-* **不可变绑定**：只有 where 绑定，没有 set 修改；一个作用域内值恒定，被多个线程读同一份不可变数据，天然线程安全；
-* **有界生命周期**：绑定存活于 call()/run() 的动态范围内，方法返回（无论正常还是异常）自动失效——没有 remove()，也就没有忘调 remove() 的事故；
-* **rebind 而非 set**：内层确实要「改」怎么办？再开一个作用域遮蔽（shadow）外层值，外层完全不受影响：
+* **不可变绑定**：只有 where 绑定，没有 set 修改。一个作用域内值恒定，被多个线程读同一份不可变数据，天然线程安全；
+* **有界生命周期**：绑定存活于 call()/run() 的动态范围内，方法返回（无论正常还是异常）自动失效。没有 remove()，也就没有忘调 remove() 的事故；
+* **rebind 而非 set**：内层确实要「改」时，再开一个作用域遮蔽（shadow）外层值，外层完全不受影响：
 
 ```java
 ScopedValue.where(USER, systemUser).call(() -> {
@@ -36,12 +36,12 @@ ScopedValue.where(USER, systemUser).call(() -> {
 // 外层作用域的 USER 仍是原值——写不坏别人
 ```
 
-* **继承**：作用域内创建的子线程（尤其是结构化并发 fork 出的子任务）自动继承当前绑定——这是与虚拟线程时代配套的设计。
+* **继承**：作用域内创建的子线程（尤其是结构化并发 fork 出的子任务）自动继承当前绑定。这是与虚拟线程时代配套的设计。
 
 1.2 与虚拟线程的配合
 ------
 
-虚拟线程把线程数放大到百万级，也让「每线程一份可变副本」的 ThreadLocal 成本模型崩塌（前作第 4 节）。ScopedValue 的实现思路正相反：**每线程只持有一个指向不可变绑定链的引用**，进入作用域压栈、退出弹栈，写一次、读多次；百万虚拟线程共享同一份绑定对象，内存不随线程数放大。它就是为虚拟线程时代设计的上下文载体。
+虚拟线程把线程数放大到百万级，也让「每线程一份可变副本」的 ThreadLocal 成本模型崩塌（前作第 4 节）。ScopedValue 的实现思路正相反：**每线程只持有一个指向不可变绑定链的引用**。进入作用域压栈、退出弹栈，写一次、读多次。百万虚拟线程共享同一份绑定对象，内存不随线程数放大。它就是为虚拟线程时代设计的上下文载体。
 
 2 ThreadLocal 三宗罪与 ScopedValue 的解法
 ------
@@ -56,7 +56,7 @@ ScopedValue.where(USER, systemUser).call(() -> {
 
 一句话：**ThreadLocal 的正确性靠程序员自律，ScopedValue 的正确性靠语言结构**。
 
-边界也要说清（加分点）：ScopedValue 不是全能替代——值不可变，确实需要每线程独立可变状态的场景（如缓冲区复用）仍属 ThreadLocal 的地盘，或者干脆改显式传参/局部变量；ThreadLocal 在 JDK 里长期共存，不会被移除。
+边界也要说清（加分点）：ScopedValue 不是全能替代。值不可变，确实需要每线程独立可变状态的场景（如缓冲区复用）仍属 ThreadLocal 的地盘。或者干脆改显式传参/局部变量。ThreadLocal 在 JDK 里长期共存，不会被移除。
 
 3 结构化并发：让任务树与调用树同构
 ------
@@ -76,7 +76,7 @@ A a = fa.get();                              // 异常到这行才冒出来，�
 3.2 树形任务模型
 ------
 
-结构化并发的主张：**并发任务的生命周期必须落在一段语法作用域内（try-with-resources），形成与调用树同构的任务树**。JDK21 预览期的经典写法（多数资料里的模样）：
+结构化并发的主张：**并发任务的生命周期必须落在一段语法作用域内（try-with-resources）**。**形成与调用树同构的任务树**。JDK21 预览期的经典写法（多数资料里的模样）：
 
 ```java
 // JDK21 预览 API（JEP 453 时代，子任务默认跑在虚拟线程上）
@@ -90,10 +90,10 @@ try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
 
 四个关键机制：
 
-* **fork**：在当前作用域内开一个子任务挂进任务树；子任务自动继承当前的 ScopedValue 绑定——两个 API 是一套组合拳；
+* **fork**：在当前作用域内开一个子任务挂进任务树。子任务自动继承当前的 ScopedValue 绑定——两个 API 配套设计；
 * **join**：等待本作用域全部子任务结束；**错误传播**：ShutdownOnFailure 策略下，任一子任务失败会让 join 抛出首个异常；
-* **取消扩散**：一个子任务失败 → 同级兄弟被 interrupt 取消 → 异常向父作用域冒泡——「一损俱损」的树语义，替代手写的 Future.cancel 编排；
-* **生命周期封闭**：close() 保证退出作用域时没有存活的子任务——对比 ExecutorService 忘 shutdown 的经典泄漏事故，这类 bug 在结构上被消灭。
+* **取消扩散**：一个子任务失败 → 同级兄弟被 interrupt 取消 → 异常向父作用域冒泡。这是「一损俱损」的树语义，替代手写的 Future.cancel 编排；
+* **生命周期封闭**：close() 保证退出作用域时没有存活的子任务。对比 ExecutorService 忘 shutdown 的经典泄漏事故，这类 bug 在结构上被消灭。
 
 3.3 JDK25 的 API 演进（预览期的代价）
 ------
@@ -117,7 +117,7 @@ try (var scope = StructuredTaskScope.open(
 }
 ```
 
-老写法的 ShutdownOnFailure 语义没有丢，只是从「内置子类」改为显式 Joiner——面试时两种形态都要认得。**第 5 轮预览意味着 API 仍可能微调**：JEP 543 已于 2026-10-15 targeted 到 JDK 28 转正，终局在望；生产核心链路上用预览特性需要 --enable-preview 的取舍判断。
+老写法的 ShutdownOnFailure 语义没有丢，只是从「内置子类」改为显式 Joiner——面试时两种形态都要认得。**第 5 轮预览意味着 API 仍可能微调**。JEP 543 已于 2026-10-15 targeted 到 JDK 28 转正，终局在望。生产核心链路上用预览特性需要 --enable-preview 的取舍判断。
 
 4 JDK 21 → 25 → 28 演进时间线
 ------
@@ -131,7 +131,7 @@ try (var scope = StructuredTaskScope.open(
 | JDK 26（2026-03-17） | — | — | 预览持续 | HTTP/3 客户端、任意 GC 的 AOT 缓存 |
 | JDK 28（预计 2027-03） | — | — | **JEP 543 拟转正**（2026-10-15 已 targeted） | 并发三件套全部收官 |
 
-单独强调 JDK 24 那一格的意义：JEP 491 重构 monitor 实现，synchronized 块内阻塞不再钉住载体线程（只剩 native 帧场景）——存量代码不改造就能放心上虚拟线程，这是「虚拟线程默认可用」的分水岭，也是 Boot 4 时代把它列为默认可选线程模型的前提（Spring 侧见 [SpringBoot4与Framework7升级要点](../../框架与中间件/Spring/SpringBoot4与Framework7升级要点.md)）。
+单独强调 JDK 24 那一格的意义：JEP 491 重构 monitor 实现，synchronized 块内阻塞不再钉住载体线程（只剩 native 帧场景）。存量代码不改造就能放心上虚拟线程。这是「虚拟线程默认可用」的分水岭，也是 Boot 4 时代把它列为默认可选线程模型的前提（Spring 侧见 [SpringBoot4与Framework7升级要点](../../框架与中间件/Spring/SpringBoot4与Framework7升级要点.md)）。
 
 5 生产迁移路径：登录态与 traceId 透传
 ------
@@ -159,19 +159,19 @@ public class AuthFilter implements Filter {
 }
 ```
 
-traceId 同理：入口绑定一次，深层日志直接读。注意 MDC 本身是 ThreadLocal 实现的存量设施，过渡期常见做法是「where 绑定时同步写 MDC、作用域结束清理」做桥接；虚拟线程下 MDC 的每线程副本仍有成本，高并发服务可优先把 traceId 本身换成 ScopedValue 传。
+traceId 同理：入口绑定一次，深层日志直接读。注意 MDC 本身是 ThreadLocal 实现的存量设施。过渡期常见做法是「where 绑定时同步写 MDC、作用域结束清理」做桥接。虚拟线程下 MDC 的每线程副本仍有成本，高并发服务可优先把 traceId 本身换成 ScopedValue 传。
 
 5.2 跨线程边界怎么办
 ------
 
 * **作用域内 fork 的子任务**：自动继承绑定，零改造——这是优先把并行 fan-out 改成结构化并发的直接收益；
-* **提交给线程池/异步 SDK 的任务**：ScopedValue 不跟着走——它只继承「作用域内创建的线程」（这是与 InheritableThreadLocal 的关键差异，后者按线程创建关系传递、池化场景照样出事故）。池边界只能显式传值或在新线程的任务内重新 where 绑定；
+* **提交给线程池/异步 SDK 的任务**：ScopedValue 不跟着走——它只继承「作用域内创建的线程」。这是与 InheritableThreadLocal 的关键差异，后者按线程创建关系传递、池化场景照样出事故。池边界只能显式传值或在新线程的任务内重新 where 绑定；
 * 迁移顺序建议：
 
 1. JDK 25（LTS）就位，虚拟线程入口先铺开；
-2. 入口层上下文 ThreadLocal → ScopedValue：先迁登录态/租户号这类不可变值，可变状态留下或改显式传参；
-3. 并行 fan-out 从 CompletableFuture/池提交改 StructuredTaskScope——预览开关的取舍：非核心链路可先用，核心链路等 JDK 28 转正（JEP 543 已 targeted）；
-4. 补验证观测链路：取消扩散后兄弟任务以中断收场，要在指标/日志里可见，别当静默失败。
+2. 入口层上下文 ThreadLocal → ScopedValue：先迁登录态/租户号这类不可变值。可变状态留下或改显式传参；
+3. 并行 fan-out 从 CompletableFuture/池提交改 StructuredTaskScope。预览开关的取舍：非核心链路可先用，核心链路等 JDK 28 转正（JEP 543 已 targeted）；
+4. 补验证观测链路：取消扩散后兄弟任务以中断收场，要在指标/日志中可见。别当静默失败。
 
 收尾对照（扩展前作第 5 节的迁移速查表）：
 
@@ -195,6 +195,6 @@ traceId 同理：入口绑定一次，深层日志直接读。注意 MDC 本身�
 面试官视角小结
 ------
 
-这题的三层：及格层是知道 ScopedValue/StructuredTaskScope 的名字和基本 API；中间层是讲得出「三宗罪 → 逐条解法」和「任务树同构、错误传播、取消扩散」的设计动机；高级层是能主动点出边界——值不可变的适用限制、跨池不传递、预览状态与 JDK 28 时间点、MDC 等存量 ThreadLocal 设施的桥接成本。与 [虚拟线程-vs-线程池-JDK21](./虚拟线程-vs-线程池-JDK21.md) 互为表里：那篇答「为什么用虚拟线程、坑在哪」，本篇答「上下文与编排如何收尾」，两篇合起来就是「JDK21 开局、JDK25 收官」的完整并发答卷。
+这题分三层。及格层是知道 ScopedValue/StructuredTaskScope 的名字和基本 API。中间层是讲得出「三宗罪 → 逐条解法」和「任务树同构、错误传播、取消扩散」的设计动机。高级层是能主动点出边界——值不可变的适用限制、跨池不传递、预览状态与 JDK 28 时间点。还有 MDC 这类存量 ThreadLocal 设施的桥接成本。与 [虚拟线程-vs-线程池-JDK21](./虚拟线程-vs-线程池-JDK21.md) 互为表里：那篇答「为什么用虚拟线程、坑在哪」，本篇答「上下文与编排如何收尾」，两篇合起来就是「JDK21 开局、JDK25 收官」的完整并发答卷。
 
 > 2026-10 新增（2026 技术栈补全）。

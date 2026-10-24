@@ -1,4 +1,4 @@
-实现了FactoryBean接口的bean是一类叫做factory的bean。其特点是，spring会在使用getBean()调用获得该bean时，会自动调用该bean的getObject()方法，所以返回的不是factory这个bean，而是这个bean.getOjbect()方法的返回值：
+实现了FactoryBean接口的bean是一类叫做factory的bean。其特点是，spring会在使用getBean()调用获得该bean时，自动调用该bean的getObject()方法。所以返回的不是factory这个bean，而是这个bean.getObject()方法的返回值：
 
 ```java
 public interface FactoryBean<T> {
@@ -40,7 +40,7 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
   }
 ```
 
-其实他是一个专门生产 sqlSessionFactory 的工厂，所以才叫 SqlSessionFactoryBean。 而SqlSessionFactory又是生产SqlSession的工厂。
+他是一个专门生产 sqlSessionFactory 的工厂，所以才叫 SqlSessionFactoryBean。 而SqlSessionFactory又是生产SqlSession的工厂。
 
 还有spring与ibatis的结合：
 

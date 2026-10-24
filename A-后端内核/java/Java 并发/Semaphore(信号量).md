@@ -4,11 +4,11 @@
 
 ## Semaphore
 
-有了 CountDownLatch 的基础后，分析 Semaphore 会简单很多。Semaphore 是什么呢？它类似一个资源池（读者可以类比线程池），每个线程需要调用 acquire() 方法获取资源，然后才能执行，执行完后，需要 release 资源，让给其他的线程用。
+有了 CountDownLatch 的基础后，分析 Semaphore 会简单很多。Semaphore 类似一个资源池（读者可以类比线程池）。每个线程需要调用 acquire() 方法获取资源，然后才能执行。执行完后，需要 release 资源，让给其他的线程用。
 
-大概大家也可以猜到，Semaphore 其实也是 AQS 中共享锁的使用，因为每个线程共享一个池嘛。
+大概大家也可以猜到，Semaphore 也是 AQS 中共享锁的使用，因为每个线程共享一个池嘛。
 
-套路解读：创建 Semaphore 实例的时候，需要一个参数 permits，这个基本上可以确定是设置给 AQS 的 state 的，然后每个线程调用 acquire 的时候，执行 state = state - 1，release 的时候执行 state = state + 1，当然，acquire  的时候，如果 state = 0，说明没有资源了，需要等待其他线程 release。
+套路解读：创建 Semaphore 实例的时候，需要一个参数 permits。这个可以确定是设置给 AQS 的 state 的。然后每个线程调用 acquire 的时候，执行 state = state - 1。release 的时候执行 state = state + 1。当然，acquire  的时候，如果 state = 0，说明没有资源了，需要等待其他线程 release。
 
 构造方法：
 
@@ -41,7 +41,7 @@ public void acquireUninterruptibly(int permits) {
     sync.acquireShared(permits);
 }
 ```
-这几个方法也是老套路了，大家基本都懂了吧，这边多了两个可以传参的 acquire 方法，不过大家也都懂的吧，如果我们需要一次获取超过一个的资源，会用得着这个的。
+这几个方法也是老套路了，大家都懂了吧。这边多了两个可以传参的 acquire 方法，不过大家也都懂的吧。如果我们需要一次获取超过一个的资源，会用得着这个的。
 
 我们接下来看不抛出 InterruptedException 异常的 acquireUninterruptibly() 方法吧：
 
@@ -55,7 +55,7 @@ public final void acquireShared(int arg) {
 }
 ```
 
-前面说了，Semaphore 分公平策略和非公平策略，我们对比一下两个 tryAcquireShared 方法：
+前面说了，Semaphore 分公平策略和非公平策略。我们对比两个 tryAcquireShared 方法：
 
 ```java
 // 公平策略：
@@ -85,7 +85,7 @@ final int nonfairTryAcquireShared(int acquires) {
     }
 }
 ```
-也是老套路了，所以从源码分析角度的话，我们其实不太需要关心是不是公平策略还是非公平策略，它们的区别往往就那么一两行。
+也是老套路了，所以从源码分析角度，我们不太需要关心是公平策略还是非公平策略。它们的区别往往就那么一两行。
 
 我们再回到 acquireShared 方法，
 
@@ -95,7 +95,7 @@ public final void acquireShared(int arg) {
         doAcquireShared(arg);
 }
 ```
-由于 tryAcquireShared(arg) 返回小于 0 的时候，说明 state 已经小于 0 了（没资源了），此时 acquire 不能立马拿到资源，需要进入到阻塞队列等待，虽然贴了很多代码，不在乎多这点了：
+由于 tryAcquireShared(arg) 返回小于 0 的时候，说明 state 已经小于 0 了（没资源了）。此时 acquire 不能立马拿到资源，需要进入到阻塞队列等待。虽然贴了很多代码，不在乎多这点了：
 
 ```java
 private void doAcquireShared(int arg) {
@@ -154,7 +154,7 @@ protected final boolean tryReleaseShared(int releases) {
     }
 }
 ```
-tryReleaseShared 方法总是会返回 true，然后是 doReleaseShared，这个也是我们熟悉的方法了，我就贴下代码，不分析了，这个方法用于唤醒所有的等待线程：
+tryReleaseShared 方法总是会返回 true，然后是 doReleaseShared。这个也是我们熟悉的方法了，我就贴下代码，不分析了。这个方法用于唤醒所有的等待线程：
 
 ```java
 private void doReleaseShared() {
@@ -177,7 +177,7 @@ private void doReleaseShared() {
 }
 ```
 
-Semphore 的源码确实很简单，基本上都是分析过的老代码的组合使用了。
+Semphore 的源码确实很简单，都是分析过的老代码的组合使用了。
 
 -------
 
@@ -232,7 +232,7 @@ public class SemaphoreExample1 {
 }
 ```
 
-执行 ```acquire``` 方法阻塞，直到有一个许可证可以获得然后拿走一个许可证；每个 ```release``` 方法增加一个许可证，这可能会释放一个阻塞的 ```acquire``` 方法。然而，其实并没有实际的许可证这个对象，```Semaphore``` 只是维持了一个可获得许可证的数量。 ```Semaphore``` 经常用于限制获取某种资源的线程数量。
+执行 ```acquire``` 方法阻塞，直到有一个许可证可以获得，然后拿走一个许可证。每个 ```release``` 方法增加一个许可证，这可能会释放一个阻塞的 ```acquire``` 方法。然而，并没有实际的许可证这个对象，```Semaphore``` 只是维持了一个可获得许可证的数量。 ```Semaphore``` 经常用于限制获取某种资源的线程数量。
 
 当然一次也可以一次拿取和释放多个许可，不过一般没有必要这样做：
 
@@ -242,7 +242,7 @@ test(threadnum);
 semaphore.release(5);// 获取5个许可，所以可运行线程数量为20/5=4
 ```
 
-除了 ```acquire```方法之外，另一个比较常用的与之对应的方法是```tryAcquire```方法，该方法如果获取不到许可就立即返回 false。
+除了 ```acquire```方法之外，另一个比较常用的与之对应的方法是```tryAcquire```方法。该方法如果获取不到许可就立即返回 false。
 
 Semaphore 有两种模式，公平模式和非公平模式。
 
@@ -261,4 +261,4 @@ public Semaphore(int permits, boolean fair) {
 }
 ```
 
-**这两个构造方法，都必须提供许可的数量，第二个构造方法可以指定是公平模式还是非公平模式，默认非公平模式。**
+**这两个构造方法，都必须提供许可的数量。第二个构造方法可以指定是公平模式还是非公平模式，默认非公平模式。**

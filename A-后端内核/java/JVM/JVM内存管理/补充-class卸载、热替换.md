@@ -5,20 +5,22 @@
 
 ## 一、概述
 
-名词解释：所谓热部署，就是在应用正在运行的时候升级软件，却不需要重新启动应用。本文主要是分析Tomcat中关于热部署和JSP更新替换的原理，在此之前先介绍class的热替换和class的卸载的原理。
+名词解释：所谓热部署，就是在应用正在运行的时候升级软件，却不需要重新启动应用。本文主要是分析Tomcat中关于热部署和JSP更新替换的原理。在此之前先介绍class的热替换和class的卸载的原理。
 
 ## 二、Class热替换
 
-ClassLoader中重要方法： loadClass：```ClassLoader.loadClass(...)``` 是ClassLoader的入口点。当一个类没有指明用什么加载器加载的时候，JVM默认采用```AppClassLoader```加载器加载没有加载过的class，调用的方法的入口就是```loadClass(...)```。如果一个class被自定义的ClassLoader加载，那么JVM也会调用这个自定义的```ClassLoader.loadClass(...)```方法来加载class内部引用的一些别的class文件。重载这个方法，能实现自定义加载class的方式，会抛弃双亲委托机制，但是即使不采用双亲委托机制，比如java.lang包中的相关类还是不能自定义一个同名的类来代替，主要因为JVM解析、验证class的时候，会进行相关判断。
+ClassLoader中重要方法： loadClass：```ClassLoader.loadClass(...)``` 是ClassLoader的入口点。当一个类没有指明用什么加载器加载的时候，JVM默认采用```AppClassLoader```加载器加载没有加载过的class。调用的方法的入口就是```loadClass(...)```。如果一个class被自定义的ClassLoader加载，那么JVM也会调用这个自定义的```ClassLoader.loadClass(...)```方法。用来加载class内部引用的一些别的class文件。
 
-defineClass：系统自带的ClassLoader，默认加载程序的是AppClassLoader，ClassLoader加载一个class，最终调用的是```defineClass(...)```方法，这时候就在想是否可以重复调用```defineClass(...)```方法加载同一个类(或者修改过)，最后发现调用多次的话会有相关错误:
+重载这个方法，能实现自定义加载class的方式，会抛弃双亲委托机制。但是即使不采用双亲委托机制，比如java.lang包中的相关类还是不能自定义一个同名的类来代替。主要因为JVM解析、验证class的时候，会做相关判断。
+
+defineClass：系统自带的ClassLoader，默认加载程序的是AppClassLoader。ClassLoader加载一个class，最终调用的是```defineClass(...)```方法。这时候就在想是否可以重复调用```defineClass(...)```方法加载同一个类(或者修改过)。最后发现调用多次会有相关错误:
 
 ```java
 java.lang.LinkageError 
 attempted duplicate class definition
 ```
 
-所以一个class被一个ClassLoader实例加载过的话，就不能再被这个ClassLoader实例再次加载(这里的加载指的是，调用了```defineClass(...)```方法，重新加载字节码、解析、验证)。而系统默认的AppClassLoader加载器，他们内部会缓存加载过的class，重新加载的话，就直接取缓存。**所与对于热加载的话，只能重新创建一个ClassLoader，然后再去加载已经被加载过的class文件**。
+所以一个class被一个ClassLoader实例加载过，就不能再被这个ClassLoader实例再次加载。这里的加载指的是，调用了```defineClass(...)```方法，重新加载字节码、解析、验证。而系统默认的AppClassLoader加载器，他们内部会缓存加载过的class，重新加载时，就直接取缓存。**所与对于热加载，只能重新创建一个ClassLoader，然后再去加载已经被加载过的class文件**。
 
 下面看一个class热加载的例子： 代码：HotSwapURLClassLoader自定义classloader，实现热替换的关键
 
@@ -265,15 +267,15 @@ Hot.class
 	version 2 : testjvm.testclassloader.HotSwapURLClassLoader@45e4d960
 ```
 
-所以HotSwapURLClassLoader是重加载了Hot类 。注意上面，其实当加载修改后的Hot时，HotSwapURLClassLoader实例跟加载没修改Hot的HotSwapURLClassLoader不是同一个。
+所以HotSwapURLClassLoader是重加载了Hot类 。注意上面，当加载修改后的Hot时，HotSwapURLClassLoader实例跟加载没修改Hot的HotSwapURLClassLoader不是同一个。
 
 ![HotSwapURLClassLoader加载一](/images/legacy/HotSwapURLClassLoader加载一.jpg)
 
-总结：上述类热加载，需要自定义ClassLoader，并且只能重新实例化ClassLoader实例，利用新的ClassLoader实例才能重新加载之前被加载过的class。并且程序需要模块化，才能利用这种热加载方式。
+总结：上述类热加载，需要自定义ClassLoader。并且只能重新实例化ClassLoader实例，利用新的ClassLoader实例才能重新加载之前被加载过的class。并且程序需要模块化，才能利用这种热加载方式。
 
 ## 二、Class卸载
 
-在Java中class也是可以unload。JVM中class和Meta信息存放在```PermGen space```区域。如果加载的class文件很多，那么可能导致PermGen space区域空间溢出。引起：```java.lang.OutOfMemoryErrorPermGen space```.  对于有些Class我们可能只需要使用一次，就不再需要了，也可能我们修改了class文件，我们需要重新加载 newclass，那么oldclass就不再需要了。那么JVM怎么样才能卸载Class呢。
+在Java中class也是可以unload。JVM中class和Meta信息存放在```PermGen space```区域。如果加载的class文件很多，那么可能导致PermGen space区域空间溢出。引起：```java.lang.OutOfMemoryErrorPermGen space```.  对于有些Class我们可能只需要使用一次，就不再需要了。也可能我们修改了class文件，我们需要重新加载 newclass，那么oldclass就不再需要了。那么JVM怎么样才能卸载Class呢。
 
 JVM中的Class只有满足以下三个条件，才能被GC回收，也就是该Class被卸载（unload）：
 
@@ -442,10 +444,10 @@ GC over
 
 ![class_unload_2](/images/legacy/class_unload_2.png)
 
-1. 由启动类加载器加载的类型在整个运行期间是不可能被卸载的(jvm和jls规范).
+1. 由启动类加载器加载的类型在整个运行期间不可能被卸载(jvm和jls规范)。
 
-2. 被系统类加载器和标准扩展类加载器加载的类型在运行期间不太可能被卸载，因为系统类加载器实例或者标准扩展类的实例基本上在整个运行期间总能直接或者间接的访问的到，其达到unreachable的可能性极小.(当然，在虚拟机快退出的时候可以，因为不管ClassLoader实例或者Class(java.lang.Class)实例也都是在堆中存在，同样遵循垃圾收集的规则).
+2. 系统类加载器、标准扩展类加载器加载的类型，运行期间不太可能被卸载。原因：两类加载器的实例在整个运行期间总能直接或间接访问到。其达到 unreachable 的可能性极小。当然，在虚拟机快退出的时候可以。因为不管ClassLoader实例或者Class(java.lang.Class)实例也都是在堆中存在。同样遵循垃圾收集的规则。
 
-3. 被开发者自定义的类加载器实例加载的类型只有在很简单的上下文环境中才能被卸载，而且一般还要借助于强制调用虚拟机的垃圾收集功能才可以做到.可以预想，稍微复杂点的应用场景中(尤其很多时候，用户在开发自定义类加载器实例的时候采用缓存的策略以提高系统性能)，被加载的类型在运行期间也是几乎不太可能被卸载的(至少卸载的时间是不确定的).
+3. 自定义类加载器加载的类型，在很简单的上下文环境中才能卸载。一般还要借助于强制调用虚拟机的垃圾收集功能才可以做到。可以预想，稍微复杂点的应用场景中，被加载的类型几乎不太可能被卸载。尤其很多时候，用户在开发自定义类加载器实例的时候会采用缓存策略。目的是提高系统性能。至少卸载的时间是不确定的。
 
-综合以上三点， 一个已经加载的类型被卸载的几率很小至少被卸载的时间是不确定的.同时，我们可以看的出来，开发者在开发代码时候，不应该对虚拟机的类型卸载做任何假设的前提下来实现系统中的特定功能.
+综合以上三点， 一个已经加载的类型被卸载的几率很小，至少被卸载的时间是不确定的。同时，我们可以看的出来：开发者在开发代码时候，不应该对虚拟机的类型卸载做任何假设。在此前提下实现系统中的特定功能。

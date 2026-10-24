@@ -22,7 +22,7 @@ CommandLine flags: -XX:+CMSClassUnloadingEnabled -XX:CMSFullGCsBeforeCompaction=
  
 > GC：
 
-表明进行了一次垃圾回收，前面没有Full修饰，表明这是一次Minor GC ,注意它不表示只GC新生代，并且现有的不管是新生代还是老年代都会STW。
+表明发生了一次垃圾回收，前面没有Full修饰，表明这是一次Minor GC。注意它不表示只GC新生代，并且现有的不管是新生代还是老年代都会STW。
 
 > Allocation Failure：
 
@@ -30,11 +30,11 @@ CommandLine flags: -XX:+CMSClassUnloadingEnabled -XX:CMSFullGCsBeforeCompaction=
 
 >ParNew：
 
-表明本次GC发生在年轻代并且使用的是ParNew垃圾收集器。ParNew是一个Serial收集器的多线程版本，会使用多个CPU和线程完成垃圾收集工作（默认使用的线程数和CPU数相同，可以使用-XX：ParallelGCThreads参数限制）。该收集器采用复制算法回收内存，期间会停止其他工作线程，即Stop The World。
+表明本次GC发生在年轻代并且使用的是ParNew垃圾收集器。ParNew是一个Serial收集器的多线程版本。会使用多个CPU和线程完成垃圾收集工作（默认使用的线程数和CPU数相同，可以使用-XX：ParallelGCThreads参数限制）。该收集器采用复制算法回收内存，期间会停止其他工作线程，即Stop The World。
 
 > 367523K->1293K(410432K)：单位是KB
 
-三个参数分别为：GC前该内存区域(这里是年轻代)使用容量，GC后该内存区域使用容量，该内存区域总容量。
+三个参数分别为：GC前该内存区域(这里是年轻代)使用容量。GC后该内存区域使用容量。以及该内存区域总容量。
 
 > 0.0023988 secs：
 

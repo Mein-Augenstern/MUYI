@@ -14,7 +14,7 @@ private static final WeakCache<ClassLoader, Class<?>[], Class<?>>
 KeyFactory作用
 ------
 
-WeakCache是缓存类加载器以及该加载器加载的委托类的。其中KeyFactory类用来生产Key的，生成因不同数量的类加载器采取不同的生成策略来对应生成的Key对象。在Proxy源码中的Key1类的实现，从其源代码中看出，该类继承了WeakReference类，也就是弱引用类，而每个Key类具体用来干嘛的呢？其实就是作为键的生成策略存在，保证其键的唯一性，而KeyFactory工厂类根据类加载器数量的不同采取键的不同生成策略。
+WeakCache是缓存类加载器以及该加载器加载的委托类的。其中KeyFactory类用来生产Key的，生成因不同数量的类加载器采取不同的生成策略来对应生成的Key对象。在Proxy源码中的Key1类的实现，从其源代码中看出，该类继承了WeakReference类，也就是弱引用类。每个Key类的作用就是作为键的生成策略存在，保证其键的唯一性。而KeyFactory工厂类根据类加载器数量的不同采取键的不同生成策略。
 
 
 二、Proxy内部类KeyFactory源码

@@ -3,12 +3,12 @@
 
 * <a href="https://www.jianshu.com/p/88aa5afd918c">如何在github上搭建网站？</a>
 
-GitHub 不仅是代码托管平台，还免费提供静态网站托管服务 GitHub Pages。配合 Jekyll、Hexo 等静态站点生成器，几分钟就能拥有一个免费的个人博客/项目官网，地址形如 `https://用户名.github.io`。
+GitHub 不仅是代码托管平台，还免费提供静态网站托管服务 GitHub Pages。配合 Jekyll、Hexo 这类静态站点生成器，几分钟就能拥有一个免费的个人博客/项目官网，地址形如 `https://用户名.github.io`。
 
 基本原理
 ====
 
-GitHub Pages 本质是一个静态文件服务器：你把 HTML/CSS/JS/图片提交到仓库的约定分支（或 /docs 目录），GitHub 自动发布并通过 CDN 分发。它只支持静态内容，没有数据库和后端运行时，动态能力需借助第三方服务（评论用 Disqus/Giscus、表单用 Formspree 等）。
+GitHub Pages 本质是一个静态文件服务器。你把 HTML/CSS/JS/图片提交到仓库的约定分支（或 /docs 目录），GitHub 自动发布并通过 CDN 分发。它只支持静态内容，没有数据库和后端运行时。动态能力需借助第三方服务（例如评论用 Disqus/Giscus、表单用 Formspree）。
 
 两种站点类型
 ====
@@ -18,7 +18,7 @@ GitHub Pages 本质是一个静态文件服务器：你把 HTML/CSS/JS/图片提
 | 用户站点 | 用户名.github.io | main（或 master） | https://用户名.github.io |
 | 项目站点 | 任意仓库 | gh-pages（或 main、/docs 目录） | https://用户名.github.io/仓库名 |
 
-用户站点一个账号只能有一个，作为个人主页；项目站点每个仓库都可以有，适合给开源项目做文档官网。
+用户站点一个账号只能有一个，作为个人主页。项目站点每个仓库都可以有，适合给开源项目做文档官网。
 
 方式一：纯手写 HTML
 ====
@@ -116,7 +116,7 @@ A      @        185.199.108.153   （裸域名时，共4个IP）
 
 * **国内访问慢**：GitHub Pages 的 CDN 节点在境内访问不稳定，可接入 Cloudflare 或镜像加速；
 
-* **仓库想开源又不想暴露站点源码**：可以把生成后的静态文件推到 `用户名.github.io`，源码放私有仓库，用 GitHub Actions 自动构建发布。
+* **仓库想开源又不想暴露站点源码**：可以把生成后的静态文件推到 `用户名.github.io`。源码放私有仓库，用 GitHub Actions 自动构建发布。
 
 总结
 ====

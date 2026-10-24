@@ -7,9 +7,9 @@ wait方法简介
 
 * 让当前线程进入等待状态，当别的其他线程调用notify()或者notifyAll()方法时，当前线程进入就绪状态
 
-* wait方法必须在同步上下文中调用，例如：同步方法块或者同步方法中，这也就意味着如果你想要调用wait方法，前提是必须获取对象上的锁资源
+* wait方法必须在同步上下文中调用，例如：同步方法块或者同步方法中。这也就意味着如果你想要调用wait方法，前提是必须获取对象上的锁资源。
 
-* 当wait方法调用时，当前线程将会释放已获取的对象锁资源，并进入等待队列，其他线程就可以尝试获取对象上的锁资源。
+* 当wait方法调用时，当前线程将会释放已获取的对象锁资源，并进入等待队列。其他线程就可以尝试获取对象上的锁资源。
 
 ```java
 synchronized(lockedObject) {   
@@ -27,7 +27,7 @@ sleep方法简介
 
 * 休眠时间的准确性依赖于系统时钟和CPU调度机制。
 
-* 不释放已获取的锁资源，如果sleep方法在同步上下文中调用，那么其他线程是无法进入到当前同步块或者同步方法中的。
+* 不释放已获取的锁资源。如果sleep方法在同步上下文中调用，那么其他线程是无法进入到当前同步块或者同步方法中的。
 
 * 可通过调用interrupt()方法来唤醒休眠线程。
 
@@ -55,10 +55,10 @@ sleep vs wait
 
 ![Entry and Wait Sets](/images/legacy/Entry_and_Wait_Sets.gif)
 
-* 所有期待获得锁的线程，在锁已经被其它线程拥有的时候，这些期待获得锁的线程就进入了Object Lock的entry set区域。
+* 所有期待获得锁的线程，在锁已经被其它线程拥有的时候，就进入了Object Lock的entry set区域。
 
-* 所有曾经获得过锁，但是由于其它必要条件不满足而需要wait的时候，线程就进入了Object Lock的wait set区域 。
+* 所有曾经获得过锁、但由于其它必要条件不满足而需要wait的线程，就进入了Object Lock的wait set区域。
 
-* 在wait set区域的线程获得Notify/notifyAll通知的时候，随机的一个Thread（Notify）或者是全部的Thread（NotifyALL）从Object Lock的wait set区域进入了entry set中。
+* 在wait set区域的线程获得Notify/notifyAll通知时，随机的一个Thread（Notify）或者是全部的Thread（NotifyALL）会进入entry set。
 
-* 在当前拥有锁的线程释放掉锁的时候，处于该Object Lock的entryset区域的线程都会抢占该锁，但是只能有任意的一个Thread能取得该锁，而其他线程依然在entry set中等待下次来抢占到锁之后再执行。
+* 在当前拥有锁的线程释放掉锁的时候，处于该Object Lock的entryset区域的线程都会抢占该锁。但是只能有任意的一个Thread能取得该锁。而其他线程依然在entry set中等待下次来抢占到锁之后再执行。

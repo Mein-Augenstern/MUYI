@@ -32,12 +32,12 @@ key 为 null 放到数组第一个链表；否则 hash 后用 `indexFor(h, lengt
 3 resize 与 transfer
 ------
 
-新建 2 倍长度的新数组，transfer 迁移数据，更新 threshold；若已达最大容量则把阈值设为 Integer.MAX_VALUE 不再扩容。transfer 遍历旧数组，采用**头插法**把节点插入新表（JDK1.7 中同索引位置的链表会倒置，1.8 不会——这也是 1.7 并发扩容成环的原因）。
+新建 2 倍长度的新数组，transfer 迁移数据，更新 threshold；若已达最大容量则把阈值设为 Integer.MAX_VALUE 不再扩容。transfer 遍历旧数组，采用**头插法**把节点插入新表。JDK1.7 中同索引位置的链表会倒置，1.8 不会——这也是 1.7 并发扩容成环的原因。
 
 为什么扩容是 2 倍
 ====
 
-由于按 2 的幂次扩展，元素在新表中的位置**要么不变，要么移动 oldCap（即原索引 + 旧容量）**：只需看原 hash 新增的那一位 bit 是 0 还是 1，无需重新计算 hash。新 bit 是 0/1 可视为随机，扩容时还能把原本冲突的节点均匀分散到两个桶。
+由于按 2 的幂次扩展，元素在新表中的位置**要么不变，要么移动 oldCap（即原索引 + 旧容量）**。只需看原 hash 新增的那一位 bit 是 0 还是 1，无需重新计算 hash。新 bit 是 0/1 可视为随机，扩容时还能把原本冲突的节点均匀分散到两个桶。
 
 ```java
 // JDK1.8 的 hash：高 16 位异或低 16 位，让高低 bit 都参与定位
@@ -63,19 +63,38 @@ HashTable 不允许 null 键/值（只要有一个 null 直接抛 NullPointerExc
 3 初始容量与扩容
 ------
 
-* 不指定初始容量：HashTable 默认 11，之后每次扩充容量变为原来的 2n+1；HashMap 默认 16，之后每次扩充变为原来的 2 倍；
+* 不指定初始容量：HashTable 默认 11，之后每次扩充容量变为原来的 2n+1。HashMap 默认 16，之后每次扩充变为原来的 2 倍；
 * 指定初始容量：HashTable 直接使用给定大小；HashMap 会通过 `tableSizeFor()` 扩充为 2 的幂次方（保证哈希表大小总是 2 的幂）。
+
+`tableSizeFor()` 的实现保证了 HashMap 总是使用 2 的幂作为哈希表的大小：
+
+```java
+/**
+ * Returns a power of two size for the given target capacity.
+ */
+static final int tableSizeFor(int cap) {
+    int n = cap - 1;
+    n |= n >>> 1;
+    n |= n >>> 2;
+    n |= n >>> 4;
+    n |= n >>> 8;
+    n |= n >>> 16;
+    return (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
+}
+```
 
 4 底层数据结构
 ------
 
-JDK1.8 的 HashMap 在链表长度大于阈值（默认 8）时将链表转化为红黑树以减少搜索时间；HashTable 没有树化机制，且基本已被淘汰，不要在代码中使用。
+JDK1.8 的 HashMap 在链表长度大于阈值（默认 8）时将链表转化为红黑树，以减少搜索时间。HashTable 没有树化机制，且基本已被淘汰，不要在代码中使用。
 
 5 顺序
 ------
 
 HashMap 不保证顺序，也不保证顺序随时间不变。
 
-更多对比细节见库内 [HashMap 和 Hashtable 的区别](HashMap、Hashtable、LinkedHashMap和TreeMap特点说明.md)。
+更多对比细节见库内 [HashMap、Hashtable、LinkedHashMap和TreeMap特点说明](HashMap、Hashtable、LinkedHashMap和TreeMap特点说明.md)。
 
 > 内容来源：[原文](https://www.jianshu.com/p/c955491a3398) · 2026-10 整理回填。
+>
+> 2026-10 整改：并入原《java基础/HashMap 和 Hashtable 的区别》一篇。吸收其独有的 `tableSizeFor()` 源码段，其余对比要点本篇已覆盖。

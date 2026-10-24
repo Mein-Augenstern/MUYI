@@ -6,7 +6,7 @@
 前言
 ====
 
-实际代码执行过程中经常遇到 OOM 相关异常，本篇内容基于 JDK13 总结各种 OOM 相关联内存区域。方便定位是哪一块内存区域的问题，然后进行参数调优。
+实际代码执行过程中经常遇到 OOM 相关异常，本篇内容基于 JDK13 总结各种 OOM 相关联内存区域。方便定位是哪一块内存区域的问题，然后做参数调优。
 
 OutOfMemoryError 相关异常
 ====
@@ -30,9 +30,9 @@ Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
 字符串常量池溢出
 ====
 
-自 JDK 7 起，原本存放在永久代的字符串常量池被移至 Java 堆之中，所以在 JDK 7 及以上版本，限制方法区的容量对该测试用例来说是毫无意义的。
+自 JDK 7 起，原本存放在永久代的字符串常量池被移至 Java 堆之中。所以在 JDK 7 及以上版本，限制方法区的容量对该测试用例来说是毫无意义的。
 
-> 永久代和元空间只是《Java 虚拟机规范》方法区规范的实现，如果还在纠结这些概念可参考我 jvm 专栏的《运行时内存数据区域》内容
+> 永久代和元空间只是《Java 虚拟机规范》方法区规范的实现。如果还在纠结这些概念，可参考我 jvm 专栏的《运行时内存数据区域》内容
 
 ```java
 Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
@@ -49,9 +49,9 @@ Exception in thread 「main」 java.lang.OutOfMemoryError: Java heap space
 方法区出现内存溢出 Metaspace 或者 PermGen space
 ====
 
-当前的很多主流框架，如 Spring、Hibernate 对类进行增强时，都会使用到 CGLib 这类字节码技术，当增强的类越多，就需要越大的方法区以保证动态生成的新类型可以载入内存。
+当前的很多主流框架，如 Spring、Hibernate 对类增强时，都会使用到 CGLib 这类字节码技术。当增强的类越多，就需要越大的方法区以保证动态生成的新类型可以载入内存。
 
-> PermGen space 是 JDK8 前永久代的异常，Metaspace 是 JDK8 后的元空间异常，其实都是虚拟机规范方法区的标准实现
+> PermGen space 是 JDK8 前永久代的异常，Metaspace 是 JDK8 后的元空间异常，都是虚拟机规范方法区的标准实现
 
 ```java
 Caused by: java.lang.OutOfMemoryError: PermGen space  --- JDK8 以上 Metaspace
@@ -62,9 +62,9 @@ Caused by: java.lang.OutOfMemoryError: PermGen space  --- JDK8 以上 Metaspace
 
 * -XX：MaxMetaspaceSize：设置元空间最大值，默认是-1，即不限制，或者说只受限于本地内存大小。
 
-* -XX：MetaspaceSize：指定元空间的初始空间大小，以字节为单位，达到该值就会触发垃圾收集进行类型卸载，同时收集器会对该值进行调整：如果释放了大量的空间，就适当降低该值；如果释放了很少的空间，那么在不超过-XX：MaxMetaspaceSize（如果设置了的话）的情况下，适当提高该值。
+* -XX：MetaspaceSize：指定元空间的初始空间大小，以字节为单位。达到该值就会触发垃圾收集来卸载类型，同时收集器会对该值做调整。如果释放了大量的空间，就适当降低该值。如果释放了很少的空间，那么在不超过-XX：MaxMetaspaceSize（如果设置了）的情况下，适当提高该值。
 
-* -XX：MinMetaspaceFreeRatio：作用是在垃圾收集之后控制最小的元空间剩余容量的百分比，可减少因为元空间不足导致的垃圾收集的频率。类似的还有-XX：Max-MetaspaceFreeRatio，用于控制最大的元空间剩余容量的百分比。
+* -XX：MinMetaspaceFreeRatio：作用是在垃圾收集之后控制最小的元空间剩余容量的百分比。可减少因为元空间不足导致的垃圾收集的频率。类似的还有-XX：Max-MetaspaceFreeRatio，用于控制最大的元空间剩余容量的百分比。
 
 创建线程导致内存溢出 unable to create native thread
 ====
@@ -137,7 +137,7 @@ java.lang.OutOfMemoryError: GC Overhead limit exceeded
 压缩类空间 Compressed class space
 ====
 
-在 64 位平台上，类元数据的指针可以用 32 位偏移量表示 (UseCompressedOops，默认开启)，类元数据可用的空间量将固定在 CompressedClassSpaceSize
+在 64 位平台上，类元数据的指针可以用 32 位偏移量表示 (UseCompressedOops，默认启用)。类元数据可用的空间量将固定在 CompressedClassSpaceSize
 
 ```java
  java.lang.OutOfMemoryError: Compressed class space
@@ -162,7 +162,7 @@ StackOverflowError 相关异常
 
 相关测试代码参考-<a href="https://github.com/GourdErwa/java-advanced/tree/master/java-jvm/src/main/java/io/gourd/java/jvm/oom">源码</a>
 
-实际生产过程中我们可以选择更多的工具进行运行监控、分析 dump 文件：
+实际生产过程中我们可以选择更多的工具用于运行监控、分析 dump 文件：
 
 * <a href="https://www.eclipse.org/mat/">推荐 Memory Analyzer (MAT)</a>
 

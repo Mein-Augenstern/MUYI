@@ -1,6 +1,6 @@
 <bean> 除了 id 和 class 属性之外，还有一些可选的属性:
 
-1. scope属性，默认<bean> 的 scope就是 ```singleton="true"```, springmvc和struts2的重要区别之一就是spring的controll是单例的，而struts2的action是：scope="prototype" ，还有 scope="request" ， scope="session"，scope="globalSession"(仅用于portlet)
+1. scope属性，默认<bean> 的 scope就是 ```singleton="true"```。springmvc和struts2的重要区别之一就是spring的controll是单例的。而struts2的action是：scope="prototype" 。还有 scope="request" 、 scope="session"、scope="globalSession"(仅用于portlet)。五种作用域的详细说明见 [Spring支持哪些Bean作用域](Spring支持哪些Bean作用域.md)。
 
 2. abstract属性，是否是抽象的bean：
 
@@ -16,7 +16,7 @@
 
 4. lazy-init="true" 是否延迟初始化，默认为 false
 
-5. dependency-check 是否对bean依赖的其它bean进行检查，默认值为 none，可取值有：none, simple, object, all等
+5. dependency-check 是否对bean依赖的其它bean检查，默认值为 none，可取值有：none, simple, object, all
 
 6. factory-method 和 factory-bean用于静态工厂和非静态工厂：
 

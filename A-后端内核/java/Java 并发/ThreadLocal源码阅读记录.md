@@ -5,8 +5,9 @@
 
 ## ThreadLocal的描述
 
-ThreadLocal只是作为一个入口或资源句柄去给每个线程的threadLocals或inheritableThreadLocals变量，因为threadLocals是真实保存每个线程的私有信息，其中threadLocals变量的类型是ThreadLocal.ThreadLocalMap，而ThreadLocal.ThreadLocalMap是ThreadLocal的一个静态内部类，实际上ThreadLocal.ThreadLocalMap是完全可以独立出来作为一个类而单独存在的。
-ThreadLocal的不光是作为入口或资源句柄去给外部线程获取自身的私有资源，同时也给每个ThreadLocal提供了存储到ThreadLocal.ThreadLocalMap中的hashCode计算方式。核心逻辑如下所示：
+ThreadLocal只是作为一个入口或资源句柄去给每个线程的threadLocals或inheritableThreadLocals变量。因为threadLocals是真实保存每个线程的私有信息。其中threadLocals变量的类型是ThreadLocal.ThreadLocalMap。而ThreadLocal.ThreadLocalMap是ThreadLocal的一个静态内部类。ThreadLocal.ThreadLocalMap是完全可以独立出来作为一个类而单独存在的。
+
+ThreadLocal的不光是作为入口或资源句柄去给外部线程获取自身的私有资源。同时也给每个ThreadLocal提供了存储到ThreadLocal.ThreadLocalMap中的hashCode计算方式。核心逻辑如下所示：
 
 ```java
 /**
@@ -42,14 +43,14 @@ private static int nextHashCode() {
     return nextHashCode.getAndAdd(HASH_INCREMENT);
 }
 ```
-还有些作为句柄操作的方法：set、get、remove、SuppliedThreadLocal（通过提供一个Supplier（供应者）来初始化线程本地变量的值。在每个线程中，Supplier会被调用一次，返回初始值，并且每个线程都会有自己的独立的初始值。）等方法。
+还有些作为句柄操作的方法：set、get、remove、SuppliedThreadLocal（通过提供一个Supplier（供应者）来初始化线程本地变量的值。在每个线程中，Supplier会被调用一次，返回初始值，并且每个线程都会有自己的独立的初始值。）这类方法。
 
 ![image](https://github.com/Mein-Augenstern/MUYI/assets/34135120/c8e9667c-29e8-4449-91d1-fd4701c5a8a7)
 
 ## ThreadLocalMap的描述
 
-ThreadLocal.ThreadLocalMap作为每个线程的资源或变量实际存储的载体入口，深入进入看ThreadLocal.ThreadLocalMap会发现其实内部是依靠ThreadLocal.ThreadLocalMap.Entry类是存储线程的资源或变量内容。即ThreadLocal.ThreadLocalMap其实是作为实际线程的资源或变量存储载体的入口。
-但请记住ThreadLocalMap不仅仅只是利用Entry类存储线程的资源或变量，还提供了操作Entry的各种方法，比如ThreadLocal对外提供的set、get、remove均是通过ThreadLocalMap内部的set、get、remove方法实现的。这几个关键的方法分析相见如下：
+ThreadLocal.ThreadLocalMap作为每个线程的资源或变量实际存储的载体入口。深入进入看ThreadLocal.ThreadLocalMap，会发现内部是依靠ThreadLocal.ThreadLocalMap.Entry类存储线程的资源或变量内容。即ThreadLocal.ThreadLocalMap是作为实际线程的资源或变量存储载体的入口。
+但请记住ThreadLocalMap不仅仅只是利用Entry类存储线程的资源或变量。还提供了操作Entry的各种方法。比如ThreadLocal对外提供的set、get、remove均是通过ThreadLocalMap内部的set、get、remove方法实现的。这几个关键的方法分析相见如下：
 
 ![image](https://github.com/Mein-Augenstern/MUYI/assets/34135120/fe7c6717-4bf0-44ec-9339-df74de1ca23b)
 
@@ -119,11 +120,12 @@ public class ThreadLocal<T> {
     } 
 }
 ```
-总结：ThreadLocalMap 的hash 算法很简单，就是使用斐波那契数的倍数 和(len -1) 按位与（这个结果其实就是斐波那契数的倍数 对capacity 取模）的结果作为当前 key 在散列表中的数组下标。
+总结：ThreadLocalMap 的hash 算法很简单。使用斐波那契数的倍数 和(len -1) 按位与，结果作为当前 key 在散列表中的数组下标。这个结果就是斐波那契数的倍数对capacity 取模。
 
 ### entry的hash冲突解决
-HashMap 如何解决 hash 冲突：HashMap 解决冲突是使用链地址法，在数组上构造链表结构，将冲突的数据放在链表上，且每个数组元素也就是链表的长度超过某个数量后会将链表转换为红黑树。
-ThreadLocalMap 使用的是线性探测的开放地址法去解决 hash 冲突。 当当前 key 存在 hash 冲突，会线性地往后探测直到找到为 null 的位置存入对象，或者找到 key 相同的位置覆盖更新原来的对象。在这过程中若发现不为空但 key 为 null 的桶（key 过期的 Entry 数据）则启动探测式清理操作。
+HashMap 如何解决 hash 冲突：HashMap 解决冲突是使用链地址法。在数组上构造链表结构，将冲突的数据放在链表上。且每个数组元素也就是链表的长度超过某个数量后会将链表转换为红黑树。
+
+ThreadLocalMap 使用的是线性探测的开放地址法去解决 hash 冲突。 当当前 key 存在 hash 冲突，会线性地往后探测直到找到为 null 的位置存入对象。或者找到 key 相同的位置覆盖更新原来的对象。在这过程中若发现不为空但 key 为 null 的桶（key 过期的 Entry 数据），则启动探测式清理操作。
 
 ### get & getEntryAfterMiss - 获取ThreadLocal实例对应的value
 ```java
@@ -342,7 +344,7 @@ private void expungeStaleEntries() {
 
 ### replaceStaleEntry-替换过期节点
 
-此方法并不是简单的只是清理入参中传入的staleSlot节点下的元素，而是会向前、向后分别遍历过期节点信息并执行区间清理动作，但实际执行时，只会向前或向后发生区间清理动作和staleSlot清理节点动作。
+此方法并不是简单的只是清理参数中传入的staleSlot节点下的元素。而是会向前、向后分别遍历过期节点信息并执行区间清理动作。但实际执行时，只会向前或向后发生区间清理动作和staleSlot清理节点动作。
 ```java
 /**
  * // 在进行设置操作时，用指定键的条目替换遇到的陈旧条目。
@@ -439,7 +441,7 @@ private void replaceStaleEntry(ThreadLocal<?> key, Object value,
         cleanSomeSlots(expungeStaleEntry(slotToExpunge), len);
 }
 ```
-其中replaceStaleEntry之所以向前遍历和向后遍历的设计思路，可以参考下面的回答：
+其中replaceStaleEntry之所以向前遍历和向后遍历的设计思路，可以参考下面的回答。
 作者：王俊杰 hybrid
 链接：https://www.zhihu.com/question/412041096/answer/1913570393
 来源：知乎
@@ -574,8 +576,11 @@ private int expungeStaleEntry(int staleSlot) {
 
 ### ThreadLocal.ThreadLocalMap.Entry的描述
 
-先看Entry的源码，非常简单，牢记Entry继承了父类们提供了Key存储的落脚地（属性接收Key，即：java.lang.ref.Reference#referent属性作为承载Key的落脚点），所以Entry实际上有Key，Value两个属性，其中Key是ThreadLocal实例，Value是Object类型：具体类型是在ThreadLocal实例属性定义时设置进去的，可以理解为Entry是一个Map，其中key是ThreadLocal实例，而value是ThreadLocal实例存储的数据即线程私有的资源或变量，至于为什么是数组是因为一个线程可以有多个ThreadLocal实例属性。
-并牢记此ThreadLocal实例是作为属性绑定到Thread中的threadLocals属性上，所以当在代码中get()的时候，流程是先获取当前线程，再获取线程的threadLocals属性值后，即拿到了资源存储的句柄：ThreadLocalMap后，再把ThreadLocal实例传入ThreadLocalMap中，获取最终实际存储当前线程在ThreadLocal变量中存储的数据T，数据T在设计的时候用了范型技术，所以在实际使用的过程中value可以存储任意的类型。
+先看Entry的源码，非常简单。牢记Entry继承了父类们提供了Key存储的落脚地（属性接收Key，即：java.lang.ref.Reference#referent属性作为承载Key的落脚点）。所以Entry有Key，Value两个属性。其中Key是ThreadLocal实例，Value是Object类型：具体类型是在ThreadLocal实例属性定义时设置进去的。
+
+可以理解为Entry是一个Map。其中key是ThreadLocal实例，而value是ThreadLocal实例存储的数据即线程私有的资源或变量。至于为什么是数组，是因为一个线程可以有多个ThreadLocal实例属性。
+
+并牢记此ThreadLocal实例是作为属性绑定到Thread中的threadLocals属性上。所以当在代码中get()的时候，流程是先获取当前线程。再获取线程的threadLocals属性值后，即拿到了资源存储的句柄：ThreadLocalMap。之后再把ThreadLocal实例传入ThreadLocalMap中，获取最终实际存储当前线程在ThreadLocal变量中存储的数据T。数据T在设计的时候用了范型技术，所以在实际使用的过程中value可以存储任意的类型。
 ```java
 /**
  * The entries in this hash map extend WeakReference, using
@@ -598,10 +603,11 @@ static class Entry extends WeakReference<ThreadLocal<?>> {
 
 ### Thread中ThreadLocal初始化的时间-GPT3.5
 
-ThreadLocal在Thread中的初始化时间是在第一次访问ThreadLocal变量时进行的。
-当线程第一次调用ThreadLocal的get()方法或set()方法时，会触发ThreadLocal的初始化过程。在初始化过程中，会调用ThreadLocal的initialValue()方法来获取初始值，该方法是ThreadLocal类的一个protected方法，可以被子类重写以提供自定义的初始值。
-需要注意的是，每个ThreadLocal对象的initialValue()方法只会在首次访问时被调用一次，后续访问同一个ThreadLocal对象时，将直接获取之前初始化的值，不再调用initialValue()方法。
-因此，ThreadLocal的初始化是延迟的，仅在第一次访问线程局部变量时进行，以确保每个线程都有自己的独立副本。这种延迟初始化的机制可以节省资源，并且在需要时才进行初始化，提高了性能。
+ThreadLocal在Thread中的初始化时间是在第一次访问ThreadLocal变量时。
+当线程第一次调用ThreadLocal的get()方法或set()方法时，会触发ThreadLocal的初始化过程。在初始化过程中，会调用ThreadLocal的initialValue()方法来获取初始值。该方法是ThreadLocal类的一个protected方法，可以被子类重写以提供自定义的初始值。
+
+需要注意的是，每个ThreadLocal对象的initialValue()方法只会在首次访问时被调用一次。后续访问同一个ThreadLocal对象时，将直接获取之前初始化的值，不再调用initialValue()方法。
+因此，ThreadLocal的初始化是延迟的，仅在第一次访问线程局部变量时发生。这确保了每个线程都有自己的独立副本。这种延迟初始化的机制可以节省资源，并且在需要时才初始化，提高了性能。
 
 ### ThreadLocal中0x61c88647含义
 
@@ -615,13 +621,15 @@ private static final int HASH_INCREMENT = 0x61c88647;
 
 // 这里可以看作一个自增的步长，把线性的id转换为用于2的幂次方表的近似最佳分布的乘法哈希值。
 ```
-线性探测法有个问题是，一旦发生碰撞，很可能之后每次都会产生碰撞，导致连环撞车。而使用0x61c88647这个值做一个hash的增长值就可以从一定程度上解决这个问题让生成出来的值较为均匀地分布在2的幂大小的数组中。也就是说当我们用0x61c88647作为步长累加为每个ThreadLocal分配各自的ID也就是threadLocalHashCode再与2的幂取模，得到的结果分布很均匀。
-0x61c88647选取其实是与斐波那契散列有关，这个就是数学知识了，这里不展开。
+线性探测法有个问题是，一旦发生碰撞，很可能之后每次都会产生碰撞，导致连环撞车。而使用0x61c88647这个值做一个hash的增长值，就可以从一定程度上解决这个问题。生成的值会均匀地分布在2的幂大小的数组中。即用0x61c88647作为步长累加为每个ThreadLocal分配各自的ID也就是threadLocalHashCode，再与2的幂取模。得到的结果分布很均匀。
+0x61c88647的选取与斐波那契散列有关，这个就是数学知识了，这里不展开。
+
 来自GPT3.5的回答
 在ThreadLocal中，HASH_INCREMENT的值被设置为0x61c88647，是为了在ThreadLocal中的哈希冲突情况下提供更好的散列分布。
-ThreadLocal中使用线性探测哈希映射来存储每个线程的ThreadLocal变量副本。当多个ThreadLocal对象的threadLocalHashCode（通过ThreadLocal类的hashCode()方法获取）发生冲突时，线性探测哈希映射需要通过增加一个固定的增量来重新计算哈希索引，以寻找下一个可用的位置。
+ThreadLocal中使用线性探测哈希映射来存储每个线程的ThreadLocal变量副本。当多个ThreadLocal对象的threadLocalHashCode发生冲突时，线性探测哈希映射需要增加一个固定的增量。threadLocalHashCode通过ThreadLocal类的hashCode()方法获取。用它重新计算哈希索引，寻找下一个可用的位置。
+
 为了最大程度地减少冲突，ThreadLocal的设计者选择了一个特殊的固定增量值0x61c88647，这是一个魔术数字。这个值被证明在实践中可以提供相对均匀的哈希分布，减少线性探测带来的冲突。
-使用这个特殊的固定增量值可以使得连续创建的ThreadLocal对象在同一线程中使用时，发生的冲突概率较低，提高了线性探测哈希映射的性能。
+使用这个特殊的固定增量值，连续创建的ThreadLocal对象在同一线程中使用时发生的冲突概率低。这提高了线性探测哈希映射的性能。
 
 ### ThreadLocalMap中threshold属性的作用
 
@@ -629,7 +637,7 @@ ThreadLocal中使用线性探测哈希映射来存储每个线程的ThreadLocal�
 
 ### 为什么ThreadLocalMap使用数组？
 
-使用数组的原因是，一个线程可以有多个ThreadLocal来存放不同类型的数据，这些数据都会放到当前线程的ThreadLocalMap里，所以需要选择数组来存。
+使用数组的原因是，一个线程可以有多个ThreadLocal来存放不同类型的数据。这些数据都会放到当前线程的ThreadLocalMap里，所以需要选择数组来存。
 
 ### ThreadLocal本身存储值么？
 

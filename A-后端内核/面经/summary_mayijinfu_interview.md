@@ -4,7 +4,7 @@
 第一面
 ------
 
-知识点范围：Java基础、多线程、JVM、数据库、网络、Spring。第一面时间大概一个小时左右。
+知识点范围：Java基础、多线程、JVM、数据库、网络、Spring。第一面时间约 1 小时。
 
 1. 聊聊HashMap和ConcurrentHashMap数据结构、HashMap在JDK1.7和JDK1.8数据结构区别、HashMap线程发生线程不安全的场景和原因分析一下以及怎么解决
 
@@ -38,7 +38,7 @@
 第二面
 ------
 
-知识点范围：中间件、分布式、微服务。第二面时间大概一个小时左右。
+知识点范围：中间件、分布式、微服务。第二面时间约 1 小时。
 
 
 1. 聊聊redis集群（哨兵模式和redis-cluster）、节点间通信协议、现有项目集群选择方案和存在问题以及个人尝试解决方案、redis主从失效转移过程、redis底层使用tcp还是udp（为什么不用其他的方式）
@@ -54,9 +54,9 @@
 第三面
 ------
 
-知识点范围：各种知识盲点。第三面大概一个半小时。
+知识点范围：各种知识盲点。第三面约 1.5 小时。
 
-1. ELK架构设计思路（我选择日志采集、日志实时分析两个方面说了一下个人看法）
+1. ELK架构设计思路（我选择日志采集、日志实时分析两个方面说了个人看法）
 
 2. 实时会议软件个人设计看法（开放性题目）
 
@@ -67,4 +67,4 @@ HR面试
 
 1. 个人履历和项目角色
 
-2. 请参照<a href="https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/Thinking/shulan_interview_attention.md">阿里内推邀请：If not now, when? If not you, who?</a>
+2. 参照<a href="https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/Thinking/shulan_interview_attention.md">阿里内推邀请：If not now, when? If not you, who?</a>

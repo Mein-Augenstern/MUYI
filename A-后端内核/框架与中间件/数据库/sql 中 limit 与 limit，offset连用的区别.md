@@ -66,8 +66,8 @@ SELECT * FROM message WHERE id > 1020 ORDER BY id ASC LIMIT 20;
 SELECT * FROM message WHERE id < 1000 ORDER BY id DESC LIMIT 20;
 ```
 
-* 这样不管翻多少页，每次只扫描 20 行。跳转到第 N 页的场景：记录当前页 id 的最大/最小值，算出目标页与当前页的相对偏移，让 limit 的偏移量尽量小。原作者在 60 万数据量的表上实测，效果非常明显。
+* 这样不管翻多少页，每次只扫描 20 行。跳转到第 N 页的场景：记录当前页 id 的最大/最小值，算出目标页与当前页的相对偏移。让 limit 的偏移量尽量小。原作者在 60 万数据量的表上实测，效果明显。
 
-* 局限：要求排序列唯一且连续可比（id 无空洞最好）；无法直接随机跳页的场景要退化为子查询定位首行 id 再 join。
+* 局限：要求排序列唯一且连续可比（建议 id 无空洞）。无法直接随机跳页的场景要退化为子查询定位首行 id 再 join。
 
 > 内容来源：[原文](https://blog.csdn.net/AinUser/article/details/72803175) · 2026-10 整理回填。

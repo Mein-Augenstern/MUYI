@@ -26,7 +26,7 @@
 | 增删查复杂度 | O(1) 平均 | O(1) 平均，锁开销大 | O(1) 平均，维护链表略慢 | O(logN)，天然有序的代价 |
 | 典型场景 | 默认选型，通用 KV 缓存 | 遗留代码兼容 | LRU 缓存、顺序敏感 | 排序、范围查询（headMap/tailMap） |
 
-* 补充两列易混点：**Hashtable 的 t 是小写**（历史遗留命名），它继承自古老的 Dictionary 而非 AbstractMap；**ConcurrentHashMap 才是并发的正解**（JDK7 分段锁 → JDK8 CAS + 桶级 synchronized，见 [ConcurrentHashMap线程安全的具体实现方式、底层具体实现](ConcurrentHashMap线程安全的具体实现方式、底层具体实现.md)、[HashMap与HashTable的区别](HashMap与HashTable的区别.md)）；
+* 补充两列易混点：**Hashtable 的 t 是小写**（历史遗留命名），它继承自古老的 Dictionary 而非 AbstractMap；**ConcurrentHashMap 才是并发的正解**（JDK7 分段锁 → JDK8 CAS + 桶级 synchronized，见 [ConcurrentHashMap在JDK1.7的锁分段技术](../java基础/ConcurrentHashMap在JDK1.7的锁分段技术.md)、[HashMap与HashTable的区别](HashMap与HashTable的区别.md)）；
 
 * LinkedHashMap 的"访问序"三件套：构造器 `new LinkedHashMap<>(16, 0.75f, true)` 打开 accessOrder，重写 `removeEldestEntry()` 即可几行实现 LRU——手写 LRU 的面试标准答案；
 
@@ -62,6 +62,10 @@
 * "LinkedHashMap 怎么做到有序？"——在 HashMap 节点上加了 before/after 两个指针串成双向链表，迭代走链表不走桶数组，所以容量翻倍重哈希后顺序依旧不丢；
 
 * "TreeMap 插入比 HashMap 慢多少？"——O(logN) vs O(1)，数量级上差一个 log 因子；换来的是有序遍历和 headMap/tailMap/subMap 这类范围操作。
+
+* "并发且要 key 有序用什么？"——ConcurrentSkipListMap：跳表实现、CAS 无锁并发、存取 O(logN) 几乎与线程数无关，源码详见 [ConcurrentSkipListMap源码](ConcurrentSkipListMap源码.md)；
+
+* HashMap 相关高频面试问题速查清单，见 [HashMap面试问题罗列](HashMap面试问题罗列.md)。
 
 四、扩容与初始容量
 ------

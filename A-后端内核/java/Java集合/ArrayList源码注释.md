@@ -5,9 +5,9 @@ ArrayList 的底层是数组队列，相当于动态数组。与 Java 中的数�
 
 它继承于 **AbstractList**，实现了 **List, RandomAccess, Cloneable, java.io.Serializable** 这些接口。
 
-在我们学数据结构的时候就知道了线性表的顺序存储，插入删除元素的时间复杂度为O（n）,求表长以及增加元素，取第 i 元素的时间复杂度为O（1）
+在我们学数据结构的时候就知道了线性表的顺序存储，插入删除元素的时间复杂度为O（n）。求表长以及增加元素，取第 i 元素的时间复杂度为O（1）
 
-ArrayList 继承了AbstractList，实现了List。它是一个数组队列，提供了相关的添加、删除、修改、遍历等功能。
+ArrayList 继承了AbstractList，实现了List。它是一个数组队列。提供的相关功能包括添加、删除、修改、遍历。
 
 ArrayList 实现了**RandomAccess 接口**， RandomAccess 是一个标志接口，表明实现这个这个接口的 List 集合是支持**快速随机访问**的。在 ArrayList 中，我们即可以通过元素的序号快速获取元素对象，这就是快速随机访问。
 
@@ -15,7 +15,7 @@ ArrayList 实现了**Cloneable 接口**，即覆盖了函数 clone()，**能被�
 
 ArrayList 实现**java.io.Serializable 接口**，这意味着ArrayList**支持序列化，能通过序列化去传输。**
 
-和 Vector 不同，**ArrayList 中的操作不是线程安全的！** 所以，建议在单线程中才使用 ArrayList，而在多线程中可以选择 Vector 或者 CopyOnWriteArrayList。
+和 Vector 不同，**ArrayList 中的操作不是线程安全的。** 所以，建议在单线程中才使用 ArrayList，而在多线程中可以选择 Vector 或者 CopyOnWriteArrayList。
 
 ArrayList核心源码
 ====
@@ -544,7 +544,7 @@ ArrayList源码分析
 System.arraycopy()和Arrays.copyOf()方法
 -----
 
-通过上面源码我们发现这两个实现数组复制的方法被广泛使用而且很多地方都特别巧妙。比如下面add(int index, E element)方法就很巧妙的用到了arraycopy()方法让数组自己复制自己实现让index开始之后的所有成员后移一个位置:
+通过上面源码我们发现这两个实现数组复制的方法被广泛使用而且很多地方都特别巧妙。比如下面add(int index, E element)方法就很巧妙的用到了arraycopy()方法。它让数组自己复制自己，实现让index开始之后的所有成员后移一个位置:
 
 ```java
 /**
@@ -584,7 +584,7 @@ public Object[] toArray() {
 * 联系：看两者源代码可以发现copyOf()内部调用了System.arraycopy()方法
 
 * 区别：
-    * arraycopy()需要目标数组，将原数组拷贝到你自己定义的数组里，而且可以选择拷贝的起点和长度以及放入新数组中的位置
+* arraycopy()需要目标数组，将原数组拷贝到你自己定义的数组里。而且可以选择拷贝的起点和长度以及放入新数组中的位置
     * copyOf()是系统自动在内部新建一个数组，并返回该数组。
 
 ArrayList 核心扩容技术
@@ -666,17 +666,17 @@ private void grow(int minCapacity) {
 
 **简介：** 
 
-移位运算符就是在二进制的基础上对数字进行平移。按照平移的方向和填充数字的规则分为三种:<<(左移)、>>(带符号右移)和>>>(无符号右移)。
+移位运算符就是在二进制的基础上对数字平移。按照平移的方向和填充数字的规则分为三种:<<(左移)、>>(带符号右移)和>>>(无符号右移)。
     
 **作用：**
 
-对于大数据的2进制运算,位移运算符比那些普通运算符的运算要快很多,因为程序仅仅移动一下而已,不去计算,这样提高了效率,节省了资源。比如这里：int newCapacity = oldCapacity + (oldCapacity >> 1); 右移一位相当于除2，右移n位相当于除以 2 的 n 次方。这里 oldCapacity 明显右移了1位所以相当于oldCapacity /2。
+对于大数据的2进制运算,位移运算符比那些普通运算符的运算要快很多。因为程序仅仅移动而已,不去计算,这样提高了效率,节省了资源。比如这里：int newCapacity = oldCapacity + (oldCapacity >> 1); 右移一位相当于除2，右移n位相当于除以 2 的 n 次方。这里 oldCapacity 明显右移了1位所以相当于oldCapacity /2。
 
 **另外需要注意的是：**
 
- 1. java 中的```length``` 属性是针对数组说的,比如说你声明了一个数组,想知道这个数组的长度则用到了 ```length``` 这个属性.
- 2. java 中的```length()```方法是针对字 符串String说的,如果想看这个字符串的长度则用到 ```length()```这个方法.
- 3. java 中的```size()```方法是针对泛型集合说的,如果想看这个泛型有多少个元素,就调用此方法来查看!
+ 1. java 中的```length``` 属性是针对数组说的。比如说你声明了一个数组,想知道这个数组的长度则用到了 ```length``` 这个属性.
+ 2. java 中的```length()```方法是针对字 符串String说的。如果想看这个字符串的长度则用到 ```length()```这个方法.
+ 3. java 中的```size()```方法是针对泛型集合说的。如果想看这个泛型有多少个元素,就调用此方法查看。
  
 内部类
 ====
@@ -691,7 +691,7 @@ private void grow(int minCapacity) {
 (4)static final class ArrayListSpliterator<E> implements Spliterator<E> 
 ```
 
-ArrayList有四个内部类，其中的```Itr是实现了Iterator接口```，同时重写了里面的```hasNext()， next()， remove() ```等方法；其中的```ListItr``` 继承 ```Itr```，实现了```ListIterator```接口，同时重写了```hasPrevious()， nextIndex()， previousIndex()， previous()， set(E e)， add(E e)``` 等方法，所以这也可以看出了 ```Iterator```和```ListIterator```的区别: ```ListIterator```在```Iterator```的基础上增加了添加对象，修改对象，逆向遍历等方法，这些是```Iterator```不能实现的。
+ArrayList有四个内部类。其中的```Itr是实现了Iterator接口```，同时重写了里面的```hasNext()， next()， remove() ```等方法。其中的```ListItr``` 继承 ```Itr```，实现了```ListIterator```接口，同时重写了```hasPrevious()， nextIndex()， previousIndex()， previous()， set(E e)， add(E e)``` 等方法。所以这也可以看出了 ```Iterator```和```ListIterator```的区别。```ListIterator```在```Iterator```的基础上增加了添加对象，修改对象，逆向遍历等方法，这些是```Iterator```不能实现的。
 
 ArrayList经典Demo
 ====

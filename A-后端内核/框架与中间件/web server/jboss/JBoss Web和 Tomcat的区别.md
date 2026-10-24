@@ -28,7 +28,7 @@ Servlet 规范实现
 ----
 
 * Tomcat：**Servlet/JSP 规范官方参考实现**，规范新特性通常先在 Tomcat 落地。
-* JBoss Web：**基于 Tomcat 源码 fork**（加了对 JBoss 集成、APR/native 连接器的改造），Servlet 规范行为与 Tomcat 高度一致——所以"JBoss Web 和 Tomcat 的区别"本质是**外层容器能力**的区别，而非 Servlet 引擎本身的区别。
+* JBoss Web：**基于 Tomcat 源码 fork**（加了对 JBoss 集成、APR/native 连接器的改造），Servlet 规范行为与 Tomcat 高度一致。所以"JBoss Web 和 Tomcat 的区别"本质是**外层容器能力**的区别，而非 Servlet 引擎本身的区别。
 * WildFly 8+ 改用 **Undertow**：NIO、按需堆叠（Servlet 过滤器链可裁剪），也是 Spring Boot 可选内嵌容器之一。
 
 性能与资源
@@ -46,7 +46,7 @@ Servlet 规范实现
 ----
 
 * Tomcat：社区最大、文档最全、使用率最高；Spring Boot 默认内嵌容器；遇到问题好排查。
-* JBoss：Red Hat 商业支持（JBoss EAP 订阅制），带管理控制台/CLI（domain 模式可集中管多机），适合传统企业级 Java EE 与 EJB/集群/分布式事务需求；社区版 2014 年起更名 **WildFly**。
+* JBoss：Red Hat 商业支持（JBoss EAP 订阅制），带管理控制台/CLI（domain 模式可集中管多机）。适合传统企业级 Java EE 与 EJB/集群/分布式事务需求。社区版 2014 年起更名 **WildFly**。
 * 演进趋势：两者都被容器化/微服务浪潮压缩——新项目多为 Spring Boot + 内嵌 Tomcat/Undertow，应用服务器退守存量系统。
 
 选型（面试收尾句）

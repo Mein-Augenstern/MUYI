@@ -30,12 +30,12 @@ Class<?> clazz = Class.forName("com.example.Missing");
 1. 依赖 jar 没有进入 classpath（Maven scope 写成 test/provided、打包脚本漏了 jar）；
 2. 全限定类名拼错；
 3. 多 ClassLoader 环境（Web 容器、OSGi、SPI）中，类明明存在但**当前 ClassLoader 可见的路径里没有**；
-4. 排查手段：`mvn dependency:tree` 确认依赖是否进入 classpath；启动参数加 `-verbose:class` 观察类实际从哪个 jar 加载。
+4. 排查手段：`mvn dependency:tree` 确认依赖是否进入 classpath。启动参数加 `-verbose:class` 观察类实际从哪个 jar 加载。
 
 2 NoClassDefFoundError：编译期在、运行期没了
 ------
 
-`NoClassDefFoundError` 是 Error：编译时类是存在的（否则编译都过不了），运行期 JVM 隐式加载时却找不到，或该类**首次初始化已经失败过**：
+`NoClassDefFoundError` 是 Error：编译时类是存在的（否则编译都过不了）。运行期 JVM 隐式加载时却找不到，或该类**首次初始化已经失败过**：
 
 ```java
 // 编译期依赖 Lib 类，运行期 classpath 缺 jar：
@@ -57,7 +57,7 @@ public class HasStaticBlock {
 //     Could not initialize class HasStaticBlock
 ```
 
-JVM 对一个类的初始化（`<clinit>`，静态块与静态字段赋值）只执行一次：首次初始化抛出的 `ExceptionInInitializerError` 被吞掉后，后续所有对该类的访问都直接抛 `NoClassDefFoundError`。**遇到 NoClassDefFoundError 一定要往前翻日志，找第一次的 ExceptionInInitializerError，那才是真正的病灶。**
+JVM 对一个类的初始化（`<clinit>`，静态块与静态字段赋值）只执行一次。首次初始化抛出的 `ExceptionInInitializerError` 被吞掉后，后续所有对该类的访问都直接抛 `NoClassDefFoundError`。**遇到 NoClassDefFoundError 必须往前翻日志，找第一次的 ExceptionInInitializerError，那才是真正的病灶。**
 
 `-verbose:class` 是区分两者最直观的手段，能看到每个类实际来自哪个 jar：
 
@@ -73,12 +73,12 @@ JVM 对一个类的初始化（`<clinit>`，静态块与静态字段赋值）只
 1. 看完整类名：先确认缺的是业务类还是第三方库类；
 2. 日志里有前置 `ExceptionInInitializerError` → 去修静态块/静态字段，而不是找 jar；
 3. jar 缺失/冲突 → `dependency:tree`、`-verbose:class`、解压发布包逐一确认；
-4. 容器/多 ClassLoader 环境 → 打印 `clazz.getClassLoader()` 确认类被哪个 loader 加载，常见原因是重复 jar 分属不同 loader，或 child-first 加载策略导致加载到错误版本；
-5. 版本不一致 → 两个 jar 都有同名类，运行时加载到了旧版本（缺新方法/新字段），常以 NoSuchMethodError 与 NoClassDefFoundError 混合出现。
+4. 容器/多 ClassLoader 环境 → 打印 `clazz.getClassLoader()` 确认类被哪个 loader 加载。常见原因是重复 jar 分属不同 loader，或 child-first 加载策略导致加载到错误版本；
+5. 版本不一致 → 两个 jar 都有同名类，运行时加载到了旧版本（缺新方法/新字段）。常以 NoSuchMethodError 与 NoClassDefFoundError 混合出现。
 
 一句话总结
 ====
 
-`ClassNotFoundException` 是"我主动去 load，没 load 到"（受检异常，去找 classpath）；`NoClassDefFoundError` 是"编译时明明有，运行时 JVM 自己 load 不出来，或者初始化早就炸过"（Error，先查 ExceptionInInitializerError，再查 jar 缺失/冲突）。
+`ClassNotFoundException` 是"我主动去 load，没 load 到"（受检异常，去找 classpath）。`NoClassDefFoundError` 是"编译时明明有，运行时 JVM 自己 load 不出来，或者初始化早就炸过"（Error，先查 ExceptionInInitializerError，再查 jar 缺失/冲突）。
 
 > 原链接已失效，2026-10 依据主题重写。

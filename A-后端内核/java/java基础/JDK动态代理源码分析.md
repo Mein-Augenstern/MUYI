@@ -12,7 +12,7 @@
 
 JDK动态代理基于拦截器和反射来实现。
 
-JDK代理是不需要第三方库支持的，只需要JDK环境就可以进行代理，使用条件：
+JDK代理是不需要第三方库支持的，只需要JDK环境就可以做代理，使用条件：
 
 * 必须实现InvocationHandler接口；
 
@@ -289,7 +289,7 @@ private static Class<?> getProxyClass0(ClassLoader loader,
 }
 ```
 
-可以看到方法比较简单，主要对接口数量做了个判断，然后通过缓存proxyClassCache获取代理类，这儿注意proxyClassCache在初始化时已经初始化了一个KeyFactory和ProxyClassFactory
+可以看到方法简单，主要对接口数量做了个判断。然后通过缓存proxyClassCache获取代理类。这儿注意proxyClassCache在初始化时已经初始化了一个KeyFactory和ProxyClassFactory。
 
 这个后面创建代理类时将会用到
 
@@ -298,9 +298,7 @@ private static final WeakCache<ClassLoader, Class<?>[], Class<?>> proxyClassCach
 						new WeakCache<>(new KeyFactory(), new ProxyClassFactory());
 ```
 
-关于KeyFactory和ProxyClassFactory解释
-
-> 
+关于KeyFactory、WeakCache和ProxyClassFactory的详细解释，见库内同目录拆分篇：[JDK动态代理KeyFactory](JDK动态代理KeyFactory.md)、[JDK动态代理WeakCache](JDK动态代理WeakCache.md)、[JDK动态代理ProxyClassFactory](JDK动态代理ProxyClassFactory.md)；代理类生成与两级缓存的整体流程，另见枢纽篇 [JDK动态代理代理类的生成与缓存](JDK动态代理代理类的生成与缓存.md)。
 
 我们继续查看proxyClassCache的get方法
 
@@ -376,7 +374,7 @@ public V get(K key, P parameter) {
 4 Factory的get方法
 ------
 
-通过上面的逻辑可以得知  最后是新建了Factory factory = new Factory(key, parameter, subKey, valuesMap); 并将这个factory赋值给Suplier调用get方法返回构造的代理类。所以我们直接看Factory的get方法即可
+通过上面的逻辑可以得知，最后是新建了Factory factory = new Factory(key, parameter, subKey, valuesMap); 并将这个factory赋值给Suplier。调用get方法返回构造的代理类。所以我们直接看Factory的get方法即可
 
 ```java
 @Override
@@ -415,9 +413,9 @@ public synchronized V get() { // serialize access
 }
 ```
 
-该方法的主要作用则是通过valueFactory创建代理类后  将代理类包装为CacheValue(注意该类实现了Supplier接口)并将valuesMap缓存中对应代理类的Supplier替换为包装后的CacheValue,这样后面就可以直接调用CacheValue的get方法来获取代理类
+该方法的主要作用则是通过valueFactory创建代理类后，将代理类包装为CacheValue(注意该类实现了Supplier接口)。并将valuesMap缓存中对应代理类的Supplier替换为包装后的CacheValue。这样后面就可以直接调用CacheValue的get方法来获取代理类
 
-接下来我们开始分析valueFactory.apply(key,parameters),这儿注意上面在初始化weakCache时已经讲到，在构造函数中传入了两个参数，new KeyFactory(), new ProxyClassFactory(),分别对应subKeyFactory和valueFactory，所以这里的valueFactory则代表ProxyClassFactory，所以我们直接看ProxyClassFactory的apply方法逻辑
+接下来我们开始分析valueFactory.apply(key,parameters)。这儿注意上面在初始化weakCache时已经讲到，在构造函数中传入了两个参数，new KeyFactory(), new ProxyClassFactory()。分别对应subKeyFactory和valueFactory。所以这里的valueFactory则代表ProxyClassFactory。所以我们直接看ProxyClassFactory的apply方法逻辑
 
 5 ProxyClassFactory的apply方法
 ------
@@ -516,12 +514,12 @@ private static final class ProxyClassFactory implements BiFunction<ClassLoader, 
 }
 ```
 
-该方法的逻辑则主要得到代理类的包名（一般来说为最后一个接口的包名），以及产生字节码文件 ，根据字节码文件生成代理类class并返回，核心的两个方法为ProxyGenerator.generateProxyClass(proxyName, interfaces, accessFlags);  以及defineClass0(loader, proxyName,proxyClassFile, 0, proxyClassFile.length);
+该方法的逻辑则主要得到代理类的包名（一般来说为最后一个接口的包名）。以及产生字节码文件，根据字节码文件生成代理类class并返回。核心的两个方法为ProxyGenerator.generateProxyClass(proxyName, interfaces, accessFlags);  以及defineClass0(loader, proxyName,proxyClassFile, 0, proxyClassFile.length);
 
 6 generateProxyClass方法
 ------
 
-我们先看字节码生成的方法，ProxyGenerator.generateProxyClass(proxyName, interfaces, accessFlags);  后面的类不开放源代码，可以使用idea自带的反编译工具查看，我将
+我们先看字节码生成的方法，ProxyGenerator.generateProxyClass(proxyName, interfaces, accessFlags);  后面的类不开放源代码。可以使用idea自带的反编译工具查看，我将
 
 参数名字做了些修改  （汗   。。不然var1  var2看的属实难受 ）
 
@@ -560,7 +558,7 @@ public static byte[] generateProxyClass(final String proxyName, Class<?>[] inter
 }
 ```
 
-该方法主要声明一个生成器，然后调用generateClassFile方法生成byte[]数组，后面的可选则生成本地文件，这个就是一开始main方法中的System.getProperties().put("sun.misc.ProxyGenerator.saveGeneratedFiles", "true"); 当然也可以在java启动参数加上-D传入参数，我们主要看generateClassFile()方法
+该方法主要声明一个生成器，然后调用generateClassFile方法生成byte[]数组。后面的可选则生成本地文件。这个就是一开始main方法中的System.getProperties().put("sun.misc.ProxyGenerator.saveGeneratedFiles", "true"); 当然也可以在java启动参数加上-D传入参数。我们主要看generateClassFile()方法
 
 7 generateClassFile方法
 ------
@@ -757,11 +755,11 @@ private byte[] generateClassFile() {
 }
 ```
 
-这个方法中涉及到两个重要概念，一个是class字节码文件构造  参考如下  类型中u后面的数字则代表字节长度   。而上述方法中构造自字节码文件的15个步骤也是按照如下表一步一步构造的，最后没有属性表的值
+这个方法中涉及到两个重要概念。一个是class字节码文件构造  参考如下  类型中u后面的数字则代表字节长度   。而上述方法中构造自字节码文件的15个步骤也是按照如下表一步一步构造的。最后没有属性表的值
 
 ![JDK动态代理一](/images/legacy/JDK动态代理一.png)
 
-另一个是常量池 ，主要放置两大类常量，一个是字面量  即常见的字符串，以及声明为final的变量，另一个则是语言层面的符号引用，包含三类常量：类和接口的全限定名，字段的名称和描述符，方法的名称和描述符
+另一个是常量池 ，主要放置两大类常量。一个是字面量  即常见的字符串，以及声明为final的变量。另一个则是语言层面的符号引用，包含三类常量。分别是类和接口的全限定名，字段的名称和描述符，方法的名称和描述符。
 
 生成的字节码文件如下
 
@@ -841,15 +839,15 @@ final class $Proxy0 extends Proxy implements IProx {
 }
 ```
 
-上述方法生成代理类字节码返回后则回到了 第5步中的ProxyClassFactory的apply方法 ，获取到字节码文件后 ，生成代理类class并返回，方法为
+上述方法生成代理类字节码返回后则回到了 第5步中的ProxyClassFactory的apply方法。获取到字节码文件后 ，生成代理类class并返回，方法为
 
-defineClass0(loader, proxyName,proxyClassFile, 0, proxyClassFile.length)   这个方法为本地方法 ，不能获取到源码，但也容易理解，就是根据类名，类加载器，字节码文件创建一个class类型
+defineClass0(loader, proxyName,proxyClassFile, 0, proxyClassFile.length)   这个方法为本地方法 ，不能获取到源码，但也容易理解。就是根据类名，类加载器，字节码文件创建一个class类型
 
 ```java
 private static native Class<?> defineClass0(ClassLoader loader, String name,byte[] b, int off, int len);
 ```
 
-defineClass0返回了代理类信息后则回到了第4步中的Factory的get()方法中，并将生成的类信息继续返回到第3步，第3步则继续返回  一直会返回到第1步
+defineClass0返回了代理类信息后则回到了第4步中的Factory的get()方法中。并将生成的类信息继续返回到第3步。第3步则继续返回  一直会返回到第1步。
 
 8 所以，回到第1步的代码中继续分析
 ------
@@ -960,11 +958,11 @@ public class Proxy implements java.io.Serializable {
 }
 ```
 
-由上述代码可以得知 代理类在执行hello方法时  实际上是通过我们传入的InvocationHandler的invoke方法进行调用。到此  jdk动态代理的分析以及全部完成
+由上述代码可以得知 代理类在执行hello方法时，是通过我们传入的InvocationHandler的invoke方法调用。到此  jdk动态代理的分析以及全部完成
 
 三、结论
 ====
 
 至此可以得知  jdk动态代理的大致逻辑
 
-> 传入代理类类加载器，与接口数组和自定义的InvocationHandler，然后通过分析接口信息生成java文件的字节码数据，然后调用本地方法将类加载到内存中，最后返回构造参数为InvocationHandler的代理类，该类实现代理接口，并继承Proxy类（所以jdk动态代理只能代理接口，java单继承），我们调用方法实际上是调用代理类的方法，代理类则可以通过我们传入的InvocationHandler反射调用原本的方法来实现无侵入的修改原有方法逻辑
+> 传入代理类类加载器，与接口数组和自定义的InvocationHandler。然后通过分析接口信息生成java文件的字节码数据。然后调用本地方法将类加载到内存中。最后返回构造参数为InvocationHandler的代理类。该类实现代理接口，并继承Proxy类（所以jdk动态代理只能代理接口，java单继承）。我们调用方法实际是调用代理类的方法。代理类则可以通过我们传入的InvocationHandler反射调用原本的方法来实现无侵入的修改原有方法逻辑

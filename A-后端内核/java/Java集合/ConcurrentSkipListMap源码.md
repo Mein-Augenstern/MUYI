@@ -11,13 +11,13 @@ ConcurrentSkipListMap 是**线程安全的有序 Map**，基于跳表（SkipList
 * 与 TreeMap 对比：TreeMap 非线程安全，基于红黑树。非多线程场景应优先用 TreeMap；并发较低可用 `Collections.synchronizedSortedMap` 包装 TreeMap；**高并发且需要有序 key 时用 ConcurrentSkipListMap**；
 * 与 ConcurrentHashMap 对比：4 线程 1.6 万数据下 ConcurrentHashMap 的存取速度约为其 4 倍，但 ConcurrentSkipListMap 有两点优势：
   1. key 有序；
-  2. 支持更高并发——存取时间为 O(log N)，几乎与线程数无关，线程越多优势越明显；
+  2. 支持更高并发——存取时间为 O(log N)，几乎与线程数无关。线程越多优势越明显；
 * 注意：`size()` 因多线程并发修改，需要遍历链表统计，是 O(n) 量级的开销操作，不应频繁调用。
 
 跳表结构
 ====
 
-跳表分多层，每层是一条有序索引；上层是下层的子集，第 1 层包含全部数据；**层越高跳跃越大、数据越少**。查找从表头开始，自上而下、从左往右。
+跳表分多层，每层是一条有序索引。上层是下层的子集，第 1 层包含全部数据。**层越高跳跃越大、数据越少**。查找从表头开始，自上而下、从左往右。
 
 以 7,14,21,32,37,71,85 为例：单链表找 32 需要 4 步，跳表只需 2 步（顶层直接跳过 14、21）。
 
@@ -47,17 +47,17 @@ put → doPut（JDK1.7 源码）
 主干是单线程插入逻辑，其余都是并发冲突处理：
 
 1. `findPredecessor(key)` 找前继节点 b，n = b.next 为待插入位置的后继；
-2. 并发防护：若 `n != b.next`、`n.value == null`（节点被删）、`b.value == null`（b 被删），说明读到了不一致状态，break 回外层 for 重试；
+2. 并发防护：若 `n != b.next`、`n.value == null`（节点被删）、`b.value == null`（b 被删），说明读到了不一致状态。break 回外层 for 重试；
 3. key 比较结果处理：
    * c > 0：b = n，n = f，继续右移；
    * c == 0：onlyIfAbsent 为真或 `n.casValue(v, value)` 成功则返回旧值；
    * c < 0：新建节点 `z(key, value, n)`，`b.casNext(n, z)` 插入底层链表；CAS 失败则 break 重试；
-4. `randomLevel()` 随机选层，level > 0 时调用 `insertIndex(z, level)` 从第 1 层到 level 层逐层插入索引，必要时升高跳表。
+4. `randomLevel()` 随机选层。level > 0 时调用 `insertIndex(z, level)` 从第 1 层到 level 层逐层插入索引，必要时升高跳表。
 
 remove → doRemove
 ====
 
-1. 同样先找前继 b、目标节点 n、后继 f，并发检查与 put 一致（读取不一致或节点已被删则重试）；
+1. 同样先找前继 b、目标节点 n、后继 f。并发检查与 put 一致（读取不一致或节点已被删则重试）；
 2. c < 0 说明 key 不存在，返回 null；c > 0 继续右移；c == 0 时：
    * 若指定了期望 value 且不等于当前 v，返回 null（条件删除失败）；
    * `n.casValue(v, null)` 把 value 置空，标记删除；

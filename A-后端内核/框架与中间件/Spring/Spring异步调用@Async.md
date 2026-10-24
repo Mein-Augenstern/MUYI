@@ -6,21 +6,14 @@
 > * <a href="https://blog.csdn.net/YoungLee16/article/details/88398045">Spring boot 注解@Async无效,不起作用</a>
 > * <a href="https://blog.csdn.net/fenglllle/article/details/91398384">Spring boot异步任务原理分析</a>
 
-看在前面
-====
+我们经常在需要提升性能或项目解耦时用线程池异步执行任务，比如直接用 ```ThreadPoolExecutor``` 创建线程池；Spring 则提供了 ```@Async``` 注解，让我们以声明式的方式完成同样的事情。
 
-我们经常在需要提升性能或者项目架构解耦的过程中，使用线程池异步执行任务，经常使用ThreadPoolExecutor创建线程池。那么Spring对异步任务是如何处理的呢？
-
-在我们使用spring框架的过程中，在很多时候我们会使用@async注解来异步执行某一些方法，提高系统的执行效率。今天我们来探讨下 spring 是如何完成这个功能的。
-
-spring 在扫描bean的时候会扫描方法上是否包含@async的注解，如果包含的，spring会为这个bean动态的生成一个子类，我们称之为代理类(?)， 代理类是继承我们所写的bean的，然后把代理类注入进来，那此时，在执行此方法的时候，会到代理类中，代理类判断了此方法需要异步执行，就不会调用父类 (我们原本写的bean)的对应方法。spring自己维护了一个队列，他会把需要执行的方法，放入队列中，等待线程池去读取这个队列，完成方法的执行， 从而完成了异步的功能。我们可以关注到再配置task的时候，是有参数让我们配置线程池的数量的。因为这种实现方法，所以在同一个类中的方法调用，添加@async注解是失效的！，原因是当你在同一个类中的时候，方法调用是在类体内执行的，spring无法截获这个方法调用。
-
-那在深入一步，spring为我们提供了AOP，面向切面的功能。他的原理和异步注解的原理是类似的，spring在启动容器的时候，会扫描切面所定义的 类。在这些类被注入的时候，所注入的也是代理类，当你调用这些方法的时候，本质上是调用的代理类。通过代理类再去执行父类相对应的方法，那spring只 需要在调用之前和之后执行某段代码就完成了AOP的实现了！
+原理一句话概括：Spring 扫描到方法上有 ```@Async``` 注解时，会为这个 bean 动态生成代理类（CGLib 继承原类）。外部调用该方法时进入代理，由 ```AsyncExecutionInterceptor``` 把方法提交给线程池执行，而不是在调用线程里直接执行——本质上就是 AOP 动态代理的一种应用（下文有源码分析）。这也解释了为什么**同一个类内部的方法调用会让 ```@Async``` 失效**：内部调用走的是类自身的 `this`，不经过代理，Spring 拦截不到。异步请求与异步调用的更多辨析见 [异步请求与异步调用的区别](异步请求与异步调用的区别.md)。
 
 一、spring 异步任务
 ====
 
-估计或多或少了解过一些，比如@EnableAsync可以开启异步任务，@Async用于注解说明当前方法是异步执行，下面使用demo看看Spring的异步任务如何执行。pom依赖，其实仅依赖Spring core context 就可以了，这里演示，另外spring boot还要许多好玩的特性。
+估计或多或少了解过一些，比如@EnableAsync可以启用异步任务。@Async用于注解说明当前方法是异步执行。下面使用demo看看Spring的异步任务如何执行。pom依赖仅依赖Spring core context 就可以了。这里演示，另外spring boot还要许多好玩的特性。
 
 ```java
 <dependencies>
@@ -78,7 +71,7 @@ public class TaskService {
 java.lang.ThreadGroup[name=main,maxpri=10]-------task-1
 ```
 
-可以看到线程的name是task-1，而http访问的线程是http-nio-xxx。说明任务异步执行了。然而Spring的异步任务是如何执行的呢，我们也并未创建线程池，难道Spring替我们创建了？
+可以看到线程的name是task-1，而http访问的线程是http-nio-xxx。说明任务异步执行了。我们也并未创建线程池，是Spring替我们创建了。下面分析Spring的异步任务执行过程。
 
 二、Spring boot异步任务执行过程分析
 ====
@@ -157,7 +150,7 @@ org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration,\
 org.springframework.boot.autoconfigure.task.TaskSchedulingAutoConfiguration,\
 ```
 
-Spring为我们定义了两种实现，如上所示，根据Spring boot的配置定律，我们可以通过配置来定义异步任务的参数
+Spring为我们定义了两种实现，如上所示。根据Spring boot的配置定律，我们可以通过配置来定义异步任务的参数。
 
 ```java
 /**
@@ -421,7 +414,7 @@ protected Object doSubmit(Callable<Object> task, AsyncTaskExecutor executor, Cla
 }
 ```
 
-并且在AsyncExecutionAspectSupport类中可知默认的defaultExecutor和exceptionHandler如下所示，即默认的taskExecutor使用BeanFactory中获取，并且默认使用SimpleAsyncUncaughtExceptionHandler处理异步异常
+并且在AsyncExecutionAspectSupport类中可知默认的defaultExecutor和exceptionHandler如下所示。即默认的taskExecutor使用BeanFactory中获取，并且默认使用SimpleAsyncUncaughtExceptionHandler处理异步异常。
 
 ```java
 /**
@@ -437,7 +430,7 @@ public void configure(@Nullable Supplier<Executor> defaultExecutor,
 }
 ```
 
-演示一下默认异常处理器效果SimpleAsyncUncaughtExceptionHandler
+演示默认异常处理器效果SimpleAsyncUncaughtExceptionHandler
 
 ```java
 @EnableAsync
@@ -648,7 +641,7 @@ protected ExecutorService initializeExecutor(
 五、优雅地关闭自定义的线程池
 ====
 
-> 由于在应用关闭的时候异步任务还在执行，导致类似 数据库连接池 这样的对象一并被 销毁了，当 异步任务 中对 数据库 进行操作就会出错。
+> 由于在应用关闭的时候异步任务还在执行，导致类似 数据库连接池 这样的对象一并被 销毁了。当 异步任务 中对 数据库 操作就会出错。
 
 解决方案如下，重新设置线程池配置对象，新增线程池 setWaitForTasksToCompleteOnShutdown() 和 setAwaitTerminationSeconds() 配置：
 
@@ -664,9 +657,9 @@ public Executor taskExecutor() {
 }
 ```
 
-* **setWaitForTasksToCompleteOnShutdown(true)**: 该方法用来设置 **线程池关闭** 的时候 **等待** 所有任务都完成后，再继续 **销毁** 其他的 Bean，这样这些 **异步任务** 的 **销毁** 就会先于 **数据库连接池对象** 的销毁。
+* **setWaitForTasksToCompleteOnShutdown(true)**: 该方法用来设置 **线程池关闭** 的时候 **等待** 所有任务都完成后，再继续 **销毁** 其他的 Bean。这样这些 **异步任务** 的 **销毁** 就会先于 **数据库连接池对象** 的销毁。
 
-* **setAwaitTerminationSeconds(60)**: 该方法用来设置线程池中 **任务的等待时间**，如果超过这个时间还没有销毁就 **强制销毁**，以确保应用最后能够被关闭，而不是阻塞住。
+* **setAwaitTerminationSeconds(60)**: 该方法用来设置线程池中 **任务的等待时间**。如果超过这个时间还没有销毁就 **强制销毁**，以确保应用最后能够被关闭，而不是阻塞住。
 
 六、异步回调使用示例
 ====

@@ -76,7 +76,7 @@ Bundle 生命周期（Life Cycle 层）
 | 生命周期 | 无（静态） | 与 Bundle 启停联动，可热插拔 |
 | 侵入性 | 低（ServiceLoader.load） | 高（BundleActivator/BundleContext） |
 
-* 桥接：OSGi R4.2 的 **Service Loader Mediation** 规范把 JDK SPI 包装成 OSGi 服务；思想一脉相承——"面向接口 + 运行时找实现"，SPI 是极简形态。
+* 桥接：OSGi R4.2 的 **Service Loader Mediation** 规范把 JDK SPI 包装成 OSGi 服务。思想一脉相承——"面向接口 + 运行时找实现"，SPI 是极简形态。
 
 为什么被淘汰（面试收尾句）
 ----

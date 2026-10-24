@@ -4,12 +4,12 @@ K8s 网络与存储
 看在前面
 ------
 
-接[《K8s核心对象与架构》](K8s核心对象与架构.md)。那篇讲"谁管什么"，这篇讲两条最难绕的路：**流量怎么进来**（CNI → Pod 网络 → Service → Ingress 的四级跳）和**数据怎么留住**（PV/PVC/StorageClass 三级解耦 + StatefulSet 为什么必须存在）。面试里这两块最能区分"用过"和"理解过"。
+接[《K8s核心对象与架构》](K8s核心对象与架构.md)。那篇讲"谁管什么"，这篇讲两条最难绕的路。**流量怎么进来**（CNI → Pod 网络 → Service → Ingress 的四级跳）。**数据怎么留住**（PV/PVC/StorageClass 三级解耦 + StatefulSet 为什么必须存在）。面试里这两块最能区分"用过"和"理解过"。
 
 一、Pod 网络与 CNI
 ------
 
-K8s 对网络的四个原生要求：Pod 间直接通信不经 NAT、节点上的代理（kube-proxy）能和本节点所有 Pod 通信、每个 Pod 有独立 IP、**Pod 之间不管是否同节点都扁平互通**。实现这四条的不是 K8s 本体，而是 CNI 插件：
+K8s 对网络的四个原生要求。Pod 间直接通信不经 NAT。节点上的代理（kube-proxy）能和本节点所有 Pod 通信。每个 Pod 有独立 IP。**Pod 之间不管是否同节点都扁平互通**。实现这四条的不是 K8s 本体，而是 CNI 插件：
 
 ```
    Pod 10.244.1.5              Pod 10.244.2.8              Pod 10.244.3.6
@@ -23,7 +23,7 @@ K8s 对网络的四个原生要求：Pod 间直接通信不经 NAT、节点上�
               路由  ：BGP/路由表直达（calico，性能好、可做网络策略）
 ```
 
-选型一句话：小集群 flannel 够用；要 NetworkPolicy（命名空间/标签级的网络隔离）或在意吞吐，上 calico。**跨节点 overlay 的性能税在封包**——同节点 Pod 通信走网桥近乎裸速，跨节点走 VXLAN 多一层封解包，时延敏感的服务要把副本打散到各节点去对比。
+选型一句话：小集群 flannel 够用。要 NetworkPolicy（命名空间/标签级的网络隔离）或在意吞吐，上 calico。**跨节点 overlay 的性能税在封包**。同节点 Pod 通信走网桥近乎裸速。跨节点走 VXLAN 多一层封解包，时延敏感的服务要把副本打散到各节点去对比。
 
 二、Service 四类型与 kube-proxy
 ------
@@ -37,7 +37,7 @@ Pod 会死会重建、IP 随之变化，Service 提供"虚拟 IP + DNS 名"的�
 | LoadBalancer | 云厂商 LB → NodePort → Pod | 云上标准外露方式 |
 | ExternalName | DNS CNAME 到外部域名 | 集群内统一访问外部依赖（如托管数据库） |
 
-落地机制在 kube-proxy，两种模式：**iptables**（默认）逐条规则匹配，Service/Pod 规模上千后规则线性增长、更新有秒级抖动；**ipvs** 用内核哈希表，规则多了优势明显——大规模集群的标配切换。
+落地机制在 kube-proxy，两种模式。**iptables**（默认）逐条规则匹配，Service/Pod 规模上千后规则线性增长、更新有秒级抖动。**ipvs** 用内核哈希表，规则多了优势明显——大规模集群的标配切换。
 
 ```yaml
 apiVersion: v1
@@ -88,7 +88,7 @@ spec:
             backend: { service: { name: finance-service, port: { number: 80 } } }
 ```
 
-注意路径路由的边界：`/api` 前缀切流适合"域"级隔离；如果两个域共享一个前缀且依赖细粒度灰度，就要上 controller 自己的注解（如 `nginx.ingress.kubernetes.io/canary-*`）或网关层规则。长连接/SSE 场景还要显式关掉 controller 的响应缓冲，否则流式输出会攒成一坨。
+注意路径路由的边界：`/api` 前缀切流适合"域"级隔离。如果两个域共享一个前缀且依赖细粒度灰度，就要上 controller 自己的注解（如 `nginx.ingress.kubernetes.io/canary-*`）或网关层规则。长连接/SSE 场景还要显式关闭 controller 的响应缓冲，否则流式输出会攒成一坨。
 
 四、存储：PV / PVC / StorageClass
 ------
@@ -105,12 +105,12 @@ spec:
 ```
 
 * **PV**：一块实际存在的卷（云盘、NFS、本地盘），生命周期独立于 Pod；
-* **PVC**：用户的申请单——容量 + 访问模式（RWO 单节点读写 / ROX 多节点只读 / RWX 多节点读写，RWX 基本只有 NFS/对象存储能做到）；
+* **PVC**：用户的申请单——容量 + 访问模式（RWO 单节点读写 / ROX 多节点只读 / RWX 多节点读写）。RWX 基本只有 NFS/对象存储能做到；
 * **StorageClass**：把"申请单"自动化——声明 `standard`，provisioner 现场创建 PV 并绑定，免去了管理员预创建的池子。
 
-回收策略（reclaimPolicy）决定 PVC 删掉后盘的命运：**Delete**（动态供给默认，盘直接删）vs **Retain**（保留待人工处理）。数据库类卷建议改 Retain——误删 PVC 还能抢救。
+回收策略（reclaimPolicy）决定 PVC 删除后盘的命运：**Delete**（动态供给默认，盘直接删）vs **Retain**（保留待人工处理）。数据库类卷建议改 Retain——误删 PVC 还能抢救。
 
-StatefulSet 为什么必须存在：Deployment 的 Pod 是"无名字的可替换副本"，而有状态服务要的是**稳定的网络标识 + 独立的持久身份**：
+StatefulSet 为什么必须存在：Deployment 的 Pod 是"无名字的可替换副本"。而有状态服务要的是**稳定的网络标识 + 独立的持久身份**：
 
 ```yaml
 apiVersion: apps/v1
@@ -134,14 +134,14 @@ spec:
         resources: { requests: { storage: 100Gi } }
 ```
 
-三个与 Deployment 的本质差异：**有序**（0 起来 1 才起，缩容反序，保证主从拓扑）；**名字与存储绑定**（mysql-1 重建后仍挂回原来那块 PVC，数据不丢）；**逐 Pod DNS**（`mysql-1.mysql` 可直连指定实例，主从复制/选主要靠它）。
+三个与 Deployment 的本质差异。**有序**（0 起来 1 才起，缩容反序，保证主从拓扑）。**名字与存储绑定**（mysql-1 重建后仍挂回原来那块 PVC，数据不丢）。**逐 Pod DNS**（`mysql-1.mysql` 可直连指定实例，主从复制/选主要靠它）。
 
 追问链
 ------
 
 > **面试官：同一个 Service 背后的两个 Pod 在不同节点，流量怎么过去？**
 
-kube-proxy 在每个节点维护"ClusterIP → 健康 Pod 列表"的转发规则，负载均衡在内核态完成（iptables 随机 / ipvs 哈希）；跨节点那段由 CNI 负责（overlay 封包或 BGP 路由直达）。所以 Service 流量路径 = 本机 kube-proxy 规则 + CNI 跨节点网络，两段各有各的性能特征。
+kube-proxy 在每个节点维护"ClusterIP → 健康 Pod 列表"的转发规则，负载均衡在内核态完成（iptables 随机 / ipvs 哈希）。跨节点那段由 CNI 负责（overlay 封包或 BGP 路由直达）。所以 Service 流量路径 = 本机 kube-proxy 规则 + CNI 跨节点网络，两段各有各的性能特征。
 
 > **面试官：ClusterIP ping 不通，是坏了吗？**
 
@@ -149,19 +149,19 @@ kube-proxy 在每个节点维护"ClusterIP → 健康 Pod 列表"的转发规则
 
 > **面试官：Deployment 跑数据库会怎样？**
 
-两种死法：滚动更新时新旧两个"无状态"副本同时抢一块 RWO 盘（多节点挂载被拒，Pending）；或者 Pod 重建换了名字，PVC 挂不上（Deployment 的 PVC 是模板级共享而非 Pod 级专属），数据"看起来丢了"。所以数据库要么 StatefulSet，要么干脆用集群外的托管服务。
+两种死法。第一种：滚动更新时新旧两个"无状态"副本同时抢一块 RWO 盘（多节点挂载被拒，Pending）。第二种：Pod 重建换了名字，PVC 挂不上（Deployment 的 PVC 是模板级共享而非 Pod 级专属），数据"看起来丢了"。所以数据库要么 StatefulSet，要么干脆用集群外的托管服务。
 
 > **面试官：ReadWriteMany 什么时候需要？**
 
-多个 Pod 必须同时读写同一份数据时（如多个应用实例共享的配置目录、机器学习训练的共享数据集）。块存储（云盘）做不到 RWX，能提供的是 NFS / CephFS / 对象存储挂载（s3fs 之类）。多数无状态服务只需要 RWO 的临时盘或干脆 EmptyDir。
+多个 Pod 必须同时读写同一份数据时。例如多个应用实例共享的配置目录、机器学习训练的共享数据集。块存储（云盘）做不到 RWX，能提供的是 NFS / CephFS / 对象存储挂载（s3fs 之类）。多数无状态服务只需要 RWO 的临时盘或干脆 EmptyDir。
 
 面试官视角小结
 ------
 
-1. **流量四级跳**：CNI 管 Pod 扁平网络 → Service（四类型表）管集群内稳定寻址 → kube-proxy 落规则（iptables 规模瓶颈 → ipvs）→ Ingress 管七层入口，Controller 才是干活的；
-2. **Service 不通先查 Endpoints**：空列表 = selector 不匹配或 Pod 未就绪，与网络无关；ClusterIP ping 不通是设计使然；
-3. **存储三层解耦**：PVC 申请（容量+访问模式）→ PV 实体 → StorageClass 动态供给；数据库卷回收策略改 Retain；
-4. **StatefulSet 三件**：有序伸缩、稳定名字、volumeClaimTemplates 专属卷——每一条都对应 Deployment 跑有状态服务的死法；
+1. **流量四级跳**：CNI 管 Pod 扁平网络。Service（四类型表）管集群内稳定寻址。kube-proxy 落规则（iptables 规模瓶颈 → ipvs）。Ingress 管七层入口，Controller 才是干活的。
+2. **Service 不通先查 Endpoints**：空列表 = selector 不匹配或 Pod 未就绪，与网络无关。ClusterIP ping 不通是设计使然。
+3. **存储三层解耦**：PVC 申请（容量+访问模式）。PV 实体。StorageClass 动态供给。数据库卷回收策略改 Retain。
+4. **StatefulSet 三件**：有序伸缩、稳定名字、volumeClaimTemplates 专属卷。每一条都对应 Deployment 跑有状态服务的死法。
 5. **CNI 选型一句话**：flannel 简单够用，calico 换性能与 NetworkPolicy；跨节点 VXLAN 有封包税。
 
 > 2026-10 新增（留白补齐）。姊妹篇：[K8s核心对象与架构](K8s核心对象与架构.md)、[K8s生产排障手册](K8s生产排障手册.md)。

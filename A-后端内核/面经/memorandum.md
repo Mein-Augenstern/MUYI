@@ -1,3 +1,5 @@
+> 2020 年备考流水记录，题目对应文档见各专项目录；速查见各 cheatsheet。
+
 2020.01.28
 ====
 
@@ -15,7 +17,6 @@
 ------
 
 * <a href="https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/HashMap%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.md">HashMap底层数据结构</a>
-* <a href="https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/HashMap%E6%BA%90%E7%A0%81%E6%B3%A8%E9%87%8A.md">HashMap源码注释</a>
 
 2020.01.30
 ====
@@ -24,35 +25,20 @@
 * 数据库中索引和锁？（索引）
 * <a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/database/%E4%B8%80%E5%8D%83%E8%A1%8CMySQL%E5%91%BD%E4%BB%A4.md">一千行MySQL命令</a>
 
-复习
-------
-
-* <a href="https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/HashMap%E6%88%90%E7%8E%AF%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90.md">HashMap成环原因</a>
-* <a href="https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/HashMap%20%E7%9A%84%E9%95%BF%E5%BA%A6%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF2%E7%9A%84%E5%B9%82%E6%AC%A1%E6%96%B9.md">HashMap 的长度为什么是2的幂次方</a>
-
 2020.01.31
 ====
 
 * 数据库中索引和锁？（锁）
-* <a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/database/%E4%B8%80%E5%8D%83%E8%A1%8CMySQL%E5%91%BD%E4%BB%A4.md">一千行MySQL命令</a>
-
-复习
-------
-
-* <a href="https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/HashMap%20%E5%92%8C%20Hashtable%20%E7%9A%84%E5%8C%BA%E5%88%AB.md">HashMap 和 Hashtable 的区别</a>
-* <a href="https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/HashMap%20%E5%92%8C%20HashSet%E5%8C%BA%E5%88%AB.md">HashMap 和 HashSet区别</a>
 
 2020.02.01
 ====
 
-* <a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/database/%E4%B8%80%E5%8D%83%E8%A1%8CMySQL%E5%91%BD%E4%BB%A4.md">一千行MySQL命令</a>
 * <a href="https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&mid=2247483856&idx=1&sn=ea1c06f0852d3bca3b98b64d8589598e&chksm=ebd740d1dca0c9c77ed1bb07a96bd0fbe147a13515797cf71597de821dbe3357e3eef5f741dc&scene=21###wechat_redirect">数据库面试题(开发者必看) </a>
 * <a href="https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&mid=2247485080&idx=1&sn=f223feb9256727bde4387d918519766b&chksm=ebd74799dca0ce8fa46223a33042a79fc16ae6ac246cb8f07e63a4a2bdce33d8c6dc74e8bd20&token=1755043505&lang=zh_CN###rd">什么是消息队列</a>
 
 复习
 ------
 
-* <a href="https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/HashMap%E3%80%81Hashtable%E3%80%81LinkedHashMap%E5%92%8CTreeMap%E7%89%B9%E7%82%B9%E8%AF%B4%E6%98%8E.md">HashMap、Hashtable、LinkedHashMap和TreeMap特点说明</a>
 * <a href="https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/ArrayList%20%E4%B8%8E%20Vector%20%E5%8C%BA%E5%88%AB.md">ArrayList 与 Vector 区别</a>
 * <a href="https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/ArrayList%E6%89%A9%E5%AE%B9.md">ArrayList扩容</a>
 * <a href="https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/ArrayList%E6%BA%90%E7%A0%81%E6%B3%A8%E9%87%8A.md">ArrayList源码注释</a>
@@ -62,7 +48,7 @@
 
 * Spring初始化Bean的过程？
 * 拦截器和过滤器的区别？
-* Spring中AOP概念？作用？常见实现方式？涉及到哪些技术？最好再找找AOP框架设计思想和底层实现原理？
+* Spring中AOP概念？作用？常见实现方式？涉及到哪些技术？建议再找找AOP框架设计思想和底层实现原理？
 
 复习
 ------
@@ -85,7 +71,6 @@
 ------
 
 * <a href="https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/%E7%BC%93%E5%AD%98/Redis%E7%BC%93%E5%AD%98%E5%A4%B1%E6%95%88%E7%AD%96%E7%95%A5.md">缓存失效策略</a>
-* <a href="https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&mid=2247485080&idx=1&sn=f223feb9256727bde4387d918519766b&chksm=ebd74799dca0ce8fa46223a33042a79fc16ae6ac246cb8f07e63a4a2bdce33d8c6dc74e8bd20&token=1755043505&lang=zh_CN###rd">什么是消息队列</a>
 
 2020.02.07
 ====
@@ -99,8 +84,6 @@
 
 2020.02.09
 ====
-
-* <a href="https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&mid=2247485080&idx=1&sn=f223feb9256727bde4387d918519766b&chksm=ebd74799dca0ce8fa46223a33042a79fc16ae6ac246cb8f07e63a4a2bdce33d8c6dc74e8bd20&token=1755043505&lang=zh_CN###rd">什么是消息队列</a>
 
 * <a href="https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/why-mq.md">为社么使用mq</a>
 

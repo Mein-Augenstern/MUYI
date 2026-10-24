@@ -23,7 +23,7 @@ Java并发中解决的几种思路
 核心是让每个线程操作自己的副本，天然线程安全：
 
 * **ThreadLocal**：为每个线程维护一份变量副本，线程内读写互不干扰。典型场景：SimpleDateFormat 复用、用户上下文透传、数据库连接绑定（细节见 [ThreadLocal](./ThreadLocal.md)）；
-* 代价是占用更多内存，且用完必须 `remove()`，否则线程池场景下线程复用会出现脏数据，并造成 Entry 泄漏（见 ThreadLocal 源码篇）。
+* 代价是占用更多内存，且用完必须 `remove()`。否则线程池场景下线程复用会出现脏数据，并造成 Entry 泄漏（见 ThreadLocal 源码篇）。
 
 2 加锁：串行化临界区
 ------
@@ -43,7 +43,7 @@ Java并发中解决的几种思路
 3 不可变：状态改不了就绝对安全
 ------
 
-* final 修饰的字段/引用、String、`List.of` 等不可变集合；
+* final 修饰的字段/引用、String、`List.of` 这类不可变集合；
 * **CopyOnWriteArrayList/Set**：写时复制一份新数组，读完全无锁；适合读多写极少的小集合（见库内 CopyOnWriteArrayList 源码篇）；
 * volatile 解决可见性与有序性（happens-before），但不解决原子性，常与 CAS 配合（见 [volatile](./volatile.md)）。
 
@@ -67,14 +67,14 @@ Java并发中解决的几种思路
 | 不可变 | final、COW 容器 | 配置类数据、读多写极少 | 写放大/复制成本 |
 | 减小粒度 | 分段锁、LongAdder | 热点计数、大 Map | 结构更复杂 |
 
-一句话：**能不共享就不共享（ThreadLocal/不可变），必须共享先试乐观（CAS），冲突严重再上悲观锁（synchronized/Lock），锁太热就拆细（分段/分散热点）**。各并发容器的落地对比见 [并发容器总结](./并发容器总结.md)。
+一句话：**能不共享就不共享（ThreadLocal/不可变），必须共享先试乐观（CAS）。冲突严重再上悲观锁（synchronized/Lock），锁太热就拆细（分段/分散热点）**。各并发容器的落地对比见 [并发容器总结](./并发容器总结.md)。
 
 面试常见追问
 ------
 
 * ThreadLocal 为什么会内存泄漏？——Entry 的 key 是弱引用会被 GC，value 强引用链仍在；线程池里线程长生命周期，用完必须 remove()；
 * CAS 的 ABA 怎么解决？——加版本号，用 AtomicStampedReference / AtomicMarkableReference；
-* synchronized 和 Lock 怎么选？——竞争不激烈、无需高级特性时用 synchronized（1.6 后有锁升级优化）；需要可中断、超时获取、公平锁、多条件变量时用 Lock；
+* synchronized 和 Lock 怎么选？——竞争不激烈、无需高级特性时用 synchronized（1.6 后有锁升级优化）。需要可中断、超时获取、公平锁、多条件变量时用 Lock；
 * ConcurrentHashMap 锁的演化？——JDK1.7 分段锁（Segment 继承 ReentrantLock）→ JDK1.8 桶级 CAS + synchronized；
 * 为什么 LongAdder 比 AtomicLong 快？——把一个热点变量拆成 base + Cell[]，分散竞争，sum 时汇总。
 

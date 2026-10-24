@@ -6,7 +6,7 @@ ProxyClassFactory是用来生产代理类对象的。
 ProxyClassFactory作用
 ------
 
-ProxyClassFactory工厂类则负责验证其里面的委托接口是否已经加载过、是否是接口、验证其访问权限、验证包的信息与判定，最后通过defineClass方法实现类（广义上接口也是类）的加载，也就是把.class文件转变成对应接口的Class类对象
+ProxyClassFactory工厂类则负责验证：委托接口是否已经加载过、是否是接口、访问权限、包的信息与判定。最后通过defineClass方法实现类（广义上接口也是类）的加载。也就是把.class文件转变成对应接口的Class类对象
 
 二、Proxy内部类ProxyClassFactory源码
 ------
@@ -140,7 +140,7 @@ ProxyClassFactory是Proxy的一个静态内部类。它的逻辑包括了下面�
 
 1. 包名的创建逻辑
 
-包名生成逻辑默认是```com.sun.proxy```，如果被代理类是```non-public proxy interface```（也就说实现的接口若不是public的，报名处理方式不太一样），则用和被代理类接口一样的包名，类名默认是```$Proxy``` 加上一个自增的整数值
+包名生成逻辑默认是```com.sun.proxy```。如果被代理类是```non-public proxy interface```（也就说实现的接口若不是public的，报名处理方式不太一样）。则用和被代理类接口一样的包名。类名默认是```$Proxy``` 加上一个自增的整数值
 
 2. 调用```ProxyGenerator. generateProxyClass```生成代理类字节码
 

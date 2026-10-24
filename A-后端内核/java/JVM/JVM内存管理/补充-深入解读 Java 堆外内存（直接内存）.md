@@ -8,7 +8,7 @@
 
 > 很久没有遇到堆外内存相关的问题了，五一假期刚结束，便不期而遇，以前也处理过几次这类问题，但都没有总结，觉得是时候总结一下了。
 
-先来看一个 Demo：在 Demo 中分配堆外内存用的是 allocateDirect 方法，但其内部调用的是 DirectByteBuffer，换言之，DirectByteBuffer 才是实际操作堆外内存的类，因此，本场 Chat 将围绕 DirectByteBuffer 展开。
+先来看一个 Demo：在 Demo 中分配堆外内存用的是 allocateDirect 方法，但其内部调用的是 DirectByteBuffer。换言之，DirectByteBuffer 才是实际操作堆外内存的类。因此，本场 Chat 将围绕 DirectByteBuffer 展开。
 
 ```java
 import java.nio.ByteBuffer;
@@ -31,16 +31,16 @@ public class Demo
 二、什么是堆外内存？
 ====
 
-Java 开发者一般都知道堆内存，但却未必了解堆外内存。事实上，除了堆内存，Java 还可以使用堆外内存，也称直接内存（Direct Memory）。顾名思义，堆外内存是在 JVM Heap 之外分配的内存块，并不是 JVM 规范中定义的内存区域，堆外内存用得并不多，但十分重要。
+Java 开发者一般都知道堆内存，但却未必了解堆外内存。除了堆内存，Java 还可以使用堆外内存，也称直接内存（Direct Memory）。顾名思义，堆外内存是在 JVM Heap 之外分配的内存块，并不是 JVM 规范中定义的内存区域。堆外内存用得并不多，但十分重要。
 
-读者也许会有一个疑问：既然已经有堆内存，为什么还要用堆外内存呢？这主要是因为堆外内存在 IO 操作方面的优势，举一个例子：在通信中，将存在于堆内存中的数据 flush 到远程时，需要首先将堆内存中的数据拷贝到堆外内存中，然后再写入 Socket 中；如果直接将数据存到堆外内存中就可以避免上述拷贝操作，提升性能。类似的例子还有读写文件。
+读者也许会有一个疑问：为什么有了堆内存还要用堆外内存。原因：堆外内存在 IO 操作方面有优势。举一个例子：在通信中，把存在于堆内存中的数据 flush 到远程，需要先把数据拷贝到堆外内存。拷贝完成后再写入 Socket 中。如果直接将数据存到堆外内存中，就可以避免上述拷贝操作，提升性能。类似的例子还有读写文件。
 
-目前，很多 NIO 框架 （如 netty，rpc） 会采用 Java 的 DirectByteBuffer 类来操作堆外内存，DirectByteBuffer 类对象本身位于 Java 内存模型的堆中，由 JVM 直接管控、操纵。但是，DirectByteBuffer 中用于分配堆外内存的方法 unsafe.allocateMemory(size) 是个一个 native 方法，本质上是用 C 的 malloc 来进行分配的。分配的内存是系统本地的内存，并不在 Java 的内存中，也不属于 JVM 管控范围，所以在 DirectByteBuffer 一定会存在某种特别的方式来操纵堆外内存。
+目前，很多 NIO 框架 （如 netty，rpc） 会采用 Java 的 DirectByteBuffer 类来操作堆外内存。DirectByteBuffer 类对象本身位于 Java 内存模型的堆中，由 JVM 直接管控、操纵。但是，DirectByteBuffer 中用于分配堆外内存的方法 unsafe.allocateMemory(size) 是一个 native 方法，本质上是用 C 的 malloc 来分配的。分配的内存是系统本地的内存，并不在 Java 的内存中，也不属于 JVM 管控范围。所以在 DirectByteBuffer 一定会存在某种特别的方式来操纵堆外内存。
 
 三、堆外内存创建过程深度解析
 ====
 
-首先，我们来看一下 DirectByteBuffer 源代码，从中洞悉分配堆外内存的过程：
+首先，我们来看 DirectByteBuffer 源代码，从中洞悉分配堆外内存的过程：
 
 ![DirectByteBuffer 源代码一](/images/legacy/DirectByteBuffer 源代码一.png)
 
@@ -50,29 +50,29 @@ Java 开发者一般都知道堆内存，但却未必了解堆外内存。事实
 
 ![Bits.reserveMemory(size, cap)二](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/Bits.reserveMemory(size%2C%20cap)%E4%BA%8C.png)
 
-该方法用于在系统中保存总分配内存（按页分配）的大小和实际内存的大小，具体执行中需要首先用 tryReserveMemory 方法来判断系统内存（堆外内存）是否足够，具体代码如下：
+该方法用于在系统中保存总分配内存（按页分配）的大小和实际内存的大小。具体执行中需要首先用 tryReserveMemory 方法来判断系统内存（堆外内存）是否足够，具体代码如下：
 
 ![Bits.reserveMemory(size, cap)三](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/Bits.reserveMemory(size%2C%20cap)%E4%B8%89.png)
 
 从 Bits.reserveMemory(size, cap) 源码可以看出，其执行过程中，可能遇到以下三种情况：
 
-**1. 最乐观的情况：可用堆外内存足够，reserveMemory 方法返回 true，该方法结束**。
+**1. 最乐观的结果：可用堆外内存足够，reserveMemory 方法返回 true，该方法结束**。
 
 ![Bits.reserveMemory(size, cap)四](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/Bits.reserveMemory(size%2C%20cap)%E5%9B%9B.png)
 
-**2. 如果不幸，堆外内存不足，则须进行第二步**：
+**2. 如果不幸，堆外内存不足，则须进入第二步**：
 
 ![Bits.reserveMemory(size, cap)五](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/Bits.reserveMemory(size%2C%20cap)%E4%BA%94.png)
 
 jlra.tryHandlePendingReference() 会触发一次非堵塞的 Reference#tryHandlePending(false)，该方法会将已经被 JVM 垃圾回收的 DirectBuffer 对象的堆外内存释放。
 
-**3. 如果在进行一次堆外内存资源回收后，还不够进行本次堆外内存分配的话，则进行 GC 操作**：
+**3. 如果在一次堆外内存资源回收后，还不够分配本次堆外内存，则执行 GC 操作**：
 
 ![Bits.reserveMemory(size, cap)六](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/Bits.reserveMemory(size%2C%20cap)%E5%85%AD.png)
 
 ```System.gc()``` 会触发一个 Full GC，当然，前提是你没有显示的设置 ```- XX:+DisableExplicitGC``` 来禁用显式 GC。同时，需要注意的是，调用 ```System.gc()``` 并不能够保证 Full GC 马上就能被执行。
 
-调用 ```System.gc()``` 后，接下来会最多进行 9 次循环尝试，仍然通过 ```tryReserveMemory``` 方法来判断是否有足够的堆外内存可供分配操作。每次尝试都会 sleep，以便 Full GC 能够完成，如下代码所示。
+调用 ```System.gc()``` 后，接下来会最多循环尝试 9 次，仍然通过 ```tryReserveMemory``` 方法来判断是否有足够的堆外内存可供分配操作。每次尝试都会 sleep，以便 Full GC 能够完成，如下代码所示。
 
 ![tryReserveMemory一](/images/legacy/tryReserveMemory.png)
 
@@ -84,7 +84,7 @@ jlra.tryHandlePendingReference() 会触发一次非堵塞的 Reference#tryHandle
 
 2. 如果堆外内存不足，则触发一次非堵塞的 ```Reference#tryHandlePending(false)```。该方法会将已经被 JVM 垃圾回收的 DirectBuffer 对象的堆外内存释放；
 
-3. 如果进行一次堆外内存资源回收后，还不够进行本次堆外内存分配的话，则进行 ```System.gc()```。```System.gc()``` 会触发一个 Full GC，需要注意的是，调用 ```System.gc()``` 并不能够保证 Full GC 马上就能被执行。所以在后面打代码中，会进行最多 9 次尝试，看是否有足够的可用堆外内存来分配堆外内存。并且每次尝试之前，都对延迟等待时间，已给 JVM 足够的时间去完成 Full GC 操作。
+3. 如果在一次堆外内存资源回收后，还不够分配本次堆外内存，则执行 ```System.gc()```。```System.gc()``` 会触发一个 Full GC，需要注意的是，调用 ```System.gc()``` 并不能够保证 Full GC 马上就能被执行。所以在后面的代码中，会尝试最多 9 次，看是否有足够的可用堆外内存来分配堆外内存。并且每次尝试之前，都对延迟等待时间，以给 JVM 足够的时间去完成 Full GC 操作。
 
 4. 如果 9 次尝试后依旧没有足够的可用堆外内存来分配本次堆外内存，则抛出 ```OutOfMemoryError(“Direct buffer memory”)``` 异常。
 

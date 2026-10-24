@@ -8,13 +8,13 @@ date: 2024-01-01 19:49:59
 tags: 
 categories: concurrency
 
-最近得空，想写篇文章好好说说 java 线程池问题，我相信很多人都一知半解的，包括我自己在仔仔细细看源码之前，也有许多的不解，甚至有些地方我一直都没有理解到位。
+最近得空，想写篇文章好好说说 java 线程池问题。我相信很多人都一知半解的。包括我自己在内，在仔仔细细看源码之前，也有许多的不解。甚至有些地方我一直都没有理解到位。
 
-说到线程池实现，那么就不得不涉及到各种 BlockingQueue 的实现，那么我想就 BlockingQueue 的问题和大家分享分享我了解的一些知识。
+说到线程池实现，就必然会涉及到各种 BlockingQueue 的实现。我想就 BlockingQueue 的问题，和大家分享我了解的一些知识。
 
-本文没有像之前分析 AQS 那样一行一行源码分析了，不过还是把其中最重要和最难理解的代码说了一遍，所以不免篇幅略长。本文涉及到比较多的 Doug Lea 对 BlockingQueue 的设计思想，希望有心的读者真的可以有一些收获，我觉得自己还是写了一些干货的。
+本文没有像之前分析 AQS 那样一行一行源码分析。不过还是把其中最重要和最难理解的代码说了一遍，所以不免篇幅略长。本文介绍 Doug Lea 对 BlockingQueue 的设计思想，希望有心的读者真的可以有一些收获。我觉得自己还是写了一些干货的。
 
-本文直接参考 Doug Lea 写的 Java doc 和注释，这也是我们在学习 java 并发包时最好的材料了。希望大家能有所思、有所悟，学习 Doug Lea 的代码风格，并将其优雅、严谨的作风应用到我们写的每一行代码中。
+本文直接参考 Doug Lea 写的 Java doc 和注释，这也是我们在学习 java 并发包时最好的材料了。希望大家能有所思、有所悟。学习 Doug Lea 的代码风格，并将其优雅、严谨的作风应用到我们写的每一行代码中。
 
 <!-- more -->
 
@@ -26,11 +26,18 @@ categories: concurrency
 
 > 开篇先介绍下 BlockingQueue 这个接口的规则，后面再看其实现。
 
-首先，最基本的来说， BlockingQueue 是一个**先进先出**的队列（Queue），为什么说是阻塞（Blocking）的呢？是因为 BlockingQueue 支持当获取队列元素但是队列为空时，会阻塞等待队列中有元素再返回；也支持添加元素时，如果队列已满，那么等到队列可以放入新元素时再放入。
+首先，最基本的来说， BlockingQueue 是一个**先进先出**的队列（Queue）。说它阻塞（Blocking）的原因是：当获取队列元素但是队列为空时，BlockingQueue 会阻塞等待队列中有元素再返回。添加元素时如果队列已满，它会等到队列可以放入新元素时再放入。
 
 BlockingQueue 是一个接口，继承自 Queue，所以其实现类也可以作为 Queue 的实现来使用，而 Queue 又继承自 Collection 接口。
 
-BlockingQueue 对插入操作、移除操作、获取元素操作提供了四种不同的方法用于不同的场景中使用：1、抛出异常；2、返回特殊值（null 或 true/false，取决于具体的操作）；3、阻塞等待此操作，直到这个操作成功；4、阻塞等待此操作，直到成功或者超时指定时间。总结如下：
+BlockingQueue 对插入操作、移除操作、获取元素操作提供了四种不同的方法，用于不同的场景：
+
+1. 抛出异常；
+2. 返回特殊值（null 或 true/false，取决于具体的操作）；
+3. 阻塞等待此操作，直到这个操作成功；
+4. 阻塞等待此操作，直到成功或者超时指定时间。
+
+总结如下：
 
 |             | *Throws exception* | *Special value* | *Blocks*         | *Times out*          |
 | ----------- | ------------------ | --------------- | ---------------- | -------------------- |
@@ -38,33 +45,33 @@ BlockingQueue 对插入操作、移除操作、获取元素操作提供了四种
 | **Remove**  | remove()           | poll()          | **take()**       | poll(time, unit)     |
 | **Examine** | element()          | peek()          | *not applicable* | *not applicable*     |
 
-BlockingQueue 的各个实现都遵循了这些规则，当然我们也不用死记这个表格，知道有这么回事，然后写代码的时候根据自己的需要去看方法的注释来选取合适的方法即可。
+BlockingQueue 的各个实现都遵循了这些规则。当然我们也不用死记这个表格，知道有这么回事即可。写代码的时候，根据自己的需要去看方法的注释来选取合适的方法。
 
 > 对于 BlockingQueue，我们的关注点应该在 put(e) 和 take() 这两个方法，因为这两个方法是带阻塞的。
 
-**BlockingQueue 不接受 null 值的插入，相应的方法在碰到 null 的插入时会抛出 NullPointerException 异常。null 值在这里通常用于作为特殊值返回（表格中的第三列），代表 poll 失败。所以，如果允许插入 null 值的话，那获取的时候，就不能很好地用 null 来判断到底是代表失败，还是获取的值就是 null 值。**
+**BlockingQueue 不接受 null 值的插入，相应的方法在碰到 null 的插入时会抛出 NullPointerException 异常。null 值在这里通常用于作为特殊值返回（表格中的第三列），代表 poll 失败。所以，如果允许插入 null 值，获取的时候就不能用 null 来判断到底是代表失败，还是获取的值就是 null 值。**
 
 > 上面关于null的说明，个人理解是可以从避免“二义性”来解释理解更直观些。
 
 一个 BlockingQueue 可能是有界的，如果在插入的时候，发现队列满了，那么 put 操作将会阻塞。通常，在这里我们说的无界队列也不是说真正的无界，而是它的容量是 Integer.MAX_VALUE（21亿多）。
 
-BlockingQueue 是设计用来实现生产者-消费者队列的，当然，你也可以将它当做普通的 Collection 来用，前面说了，它实现了 java.util.Collection 接口。例如，我们可以用 remove(x) 来删除任意一个元素，但是，这类操作通常并不高效，所以尽量只在少数的场合使用，比如一条消息已经入队，但是需要做取消操作的时候。
+BlockingQueue 是设计用来实现生产者-消费者队列的。你也可以将它当做普通的 Collection 来用，前面说了，它实现了 java.util.Collection 接口。例如，我们可以用 remove(x) 来删除任意一个元素。这类操作通常并不高效。所以尽量只在少数的场合使用，比如一条消息已经入队，但是需要做取消操作的时候。
 
-BlockingQueue 的实现都是线程安全的，但是批量的集合操作如 `addAll`, `containsAll`, `retainAll` 和 `removeAll`  不一定是原子操作。如 addAll(c) 有可能在添加了一些元素后中途抛出异常，此时 BlockingQueue 中已经添加了部分元素，这个是允许的，取决于具体的实现。
+BlockingQueue 的实现都是线程安全的，但是批量的集合操作如 `addAll`, `containsAll`, `retainAll` 和 `removeAll`  不一定是原子操作。如 addAll(c) 有可能在添加了一些元素后中途抛出异常。此时 BlockingQueue 中已经添加了部分元素，这个是允许的，取决于具体的实现。
 
-BlockingQueue 不支持 close 或 shutdown 等**关闭**操作，因为开发者可能希望不会有新的元素添加进去，此特性取决于具体的实现，不做强制约束。
+BlockingQueue 不支持 close 或 shutdown 这类**关闭**操作，因为开发者可能希望不会有新的元素添加进去。此特性取决于具体的实现，不做强制约束。
 
-最后，BlockingQueue 在生产者-消费者的场景中，是支持多消费者和多生产者的，说的其实就是线程安全问题。
+最后，BlockingQueue 在生产者-消费者的场景中，是支持多消费者和多生产者的，说的就是线程安全问题。
 
-相信上面说的每一句都很清楚了，BlockingQueue 是一个比较简单的线程安全容器，下面我会分析其具体的在 JDK 中的实现，这里又到了 Doug Lea 表演时间了。
+相信上面说的每一句都清楚了，BlockingQueue 是一个简单的线程安全容器。下面我会分析其具体的在 JDK 中的实现，这里又到了 Doug Lea 表演时间了。
 
 ## BlockingQueue 实现之 ArrayBlockingQueue
 
 ArrayBlockingQueue 是 BlockingQueue 接口的有界队列实现类，底层采用数组来实现。
 
-其并发控制采用可重入锁来控制，不管是插入操作还是读取操作，都需要获取到锁才能进行操作。
+其并发控制采用可重入锁来控制。不管是插入操作还是读取操作，都需要获取到锁才能执行。
 
-如果读者看过我之前写的《[一行一行源码分析清楚 AbstractQueuedSynchronizer（二）](乐观锁、悲观锁的AQS、Sync和Lock面试.md)》 的关于 Condition 的文章的话，那么你一定能很容易看懂 ArrayBlockingQueue  的源码，它采用一个 ReentrantLock 和相应的两个 Condition 来实现。
+如果读者看过我之前写的关于 Condition 的文章《[一行一行源码分析清楚 AbstractQueuedSynchronizer（二）](乐观锁、悲观锁的AQS、Sync和Lock面试.md)》，就能轻松看懂 ArrayBlockingQueue  的源码。它采用一个 ReentrantLock 和相应的两个 Condition 来实现。
 
 ArrayBlockingQueue 共有以下几个属性：
 
@@ -86,17 +93,17 @@ private final Condition notFull;
 
 我们用个示意图来描述其同步机制：
 
-![array-blocking-queue](https://assets.javadoop.com/blogimages/java-concurrent-queue/array-blocking-queue.png)
+![array-blocking-queue](/images/legacy/array-blocking-queue.png)
 
-ArrayBlockingQueue 实现并发同步的原理就是，读操作和写操作都需要获取到 AQS 独占锁才能进行操作。如果队列为空，这个时候读操作的线程进入到**读线程队列**排队，等待写线程写入新的元素，然后唤醒读线程队列的第一个等待线程。如果队列已满，这个时候写操作的线程进入到**写线程队列**排队，等待读线程将队列元素移除腾出空间，然后唤醒写线程队列的第一个等待线程。
+ArrayBlockingQueue 实现并发同步的原理就是，读操作和写操作都需要获取到 AQS 独占锁才能执行。如果队列为空，读操作的线程进入到**读线程队列**排队，等待写线程写入新的元素。写线程写入后，唤醒读线程队列的第一个等待线程。如果队列已满，写操作的线程进入到**写线程队列**排队，等待读线程将队列元素移除腾出空间。读线程移除元素后，唤醒写线程队列的第一个等待线程。
 
 对于 ArrayBlockingQueue，我们可以在构造的时候指定以下三个参数：
 
 1. 队列容量，其限制了队列中最多允许的元素个数；
-2. 指定独占锁是公平锁还是非公平锁。非公平锁的吞吐量比较高，公平锁可以保证每次都是等待最久的线程获取到锁；
-3. 可以指定用一个集合来初始化，将此集合中的元素在构造方法期间就先添加到队列中。
+2. 指定独占锁是公平锁还是非公平锁。非公平锁的吞吐量高于公平锁。公平锁可以保证每次都是等待最久的线程获取到锁；
+3. 可以指定用一个集合来初始化。构造方法执行时，会先将此集合中的元素添加到队列中。
 
-更具体的源码我就不进行分析了，因为它就是 AbstractQueuedSynchronizer 中 Condition 的使用，感兴趣的读者请看我写的《[一行一行源码分析清楚 AbstractQueuedSynchronizer（二）](乐观锁、悲观锁的AQS、Sync和Lock面试.md)》，因为只要看懂了那篇文章，ArrayBlockingQueue 的代码就没有分析的必要了，当然，如果你完全不懂 Condition，那么基本上也就可以说看不懂 ArrayBlockingQueue 的源码了。
+更具体的源码我就不分析了，因为它就是 AbstractQueuedSynchronizer 中 Condition 的使用。感兴趣的读者请看我写的《[一行一行源码分析清楚 AbstractQueuedSynchronizer（二）](乐观锁、悲观锁的AQS、Sync和Lock面试.md)》。只要看懂了那篇文章，ArrayBlockingQueue 的代码就没有分析的必要了。当然，如果你完全不懂 Condition，那么也就看不懂 ArrayBlockingQueue 的源码了。
 
 ## BlockingQueue 实现之 LinkedBlockingQueue
 
@@ -148,15 +155,15 @@ private final Condition notFull = putLock.newCondition();
 
 这里用了两个锁，两个 Condition，简单介绍如下：
 
-**takeLock 和 notEmpty 怎么搭配：**如果要获取（take）一个元素，需要获取 takeLock 锁，但是获取了锁还不够，如果队列此时为空，还需要队列不为空（notEmpty）这个条件（Condition）。
+**takeLock 和 notEmpty 的搭配：**如果要获取（take）一个元素，需要获取 takeLock 锁。获取了锁还不够。如果队列此时为空，还需要队列不为空（notEmpty）这个条件（Condition）。
 
-**putLock 需要和 notFull 搭配：**如果要插入（put）一个元素，需要获取 putLock 锁，但是获取了锁还不够，如果队列此时已满，还需要队列不是满的（notFull）这个条件（Condition）。
+**putLock 需要和 notFull 搭配：**如果要插入（put）一个元素，需要获取 putLock 锁。获取了锁还不够。如果队列此时已满，还需要队列不是满的（notFull）这个条件（Condition）。
 
 首先，这里用一个示意图来看看 LinkedBlockingQueue 的并发读写控制，然后再开始分析源码：
 
-![linked-blocking-queue](https://assets.javadoop.com/blogimages/java-concurrent-queue/linked-blocking-queue.png)
+![linked-blocking-queue](/images/legacy/linked-blocking-queue.png)
 
-看懂这个示意图，源码也就简单了，读操作是排好队的，写操作也是排好队的，唯一的并发问题在于一个写操作和一个读操作同时进行，只要控制好这个就可以了。
+看懂这个示意图，源码也就简单了。读操作是排好队的，写操作也是排好队的。唯一的并发问题在于一个写操作和一个读操作同时执行，只要控制好这个就可以了。
 
 先上构造方法：
 
@@ -283,19 +290,19 @@ private void signalNotFull() {
 }
 ```
 
-源码分析就到这里结束了吧，毕竟还是比较简单的源码，基本上只要读者认真点都看得懂。
+源码分析就到这里结束了吧，毕竟是简单的源码，只要读者认真点都看得懂。
 
 ## BlockingQueue 实现之 SynchronousQueue
 
-它是一个特殊的队列，它的名字其实就蕴含了它的特征 - - 同步的队列。为什么说是同步的呢？这里说的并不是多线程的并发问题，而是**因为当一个线程往队列中写入一个元素时，写入操作不会立即返回，需要等待另一个线程来将这个元素拿走；同理，当一个读线程做读操作的时候，同样需要一个相匹配的写线程的写操作**。这里的 **Synchronous 指的就是读线程和写线程需要同步，一个读线程匹配一个写线程**。
+它是一个特殊的队列，它的名字就蕴含了它的特征 - - 同步的队列。这里说的并不是多线程的并发问题。说它同步的原因是：**当一个线程往队列中写入一个元素时，写入操作不会立即返回。写入的线程需要等待另一个线程来将这个元素拿走。同理，当一个读线程做读操作的时候，同样需要一个相匹配的写线程的写操作**。这里的 **Synchronous 指的就是读线程和写线程需要同步，一个读线程匹配一个写线程**。
 
-**我们比较少使用到 SynchronousQueue 这个类，不过它在线程池的实现类 ThreadPoolExecutor 中得到了应用，感兴趣的读者可以在看完这个后去看看相应的使用。**
+**我们不常使用到 SynchronousQueue 这个类。不过它在线程池的实现类 ThreadPoolExecutor 中得到了应用，感兴趣的读者可以在看完这个后去看看相应的使用。**
 
-**虽然上面我说了队列，但是 SynchronousQueue 的队列其实是虚的，其不提供任何空间（一个都没有）来存储元素。数据必须从某个写线程交给某个读线程，而不是写到某个队列中等待被消费**。
+**虽然上面我说了队列，但是 SynchronousQueue 的队列是虚的，其不提供任何空间（一个都没有）来存储元素。数据必须从某个写线程交给某个读线程，而不是写到某个队列中等待被消费**。
 
-你不能在 SynchronousQueue 中使用 peek 方法（在这里这个方法直接返回 null），peek 方法的语义是只读取不移除，显然，这个方法的语义是不符合 SynchronousQueue 的特征的。SynchronousQueue 也不能被迭代，因为根本就没有元素可以拿来迭代的。虽然 SynchronousQueue 间接地实现了 Collection 接口，但是如果你将其当做 Collection 来用的话，那么集合是空的。当然，这个类也是不允许传递 null 值的（**并发包中的容器类好像都不支持插入 null 值，因为 null 值往往用作其他用途，比如用于方法的返回值代表操作失败**）。
+你不能在 SynchronousQueue 中使用 peek 方法（在这里这个方法直接返回 null）。peek 方法的语义是只读取不移除，这个语义不符合 SynchronousQueue 的特征。SynchronousQueue 也不能被迭代，因为根本就没有元素可以拿来迭代的。虽然 SynchronousQueue 间接地实现了 Collection 接口，但是如果你将其当做 Collection 来用，那么集合是空的。当然，这个类也是不允许传递 null 值的（**并发包中的容器类好像都不支持插入 null 值。因为 null 值往往用作其他用途，比如用于方法的返回值代表操作失败**）。
 
-接下来，我们来看看具体的源码实现吧，它的源码不是很简单的那种，我们需要先搞清楚它的设计思想。
+接下来，我们来看看具体的源码实现。它的源码不是简单的那种，我们需要先搞清楚它的设计思想。
 
 源码加注释大概有 1200 行，我们先看大框架：
 
@@ -317,7 +324,7 @@ abstract static class Transferer {
 
 Transferer 有两个内部实现类，是因为构造 SynchronousQueue 的时候，我们可以指定公平策略。公平模式意味着，所有的读写线程都遵守先来后到，FIFO 嘛，对应 TransferQueue。而非公平模式则对应 TransferStack。
 
-![synchronous-queue](https://assets.javadoop.com/blogimages/java-concurrent-queue/synchronous-queue.png)
+![synchronous-queue](/images/legacy/synchronous-queue.png)
 
 我们先采用公平模式分析源码，然后再说说公平模式和非公平模式的区别。
 
@@ -346,12 +353,12 @@ public E take() throws InterruptedException {
 
 我们来看看 transfer 的设计思路，其基本算法如下：
 
-1. 当调用这个方法时，如果队列是空的，或者队列中的节点和当前的线程操作类型一致（如当前操作是 put 操作，而队列中的元素也都是写线程）。这种情况下，将当前线程加入到等待队列即可。
-2. 如果队列中有等待节点，而且与当前操作可以匹配（如队列中都是读操作线程，当前线程是写操作线程，反之亦然）。这种情况下，匹配等待队列的队头，出队，返回相应数据。
+1. 当调用这个方法时，如果队列是空的，将当前线程加入到等待队列即可。队列中的节点和当前线程操作类型一致时，也将当前线程加入等待队列。例如当前操作是 put 操作，而队列中的元素也都是写线程。
+2. 如果队列中有等待节点，且与当前操作可以匹配，就匹配等待队列的队头。匹配后出队，返回相应数据。例如队列中都是读操作线程，当前线程是写操作线程，反之亦然。
 
-其实这里有个隐含的条件被满足了，队列如果不为空，肯定都是同种类型的节点，要么都是读操作，要么都是写操作。这个就要看到底是读线程积压了，还是写线程积压了。
+这里有个隐含的条件被满足了：队列如果不为空，肯定都是同种类型的节点。节点要么都是读操作，要么都是写操作。这个就要看到底是读线程积压了，还是写线程积压了。
 
-我们可以假设出一个男女配对的场景：一个男的过来，如果一个人都没有，那么他需要等待；如果发现有一堆男的在等待，那么他需要排到队列后面；如果发现是一堆女的在排队，那么他直接牵走队头的那个女的。
+我们可以假设出一个男女配对的场景。一个男的过来，如果一个人都没有，那么他需要等待。如果发现有一堆男的在等待，那么他需要排到队列后面。如果发现是一堆女的在排队，那么他直接牵走队头的那个女的。
 
 既然这里说到了等待队列，我们先看看其实现，也就是 QNode:
 
@@ -497,25 +504,25 @@ Object awaitFulfill(QNode s, Object e, boolean timed, long nanos) {
 }
 ```
 
-Doug Lea 的巧妙之处在于，将各个代码凑在了一起，使得代码非常简洁，当然也同时增加了我们的阅读负担，看代码的时候，还是得仔细想想各种可能的情况。
+Doug Lea 的巧妙之处在于，将各个代码凑在了一起，使得代码非常简洁。当然也同时增加了我们的阅读负担。看代码的时候，还是得仔细想想各种可能。
 
 下面，再说说前面说的公平模式和非公平模式的区别。
 
-相信大家心里面已经有了公平模式的工作流程的概念了，我就简单说说 TransferStack 的算法，就不分析源码了。
+相信大家心里面已经有了公平模式的工作流程的概念。我就简单说说 TransferStack 的算法，就不分析源码了。
 
-1. 当调用这个方法时，如果队列是空的，或者队列中的节点和当前的线程操作类型一致（如当前操作是 put 操作，而栈中的元素也都是写线程）。这种情况下，将当前线程加入到等待栈中，等待配对。然后返回相应的元素，或者如果被取消了的话，返回 null。
-2. 如果栈中有等待节点，而且与当前操作可以匹配（如栈里面都是读操作线程，当前线程是写操作线程，反之亦然）。将当前节点压入栈顶，和栈中的节点进行匹配，然后将这两个节点出栈。配对和出栈的动作其实也不是必须的，因为下面的一条会执行同样的事情。
-3. 如果栈顶是进行匹配而入栈的节点，帮助其进行匹配并出栈，然后再继续操作。
+1. 当调用这个方法时，如果队列是空的，将当前线程加入等待栈中等待配对。节点类型与当前线程操作类型一致时，同样入栈等待配对。例如当前操作是 put 操作，而栈中的元素也都是写线程。配对后返回相应的元素。如果被取消，返回 null。
+2. 如果栈中有等待节点，且与当前操作可以匹配，将当前节点压入栈顶。压入后和栈中的节点匹配，再将这两个节点出栈。例如栈里面都是读操作线程，当前线程是写操作线程，反之亦然。配对和出栈的动作不是必须的，因为下面的一条会执行同样的事情。
+3. 如果栈顶是为匹配而入栈的节点，帮助其匹配并出栈，再继续操作。
 
-应该说，TransferStack 的源码要比 TransferQueue 的复杂一些，如果读者感兴趣，请自行进行源码阅读。
+应该说，TransferStack 的源码要比 TransferQueue 的复杂一些，如果读者感兴趣，请自行阅读源码。
 
 ## BlockingQueue 实现之 PriorityBlockingQueue
 
-带排序的 BlockingQueue 实现，其并发控制采用的是 ReentrantLock，队列为无界队列（ArrayBlockingQueue 是有界队列，LinkedBlockingQueue 也可以通过在构造函数中传入 capacity 指定队列最大的容量，但是 PriorityBlockingQueue 只能指定初始的队列大小，后面插入元素的时候，如果空间不够的话会自动扩容）。
+带排序的 BlockingQueue 实现，其并发控制采用的是 ReentrantLock，队列为无界队列（ArrayBlockingQueue 是有界队列。LinkedBlockingQueue 也可以通过在构造函数中传入 capacity 指定队列最大的容量。但是 PriorityBlockingQueue 只能指定初始的队列大小，后面插入元素的时候，如果空间不够会自动扩容）。
 
-简单地说，它就是 PriorityQueue 的线程安全版本。不可以插入 null 值，同时，插入队列的对象必须是可比较大小的（comparable），否则报 ClassCastException 异常。它的插入操作 put 方法不会 block，因为它是无界队列（take 方法在队列为空的时候会阻塞）。
+简单地说，它就是 PriorityQueue 的线程安全版本。不可以插入 null 值。同时，插入队列的对象必须是可比较的（comparable），否则报 ClassCastException 异常。它的插入操作 put 方法不会 block，因为它是无界队列（take 方法在队列为空的时候会阻塞）。
 
-它的源码相对比较简单，本节将介绍其核心源码部分。
+它的源码简单，本节将介绍其核心源码部分。
 
 我们来看看它有哪些属性：
 
@@ -548,15 +555,15 @@ private transient volatile int allocationSpinLock;
 private PriorityQueue q;
 ```
 
-此类实现了 Collection 和 Iterator 接口中的所有接口方法，对其对象进行迭代并遍历时，不能保证有序性。如果你想要实现有序遍历，建议采用 Arrays.sort(queue.toArray()) 进行处理。PriorityBlockingQueue 提供了 drainTo 方法用于将部分或全部元素有序地填充（准确说是转移，会删除原队列中的元素）到另一个集合中。还有一个需要说明的是，如果两个对象的优先级相同（compare 方法返回 0），此队列并不保证它们之间的顺序。
+此类实现了 Collection 和 Iterator 接口中的所有接口方法。对其对象迭代遍历时，不能保证有序性。如果你想要实现有序遍历，建议采用 Arrays.sort(queue.toArray()) 处理。PriorityBlockingQueue 提供了 drainTo 方法，用于将部分或全部元素有序地填充到另一个集合中。准确说这是转移，会删除原队列中的元素。还有一点需要说明：如果两个对象的优先级相同（compare 方法返回 0），此队列不保证它们之间的顺序。
 
-PriorityBlockingQueue 使用了基于数组的**二叉堆**来存放元素，所有的 public 方法采用同一个 lock 进行并发控制。
+PriorityBlockingQueue 使用了基于数组的**二叉堆**来存放元素，所有的 public 方法采用同一个 lock 来控制并发。
 
-二叉堆：一颗完全二叉树，它非常适合用数组进行存储，对于数组中的元素 `a[i]`，其左子节点为 `a[2*i+1]`，其右子节点为 `a[2*i + 2]`，其父节点为 `a[(i-1)/2]`，其堆序性质为，每个节点的值都小于其左右子节点的值。二叉堆中最小的值就是根节点，但是删除根节点是比较麻烦的，因为需要调整树。
+二叉堆：一颗完全二叉树，它非常适合用数组存储。对于数组中的元素 `a[i]`，其左子节点为 `a[2*i+1]`，其右子节点为 `a[2*i + 2]`，其父节点为 `a[(i-1)/2]`。其堆序性质为，每个节点的值都小于其左右子节点的值。二叉堆中最小的值就是根节点，但是删除根节点是麻烦的，因为需要调整树。
 
-简单用个图解释一下二叉堆，我就不说太多专业的严谨的术语了，这种数据结构的优点是一目了然的，最小的元素一定是根元素，它是一棵满的树，除了最后一层，最后一层的节点从左到右紧密排列。
+简单用个图解释二叉堆，我就不说太多专业的严谨的术语了。这种数据结构的优点是一目了然的。最小的元素一定是根元素。它是一棵满的树，除了最后一层，最后一层的节点从左到右紧密排列。
 
-![priority-blocking-queue-1](https://assets.javadoop.com/blogimages/java-concurrent-queue/priority-blocking-queue-1.png)
+![priority-blocking-queue-1](/images/legacy/priority-blocking-queue-1.png)
 
 
 
@@ -664,7 +671,7 @@ private void tryGrow(Object[] array, int oldCap) {
 }
 ```
 
-扩容方法对并发的控制也非常的巧妙，释放了原来的独占锁 lock，这样的话，扩容操作和读操作可以同时进行，提高吞吐量。
+扩容方法对并发的控制也巧妙，它释放了原来的独占锁 lock。这样扩容操作和读操作可以同时执行，提高吞吐量。
 
 下面，我们来分析下写操作 put 方法和读操作 take 方法。
 
@@ -702,7 +709,7 @@ public boolean offer(E e) {
 }
 ```
 
-对于二叉堆而言，插入一个节点是简单的，插入的节点如果比父节点小，交换它们，然后继续和父节点比较。
+对于二叉堆而言，插入一个节点是简单的。插入的节点如果比父节点小，交换它们，然后继续和父节点比较。
 
 ```java
 // 这个方法就是将数据 x 插入到数组 array 的位置 k 处，然后再调整树
@@ -721,9 +728,9 @@ private static <T> void siftUpComparable(int k, T x, Object[] array) {
 }
 ```
 
-我们用图来示意一下，我们接下来要将 **11** 插入到队列中，看看 siftUp 是怎么操作的。
+我们用图来示意。接下来要将 **11** 插入到队列中，看看 siftUp 是怎么操作的。
 
-![priority-blocking-queue-2](https://assets.javadoop.com/blogimages/java-concurrent-queue/priority-blocking-queue-2.png)
+![priority-blocking-queue-2](/images/legacy/priority-blocking-queue-2.png)
 
 我们再看看 take 方法：
 
@@ -806,15 +813,17 @@ private static <T> void siftDownComparable(int k, T x, Object[] array,
 }
 ```
 
-![priority-blocking-queue-3](https://assets.javadoop.com/blogimages/java-concurrent-queue/priority-blocking-queue-3.png)
+![priority-blocking-queue-3](/images/legacy/priority-blocking-queue-3.png)
 
 
 
-记住二叉堆是一棵完全二叉树，那么根节点 10 拿掉后，最后面的元素 17 必须找到合适的地方放置。首先，17 和 10 不能直接交换，那么先将根节点 10 的左右子节点中较小的节点往上滑，即 12 往上滑，然后原来 12 留下了一个空节点，然后再把这个空节点的较小的子节点往上滑，即 13 往上滑，最后，留出了位子，17 补上即可。
+记住二叉堆是一棵完全二叉树。根节点 10 拿掉后，最后面的元素 17 必须找到合适的地方放置。首先，17 和 10 不能直接交换。先将根节点 10 的左右子节点中较小的节点往上滑，即 12 往上滑。
+
+原来 12 留下了一个空节点。然后再把这个空节点的较小的子节点往上滑，即 13 往上滑。最后，留出了位子，17 补上即可。
 
 我稍微调整下这个树，以便读者能更明白：
 
-![priority-blocking-queue-4](https://assets.javadoop.com/blogimages/java-concurrent-queue/priority-blocking-queue-4.png)
+![priority-blocking-queue-4](/images/legacy/priority-blocking-queue-4.png)
 
 好了， PriorityBlockingQueue 我们也说完了。
 

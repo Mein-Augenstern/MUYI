@@ -35,7 +35,7 @@
 ```
 
 * `HeapByteBuffer`：壳对象在堆里，真正的数据在堆内的 `byte[]`，受 GC 管理，**GC 搬家时数据地址会变**；
-* `DirectByteBuffer`：壳对象也在堆里（很小，只有地址引用和 Cleaner），数据在堆外一块**地址固定**的本地内存，GC 不搬运数据本身。
+* `DirectByteBuffer`：壳对象也在堆里（很小，只有地址引用和 Cleaner）。数据在堆外一块**地址固定**的本地内存，GC 不搬运数据本身。
 
 2 原理：为什么内核 IO 不能直接用堆内数组
 ------
@@ -52,7 +52,7 @@
 2.2 JDK 的解法：临时 DirectBuffer 中转（隐藏拷贝）
 ------
 
-在 JDK 的 IOUtil 实现里，如果传进来的是 HeapByteBuffer，会**先拷贝到一个线程本地的临时 DirectByteBuffer 池**（`Util.getTemporaryDirectBuffer`），再用它去做系统调用：
+在 JDK 的 IOUtil 实现里，如果传进来的是 HeapByteBuffer，会**先拷贝到一个线程本地的临时 DirectByteBuffer 池**（`Util.getTemporaryDirectBuffer`）。再用它去做系统调用：
 
 ```
 HeapByteBuffer 参与 IO 的真实路径：
@@ -83,11 +83,11 @@ DirectByteBuffer 参与 IO 的路径：
 3.1 什么时候 Heap 反而更快
 ------
 
-* 数据读进来**马上要逐字节解析**（协议解码、checksum）：堆外每次 get 都走 Unsafe，比数组访问慢一截；
+* 数据读进来**立即要逐字节解析**（协议解码、checksum）：堆外每次 get 都走 Unsafe，比数组访问慢一截；
 * 缓冲区**生命周期极短**、分配频繁但小：堆内分配近乎免费，堆外 malloc 的成本摊不平；
 * 程序本身不做多少 Channel IO：没有"省一次拷贝"的收益，纯付堆外分配的成本。
 
-所以最优策略常见组合是：**Direct 做 IO 缓冲 + 拷贝到 Heap 做解析**，或者反过来用 Netty 的 CompositeByteBuf 零拷贝组合视图避免这次拷贝。
+所以最优策略常见组合是：**Direct 做 IO 缓冲 + 拷贝到 Heap 做解析**。或者反过来用 Netty 的 CompositeByteBuf 零拷贝组合视图避免这次拷贝。
 
 4 代码示例
 ------
@@ -152,7 +152,7 @@ try {
 ------
 
 * **OOM 形态不同**：`java.lang.OutOfMemoryError: Direct buffer memory`。堆内监控一切正常、进程 RSS 却持续上涨，是典型堆外泄漏特征；
-* `-XX:MaxDirectMemorySize`：限制总量的软上限；JDK 在分配失败时会主动调 `System.gc()` 等 Cleaner 释放（前提是没有禁用显式 GC；用了 `-XX:+DisableExplicitGC` 反而可能让堆外直接 OOM——经典线上坑，可改用 `-XX:+ExplicitGCInvokesConcurrent`）；
+* `-XX:MaxDirectMemorySize`：限制总量的软上限。JDK 在分配失败时会主动调 `System.gc()` 等 Cleaner 释放（前提是没有禁用显式 GC）。用了 `-XX:+DisableExplicitGC` 反而可能让堆外直接 OOM——经典线上坑，可改用 `-XX:+ExplicitGCInvokesConcurrent`。
 * 泄漏来源：DirectByteBuffer 壳对象被长期强引用（如全局缓存）、Netty 忘 release、引用计数跨线程传递未 retain；
 * 排查工具：Netty 泄漏检测、`jcmd <pid> VM.native_memory`（配合 `-XX:NativeMemoryTracking=summary`）、pmap 看进程 RSS；
 * MappedByteBuffer（FileChannel.map，mmap）属于另一类堆外内存，不走 DirectMemory 计数，页面由操作系统管理，适合大文件只读/随机读。
@@ -164,7 +164,7 @@ try {
 |------|------|------|
 | 网络服务/文件搬运，缓冲区跨多次 IO 复用 | Direct | 省掉每次 IO 的一次中转拷贝 |
 | 高吞吐 + 低 GC 停顿要求（网关、存储） | Direct（池化） | 不占堆，减轻 GC |
-| 一次性小数据、读进来马上用完丢弃 | Heap | 分配回收近乎免费 |
+| 一次性小数据、读进来立即用完丢弃 | Heap | 分配回收近乎免费 |
 | 读到内存后高频 get/put 解析协议 | Heap（或 copy 到 heap 再解析） | 数组访问比 Unsafe 快 |
 | 需要通过 array() 直接操作字节数组 | Heap | Direct 没有 backing array |
 | 生命周期不确定/无法保证释放纪律 | Heap | 堆外泄漏比堆内泄漏更隐蔽 |
@@ -174,15 +174,15 @@ try {
 ------
 
 * **Q：为什么 read()/write() 不能直接用堆内数组？**
-  A：系统调用需要稳定地址，而 GC 会移动堆对象，HotSpot 又不支持 pin 对象，直接传地址会在内核搬运期间被 GC 改坏。
+  A：系统调用需要稳定地址，而 GC 会移动堆对象，HotSpot 又不支持 pin 对象。直接传地址会在内核搬运期间被 GC 改坏。
 * **Q：那我传 HeapByteBuffer 给 channel.read 时发生了什么？**
   A：JDK 内部拷贝到每线程缓存的临时 DirectByteBuffer 再做系统调用，多一次 CPU 拷贝。
 * **Q：DirectByteBuffer 什么时候被释放？**
-  A：壳对象被 GC 回收时，关联的 Cleaner（幻象引用机制）调用 Deallocator 去 free 堆外内存；所以它还"占着"直到壳对象被回收。Netty 池化场景是引用计数到 0 归还池。
+  A：壳对象被 GC 回收时，关联的 Cleaner（幻象引用机制）调用 Deallocator 去 free 堆外内存。所以它还"占着"直到壳对象被回收。Netty 池化场景是引用计数到 0 归还池。
 * **Q：堆外内存会 OOM 吗？怎么发现？**
   A：会，`OutOfMemoryError: Direct buffer memory`；特征是堆很健康但进程 RSS 涨。用 Netty leak detection、NMT、pmap 排查。
 * **Q：DirectBuffer 和零拷贝是一回事吗？**
-  A：不是。DirectBuffer 省的是"JDK 内部那次中转拷贝"；零拷贝通常指 sendfile/transferTo 和 mmap（MappedByteBuffer），省的是内核态与用户态之间的拷贝，两者常配合使用但概念独立。
+  A：不是。DirectBuffer 省的是"JDK 内部那次中转拷贝"。零拷贝通常指 sendfile/transferTo 和 mmap（MappedByteBuffer），省的是内核态与用户态之间的拷贝，两者常配合使用但概念独立。
 * **Q：既然堆外这么好，为什么不全部用堆外？**
   A：分配/释放贵、单字节访问慢、泄漏难查、没有 GC 兜底；只有 IO 密集且能池化复用时收益才为正。
 * **Q：-XX:MaxDirectMemorySize 不设会怎样？**
@@ -191,8 +191,8 @@ try {
 8 小结
 ------
 
-* 选择的标准只有一条：**看数据的一生在哪边**——只在 IO 通道里流，放堆外；要进 JVM 被反复解析，放堆内（或 IO 用堆外、解析前拷进堆）；
-* 原理三句话：内核要稳定地址 → 堆内 buffer 参与 IO 会多一次隐藏拷贝 → 堆外换来吞吐与低 GC，代价是分配贵、访问慢、泄漏隐蔽；
+* 选择的标准只有一条：**看数据的一生在哪边**。只在 IO 通道里流，放堆外。要进 JVM 被反复解析，放堆内（或 IO 用堆外、解析前拷进堆）。
+* 原理三句话：内核要稳定地址 → 堆内 buffer 参与 IO 会多一次隐藏拷贝。堆外换来吞吐与低 GC，代价是分配贵、访问慢、泄漏隐蔽。
 * 生产实践：大块堆外缓冲做单例复用，或直接用 Netty 池化（记住 release）；
 * 必会的配套参数与工具：MaxDirectMemorySize、DisableExplicitGC 的坑、Netty leakDetection、NMT。
 
