@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # book/（VitePress 电子书）依赖更新：只更直接依赖
+  # esbuild/vite 是 vitepress 1.x 的传递依赖，被钉在旧次版本——dependabot 直更会
+  # 解析失败（"patched version exists but update path resolves to 0.14.54"）并反复报错，
+  # 显式忽略，待 vitepress 升大版本时随宿主一并迁移
+  - package-ecosystem: npm
+    directory: /book
+    schedule:
+      interval: weekly
+    ignore:
+      - dependency-name: esbuild
+      - dependency-name: vite
