@@ -5,13 +5,13 @@ layout: home
 hero:
   name: MUYI
   text: 后端工程师的生产级知识体系
-  tagline: 每一篇都从生产代码回写，可验证到真实类名。361 篇实文 · 7 轨道 · 121 题自测闭环 · 零空壳零死链
+  tagline: 每一篇都从生产代码回写，可验证到真实类名。347 篇实文 · 7 轨道 · 110 题自测闭环 · 零空壳零死链
   actions:
     - theme: brand
       text: 开始阅读
       link: /A-后端内核/
     - theme: alt
-      text: 面试自测清单（121 题）
+      text: 面试自测清单（110 题）
       link: /自测清单
     - theme: alt
       text: GitHub 仓库

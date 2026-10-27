@@ -7,7 +7,7 @@
 // 保持原样（继续安全转义显示）。
 //
 // 用法：node scripts/prepare-src.mjs   （在 book/ 目录下）
-import { cpSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const BOOK = join(import.meta.dirname, "..");
@@ -100,6 +100,39 @@ const walkConvert = (dir) => {
   }
 };
 walkConvert(SRC);
+
+// ---- 第 2.5 步：轨道目录导航页生成 ----
+// 首页 frontmatter 与 repo 轨道表都用 /轨道名/ 目录链接——静态站目录无 index.html 必 404
+// （link-doctor 实测首页 7 处）。为每个轨道目录生成 index.md：二级结构列出全部文章
+// （.md 链接由 VitePress 自动重写为 .html），目录链接从此指向真实导航页。
+const listDir = (dir, prefix) => {
+  let out = [];
+  for (const name of readdirSync(dir).sort((a, b) => a.localeCompare(b, "zh"))) {
+    const full = join(dir, name);
+    if (statSync(full).isDirectory()) {
+      out.push(`\n### ${name}\n`);
+      out.push(...listDir(full, `${prefix}${name}/`));
+    } else if (name.endsWith(".md") && name !== "index.md" && name !== "README.md") {
+      const title = readFileSync(full, "utf8").match(/^#([^\n]*)\n/);
+      const t = title ? title[1].trim() : name.replace(/\.md$/, "");
+      out.push(`- [${t}](${prefix}${name})`);
+    }
+  }
+  return out;
+};
+for (const d of WHITELIST_DIRS) {
+  const dir = join(SRC, d);
+  if (!statSync(dir).isDirectory()) continue;
+  // 有轨道导航页（大写 README.md，白名单保留项）直接复用——比机械列表更有信息量；
+  // 没有的轨道退化为自动生成的文章清单。两种形态下 /轨道名/ 都有 index.html 可达。
+  const nav = join(dir, "README.md");
+  if (existsSync(nav)) {
+    writeFileSync(join(dir, "index.md"), readFileSync(nav, "utf8") + `\n> （本页由轨道 README.md 生成，文章全目录见侧边栏）\n`);
+  } else {
+    const lines = [`# ${d}`, "", ...listDir(dir, "./")];
+    writeFileSync(join(dir, "index.md"), lines.join("\n") + "\n");
+  }
+}
 
 // ---- 第 3 步：敏感词断言（未来防线）----
 // 书是公开 Pages：书源里出现下述词即中断构建（历史教训：组织研究文、
