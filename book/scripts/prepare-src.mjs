@@ -37,8 +37,9 @@ for (const d of WHITELIST_DIRS) {
       !p.includes("node_modules") &&
       !p.includes("/.") &&
       // 小写 readme.md 是配图目录说明（几十字），不是文章——不进书；
-      // 大写 README.md 是轨道导航页，保留
-      !/\/readme\.md$/.test(p),
+      // 大写 README.md 是目录导航页——不直接拷贝，第 2.5 步以 index.md 形态
+      // 挂载到所在目录（目录 URL 的唯一页面，避免 README/index 双页重复）
+      !/\/readme\.md$/i.test(p),
   });
 }
 for (const [from, to] of Object.entries(WHITELIST_FILES)) {
@@ -101,36 +102,28 @@ const walkConvert = (dir) => {
 };
 walkConvert(SRC);
 
-// ---- 第 2.5 步：轨道目录导航页生成 ----
-// 首页 frontmatter 与 repo 轨道表都用 /轨道名/ 目录链接——静态站目录无 index.html 必 404
-// （link-doctor 实测首页 7 处）。为每个轨道目录生成 index.md：二级结构列出全部文章
-// （.md 链接由 VitePress 自动重写为 .html），目录链接从此指向真实导航页。
-const listDir = (dir, prefix) => {
-  let out = [];
-  for (const name of readdirSync(dir).sort((a, b) => a.localeCompare(b, "zh"))) {
-    const full = join(dir, name);
-    if (statSync(full).isDirectory()) {
-      out.push(`\n### ${name}\n`);
-      out.push(...listDir(full, `${prefix}${name}/`));
-    } else if (name.endsWith(".md") && name !== "index.md" && name !== "README.md") {
-      const title = readFileSync(full, "utf8").match(/^#([^\n]*)\n/);
-      const t = title ? title[1].trim() : name.replace(/\.md$/, "");
-      out.push(`- [${t}](${prefix}${name})`);
-    }
+// ---- 第 2.5 步：目录导航页统一挂载为 index.md ----
+// 规则：README.md（轨道级或子目录级导航页）以 index.md 形态挂载到所在目录——
+// 它就是该目录的唯一页面（目录 URL /xxx/ 自然可达），不再单独产出 README 页，
+// 避免同目录出现 README/index 两份同源页面、侧边栏双条目（用户实测指出的怪象）。
+// 无 README 的轨道根生成极简占位（首页 features 链接 /轨道名/ 必须有落点；
+// 不做全量文章清单——那与侧边栏功能重复）。
+const walkMountReadmes = (repoDir, srcDir) => {
+  for (const name of readdirSync(repoDir)) {
+    const repoFull = join(repoDir, name);
+    if (!statSync(repoFull).isDirectory()) continue;
+    walkMountReadmes(repoFull, join(srcDir, name));
   }
-  return out;
+  const readme = join(repoDir, "README.md");
+  if (existsSync(readme)) {
+    writeFileSync(join(srcDir, "index.md"), convert(readFileSync(readme, "utf8")));
+  }
 };
 for (const d of WHITELIST_DIRS) {
-  const dir = join(SRC, d);
-  if (!statSync(dir).isDirectory()) continue;
-  // 有轨道导航页（大写 README.md，白名单保留项）直接复用——比机械列表更有信息量；
-  // 没有的轨道退化为自动生成的文章清单。两种形态下 /轨道名/ 都有 index.html 可达。
-  const nav = join(dir, "README.md");
-  if (existsSync(nav)) {
-    writeFileSync(join(dir, "index.md"), readFileSync(nav, "utf8") + `\n> （本页由轨道 README.md 生成，文章全目录见侧边栏）\n`);
-  } else {
-    const lines = [`# ${d}`, "", ...listDir(dir, "./")];
-    writeFileSync(join(dir, "index.md"), lines.join("\n") + "\n");
+  walkMountReadmes(join(REPO, d), join(SRC, d));
+  // 轨道根兜底：无 README 则极简占位（仅根级需要——正文里的目录链接已降级纯文本）
+  if (!existsSync(join(REPO, d, "README.md"))) {
+    writeFileSync(join(SRC, d, "index.md"), `# ${d}\n\n> 本轨道无独立导航页——完整文章目录见左侧侧边栏。\n`);
   }
 }
 
