@@ -39,7 +39,7 @@ NIO 是怎么工作的
 
 * **Channel**：对应连接及事件（读、写或连接）；
 * **Selector**：事件选择器。select() 本身是阻塞的（Linux 2.6 前基于 select/poll，之后用 epoll，Windows 是 IOCP），可以放心放在 while(true) 中调用，不会 CPU 空转；
-* **Buffer**：DirectByteBuffer 可以减少一次内核空间到用户空间的拷贝。但创建/销毁成本高，需要内存池配合。小数据量用 HeapByteBuffer，大数据量用 DirectByteBuffer（选型细节见库内 [怎样选择HeapByteBuffer与DirectByteBuffer](./怎样选择HeapByteBuffer与DirectByteBuffer.md)）。
+* **Buffer**：DirectByteBuffer 可以减少一次内核空间到用户空间的拷贝。但创建/销毁成本高，需要内存池配合。小数据量用 HeapByteBuffer，大数据量用 DirectByteBuffer（选型细节见库内 [怎样选择HeapByteBuffer与DirectByteBuffer](HeapByteBuffer与DirectByteBuffer的选择.md)）。
 
 Reactor 模式
 ====

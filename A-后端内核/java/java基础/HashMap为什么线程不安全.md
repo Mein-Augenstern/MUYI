@@ -37,7 +37,7 @@ JDK1.7 扩容 transfer 用**头插法**倒置链表。两个线程同时扩容�
 
 * **场景三：迭代时结构被改，fail-fast 抛 ConcurrentModificationException**
 
-一个线程遍历、另一个线程 put/remove，modCount 与 expectedModCount 对不上，next() 直接抛 CME，详见 [快速失败（fail—fast）和安全失败（fail—safe）](快速失败（fail—fast）和安全失败（fail—safe）.md)。
+一个线程遍历、另一个线程 put/remove，modCount 与 expectedModCount 对不上，next() 直接抛 CME，详见 [快速失败（fail—fast）和安全失败（fail—safe）](快速失败（fail-fast）和安全失败（fail-safe）.md)。
 
 * **场景四：计数与结构的隐性破坏**
 
@@ -57,7 +57,7 @@ putVal 里 `++size`、树化判断、threshold 判断都是"读-改-写"多步�
 怎么解决
 ====
 
-* **首选 ConcurrentHashMap**：JDK1.7 分段锁（见 [ConcurrentHashMap在JDK1.7的锁分段技术](ConcurrentHashMap在JDK1.7的锁分段技术.md)），JDK1.8 改为 CAS + 单桶 synchronized，并发度更高（见 [ConcurrentHashMap 和 Hashtable 的区别](ConcurrentHashMap%20和%20Hashtable%20的区别.md)）；
+* **首选 ConcurrentHashMap**：JDK1.7 分段锁（见 [ConcurrentHashMap在JDK1.7的锁分段技术](ConcurrentHashMap在JDK1.7的锁分段技术.md)），JDK1.8 改为 CAS + 单桶 synchronized，并发度更高（见 [ConcurrentHashMap 和 Hashtable 的区别](ConcurrentHashMap%E5%92%8CHashtable%E7%9A%84%E5%8C%BA%E5%88%AB.md)）；
 
 * Collections.synchronizedMap(new HashMap<>())：全表一把锁包装，正确但性能差，基本只出现在老代码；
 

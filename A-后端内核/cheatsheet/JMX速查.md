@@ -66,4 +66,4 @@ Spring Boot 中使用
 4. 自定义端点：`@Endpoint(id = "xxx")` + `@ReadOperation/@WriteOperation/@DeleteOperation`，可通过 JMX 与 Web 双通道暴露。
 5. 远程访问同样走 `com.sun.management.jmxremote.*` 启动参数；生产建议启用 authenticate + SSL。
 
-> 内容来源：[What JMX](../java/JMX/What%20JMX.md) · [JMX的用处及用法](../java/JMX/JMX的用处及用法.md) · Springboot 篇原链接已失效，2026-10 依据主题重写。
+> 内容来源：[What JMX](../java/JMX/JMX%E6%A6%82%E5%BF%B5%E4%B8%8E%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.md) · [JMX的用处及用法](../java/JMX/JMX的用处及用法.md) · Springboot 篇原链接已失效，2026-10 依据主题重写。

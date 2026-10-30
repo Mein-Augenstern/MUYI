@@ -1,6 +1,6 @@
 <bean> 除了 id 和 class 属性之外，还有一些可选的属性:
 
-1. scope属性，默认<bean> 的 scope就是 ```singleton="true"```。springmvc和struts2的重要区别之一就是spring的controll是单例的。而struts2的action是：scope="prototype" 。还有 scope="request" 、 scope="session"、scope="globalSession"(仅用于portlet)。五种作用域的详细说明见 [Spring支持哪些Bean作用域](Spring支持哪些Bean作用域.md)。
+1. scope属性，默认<bean> 的 scope就是 ```singleton="true"```。springmvc和struts2的重要区别之一就是spring的controll是单例的。而struts2的action是：scope="prototype" 。还有 scope="request" 、 scope="session"、scope="globalSession"(仅用于portlet)。五种作用域的详细说明见 [Spring支持哪些Bean作用域](Spring Bean作用域.md)。
 
 2. abstract属性，是否是抽象的bean：
 

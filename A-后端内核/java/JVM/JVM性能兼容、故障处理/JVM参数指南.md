@@ -141,7 +141,7 @@ JVM具有四种类型的GC实现：
 -Xloggc:/path/to/gc.log
 ```
 
-GC 日志各字段（如 GC (Allocation Failure)、ParNew、[Times: user/sys/real]）的含义解读，参见 [日志排查--JVM日志](日志排查--JVM日志.md)。
+GC 日志各字段（如 GC (Allocation Failure)、ParNew、[Times: user/sys/real]）的含义解读，参见 [日志排查--JVM日志](日志排查-JVM日志.md)。
 
 4、JVM 配置常用参数速查
 ====

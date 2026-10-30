@@ -34,5 +34,5 @@ Spring支持如下5种作用域
 
 如果不指定Bean的作用域，Spring默认使用singleton作用域。Java在创建Java实例时，需要申请内存。销毁实例时，需要完成垃圾回收，这些工作都会导致系统开销的增加。因此，prototype作用域Bean的创建、销毁代价大。而singleton作用域的Bean实例一旦创建成功，可以重复使用。因此，除非必要，否则尽量避免将Bean被设置成prototype作用域。
 
-延伸阅读：scope 只是 ```<bean>``` 元素众多可配置属性之一，其余属性（abstract、depends-on、lazy-init、init-method、autowire 等）见 [Spring中bean元素可以配置的属性](Spring中bean元素可以配置的属性.md)。
+延伸阅读：scope 只是 ```<bean>``` 元素众多可配置属性之一，其余属性（abstract、depends-on、lazy-init、init-method、autowire 等）见 [Spring中bean元素可以配置的属性](Spring中bean元素配置属性.md)。
 

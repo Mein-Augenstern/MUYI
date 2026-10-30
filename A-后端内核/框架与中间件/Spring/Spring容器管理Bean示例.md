@@ -8,7 +8,7 @@
 BeanFactory与ApplicationContext的区别是什么？
 ====
 
-简单说：```BeanFactory``` 是 Spring 最底层的容器接口，采用延迟加载（```getBean()``` 时才实例化）；```ApplicationContext``` 作为它的派生接口，额外提供国际化、事件、多配置文件加载等更完整的框架功能，并在容器启动时一次性创建所有 Bean。两者详细的对比见 [Spring中BeanFactory和ApplicationContext有什么区别](Spring中BeanFactory和ApplicationContext有什么区别.md)。
+简单说：```BeanFactory``` 是 Spring 最底层的容器接口，采用延迟加载（```getBean()``` 时才实例化）；```ApplicationContext``` 作为它的派生接口，额外提供国际化、事件、多配置文件加载等更完整的框架功能，并在容器启动时一次性创建所有 Bean。两者详细的对比见 [Spring中BeanFactory和ApplicationContext有什么区别](Spring中BeanFactory与ApplicationContext区别.md)。
 
 ApplicationContext是如何管理Bean呢？
 ====

@@ -5,7 +5,7 @@
 
 * [并发容器总结](../java/Java%20并发/并发容器总结.md)
 
-* [Java 中的各种锁和 CAS 经典面试题](../java/Java%20并发/锁的介绍.md)
+* [Java 中的各种锁和 CAS 经典面试题](../java/Java%20%E5%B9%B6%E5%8F%91/%E9%94%81%E7%9A%84%E5%88%86%E7%B1%BB.md)
 
 * [AQS](../java/Java%20并发/AQS&ReentrantLock.md)
 
@@ -37,7 +37,7 @@
 
 * [volatile](../java/Java%20并发/volatile.md)
 
-* [乐观锁、悲观锁的AQS、Sync和Lock面试](../java/Java%20并发/乐观锁、悲观锁的AQS、Sync和Lock面试.md)
+* [乐观锁、悲观锁的AQS、Sync和Lock面试](../java/Java%20%E5%B9%B6%E5%8F%91/%E4%B9%90%E8%A7%82%E9%94%81%E4%B8%8E%E6%82%B2%E8%A7%82%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0-%E9%9D%A2%E8%AF%95%E9%97%AE%E7%AD%94.md)
 
 * [乐观锁和悲观锁](../java/Java%20并发/乐观锁与悲观锁.md)
 

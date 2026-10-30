@@ -5,7 +5,7 @@
 
 Tomcat中与其说有热加载，还不如说是热部署来的准确些。因为对于一个应用，其中class文件被修改过，那么Tomcat会先卸载这个应用(Context)。然后重新加载这个应用，其中关键就在于自定义ClassLoader的应用。
 
-> 各 ClassLoader（commonLoader/catalinaLoader/sharedLoader/WebappClassLoader/JasperLoader）的层次结构，以及 Tomcat 为何违背双亲委派模型，见 [关于Tomcat中的ClassLoader](关于Tomcat中的ClassLoader.md)。
+> 各 ClassLoader（commonLoader/catalinaLoader/sharedLoader/WebappClassLoader/JasperLoader）的层次结构，以及 Tomcat 为何违背双亲委派模型，见 [关于Tomcat中的ClassLoader](Tomcat类加载器与双亲委派.md)。
 
 Tomcat启动的时候，ClassLoader加载的流程
 ------

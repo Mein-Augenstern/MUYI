@@ -66,7 +66,7 @@ Spring Cloud（方案集：注册发现、配置中心、熔断限流……）
 
 * 注意区分：`@SpringBootApplication`（应用启动注解）与"内嵌容器"没有绑定关系——换 Undertow 只需要排除 tomcat starter 换一个坐标；
 
-* Servlet 容器模型本身没变，变的只是"谁来启动容器"。参见 [简单介绍下servlet的生命周期，servlet是否会多次初始化？](简单介绍下servlet的生命周期，servlet是否会多次初始化？.md)。
+* Servlet 容器模型本身没变，变的只是"谁来启动容器"。参见 [简单介绍下servlet的生命周期，servlet是否会多次初始化？](Servlet 生命周期与初始化.md)。
 
 四、互补而非替代（面试标准收尾）
 ------
@@ -79,6 +79,6 @@ Spring Cloud（方案集：注册发现、配置中心、熔断限流……）
 
 一句话总结：**Spring Boot = Spring Framework + 自动配置 + starter 依赖管理 + 内嵌容器**。它解决的是配置与部署的效率问题，内核仍是 Spring。
 
-延伸阅读：[Spring中IoC和AOP概念介绍](Spring中IoC和AOP概念介绍.md)、[Spring中BeanFactory和ApplicationContext有什么区别](Spring中BeanFactory和ApplicationContext有什么区别.md)、[谈谈Spring框架的依赖注入（DI）](谈谈Spring框架的依赖注入（DI）.md)。
+延伸阅读：[Spring中IoC和AOP概念介绍](Spring中IoC和AOP概念介绍.md)、[Spring中BeanFactory和ApplicationContext有什么区别](Spring中BeanFactory与ApplicationContext区别.md)、[谈谈Spring框架的依赖注入（DI）](Spring依赖注入DI.md)。
 
 > 2026-10 扩充（Round1 查漏）。

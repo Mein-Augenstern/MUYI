@@ -100,4 +100,4 @@ Mapper 接口原理
 9. Mapper 接口要求：方法名 = statement id；参数类型 = parameterType；返回类型 = resultType；namespace = 接口全路径。
 10. 插件只能拦截 4 种对象：ParameterHandler、ResultSetHandler、StatementHandler、Executor；实现 Interceptor 接口 + 注解指定拦截点 + 配置注册。
 
-> 内容来源：[原文](../框架与中间件/MyBatis/Mybatis常见基本面试题.md) · 2026-10 整理回填。
+> 内容来源：[原文](../框架与中间件/MyBatis/MyBatis常见面试题.md) · 2026-10 整理回填。

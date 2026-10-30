@@ -71,4 +71,4 @@ Selector（选择器）
 6. 坑：小对象易进老年代不触发 Full GC → 堆外先 OOM。`-XX:+DisableExplicitGC` 会掐断 System.gc() 保险（Netty 因此自己做内存池主动释放）。
 7. 人工释放：反射调用 DirectByteBuffer 私有 cleaner 的 clean()。
 
-> 内容来源：[字符流和字节流区别](../java/Java%20IO/字节流和字符流区别.md) · [谈谈NIO](../java/Java%20IO/谈谈NIO.md) · [深入解读 Java 堆外内存](../java/JVM/JVM内存管理/补充-深入解读%20Java%20堆外内存（直接内存）.md) · 2026-10 整理回填。
+> 内容来源：[字符流和字节流区别](../java/Java%20IO/字节流和字符流区别.md) · [谈谈NIO](../java/Java%20IO/Java%20NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6.md) · [深入解读 Java 堆外内存](../java/JVM/JVM%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/%E6%B7%B1%E5%85%A5%E8%A7%A3%E8%AF%BB%20Java%20%E5%A0%86%E5%A4%96%E5%86%85%E5%AD%98%EF%BC%88%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98%EF%BC%89.md) · 2026-10 整理回填。

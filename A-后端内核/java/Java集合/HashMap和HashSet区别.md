@@ -64,7 +64,7 @@ HashMap 的 put 需要一个非语义化的 value 占位，PRESENT 这个全局�
 三、equals-hashCode 契约：不重复的真正保证
 ------
 
-HashSet 判重的流程完全继承 HashMap 定位 key 的流程（详见 [HashSet 是如何保证不重复的](../java基础/HashSet%20是如何保证不重复的.md)）：
+HashSet 判重的流程完全继承 HashMap 定位 key 的流程（详见 [HashSet 是如何保证不重复的](../java%E5%9F%BA%E7%A1%80/HashSet%E4%BF%9D%E8%AF%81%E4%B8%8D%E9%87%8D%E5%A4%8D%E7%9A%84%E5%8E%9F%E7%90%86.md)）：
 
 ```
 add(e)：先 hashCode() 定位桶
@@ -76,7 +76,7 @@ add(e)：先 hashCode() 定位桶
 
 * 这就是**契约**的意义：equals 相等必须 hashCode 相等（反之不要求）。只重写 equals 不重写 hashCode，两个"相等"的对象会落到不同的桶，contains 永远查不到——对象"存得进、查不出"；
 
-* 用可变对象当元素同理危险。字段一改 hashCode 变了，元素就"丢"在旧桶里（HashMap/HashSet 共同的坑，详见 [HashSet 是如何保证不重复的](../java基础/HashSet%20是如何保证不重复的.md)）；
+* 用可变对象当元素同理危险。字段一改 hashCode 变了，元素就"丢"在旧桶里（HashMap/HashSet 共同的坑，详见 [HashSet 是如何保证不重复的](../java%E5%9F%BA%E7%A1%80/HashSet%E4%BF%9D%E8%AF%81%E4%B8%8D%E9%87%8D%E5%A4%8D%E7%9A%84%E5%8E%9F%E7%90%86.md)）；
 
 * 自定义类型放进 HashSet 前三件事：重写 equals、重写 hashCode、保证参与判重的字段不可变。
 

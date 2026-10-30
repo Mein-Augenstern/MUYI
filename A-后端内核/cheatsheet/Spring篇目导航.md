@@ -8,23 +8,23 @@ IoC 与 Bean
 
 * [Spring中IoC和AOP概念介绍](../框架与中间件/Spring/Spring中IoC和AOP概念介绍.md) —— 两大核心概念速览
 
-* [谈谈Spring框架的BeanFactory](../框架与中间件/Spring/谈谈Spring框架的BeanFactory.md) —— 容器最底层接口
+* [谈谈Spring框架的BeanFactory](../框架与中间件/Spring/Spring框架的BeanFactory.md) —— 容器最底层接口
 
-* [Spring中BeanFactory和ApplicationContext有什么区别](../框架与中间件/Spring/Spring中BeanFactory和ApplicationContext有什么区别.md) —— 两种容器接口对比
+* [Spring中BeanFactory和ApplicationContext有什么区别](../框架与中间件/Spring/Spring中BeanFactory与ApplicationContext区别.md) —— 两种容器接口对比
 
-* [谈谈Spring框架的FactoryBean](../框架与中间件/Spring/谈谈Spring框架的FactoryBean.md) —— Bean 工厂扩展接口
+* [谈谈Spring框架的FactoryBean](../框架与中间件/Spring/Spring框架的FactoryBean.md) —— Bean 工厂扩展接口
 
-* [谈谈Spring框架的依赖注入（DI）](../框架与中间件/Spring/谈谈Spring框架的依赖注入（DI）.md) —— 依赖注入方式总结
+* [谈谈Spring框架的依赖注入（DI）](../框架与中间件/Spring/Spring依赖注入DI.md) —— 依赖注入方式总结
 
-* [谈谈Spring中Bean的生命周期](../框架与中间件/Spring/谈谈Spring中Bean的生命周期.md) —— 从实例化到销毁
+* [谈谈Spring中Bean的生命周期](../框架与中间件/Spring/Spring中Bean的生命周期.md) —— 从实例化到销毁
 
-* [Spring如何管理Bean示例](../框架与中间件/Spring/Spring如何管理Bean示例.md) —— 容器管理 Bean 示例
+* [Spring如何管理Bean示例](../框架与中间件/Spring/Spring容器管理Bean示例.md) —— 容器管理 Bean 示例
 
-* [Spring支持哪些Bean作用域](../框架与中间件/Spring/Spring支持哪些Bean作用域.md) —— 各作用域含义对比
+* [Spring支持哪些Bean作用域](../框架与中间件/Spring/Spring Bean作用域.md) —— 各作用域含义对比
 
-* [Spring中bean元素可以配置的属性](../框架与中间件/Spring/Spring中bean元素可以配置的属性.md) —— XML 配置属性速查
+* [Spring中bean元素可以配置的属性](../框架与中间件/Spring/Spring中bean元素配置属性.md) —— XML 配置属性速查
 
-* [谈谈Spring循环依赖](../框架与中间件/Spring/谈谈Spring循环依赖.md) —— 三级缓存解循环依赖
+* [谈谈Spring循环依赖](../框架与中间件/Spring/Spring循环依赖.md) —— 三级缓存解循环依赖
 
 注解与设计模式
 ------
@@ -33,11 +33,11 @@ IoC 与 Bean
 
 * [@Autowired和@Resource区别](../框架与中间件/Spring/@Autowired和@Resource区别.md) —— 两种注入注解对比
 
-* [@Repository和@Componet和@Service和@Controller之间区别和联系](../框架与中间件/Spring/@Repository和@Componet和@Service和@Controller之间区别和联系.md) —— 组件层注解的异同
+* [@Repository和@Componet和@Service和@Controller之间区别和联系](../框架与中间件/Spring/Spring组合注解-Component-Repository-Service-Controller区别.md) —— 组件层注解的异同
 
 * [Spring异步调用@Async](../框架与中间件/Spring/Spring异步调用@Async.md) —— 异步方法执行要点
 
-* [谈谈Spring中常用设计模式](../框架与中间件/Spring/谈谈Spring中常用设计模式.md) —— 框架里的经典模式
+* [谈谈Spring中常用设计模式](../框架与中间件/Spring/Spring中常用设计模式.md) —— 框架里的经典模式
 
 事务与 Web
 ------
@@ -48,7 +48,7 @@ IoC 与 Bean
 
 * [过滤器、监听器、拦截器的区别](../框架与中间件/Spring/过滤器、监听器、拦截器的区别.md) —— Web 三件套对比
 
-* [简单介绍下servlet的生命周期，servlet是否会多次初始化？](../框架与中间件/Spring/简单介绍下servlet的生命周期，servlet是否会多次初始化？.md) —— 初始化与销毁时机
+* [简单介绍下servlet的生命周期，servlet是否会多次初始化？](../框架与中间件/Spring/Servlet 生命周期与初始化.md) —— 初始化与销毁时机
 
 * [Springboot和Spring区别](../框架与中间件/Spring/Springboot和Spring区别.md) —— 两者关系与差异
 

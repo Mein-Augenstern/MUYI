@@ -94,6 +94,6 @@ init 方法被设计成只调用一次。它在第一次创建 Servlet 时被调
 
 * "destroy 什么时候执行？"——容器**正常关闭**或应用被卸载时；kill -9 不会给 destroy 机会，所以不能把关键的资源释放全押在 destroy 上。
 
-延伸阅读：[Spring异步调用@Async](Spring异步调用@Async.md)、[谈谈Spring中Bean的生命周期](谈谈Spring中Bean的生命周期.md)。
+延伸阅读：[Spring异步调用@Async](Spring异步调用@Async.md)、[谈谈Spring中Bean的生命周期](Spring中Bean的生命周期.md)。
 
 > 2026-10 扩充（Round1 查漏）。

@@ -78,7 +78,7 @@ Vector    : 10 -> 20 -> 40 -> 80 -> 160 -> 320 -> 640 ...（×2，扩容次数�
 * 迭代器每次 ```next()``` 前校验 ```modCount != expectedModCount```，一旦不等立即抛 ```ConcurrentModificationException```；
 * **注意 Vector 虽"线程安全"，迭代它同样需要外部同步**——同步的是单个方法，而迭代是跨多次调用的过程。正确姿势是 ```synchronized(list){ for(...){...} }``` 或统一用 ```iterator.remove()```。
 
-原理细节（包括为什么"不能依赖这个异常来编写并发程序"）见 [快速失败（fail—fast）和安全失败（fail—safe）](快速失败（fail—fast）和安全失败（fail—safe）.md)。
+原理细节（包括为什么"不能依赖这个异常来编写并发程序"）见 [快速失败（fail—fast）和安全失败（fail—safe）](快速失败（fail-fast）和安全失败（fail-safe）.md)。
 
 五、替代方案：为什么不该再写 Vector
 ====
@@ -91,6 +91,6 @@ Vector    : 10 -> 20 -> 40 -> 80 -> 160 -> 320 -> 640 ...（×2，扩容次数�
 
 所以"要线程安全"**不再是保留 Vector 的理由**：它对比的每个场景都有更好的替代。翻倍扩容、方法级粗锁这两个历史包袱是永久的。面试话术总结"为什么用 ArrayList 取代 Vector"：单线程下省掉同步开销。真需要线程安全时也轮不到 Vector，而是 CopyOnWriteArrayList 这类并发容器。
 
-延伸阅读：[ArrayList扩容](../Java集合/ArrayList扩容.md)、[ArrayList源码注释](../Java集合/ArrayList源码注释.md)、[CopyOnWriteArrayList源码](../Java集合/CopyOnWriteArrayList源码.md)、[快速失败（fail—fast）和安全失败（fail—safe）](快速失败（fail—fast）和安全失败（fail—safe）.md)、[Arraylist 与 LinkedList 区别](Arraylist%20与%20LinkedList%20区别.md)。
+延伸阅读：[ArrayList扩容](../Java集合/ArrayList扩容.md)、[ArrayList源码注释](../Java集合/ArrayList源码注释.md)、[CopyOnWriteArrayList源码](../Java集合/CopyOnWriteArrayList源码.md)、[快速失败（fail—fast）和安全失败（fail—safe）](快速失败（fail-fast）和安全失败（fail-safe）.md)、[Arraylist 与 LinkedList 区别](ArrayList%E4%B8%8ELinkedList%E5%8C%BA%E5%88%AB.md)。
 
 > 2026-10 扩充（原内容过薄）。

@@ -89,6 +89,6 @@
 延伸阅读
 ------
 
-* [final finally finalize](../java/java基础/final%20finally%20finalize.md) · [wait和sleep的区别](../java/java基础/wait和sleep的区别.md) · [comparable 和 Comparator的区别](../java/java基础/comparable%20%E5%92%8C%20Comparator%E7%9A%84%E5%8C%BA%E5%88%AB.md) · [NoClassDefFoundError和ClassNotFoundException区别](../java/java基础/NoClassDefFoundError和ClassNotFoundException区别.md)
+* [final finally finalize](../java/java基础/final%20finally%20finalize.md) · [wait和sleep的区别](../java/java基础/wait和sleep的区别.md) · [comparable 和 Comparator的区别](../java/java%E5%9F%BA%E7%A1%80/Comparable%E5%92%8CComparator%E7%9A%84%E5%8C%BA%E5%88%AB.md) · [NoClassDefFoundError和ClassNotFoundException区别](../java/java基础/NoClassDefFoundError和ClassNotFoundException区别.md)
 
 > 2026-10 扩充（Round1 查漏）。
