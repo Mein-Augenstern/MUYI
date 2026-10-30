@@ -214,11 +214,11 @@ private LinkedHashMap<String,S> providers = new LinkedHashMap<>();
 使用Java SPI机制的优势是实现解耦。它使得第三方服务模块的装配控制的逻辑与调用者的业务代码分离，而不是耦合在一起。应用程序可以根据实际业务情况启用框架扩展或替换框架组件。
 
 相比使用提供接口 jar 包、供第三方服务模块实现接口的方式，SPI 使源框架不必关心实现类的路径。源框架可以不用下面的方式获取接口实现类：
-[为什么Java的main方法必须是public static void？.md](为什么Java的main方法必须是public static void？.md)
+[为什么Java的main方法必须是public static void？.md](Java main方法为什么是public static void.md)
 * 代码硬编码import 导入实现类
 
 * 指定类全路径反射获取：例如在JDBC4.0之前，JDBC中获取数据库驱动类需要通过```Class.forName("com.mysql.jdbc.Driver")```。类似语句先动态加载数据库相关的驱动，再执行获取连接这类操作。
-[为什么Java的main方法必须是public static void？.md](为什么Java的main方法必须是public static void？.md)
+[为什么Java的main方法必须是public static void？.md](Java main方法为什么是public static void.md)
 * 第三方服务模块把接口实现类实例注册到指定地方，源框架从该处访问实例
 
 通过SPI的方式，第三方服务模块实现接口后，在配置文件中指定实现类的全路径名。配置文件位于第三方项目代码的 META-INF/services 目录下。源码框架即可找到实现类。

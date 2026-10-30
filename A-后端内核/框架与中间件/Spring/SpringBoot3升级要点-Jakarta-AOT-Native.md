@@ -215,6 +215,6 @@ com.x.BarAutoConfiguration
 * spring.factories 的自动配置条目已迁至 AutoConfiguration.imports（2.7 过渡、3.0 断旧），但 spring.factories 承载的其他 SPI 仍在用；
 * Native 的核心矛盾是**封闭世界 vs 运行时动态性**，Spring 用 AOT + RuntimeHints 化解。用户侧要为自定义反射/资源/序列化补登记；
 * 迁移按"2.7 清告警 → 依赖矩阵 → 属性更名 → starter 改造 → 回归"推进，properties-migrator 与 OpenRewrite 是两件趁手工具；
-* 自动配置原理的完整答题线见 [SpringBoot 速查卡](../../cheatsheet/SpringBoot.md)；框架定位差异见 [Springboot和Spring区别](Springboot和Spring区别.md)。
+* 自动配置原理的完整答题线见 [SpringBoot 速查卡](../../cheatsheet/SpringBoot速查.md)；框架定位差异见 [Springboot和Spring区别](Springboot和Spring区别.md)。
 
 > 2026-10 新增（P1 时效升级）。

@@ -71,7 +71,7 @@ ArrayBlockingQueue 是 BlockingQueue 接口的有界队列实现类，底层采�
 
 其并发控制采用可重入锁来控制。不管是插入操作还是读取操作，都需要获取到锁才能执行。
 
-如果读者看过我之前写的关于 Condition 的文章《[一行一行源码分析清楚 AbstractQueuedSynchronizer（二）](乐观锁、悲观锁的AQS、Sync和Lock面试.md)》，就能轻松看懂 ArrayBlockingQueue  的源码。它采用一个 ReentrantLock 和相应的两个 Condition 来实现。
+如果读者看过我之前写的关于 Condition 的文章《[一行一行源码分析清楚 AbstractQueuedSynchronizer（二）](AQS%26ReentrantLock.md)》，就能轻松看懂 ArrayBlockingQueue  的源码。它采用一个 ReentrantLock 和相应的两个 Condition 来实现。
 
 ArrayBlockingQueue 共有以下几个属性：
 
@@ -103,7 +103,7 @@ ArrayBlockingQueue 实现并发同步的原理就是，读操作和写操作都�
 2. 指定独占锁是公平锁还是非公平锁。非公平锁的吞吐量高于公平锁。公平锁可以保证每次都是等待最久的线程获取到锁；
 3. 可以指定用一个集合来初始化。构造方法执行时，会先将此集合中的元素添加到队列中。
 
-更具体的源码我就不分析了，因为它就是 AbstractQueuedSynchronizer 中 Condition 的使用。感兴趣的读者请看我写的《[一行一行源码分析清楚 AbstractQueuedSynchronizer（二）](乐观锁、悲观锁的AQS、Sync和Lock面试.md)》。只要看懂了那篇文章，ArrayBlockingQueue 的代码就没有分析的必要了。当然，如果你完全不懂 Condition，那么也就看不懂 ArrayBlockingQueue 的源码了。
+更具体的源码我就不分析了，因为它就是 AbstractQueuedSynchronizer 中 Condition 的使用。感兴趣的读者请看我写的《[一行一行源码分析清楚 AbstractQueuedSynchronizer（二）](AQS%26ReentrantLock.md)》。只要看懂了那篇文章，ArrayBlockingQueue 的代码就没有分析的必要了。当然，如果你完全不懂 Condition，那么也就看不懂 ArrayBlockingQueue 的源码了。
 
 ## BlockingQueue 实现之 LinkedBlockingQueue
 

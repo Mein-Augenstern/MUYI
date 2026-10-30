@@ -298,7 +298,7 @@ private static final WeakCache<ClassLoader, Class<?>[], Class<?>> proxyClassCach
 						new WeakCache<>(new KeyFactory(), new ProxyClassFactory());
 ```
 
-关于KeyFactory、WeakCache和ProxyClassFactory的详细解释，见库内同目录拆分篇：[JDK动态代理KeyFactory](JDK动态代理KeyFactory.md)、[JDK动态代理WeakCache](JDK动态代理WeakCache.md)、[JDK动态代理ProxyClassFactory](JDK动态代理ProxyClassFactory.md)；代理类生成与两级缓存的整体流程，另见枢纽篇 [JDK动态代理代理类的生成与缓存](JDK动态代理代理类的生成与缓存.md)。
+关于KeyFactory、WeakCache和ProxyClassFactory的详细解释，见库内同目录拆分篇：[JDK动态代理KeyFactory](JDK动态代理KeyFactory.md)、[JDK动态代理WeakCache](JDK动态代理WeakCache.md)、[JDK动态代理ProxyClassFactory](JDK动态代理ProxyClassFactory.md)；代理类生成与两级缓存的整体流程，另见枢纽篇 [JDK动态代理代理类的生成与缓存](JDK动态代理类的生成与缓存.md)。
 
 我们继续查看proxyClassCache的get方法
 

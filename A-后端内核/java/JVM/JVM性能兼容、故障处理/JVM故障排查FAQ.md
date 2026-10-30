@@ -1,7 +1,7 @@
 停机或延迟过长？
 ------
 
-* 有GC详细日志？先tail GC日志看最近GC的Cause，看不出来再用工具分析GC日志（GC 日志各字段的含义解读见 [日志排查--JVM日志](日志排查--JVM日志.md)）
+* 有GC详细日志？先tail GC日志看最近GC的Cause，看不出来再用工具分析GC日志（GC 日志各字段的含义解读见 [日志排查--JVM日志](日志排查-JVM日志.md)）
 
 * 无GC详细日志？```jstat -gc```(具体请查看```man jstat```)
 
@@ -34,7 +34,7 @@ load高？性能差？
 
 * 无crash日志,无core文件? dmesg | grep java 看是不是被oom killer杀死了，可能是内存配置太大。
 
-进程无声消失（无 crash 日志、无 core 文件）的系统级排查实操与 OOM Killer 定位三板斧，详见 [故障诊断----Linux服务器Java进程突然消失排查办法](故障诊断----Linux服务器Java进程突然消失排查办法.md)。
+进程无声消失（无 crash 日志、无 core 文件）的系统级排查实操与 OOM Killer 定位三板斧，详见 [故障诊断----Linux服务器Java进程突然消失排查办法](故障诊断-Linux服务器Java进程突然消失排查.md)。
 
 常见GC问题
 ------

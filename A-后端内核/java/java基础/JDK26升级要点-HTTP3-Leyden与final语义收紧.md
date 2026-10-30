@@ -54,5 +54,5 @@ JDK 26 升级要点：HTTP/3、Leyden 与 final 语义收紧
 
 ---
 
-- 交叉引用：[JDK25并发终局-ScopedValues与结构化并发](../../Java%20并发/JDK25并发终局-ScopedValues与结构化并发.md)、[SpringBoot4与Framework7升级要点](../../框架与中间件/Spring/SpringBoot4与Framework7升级要点.md)
+- 交叉引用：[JDK25并发终局-ScopedValues与结构化并发](../Java%20并发/JDK25并发终局-ScopedValues与结构化并发.md)、[SpringBoot4与Framework7升级要点](../../框架与中间件/Spring/SpringBoot4与Framework7升级要点.md)
 - 来源核对面：Oracle 官方博客（The Arrival of Java 26）、InfoQ 2026-02 预览、HappyCoders/BellSoft 特性清单

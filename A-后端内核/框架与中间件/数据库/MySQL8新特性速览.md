@@ -219,6 +219,6 @@ ALTER TABLE orders ADD COLUMN remark VARCHAR(200), ALGORITHM=INSTANT;
 * DDL 层两件事：**原子 DDL 不留半成品；Instant 秒级加列（8.0.12 尾部 / 8.0.29 任意位置与删列）**。删索引走 INVISIBLE 灰度，写 DDL 习惯带上 ALGORITHM=INSTANT 试探。
 * 优化器层：降序索引真生效、直方图纠偏成本估算。配合函数索引/Skip Scan/hash join（见互链）构成完整的"8.0 让优化器更聪明"答题面。
 * 升级四坑：**utf8mb4 与 0900_ai_ci、caching_sha2_password、GROUP BY 不再隐式排序、新保留字**——预检工具 + 驱动先行 + collation 巡检三步走；
-* 展开阅读：[数据库索引失效总结](数据库索引失效总结.md)（函数索引/降序索引/不可见索引的失效视角）。[数据库语句优化手段](数据库语句优化手段.md)（hash join、EXPLAIN ANALYZE 等 8.0 优化工具）。[数据库设计时主要注意哪些事情？](数据库设计时主要注意哪些事情？.md)（建表字符集与 collation 规范）。
+* 展开阅读：[数据库索引失效总结](数据库索引失效总结.md)（函数索引/降序索引/不可见索引的失效视角）。[数据库语句优化手段](数据库语句优化手段.md)（hash join、EXPLAIN ANALYZE 等 8.0 优化工具）。[数据库设计时主要注意哪些事情？](数据库表设计要点.md)（建表字符集与 collation 规范）。
 
 > 2026-10 新增（P1 时效升级）。

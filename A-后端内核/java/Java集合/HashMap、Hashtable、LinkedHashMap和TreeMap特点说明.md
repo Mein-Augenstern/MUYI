@@ -57,7 +57,7 @@
 
 * "HashMap 为什么快？"——hashCode 直接定位桶，冲突链表在 JDK8 中超过 8 且数组够长会树化为红黑树，把最坏 O(N) 压到 O(logN)，详见 [HashMap底层数据结构](HashMap底层数据结构.md)、[HashMap源码注释](HashMap源码注释.md)；
 
-* "为什么容量是 2 的幂？"——hash & (n-1) 代替取模，散列更均匀，详见 [HashMap 的长度为什么是2的幂次方](../java基础/HashMap%20的长度为什么是2的幂次方.md)；
+* "为什么容量是 2 的幂？"——hash & (n-1) 代替取模，散列更均匀，详见 [HashMap 的长度为什么是2的幂次方](../java%E5%9F%BA%E7%A1%80/HashMap%E7%9A%84%E9%95%BF%E5%BA%A6%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF2%E7%9A%84%E5%B9%82%E6%AC%A1%E6%96%B9.md)；
 
 * "LinkedHashMap 怎么做到有序？"——在 HashMap 节点上加了 before/after 两个指针串成双向链表，迭代走链表不走桶数组，所以容量翻倍重哈希后顺序依旧不丢；
 

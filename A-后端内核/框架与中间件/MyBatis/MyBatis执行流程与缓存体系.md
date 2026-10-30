@@ -4,7 +4,7 @@ MyBatis 执行流程与缓存体系
 看在前面
 ------
 
-同目录的 [Mybatis常见基本面试题.md](Mybatis常见基本面试题.md) 覆盖了"是什么"层面的 27 问，速查版见 [cheatsheet/Mybatis.md](../../cheatsheet/Mybatis.md)。
+同目录的 [Mybatis常见基本面试题.md](MyBatis常见面试题.md) 覆盖了"是什么"层面的 27 问，速查版见 [cheatsheet/Mybatis.md](../../cheatsheet/MyBatis速查.md)。
 
 这篇补"为什么/怎么运转"。**一条 SQL 从 Mapper 代理到 ResultSet 映射的完整执行链（四大对象）**。**一二级缓存的作用域与失效条件**。**生产为什么普遍禁用二级缓存**。**插件 Interceptor 能拦什么**。
 

@@ -55,7 +55,7 @@
 
 * **脑裂与多数派**：网络分区时少数派一侧绝不能同时出两个主——"票数过半"保证最多一边凑齐多数；旧主被分区隔离后恢复，发现 term 更大自动退位；应用侧同样要 fencing token 拒绝"过期领导者"的写；
 
-* 库内例子：美团 Leaf-snowflake 用 **ZooKeeper 顺序节点**自动分配 workerID（弱依赖 ZK、本地文件兜底），见 [美团-Leaf——美团点评分布式ID生成系统](../../../A-后端内核/框架与中间件/数据库/美团-Leaf——美团点评分布式ID生成系统.md)；服务发现组件对比（Eureka/etcd/Consul/ZK）见 [「Chris Richardson 微服务系列」服务发现的可行方案以及实践案例](../../%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B2%BB%E7%90%86/%E3%80%8CChris%20Richardson%20%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%B3%BB%E5%88%97%E3%80%8D%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E7%9A%84%E5%8F%AF%E8%A1%8C%E6%96%B9%E6%A1%88%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5%E6%A1%88%E4%BE%8B.md)。
+* 库内例子：美团 Leaf-snowflake 用 **ZooKeeper 顺序节点**自动分配 workerID（弱依赖 ZK、本地文件兜底），见 [美团-Leaf——美团点评分布式ID生成系统](../../../A-后端内核/框架与中间件/数据库/美团Leaf分布式ID生成系统.md)；服务发现组件对比（Eureka/etcd/Consul/ZK）见 [「Chris Richardson 微服务系列」服务发现的可行方案以及实践案例](../../%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B2%BB%E7%90%86/%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0-%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%A8%A1%E5%BC%8F.md)。
 
 三、一致性屏障：同步的汇合点
 ------
