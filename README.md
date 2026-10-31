@@ -53,7 +53,7 @@
 
 | 轨道 | 规模 | 内容与亮点 |
 |---|---|---|
-| [A-后端内核](A-后端内核/) | 218 篇 | **语言层**：Java（并发/JVM/Spring/集合源码级）× Python（工程化对照学习）；**中间件层**：MySQL / Redis 体系（含 Redis 8·Valkey）/ Kafka·MQ（含 Kafka 4 KRaft·Queues）/ Spring Boot 4 / Netty；计算机基础（网络/OS/Linux）；cheatsheet 速查 + 面经复盘 |
+| [A-后端内核](A-后端内核/) | 218 篇 | **语言层**：Java（并发/JVM/Spring/集合源码级）× Python（工程化对照学习）× Go（Java 视角对照开篇）；**中间件层**：MySQL / Redis 体系（含 Redis 8·Valkey）/ Kafka·MQ（含 Kafka 4 KRaft·Queues）/ Spring Boot 4 / Netty；计算机基础（网络/OS/Linux）；cheatsheet 速查 + 面经复盘 |
 | [C-架构](C-架构/) | 61 篇 | **四大知识域**：分布式系统（理论/分布式ID/任务调度）、微服务架构（BFF/负载均衡实践）、**DDD与方法论（方法论系列 25 篇**：SLO/多活容灾/混沌工程/全链路压测/技术决策ADR…）、系统设计四场景（秒杀/限流…） |
 | [G-业务领域](G-业务领域/) | 19 篇 | **金融信贷域五层结构**：业务知识 6（领域模型/账务日切/幂等对账/风控决策/清结算/数据工程）→ 系统设计 4（授信/还款/决策引擎/对账中心）→ 模块设计 4（额度/计息/回调验签/差错处理）→ 架构总览 1，附行业双样本参照（已脱敏） |
 | [B-AI工程](B-AI工程/README.md) | 16 篇 | LLM 基础（Token/上下文/幻觉/**模型选型决策表**）/ RAG（体系+切分+向量库选型）/ Agent 工程与安全（身份链/工具安全/**MCP 协议**）/ Prompt / 推理与部署（vLLM·SGLang）/ **Python 工程线**（自由线程·t-string）/ **面试收口篇** |
