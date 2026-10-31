@@ -1,4 +1,7 @@
 HashMap 与 ConcurrentHashMap 源码全解析
+
+> 定位区分：本篇走 JDK7/8 源码级（成环/扩容/并发容器演进）；入门概念与高频八股见 [java基础 的 HashMap 系列](../java基础/)（扩容过程/线程不安全/2 的幂次方三篇）。
+
 ====
 
 HashMap 是面试出现频率最高的数据结构，ConcurrentHashMap 紧随其后，而且两者都要"Java7 和 Java8 分别说"。一句话定位：**HashMap 从"数组+链表"演进到"数组+链表+红黑树"，ConcurrentHashMap 从"分段锁"演进到"CAS + synchronized 锁单桶"**——两条演进线对应了 JDK 并发与数据结构设计思想的整体迁移。本文按 Java7 HashMap → Java7 CHM → Java8 HashMap → Java8 CHM 的顺序读源码主线。结构铺垫见 [HashMap底层数据结构](./HashMap底层数据结构.md)，更多注解见 [HashMap源码注释](./HashMap源码注释.md)，面试题清单见 [HashMap面试问题罗列](./HashMap面试问题罗列.md)。

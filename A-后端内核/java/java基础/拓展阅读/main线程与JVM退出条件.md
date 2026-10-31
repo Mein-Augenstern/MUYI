@@ -108,8 +108,8 @@ t.start();
 * main 结束 ≠ 程序结束：想等子线程做完再退，用 `join()` 或 `CountDownLatch`；
 * 想让后台任务不阻止退出：`setDaemon(true)` 且必须在 start 前调用；
 * 线程池用完要 `shutdown()`，测试代码可用自定义 daemon ThreadFactory 方便快速退出；
-* 停线程的正确姿势是 interrupt 协作式停止，见同目录 [如何正确地停止一个线程？](线程的正确停止方式.md)。
+* 停线程的正确姿势是 interrupt 协作式停止，见同目录 [如何正确地停止一个线程？](../../Java%20%E5%B9%B6%E5%8F%91/%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%81%9C%E6%AD%A2%E6%96%B9%E5%BC%8F.md)。
 
-延伸阅读：[如何正确地停止一个线程？](线程的正确停止方式.md)、[关于并发工具包——线程安全的 List、Map、Set](%E5%B9%B6%E5%8F%91%E5%B7%A5%E5%85%B7%E5%8C%85-%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84List%E3%80%81Map%E3%80%81Set.md)。
+延伸阅读：[如何正确地停止一个线程？](../../Java%20%E5%B9%B6%E5%8F%91/%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%81%9C%E6%AD%A2%E6%96%B9%E5%BC%8F.md)、[关于并发工具包——线程安全的 List、Map、Set](%E5%B9%B6%E5%8F%91%E5%B7%A5%E5%85%B7%E5%8C%85-%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84List%E3%80%81Map%E3%80%81Set.md)。
 
 > 2026-10 扩充（原内容过薄）。

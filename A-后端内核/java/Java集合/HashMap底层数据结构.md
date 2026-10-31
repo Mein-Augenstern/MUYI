@@ -77,3 +77,5 @@ static int hash(int h) {
 ![](/images/legacy/HashMap_2.jpg)
 
 TreeMap、TreeSet以及JDK1.8之后的HashMap底层都用到了红黑树。红黑树就是为了解决二叉查找树的缺陷，因为二叉查找树在某些情况下会退化成一个线性结构。
+
+> 来源：敖丙系列（原文字链已失效 2026-10 核实）——本文为早期整理篇，内容经本库体例改写。

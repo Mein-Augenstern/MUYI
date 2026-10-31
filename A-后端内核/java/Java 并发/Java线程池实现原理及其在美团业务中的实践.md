@@ -404,6 +404,4 @@ JDK允许线程池使用方通过ThreadPoolExecutor的实例来动态设置线�
 [5] 深入理解Java线程池：ThreadPoolExecutor
 [6]《Java并发编程实践》
 
-
-
-
+> 来源：美团技术团队《Java线程池实现原理及其在美团业务中的实践》（正文转述其案例，原文字链已失效 2026-10）。

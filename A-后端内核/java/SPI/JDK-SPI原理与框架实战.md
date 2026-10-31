@@ -4,7 +4,7 @@ JDK SPI 原理与框架实战
 看在前面
 ------
 
-SPI（Service Provider Interface）：**接口归调用方，实现归提供方，装配靠约定文件**。把"用哪个实现"的决定权从编译期挪到运行期。本目录已有一篇入门（[了解简单的SPI实现原理和运用.md](SPI实现原理和运用.md)，讲清了 META-INF/services 约定与优缺点）。这篇按面试深度补齐四块：
+SPI（Service Provider Interface）：**接口归调用方，实现归提供方，装配靠约定文件**。把"用哪个实现"的决定权从编译期挪到运行期。本目录已有一篇入门（[了解简单的SPI实现原理和运用.md](../java基础/SPI.md)，讲清了 META-INF/services 约定与优缺点）。这篇按面试深度补齐四块：
 
 - **ServiceLoader 源码机制与失败语义**
 - **JDK SPI 的缺陷到底坑在哪**
