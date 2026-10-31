@@ -63,7 +63,7 @@ HashMap通常会用一个指针数组（假设为```table[]```）来分散所有
 
 相信大家对这个基础知识已经很熟悉了。
 
-<a href="https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/HashMap%E6%BA%90%E7%A0%81%E6%B3%A8%E9%87%8A.md">如果不熟悉，请点击</a>
+<a href="（原链已失效 2026-10，内容已在本篇/本库）%E6%B3%A8%E9%87%8A.md">如果不熟悉，请点击</a>
 
 HashMap的rehash源代码
 ====

@@ -14,7 +14,7 @@ private static final WeakCache<ClassLoader, Class<?>[], Class<?>>
 
 WeakCache是缓存类加载器以及该加载器加载的委托类的。其中KeyFactory类用来生产Key的，生成因不同数量的类加载器采取不同的生成策略来对应生成的Key对象。
 
-<a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/JDK%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86KeyFactory.md">KeyFactory</a>和<a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/JDK%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86ProxyClassFactory.md">ProxyClassFactory</a>了解一下。
+<a href="（原链已失效 2026-10，内容已在本篇/本库）4%BB%A3%E7%90%86KeyFactory.md">KeyFactory</a>和<a href="（原链已失效 2026-10，内容已在本篇/本库）4%BB%A3%E7%90%86ProxyClassFactory.md">ProxyClassFactory</a>了解一下。
 
 WeakCache类作用
 ------

@@ -1,10 +1,10 @@
 ## 看在前面
 
-> * <a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/jvm/Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F.md">Java内存区域</a>。
+> * <a href="（原链已失效 2026-10，内容已在本篇/本库）">Java内存区域</a>。
 > * 《深入理解 Java 虚拟机：JVM 高级特性与最佳实践（第二版》。
 > * 《实战 java 虚拟机》。
 > * https://docs.oracle.com/javase/specs/index.html。
-> * http://www.pointsoftware.ch/en/under-the-hood-runtime-data-areas-javas-memory-model/。
+> * （原链已失效 2026-10，内容已在本篇/本库）。
 > * https://dzone.com/articles/jvm-permgen-%E2%80%93-where-art-thou。
 > * https://stackoverflow.com/questions/9095748/method-area-and-permgen。
 > * 深入解析String#internhttps://tech.meituan.com/2014/03/06/in-depth-understanding-string-intern.html。

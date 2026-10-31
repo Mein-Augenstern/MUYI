@@ -1,8 +1,8 @@
 看在前面
 ====
 
-> * <a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/jvm/%E6%9C%80%E9%87%8D%E8%A6%81%E7%9A%84JVM%E5%8F%82%E6%95%B0%E6%8C%87%E5%8D%97.md">最重要的JVM参数指南</a>
-> * <a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/jvm/GC%E8%B0%83%E4%BC%98%E5%8F%82%E6%95%B0.md">GC调优参数</a>（本文第 4、5 章整理自此篇，2026-10 合并入本文）
+> * <a href="（原链已失效 2026-10，内容已在本篇/本库）%B0%E6%8C%87%E5%8D%97.md">最重要的JVM参数指南</a>
+> * <a href="（原链已失效 2026-10，内容已在本篇/本库）">GC调优参数</a>（本文第 4、5 章整理自此篇，2026-10 合并入本文）
 
 1、概述
 ====
@@ -124,7 +124,7 @@ JVM具有四种类型的GC实现：
 -XX:+UseG1GC
 ```
 
-有关垃圾回收实施的更多详细信息，请参见<a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/jvm/JVM%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6.md">此处</a>。
+有关垃圾回收实施的更多详细信息，请参见<a href="（原链已失效 2026-10，内容已在本篇/本库）">此处</a>。
 
 
 3.2、GC记录

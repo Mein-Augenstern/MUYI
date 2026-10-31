@@ -33,7 +33,7 @@ A需要依赖```Connection```才能正常运行，而这个```Connection```是�
 关于代理模式
 ====
 
-<a href="https://github.com/DemoTransfer/demotransfer/tree/master/pattern/proxy">常见代理模式示例代码</a>
+<a href="（原链已失效 2026-10，内容已在本篇/本库）">常见代理模式示例代码</a>
 
 代理模式是常用的```Java```设计模式，他的特征是代理类与委托类有同样的接口。代理类主要负责为委托类预处理消息、过滤消息、把消息转发给委托类，以及事后处理消息。代理类与委托类之间通常会存在关联关系，一个代理类的对象与一个委托类的对象关联。代理类的对象本身并不真正实现服务。它通过调用委托类的对象的相关方法，来提供特定的服务。
 
@@ -59,5 +59,5 @@ A需要依赖```Connection```才能正常运行，而这个```Connection```是�
 关于工厂模式
 ====
 
-<a href="https://github.com/DemoTransfer/demotransfer/tree/master/pattern/factory">常见工厂模式示例代码</a>
+<a href="（原链已失效 2026-10，内容已在本篇/本库）">常见工厂模式示例代码</a>
 

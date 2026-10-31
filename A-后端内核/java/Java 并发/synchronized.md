@@ -11,7 +11,7 @@ synchronized关键字最主要的使用方式的总结
 
 面试中面试官经常会说：“单例模式了解吗？来给我手写一下！给我解释一下双重检验锁方式实现单例模式的原理呗！”
 
- <a href="https://github.com/DemoTransfer/demotransfer/blob/master/pattern/singleton/DCLIdlerSingletonPreventReflection">双重检验锁方式实现单例模式</a>
+ <a href="（原链已失效 2026-10，内容已在本篇/本库）">双重检验锁方式实现单例模式</a>
  
  ```java
  public class Singleton {

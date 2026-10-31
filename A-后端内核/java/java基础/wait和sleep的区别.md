@@ -1,6 +1,6 @@
 看在前面
 ====
-* <a href="https://java2blog.com/difference-between-sleep-and-wait-in/">Difference between sleep and wait in java</a>
+* <a href="（原链已失效 2026-10，内容已在本篇/本库）">Difference between sleep and wait in java</a>
 
 wait方法简介
 ====

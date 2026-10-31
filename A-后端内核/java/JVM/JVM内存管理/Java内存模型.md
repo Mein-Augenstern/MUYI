@@ -167,7 +167,7 @@ synchronized 这个关键字大家都用得很多了，这里不会教你怎么�
 
 我们趁热打铁，为大家解决下单例模式中的双重检查问题。关于这个问题，大神们发过[文章](http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html)对此做了阐述，这里搬运过来。
 
-> 来膜拜下文章署名中的大神们：[David Bacon](http://www.research.ibm.com/people/d/dfb) (IBM Research) Joshua Bloch (Javasoft), [Jeff Bogda](http://www.cs.ucsb.edu/~bogda/), Cliff Click (Hotspot JVM project), [Paul Haahr](http://www.webcom.com/~haahr/), [Doug Lea](http://www.cs.oswego.edu/~dl), [Tom May](mailto:tom@go2net.com)。还有 [Jan-Willem Maessen](http://www.csg.lcs.mit.edu/~earwig/), [Jeremy Manson](http://www.cs.umd.edu/~jmanson), [John D. Mitchell (jGuru)](http://www.jguru.com/johnm) Kelvin Nilsen, [Bill Pugh](http://www.cs.umd.edu/~pugh), [Emin Gun Sirer](http://www.cs.washington.edu/homes/egs/)。至少 Joshua Bloch 和 Doug Lea 大家都不陌生吧。
+> 来膜拜下文章署名中的大神们：[David Bacon](http://www.research.ibm.com/people/d/dfb) (IBM Research) Joshua Bloch (Javasoft), Jeff Bogda（原链已失效 2026-10，内容已在本篇/本库）, Cliff Click (Hotspot JVM project), Paul Haahr（原链已失效 2026-10，内容已在本篇/本库）, [Doug Lea](http://www.cs.oswego.edu/~dl), [Tom May](mailto:tom@go2net.com)。还有 [Jan-Willem Maessen](http://www.csg.lcs.mit.edu/~earwig/), Jeremy Manson（原链已失效 2026-10，内容已在本篇/本库）, John D. Mitchell (jGuru)（原链已失效 2026-10，内容已在本篇/本库） Kelvin Nilsen, [Bill Pugh](http://www.cs.umd.edu/~pugh), Emin Gun Sirer（原链已失效 2026-10，内容已在本篇/本库）。至少 Joshua Bloch 和 Doug Lea 大家都不陌生吧。
 
 废话少说，看以下单例模式的写法：
 
@@ -328,7 +328,7 @@ JSR 133：https://jcp.org/en/jsr/detail?id=133
 
 The "Double-Checked Locking is Broken" Declaration：http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html
 
-美团点评技术团队：https://tech.meituan.com/java-memory-reordering.html
+美团点评技术团队：（原链已失效 2026-10，内容已在本篇/本库）
 
 （全文完）
 

@@ -46,29 +46,29 @@ Java 开发者一般都知道堆内存，但却未必了解堆外内存。除了
 
 <h4>第一个重要方法：Bits.reserveMemory(size, cap)</h4>
 
-![Bits.reserveMemory(size, cap)](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/Bits.reserveMemory(size%2C%20cap).png)
+!Bits.reserveMemory(size, cap)（原链已失效 2026-10，内容已在本篇/本库）.png)
 
-![Bits.reserveMemory(size, cap)二](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/Bits.reserveMemory(size%2C%20cap)%E4%BA%8C.png)
+!Bits.reserveMemory(size, cap)二（原链已失效 2026-10，内容已在本篇/本库）%E4%BA%8C.png)
 
 该方法用于在系统中保存总分配内存（按页分配）的大小和实际内存的大小。具体执行中需要首先用 tryReserveMemory 方法来判断系统内存（堆外内存）是否足够，具体代码如下：
 
-![Bits.reserveMemory(size, cap)三](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/Bits.reserveMemory(size%2C%20cap)%E4%B8%89.png)
+!Bits.reserveMemory(size, cap)三（原链已失效 2026-10，内容已在本篇/本库）%E4%B8%89.png)
 
 从 Bits.reserveMemory(size, cap) 源码可以看出，其执行过程中，可能遇到以下三种情况：
 
 **1. 最乐观的结果：可用堆外内存足够，reserveMemory 方法返回 true，该方法结束**。
 
-![Bits.reserveMemory(size, cap)四](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/Bits.reserveMemory(size%2C%20cap)%E5%9B%9B.png)
+!Bits.reserveMemory(size, cap)四（原链已失效 2026-10，内容已在本篇/本库）%E5%9B%9B.png)
 
 **2. 如果不幸，堆外内存不足，则须进入第二步**：
 
-![Bits.reserveMemory(size, cap)五](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/Bits.reserveMemory(size%2C%20cap)%E4%BA%94.png)
+!Bits.reserveMemory(size, cap)五（原链已失效 2026-10，内容已在本篇/本库）%E4%BA%94.png)
 
 jlra.tryHandlePendingReference() 会触发一次非堵塞的 Reference#tryHandlePending(false)，该方法会将已经被 JVM 垃圾回收的 DirectBuffer 对象的堆外内存释放。
 
 **3. 如果在一次堆外内存资源回收后，还不够分配本次堆外内存，则执行 GC 操作**：
 
-![Bits.reserveMemory(size, cap)六](https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/JVM/picture/Bits.reserveMemory(size%2C%20cap)%E5%85%AD.png)
+!Bits.reserveMemory(size, cap)六（原链已失效 2026-10，内容已在本篇/本库）%E5%85%AD.png)
 
 ```System.gc()``` 会触发一个 Full GC，当然，前提是你没有显示的设置 ```- XX:+DisableExplicitGC``` 来禁用显式 GC。同时，需要注意的是，调用 ```System.gc()``` 并不能够保证 Full GC 马上就能被执行。
 

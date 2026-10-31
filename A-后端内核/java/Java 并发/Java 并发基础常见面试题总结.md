@@ -1,7 +1,7 @@
 看在前面
 ====
 
-<a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/Multithread/JavaConcurrencyBasicsCommonInterviewQuestionsSummary.md#81-%E8%AE%A4%E8%AF%86%E7%BA%BF%E7%A8%8B%E6%AD%BB%E9%94%81">Java 并发基础常见面试题总结</a>
+<a href="（原链已失效 2026-10，内容已在本篇/本库）ummary.md#81-%E8%AE%A4%E8%AF%86%E7%BA%BF%E7%A8%8B%E6%AD%BB%E9%94%81">Java 并发基础常见面试题总结</a>
 
 Java 并发基础常见面试题总结
 ====

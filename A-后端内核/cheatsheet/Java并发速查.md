@@ -21,7 +21,7 @@
 
 * [ReentrantLock 和 ReentrantReadWriteLock](../java/Java%20并发/AQS&ReentrantLock.md)（原误链到《Java 并发基础常见面试题总结》，2026-10 修正）
 
-* <a href="https://github.com/DemoTransfer/JavaGuide/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/ReentrantReadWriteLock%E6%BA%90%E7%A0%81.md">ReentrantReadWriteLock源码</a> 🕳（库内尚无）
+* <a href="（原链已失效 2026-10，内容已在本篇/本库）%BA%90%E7%A0%81.md">ReentrantReadWriteLock源码</a> 🕳（库内尚无）
 
 * [Semaphore](../java/Java%20并发/Semaphore%28信号量%29.md)
 
@@ -31,7 +31,7 @@
 
 * [ThreadLocal](../java/Java%20并发/ThreadLocal.md)
 
-* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/synchronized%20%E5%85%B3%E9%94%AE%E5%AD%97%E5%92%8C%20volatile%20%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%AF%B9%E6%AF%94.md">Synchronized和Volatile对比</a> 🕳（库内尚无）
+* <a href="（原链已失效 2026-10，内容已在本篇/本库）5%B3%E9%94%AE%E5%AD%97%E5%92%8C%20volatile%20%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%AF%B9%E6%AF%94.md">Synchronized和Volatile对比</a> 🕳（库内尚无）
 
 * [synchronized 的实现原理以及锁优化](../java/Java%20并发/synchronized.md)
 
@@ -43,7 +43,7 @@
 
 * [常见的几种线程池](../java/Java%20并发/几种常见的线程池.md)
 
-* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/%E7%90%86%E8%A7%A3%E8%87%AA%E6%97%8B%E9%94%81.md">理解自旋锁</a> 🕳（库内尚无）
+* <a href="（原链已失效 2026-10，内容已在本篇/本库）8%87%AA%E6%97%8B%E9%94%81.md">理解自旋锁</a> 🕳（库内尚无）
 
 * [线程池](../java/Java%20并发/深度解读%20java%20线程池设计思想及源码实现.md)
 

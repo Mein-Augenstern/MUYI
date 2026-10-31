@@ -1,7 +1,7 @@
 看在前面
 ====
 
-> * <a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/network/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.md#%E4%B8%80-osi%E4%B8%8Etcpip%E5%90%84%E5%B1%82%E7%9A%84%E7%BB%93%E6%9E%84%E4%B8%8E%E5%8A%9F%E8%83%BD%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E5%8D%8F%E8%AE%AE">计算机网络常见面试题</a>
+> * <a href="（原链已失效 2026-10，内容已在本篇/本库）%80-osi%E4%B8%8Etcpip%E5%90%84%E5%B1%82%E7%9A%84%E7%BB%93%E6%9E%84%E4%B8%8E%E5%8A%9F%E8%83%BD%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E5%8D%8F%E8%AE%AE">计算机网络常见面试题</a>
 
 一句话答案
 ====

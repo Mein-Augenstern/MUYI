@@ -188,9 +188,9 @@ Copy On Write技术缺点是什么？
 
 <h3>参考资料</h3>
 
-* fork()后copy on write的一些特性：https://zhoujianshi.github.io/articles/2017/fork()%E5%90%8Ecopy%20on%20write%E7%9A%84%E4%B8%80%E4%BA%9B%E7%89%B9%E6%80%A7/index.html
+* fork()后copy on write的一些特性：（原链已失效 2026-10，内容已在本篇/本库）()%E5%90%8Ecopy%20on%20write%E7%9A%84%E4%B8%80%E4%BA%9B%E7%89%B9%E6%80%A7/index.html
 
-* 写时复制：https://miao1007.github.io/gitbook/java/juc/cow/
+* 写时复制：（原链已失效 2026-10，内容已在本篇/本库）
 
 三、文件系统的COW
 ====

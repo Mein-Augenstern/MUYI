@@ -1,7 +1,7 @@
 看在前面
 ====
 
-> * <a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/network/HTTPS%E4%B8%AD%E7%9A%84TLS.md">HTTPS中的TLS</a>
+> * <a href="（原链已失效 2026-10，内容已在本篇/本库）">HTTPS中的TLS</a>
 
 1 SSL 与 TLS
 ====

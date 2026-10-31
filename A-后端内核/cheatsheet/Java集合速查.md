@@ -39,7 +39,7 @@
 
 * [List与set集合，Map集合的区别以及它们的实现类有哪些？（已并入《集合框架底层数据结构总结》）](../java/Java集合/集合框架底层数据结构总结.md)
 
-* <a href="https://github.com/DemoTransfer/LearningRecord/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/WeakHashMap%E6%BA%90%E7%A0%81.md">WeakHashMap源码分析</a> 🕳（库内尚无）
+* <a href="（原链已失效 2026-10，内容已在本篇/本库）%A0%81.md">WeakHashMap源码分析</a> 🕳（库内尚无）
 
 * [线程安全的List](../java/java%E5%9F%BA%E7%A1%80/%E6%8B%93%E5%B1%95%E9%98%85%E8%AF%BB/%E5%B9%B6%E5%8F%91%E5%B7%A5%E5%85%B7%E5%8C%85-%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84List%E3%80%81Map%E3%80%81Set.md)
 

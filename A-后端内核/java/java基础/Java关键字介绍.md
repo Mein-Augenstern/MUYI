@@ -31,7 +31,7 @@ Java 语言规范一共定义了 **50 个关键字**（JDK1.4 加 assert、JDK5 
 
 ## volatile
 
-详见：https://github.com/Mein-Augenstern/MUYI/blob/master/java/interview/Java%20%E5%B9%B6%E5%8F%91/volatile.md
+详见：（原链已失效 2026-10，内容已在本篇/本库）
 
 ### synchronized与volatile的对比
 

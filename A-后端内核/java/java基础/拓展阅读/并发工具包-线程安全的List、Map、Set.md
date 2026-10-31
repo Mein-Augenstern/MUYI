@@ -21,7 +21,7 @@ Concurrent 的代价
 
 * Concurrent 集合的遍历一致性弱。
 
-在利用迭代器遍历时，如果容器发生修改，迭代器可以继续遍历，不会抛出 ConcurrentModificationException。在 HashMap 中则会抛出此异常（也就是 fail-fast 机制），<a href="https://github.com/DemoTransfer/Java-Guide/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/%E5%BF%AB%E9%80%9F%E5%A4%B1%E8%B4%A5%EF%BC%88fail%E2%80%94fast%EF%BC%89%E5%92%8C%E5%AE%89%E5%85%A8%E5%A4%B1%E8%B4%A5%EF%BC%88fail%E2%80%94safe%EF%BC%89.md">快速失败（fail—fast）和安全失败（fail—safe）</a>
+在利用迭代器遍历时，如果容器发生修改，迭代器可以继续遍历，不会抛出 ConcurrentModificationException。在 HashMap 中则会抛出此异常（也就是 fail-fast 机制），<a href="（原链已失效 2026-10，内容已在本篇/本库）%E8%B4%A5%EF%BC%88fail%E2%80%94fast%EF%BC%89%E5%92%8C%E5%AE%89%E5%85%A8%E5%A4%B1%E8%B4%A5%EF%BC%88fail%E2%80%94safe%EF%BC%89.md">快速失败（fail—fast）和安全失败（fail—safe）</a>
 
 * 因为是弱一致性，所以 size 这类操作未必准确。
 

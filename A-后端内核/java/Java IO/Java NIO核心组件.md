@@ -237,7 +237,7 @@ public class IO_Demo
 }
 ```
 
-代码参照:<a href="https://github.com/DemoTransfer/demotransfer/tree/master/java/nio">nio</a>
+代码参照:<a href="（原链已失效 2026-10，内容已在本篇/本库）">nio</a>
 
 3 NIO 核心对象 Channel 详解
 ====

@@ -2,7 +2,7 @@
 ====
 
 * <a href="https://zhuanlan.zhihu.com/p/21673805">感谢美团技术团队分享-->Java 8系列之重新认识HashMap</a>
-* <a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/collection/HashMap.md">感谢Snailclimb-->JavaGuide-->HashMap</a>
+* <a href="（原链已失效 2026-10，内容已在本篇/本库）">感谢Snailclimb-->JavaGuide-->HashMap</a>
 * <a href="https://www.jianshu.com/p/c955491a3398">HashMap 进阶篇那些唬人的名词: Resize, Capacity, bucket,Load factor</a>
 
 Map接口UML图

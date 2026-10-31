@@ -358,7 +358,7 @@ du：查询文件或文件夹的磁盘使用空间
 27M     work/testing/logs/show.log
 ```
 
-值得注意的是，看见一个针对du和df命令异同的文章：《du df 差异导致文件系统误报解决》(http://www.diybl.com/course/6_system/linux/Linuxjs/2008716/133217.html)。
+值得注意的是，看见一个针对du和df命令异同的文章：《du df 差异导致文件系统误报解决》(（原链已失效 2026-10，内容已在本篇/本库）)。
 
 du 统计文件大小相加 
 df  统计数据块使用情况

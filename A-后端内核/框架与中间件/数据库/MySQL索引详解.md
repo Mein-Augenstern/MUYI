@@ -2,12 +2,12 @@
 ====
 
 > * <a href="https://juejin.im/post/5b55b842f265da0f9e589e79">数据库两大神器【索引和锁】</a>
-> * <a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/database/MySQL%20Index.md">JavaGuide：MySQL Index</a>（下方思维导图及部分补充内容的来源）
+> * <a href="（原链已失效 2026-10，内容已在本篇/本库）">JavaGuide：MySQL Index</a>（下方思维导图及部分补充内容的来源）
 
 
 * **掘金特邀作者 | 技术公众号：Java3 y**
 
-* **文章导航：https://github.com/ZhongFuCheng3y/3y**
+* **文章导航：（原链已失效 2026-10，内容已在本篇/本库）
 
 > 声明：如果没有说明具体的数据库和存储引擎，默认指的是MySQL中的InnoDB存储引擎
 

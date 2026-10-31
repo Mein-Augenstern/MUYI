@@ -79,6 +79,6 @@ putVal 里 `++size`、树化判断、threshold 判断都是"读-改-写"多步�
 传送门
 ====
 
-* <a href="https://github.com/DemoTransfer/demotransfer/blob/master/java/interview/java%E5%9F%BA%E7%A1%80/HashMap%E6%88%90%E7%8E%AF%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90.md">HashMap成环原因分析</a>
+* <a href="（原链已失效 2026-10，内容已在本篇/本库）%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90.md">HashMap成环原因分析</a>
 
 > 2026-10 扩充（Round1 查漏）。
