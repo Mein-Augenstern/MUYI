@@ -96,7 +96,21 @@ res, err := fetch(ctx, url)           // ctx 是函数第一个参数：ctx cont
 四个要点：
 
 * **Done()/Err() 二件套**：`<-ctx.Done()` 阻塞等待取消；`ctx.Err()` 区分 `context.Canceled`（上游主动）与 `context.DeadlineExceeded`（超时）。服务边界判 `errors.Is(err, context.Canceled)` 决定记 warn 还是 error——**客户端断连导致的取消不是错误**；
-* **树形传播**：子 ctx 随父取消（WithTimeout/WithCancel/WithDeadline 都从父派生）——一个请求的取消自动吹熄它扇出的所有子任务，这正是 errgroup 模式的地基；
+* **树形传播**：子 ctx 随父取消（WithTimeout/WithCancel/WithDeadline 都从父派生）——一个请求的取消自动吹熄它扇出的所有子任务，这正是 errgroup 模式的地基：
+
+```mermaid
+flowchart TD
+    REQ["请求 ctx（入口）"] -->|"WithTimeout 3s"| T1["聚合任务 ctx"]
+    T1 -->|"g.Go 扇出"| A["子任务 A<br/>select { ... , <-ctx.Done() }"]
+    T1 -->|"g.Go 扇出"| B["子任务 B"]
+    T1 -->|"WithTimeout 1s"| C["孙任务 C（更紧的限）"]
+    T1 -. "3s 到 / 任一子任务出错" .-> X["❌ ctx 取消"]
+    X -. "Done() 闭合，全树感知" .-> A
+    X -.-> B
+    X -.-> C
+    style X fill:#fde8e8,stroke:#c0392b
+```
+
 * **协作式，不抢占**：ctx 取消不会杀死 goroutine，只是发信号——长循环要自觉检查 `ctx.Done()`，和 Java interrupt 需要 `Thread.currentThread().isInterrupted()` 自查同理，但 Go 有编译器与社区规范双重强制（第一参数）；
 * **只传值不用它传业务参数**：`ctx.Value` 只放请求级元数据（traceID），当 ThreadLocal 用就是反模式（Javaer 的本能，要压住）。
 
