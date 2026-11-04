@@ -14,11 +14,16 @@ const TRACKS = [
   "F-前端",
 ];
 
+// 取 md 一级标题做侧栏名：先剥离围栏代码块再匹配（2026-11-04 修：Dockerfile 片段
+// 里的 "# 多阶段…" 注释曾被当成 H1，Go 上手实战侧栏错文案即此 bug）；同时兼容
+// ATX（# 标题）与 setext（标题行 + ====）两种 H1 写法。没有则退化为文件名。
 function titleOf(mdPath) {
-  // 取 md 一级标题做侧栏名；没有则退化为文件名
   try {
-    const m = readFileSync(mdPath, "utf8").match(/^#\s+(.+)$/m);
-    if (m) return m[1].trim();
+    const stripped = readFileSync(mdPath, "utf8").replace(/```[\s\S]*?```/g, "");
+    const atx = stripped.match(/^#\s+(.+)$/m);
+    if (atx) return atx[1].trim();
+    const setext = stripped.match(/^(.+)\n=+\s*$/m);
+    if (setext) return setext[1].trim();
   } catch {}
   return mdPath.split("/").pop().replace(/\.md$/, "");
 }
