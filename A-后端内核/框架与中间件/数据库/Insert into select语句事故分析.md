@@ -1,5 +1,8 @@
+Insert into select语句事故分析
+========================
+
 看在前面
-====
+----
 
 > * <a href="https://urlify.cn/2qmAju">同事埋了个坑：Insert into select语句把生产服务器炸了</a>
 

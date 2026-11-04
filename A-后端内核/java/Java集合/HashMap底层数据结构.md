@@ -1,5 +1,8 @@
+HashMap底层数据结构
+=============
+
 看在前面
-====
+----
 
 * <a href="https://zhuanlan.zhihu.com/p/21673805">感谢美团技术团队分享-->Java 8系列之重新认识HashMap</a>
 * <a href="（原链已失效 2026-10，内容已在本篇/本库）">感谢Snailclimb-->JavaGuide-->HashMap</a>

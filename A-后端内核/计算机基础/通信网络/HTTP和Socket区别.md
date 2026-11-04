@@ -1,5 +1,8 @@
+HTTP和Socket区别
+=============
+
 看在前面
-====
+----
 
 > * <a href="https://segmentfault.com/q/1010000006809949?_ea=1139974">http和socket之间的关系和区别</a>
 

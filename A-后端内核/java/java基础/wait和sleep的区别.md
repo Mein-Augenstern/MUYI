@@ -1,5 +1,8 @@
+wait和sleep的区别
+=============
+
 看在前面
-====
+----
 * <a href="（原链已失效 2026-10，内容已在本篇/本库）">Difference between sleep and wait in java</a>
 
 wait方法简介

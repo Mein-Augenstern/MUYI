@@ -1,5 +1,8 @@
+final finally finalize
+======================
+
 Question
-====
+--------
 
 * 谈谈 final、finally、finalize 有什么不同？
 * 为什么局部内部类和匿名内部类只能访问局部final变量？

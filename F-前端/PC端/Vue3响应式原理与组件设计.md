@@ -1,5 +1,8 @@
+Vue3响应式原理与组件设计
+==============
+
 看在前面
-====
+----
 
 Vue3 的响应式系统，一句话概括：**用 Proxy 拦截读写，把"谁在读我"记下来，写的时候通知他们重跑**。本质是一套自动化的观察者模式。Java 工程师对它有天然亲近感：**Proxy ≈ JDK 动态代理，effect ≈ 注册的监听回调，track/trigger ≈ Guava EventBus 的 register/post**。差异在哲学：Java 代理是你显式创建、显式调用。Vue 的代理由 `reactive()` 一包就生成，依赖收集藏在 getter 里全自动发生。
 

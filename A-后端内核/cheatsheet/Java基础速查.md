@@ -1,5 +1,8 @@
+Java基础速查
+========
+
 文章清单
-====
+----
 
 * <a href="（原链已失效 2026-10，内容已在本篇/本库）%92%8CClassNotFoundException%E5%8C%BA%E5%88%AB.md">NoClassDefFoundError和ClassNotFoundException区别</a>
 

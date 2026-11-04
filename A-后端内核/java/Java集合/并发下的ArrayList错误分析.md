@@ -1,5 +1,8 @@
+并发下的ArrayList错误分析
+=================
+
 看在前面
-=====
+----
 
 * 并发下的ArrayList错误分析：https://blog.csdn.net/lan861698789/article/details/81697409
 * 为什么说ArrayList是线程不安全的：https://zhuanlan.zhihu.com/p/140374850
