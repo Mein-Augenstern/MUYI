@@ -8,7 +8,7 @@ comparable 和 Comparator的区别
 一般我们需要对一个集合使用自定义排序时，我们就要重写```compareTo()```方法或```compare()```方法。我们需要对一个集合实现两种排序方式，比如song对象中的歌名和歌手名分别采用一种排序方法。我们可以重写```compareTo()```方法和使用自制的```Comparator```方法。或者以两个```Comparator```来实现歌名排序和歌星名排序。第二种代表我们只能使用两个参数版的 ```Collections.sort()```.
 
 Comparator定制排序
-====
+----
 
 ```java
 ArrayList<Integer> arrayList = new ArrayList<Integer>();
@@ -57,7 +57,7 @@ Collections.sort(arrayList):
 ```
 
 重写compareTo方法实现按年龄来排序
-====
+----
 
 ```java
 // person对象没有实现Comparable接口，所以必须实现，这样才不会出错，才可以使treemap中的数据按顺序排列

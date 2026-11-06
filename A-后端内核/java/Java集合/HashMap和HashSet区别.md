@@ -7,7 +7,7 @@ HashMap和HashSet区别
 * <a href="（原链已失效 2026-10，内容已在本篇/本库）%82%E4%BD%95%E4%BF%9D%E8%AF%81%E4%B8%8D%E9%87%8D%E5%A4%8D%E7%9A%84.md">HashSet 是如何保证不重复的</a>
 
 HashMap 和 HashSet区别
-====
+----
 
 如果你看过 HashSet 源码就知道：HashSet 底层就是基于 HashMap 实现的。（HashSet 自己必须实现的方法只有 clone() 、writeObject()、readObject()，其他方法都是直接调用 HashMap 中的方法。
 

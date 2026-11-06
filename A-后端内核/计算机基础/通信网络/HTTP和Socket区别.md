@@ -7,7 +7,7 @@ HTTP和Socket区别
 > * <a href="https://segmentfault.com/q/1010000006809949?_ea=1139974">http和socket之间的关系和区别</a>
 
 Q
-====
+----
 
 在网上看到说http连接是短连接而socket连接是长连接，但是http不是也有长连接吗？另外一个问题，socket既然是应用层和传输层之间的一层api，那么每一次建立http连接不是都会使用到socket吗？那socket连接不就是http连接的一部分？
 

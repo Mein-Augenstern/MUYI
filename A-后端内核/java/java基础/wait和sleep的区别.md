@@ -6,7 +6,7 @@ wait和sleep的区别
 * <a href="（原链已失效 2026-10，内容已在本篇/本库）">Difference between sleep and wait in java</a>
 
 wait方法简介
-====
+----
 
 * 让当前线程进入等待状态，当别的其他线程调用notify()或者notifyAll()方法时，当前线程进入就绪状态
 
@@ -24,7 +24,7 @@ synchronized(lockedObject) {
 ```
 
 sleep方法简介
-====
+----
 
 * 让当前线程休眠指定时间。
 
@@ -54,7 +54,7 @@ sleep vs wait
 | 方法属性        | wait是实例方法      |   sleep是静态方法      | 
 
 线程的entry sets 和 wait sets
-====
+----
 
 ![Entry and Wait Sets](/images/legacy/Entry_and_Wait_Sets.gif)
 

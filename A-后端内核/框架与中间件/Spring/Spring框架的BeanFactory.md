@@ -7,7 +7,7 @@ Spring框架的BeanFactory
 > * <a href="https://www.cnblogs.com/digdeep/p/4518571.html">深入剖析 Spring 框架的 BeanFactory</a>
 
 简介
-====
+----
 
 说到Spring框架，人们往往大谈特谈一些似乎高逼格的东西，比如依赖注入，控制反转，面向切面。但是却忘记了最基本的一点，Spring的本质是一个bean工厂(beanFactory)或者说bean容器。它按照我们的要求，生产我们需要的各种各样的bean，提供给我们使用。只是在生产bean的过程中，需要解决bean之间的依赖问题，才引入了依赖注入(DI)这种技术。即依赖注入是beanFactory生产bean时为了解决bean之间的依赖的一种技术而已。
 
@@ -18,7 +18,7 @@ Spring框架的BeanFactory
 即beanFactory会在bean的生命周期的各个阶段中管理bean。并且spring将这些阶段通过各种接口暴露给我们。**让我们可以对bean做各种处理。我们只要让bean实现对应的接口，spring就会在bean的生命周期调用我们实现的接口来处理该bean**。下面我们看是如何实现这一点的。
 
 一、bean容器的启动
-====
+----
 
 bean在实例化之前，必须是在bean容器启动之后。所以就有了两个阶段：
 

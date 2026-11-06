@@ -9,7 +9,7 @@ SPI
 本文探析JDK提供的、在开源项目中常用的Java SPI机制。希望给大家在实际开发实践、学习开源项目提供参考。
 
 一、SPI是什么
-====
+----
 
 SPI全称Service Provider Interface，是Java提供的一套用来被第三方实现或者扩展的API。它可以用来启用框架扩展和替换组件。
 
@@ -24,7 +24,7 @@ Java SPI 是“**基于接口的编程＋策略模式＋配置文件**”组合�
 Java SPI就是提供这样的一个机制：为某个接口寻找服务实现的机制。有点类似IOC的思想，就是将装配的控制权移到程序之外，在模块化设计中这个机制尤其重要。所以SPI的核心思想就是解耦。
 
 二、使用场景
-====
+----
 
 概括地说，适用于：**调用者根据实际使用需要，启用、扩展、或者替换框架的实现策略**
 
@@ -47,7 +47,7 @@ Spring中使用了SPI,比如：对servlet3.0规范对ServletContainerInitializer
 Dubbo中也使用SPI的方式实现框架的扩展。不过它对Java提供的原生SPI做了封装，允许用户扩展实现Filter接口
 
 三、使用介绍
-====
+----
 
 要使用Java SPI，需要遵循如下约定：
 
@@ -60,7 +60,7 @@ Dubbo中也使用SPI的方式实现框架的扩展。不过它对Java提供的�
 * SPI的实现类必须携带一个不带参数的构造方法；
 
 示例代码
-====
+----
 
 步骤1、定义一组接口 (假设是org.foo.demo.IShout)，并写出接口的一个或多个实现，(假设是org.foo.demo.animal.Dog、org.foo.demo.animal.Cat)。
 
@@ -125,7 +125,7 @@ miao miao
 ```
 
 四、原理解析
-====
+----
 
 首先看ServiceLoader类的签名类的成员变量：
 
@@ -210,7 +210,7 @@ private LinkedHashMap<String,S> providers = new LinkedHashMap<>();
 ```
 
 五、总结
-====
+----
 
 <h3>优点</h3>
 

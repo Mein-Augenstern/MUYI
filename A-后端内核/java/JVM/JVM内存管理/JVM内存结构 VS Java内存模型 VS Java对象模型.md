@@ -7,7 +7,7 @@ JVM内存结构 VS Java内存模型 VS Java对象模型
 > * <a href="http://www.hollischuang.com/archives/2509">JVM内存结构 VS Java内存模型 VS Java对象模型</a>
 
 三个极易混淆的概念
-====
+----
 
 Java 作为一门面向对象、跨平台的语言，其对象、内存、运行时数据区这类知识点一直比较难。JVM 内存结构、Java 内存模型、Java 对象模型是三个截然不同的概念。但名称相似，很多高级开发也容易弄混：
 
@@ -16,7 +16,7 @@ Java 作为一门面向对象、跨平台的语言，其对象、内存、运行
 * **Java 对象模型（OOP-Klass）**：Java 对象在虚拟机中的存储模型，与"对象"相关。
 
 JVM 内存结构（Java Memory Structure）
-====
+----
 
 JVM 内存结构是 Java 虚拟机规范中定义的运行时数据区（Runtime Data Areas）。《Java 虚拟机规范（Java SE 8）》规定：程序计数器、Java 虚拟机栈、本地方法栈为线程私有；堆、方法区为线程共享。
 
@@ -59,7 +59,7 @@ JVM 内存结构的作用
 * 一图胜千言：线程私有的计数器/栈伴随线程创建与销毁。堆与方法区随 JVM 启动创建、随 JVM 退出消亡，堆中对象的回收由 GC 负责。
 
 Java 内存模型（Java Memory Model，JMM）
-====
+----
 
 JMM 的由来
 ----
@@ -76,7 +76,7 @@ JMM 的抽象结构：主内存与工作内存
 * 这套抽象直接解释了多线程可见性问题的根源。围绕它定义了 volatile、synchronized、final 的语义以及 happens-before 原则，用于保证并发三性：**原子性、可见性、有序性**。
 
 Java 对象模型（Java Object Model）
-====
+----
 
 * Java 对象在 JVM 中的存储模型叫 OOP-Klass 模型：**对象在内存中的布局（oop）与类的元数据（Klass）分离**。
 * JVM 加载类时会先用 Class 文件创建一个 **Klass**（C++ 数据结构），保存在方法区，是 Java 类的"身份证"。它包含 vtable（虚方法表）与类信息这类内容。
@@ -84,7 +84,7 @@ Java 对象模型（Java Object Model）
 * 由于 JVM 由 C++ 实现，Java 对象在底层并无"C++ 对象模型"那种直接对应。而是通过 oop-Klass 两级模型让 Java 对象既能被 GC 管理，又支持方法分派与类型判断（instanceof、反射都依赖 Klass）。
 
 三者对比总结
-====
+----
 
 * **JVM 内存结构**：面向"运行时"，划分虚拟机运行时数据区，回答"内存区域怎么分、各自放什么"。
 * **Java 内存模型**：面向"并发"，定义主内存/工作内存的抽象与同步语义，回答"多线程如何看见彼此的修改"。

@@ -2,14 +2,14 @@ ArrayList 与 Vector 区别呢?为什么要用Arraylist取代Vector呢？
 ====
 
 一句话答案
-====
+----
 
 ```Vector``` 类的所有方法都是同步的。可以由两个线程安全地访问一个Vector对象。但是一个线程访问 Vector 时，代码要在同步操作上耗费时间。
 
 ```Arraylist```不是同步的，所以在不需要保证线程安全时建议使用Arraylist。
 
 一、总览对比表
-====
+----
 
 | 维度 | ArrayList | Vector |
 | ---- | ---- | ---- |
@@ -22,7 +22,7 @@ ArrayList 与 Vector 区别呢?为什么要用Arraylist取代Vector呢？
 | null 支持 | 允许任意个 null 元素 | 同样允许（注意这点和 Hashtable 禁 null 不同） |
 
 二、同步实现差异
-====
+----
 
 1、Vector 的同步是"方法级 synchronized"
 
@@ -47,7 +47,7 @@ public synchronized boolean add(E e) {
 JDK 的取舍是：容器默认不为多线程付费。需要线程安全时，由调用方显式选择并发容器或同步包装（见第五节）。
 
 三、扩容策略：1.5 倍 vs 2 倍
-====
+----
 
 ```java
 // ArrayList#grow（JDK8）：新容量 = 旧容量 + 旧容量右移一位，即 1.5 倍
@@ -70,7 +70,7 @@ Vector    : 10 -> 20 -> 40 -> 80 -> 160 -> 320 -> 640 ...（×2，扩容次数�
 * 两者都可在构造时预估容量或调用 ensureCapacity 预分配，彻底规避扩容，详见 [ArrayList扩容](../Java集合/ArrayList扩容.md)。
 
 四、失败机制：fail-fast
-====
+----
 
 两者的迭代器都是 **fail-fast（快速失败）** 的：
 
@@ -81,7 +81,7 @@ Vector    : 10 -> 20 -> 40 -> 80 -> 160 -> 320 -> 640 ...（×2，扩容次数�
 原理细节（包括为什么"不能依赖这个异常来编写并发程序"）见 [快速失败（fail—fast）和安全失败（fail—safe）](快速失败（fail-fast）和安全失败（fail-safe）.md)。
 
 五、替代方案：为什么不该再写 Vector
-====
+----
 
 | 方案 | 适用场景 | 特点 |
 | ---- | ---- | ---- |

@@ -15,7 +15,7 @@ Kafka 是消息队列面试的绝对主角。原因：它同时踩中三个高�
 本篇先搭整体架构，再逐层拆高性能四件套，最后讲 Consumer Group 与 rebalance、KRaft 演进。可靠性与顺序问题见后续：[消息不丢失与不重复](消息不丢失与不重复.md)、[顺序消息](顺序消息.md)。
 
 整体架构：一张图记住 Kafka
-====
+----
 
 ```text
                           ┌────────────────────────────────────────────┐
@@ -47,7 +47,7 @@ Kafka 是消息队列面试的绝对主角。原因：它同时踩中三个高�
 * **ZooKeeper / KRaft**：早期存元数据、选 controller；2.8 之后 KRaft 逐步取代。
 
 Topic、Partition 与副本机制
-====
+----
 
 为什么要有分区
 ------
@@ -76,7 +76,7 @@ topic-order, partition-0 （磁盘上的 segment 文件序列）
 * AR = ISR + OSR。
 
 ISR：Kafka 一致性与可用性的核心权衡
-====
+----
 
 **ISR（In-Sync Replicas，同步副本集合）**是理解 Kafka 的钥匙。它不是「和 leader 时刻一致」的副本集合，而是「落后程度在阈值内」的副本集合：
 
@@ -106,7 +106,7 @@ unclean.leader.election.enable=false
 ```
 
 高性能四件套
-====
+----
 
 Kafka 单机百万级吞吐不是魔法，是四个工程决策的叠加。
 
@@ -155,7 +155,7 @@ props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "lz4");
 一句话总结四件套：**顺序写解决写得快，页缓存解决读得快。零拷贝解决传输快，批量压缩解决网络省**。
 
 Consumer Group 与 Rebalance
-====
+----
 
 消费模型
 ------
@@ -188,7 +188,7 @@ max.poll.interval.ms=300000  # 两次 poll 最大间隔，处理太慢会被踢�
 这是能体现知识新的加分点。
 
 从 ZooKeeper 到 KRaft
-====
+----
 
 ZooKeeper 模式的问题：元数据（broker 注册、controller 选举、ISR 变更）存 ZK，controller 要把变更**再同步回各 broker**。两层存储扩容/故障恢复都慢。分区数上十万级时 controller 故障切换要分钟级。
 
@@ -204,7 +204,7 @@ KRaft（Kafka Raft）模式：
 ```
 
 追问链
-====
+----
 
 **Q1：为什么 Kafka 读写都走 leader，不让 follower 分担读？**
 
@@ -233,7 +233,7 @@ KRaft（Kafka Raft）模式：
 mmap 适合小文件小块写（索引用 mmap）。日志段读取用 sendfile，免去了用户态映射管理的复杂度与缺页开销。两者 Kafka 都用了：**索引 mmap、日志传输 sendfile**。
 
 面试官视角小结
-====
+----
 
 * 答架构先给「topic-partition-副本」三层，再给 ISR，最后给四件套。这个顺序体现的是**存储模型 → 一致性 → 性能**的完整认知，比上来就背「Kafka 快是因为顺序写」高一档。
 * ISR 必须能推导：为什么 HW 取 ISR 最小 LEO、`min.insync.replicas` 和 `acks=all` 为什么必须成对出现（见 [消息不丢失与不重复](消息不丢失与不重复.md)）。

@@ -8,12 +8,12 @@
 > * <a href="https://blog.csdn.net/shixiansen6535/article/details/89539842">查看Linux服务器的负载情况</a>（同上并入）
 
 排查总思路
-====
+----
 
 服务器出问题按"资源 → 进程 → 日志 → 业务"四步收敛。先看整机资源（CPU/内存/磁盘/IO/网络）。再定位到具体进程和线程。然后翻应用与系统日志。最后回到业务代码。以下命令均可在 1 分钟内给出线索。
 
 整机负载：top / uptime / vmstat
-====
+----
 
 * 第一条命令永远是看整体负载：
 
@@ -36,7 +36,7 @@ procs -----------memory---------- ---swap-- -----io---- -system-- -----cpu-----
 * 重点列：`r`（等待运行的进程数）、`si/so`（swap 换入换出，非 0 说明内存吃紧）。`bi/bo`（块设备 IO）、`us/sy/wa`（用户/内核/等待 IO 的 CPU 占比，`wa` 高 = 磁盘瓶颈）。
 
 内存：free
-====
+----
 
 ```java
 free -m
@@ -50,7 +50,7 @@ Swap:         2047           0        2047
 * 其他入口：`top`（执行后按 `shift+m` 对内存排序）、`vmstat`、`procinfo`，或直接读文件 `/proc/meminfo`。
 
 磁盘空间与 IO：df / du / iostat
-====
+----
 
 ```java
 df -h                     # 各挂载点空间使用率，排除磁盘写满
@@ -60,7 +60,7 @@ iostat -x 1 3             # 磁盘 IO：关注 %util（接近 100% 磁盘打满�
 ```
 
 进程定位：ps / pidstat
-====
+----
 
 ```java
 ps -ef | grep java                       # 找目标进程 PID
@@ -74,7 +74,7 @@ pidstat -t -p <pid> 1                    # 细化到线程级 CPU（定位热点
 * **僵尸进程**：`top` 可看 zombie 总数；用 `ps -ef | grep defunct | grep -v grep` 找到具体僵尸进程。杀死僵尸进程要杀它的父进程才有效：先 `ps -o ppid <pid>` 查到父进程 ID，再 `kill -9 <ppid>`。
 
 网络：ss / netstat / ping / telnet
-====
+----
 
 ```java
 ss -s                                     # 连接数总览
@@ -88,7 +88,7 @@ telnet 10.0.0.1 3306                      # 端口是否可达（服务是否起
 * 端口起不来：linux 中小于 1024 的端口只能由 root 用户启动监听。先 `sudo su -` 获取 root 权限再启用服务端口。应用侧通过启动日志排查端口冲突、配置问题。
 
 日志检索：tail / grep
-====
+----
 
 ```java
 tail -f app.log                           # 实时滚动跟踪
@@ -100,7 +100,7 @@ less app.log   ->  /关键字  n下一个 N上一个 # 大文件交互式检索
 ```
 
 Java 应用专属：jps / jstat / jstack / jmap
-====
+----
 
 ```java
 jps -l                                    # 找 Java 进程 PID 与主类
@@ -120,7 +120,7 @@ jstack <pid> | grep <hex-tid> -A 30   # 4. 定位到具体线程栈，看到底�
 ```
 
 命令组合小结
-====
+----
 
 | 症状 | 先敲什么 |
 | --- | --- |

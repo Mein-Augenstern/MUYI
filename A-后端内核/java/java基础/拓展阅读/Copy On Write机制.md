@@ -7,7 +7,7 @@ Copy On Write机制
 > * <a href="https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&mid=2247484364&idx=1&sn=60b00b2188047267e5c46c09ae248ca8&chksm=ebd742cddca0cbdbcf40710dec04757208ee8e64473966b28a01cc87352515e45f9ec237c0a3&token=1534404710&lang=zh_CN#rd">COW奶牛！Copy On Write机制了解一下</a>
 
 文章来源
-====
+----
 
 在读《Redis设计与实现》关于哈希表扩容的时候，发现这么一段话：
 
@@ -18,7 +18,7 @@ Copy On Write机制
 本文力求简单讲清copy-on-write这个知识点，希望大家看完能有所收获。
 
 一、Linux下的copy-on-write
-====
+----
 
 在说明Linux下的copy-on-write机制前，我们首先要知道两个函数：```fork()和exec()```。需要注意的是```exec()```并不是一个特定的函数, 它是一组函数的统称, 它包括了```execl()、execlp()、execv()、execle()、execve()、execvp()```。
 
@@ -177,7 +177,7 @@ Copy On Write技术缺点是什么？
 * Copy-On-Write 写时复制原理https://blog.csdn.net/ppppppppp2009/article/details/22750939
 
 二、解释Redis的COW
-====
+----
 
 基于上面的基础，我们应该已经了解COW这么一项技术了。
 
@@ -196,7 +196,7 @@ Copy On Write技术缺点是什么？
 * 写时复制：（原链已失效 2026-10，内容已在本篇/本库）
 
 三、文件系统的COW
-====
+----
 
 下面来看看文件系统中的COW是啥意思：
 
@@ -211,7 +211,7 @@ Copy-on-write在对数据修改的时候，不会直接在原来的数据位置�
 * 新一代 Linux 文件系统 btrfs 简介:https://www.ibm.com/developerworks/cn/linux/l-cn-btrfs/
 
 最后
-====
+----
 
 最后我们再来看写时复制的思想(摘录自维基百科)：
 

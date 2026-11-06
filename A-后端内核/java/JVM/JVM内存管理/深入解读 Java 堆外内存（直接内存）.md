@@ -7,7 +7,7 @@
 > * <a href="https://gitbook.cn/books/5af96867ae95367fe4a8dd7d/index.html">深入解读 Java 堆外内存（直接内存）</a>
 
 一、引言
-====
+----
 
 > 很久没有遇到堆外内存相关的问题了，五一假期刚结束，便不期而遇，以前也处理过几次这类问题，但都没有总结，觉得是时候总结一下了。
 
@@ -32,7 +32,7 @@ public class Demo
 ```
 
 二、什么是堆外内存？
-====
+----
 
 Java 开发者一般都知道堆内存，但却未必了解堆外内存。除了堆内存，Java 还可以使用堆外内存，也称直接内存（Direct Memory）。顾名思义，堆外内存是在 JVM Heap 之外分配的内存块，并不是 JVM 规范中定义的内存区域。堆外内存用得并不多，但十分重要。
 
@@ -41,7 +41,7 @@ Java 开发者一般都知道堆内存，但却未必了解堆外内存。除了
 目前，很多 NIO 框架 （如 netty，rpc） 会采用 Java 的 DirectByteBuffer 类来操作堆外内存。DirectByteBuffer 类对象本身位于 Java 内存模型的堆中，由 JVM 直接管控、操纵。但是，DirectByteBuffer 中用于分配堆外内存的方法 unsafe.allocateMemory(size) 是一个 native 方法，本质上是用 C 的 malloc 来分配的。分配的内存是系统本地的内存，并不在 Java 的内存中，也不属于 JVM 管控范围。所以在 DirectByteBuffer 一定会存在某种特别的方式来操纵堆外内存。
 
 三、堆外内存创建过程深度解析
-====
+----
 
 首先，我们来看 DirectByteBuffer 源代码，从中洞悉分配堆外内存的过程：
 

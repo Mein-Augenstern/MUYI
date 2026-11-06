@@ -598,7 +598,7 @@ public class UpperBoundedWildcardExample {
 
 我们不打算向列表中添加任何元素，只是读取列表中的元素，所以使用上界通配符是合适的。这样的设计使 `sumOfList` 方法更加灵活，可以接受多种不同的数字类型的列表作为参数。
 
-# 以下内容来自链接：https://xiaochai.github.io/2019/11/14/java-generic/
+## 以下内容来自链接：https://xiaochai.github.io/2019/11/14/java-generic/
 
 ## 协变（covariance）、逆变（contravariance）、不变（invariance）
 

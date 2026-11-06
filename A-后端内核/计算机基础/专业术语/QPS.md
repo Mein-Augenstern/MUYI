@@ -7,7 +7,7 @@ QPS（Queries Per Second，每秒查询率）
 > * <a href="https://www.cnblogs.com/uncleyong/p/11059556.html">性能测试：TPS和QPS的区别</a>（原《关于TPS和QPS》一文独有内容已并入本文）
 
 一句话描述
-====
+----
 
 > 每秒查询率，是对一个特定的查询服务器在规定时间内所处理流量多少的衡量标准。
 

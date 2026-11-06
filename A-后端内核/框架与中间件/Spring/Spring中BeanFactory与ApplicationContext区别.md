@@ -7,7 +7,7 @@ BeanFactory和ApplicationContext是Spring的两大核心接口，都可以当做
 ------
 
 BeanFactory和ApplicationContext对比
-====
+----
 
 BeanFactory：是Spring里面最底层的接口，包含了各种Bean的定义。读取bean配置文档，管理bean的加载、实例化，控制bean的生命周期，维护bean之间的依赖关系。ApplicationContext接口作为BeanFactory的派生，除了提供BeanFactory所具有的功能外，还提供了更完整的框架功能：
 

@@ -21,7 +21,7 @@ private BaseDao baseDao;
 只不过注解处理器我们使用的是Spring提供的，是一样的。无所谓解耦不解耦的说法，两个在便利程度上是等同的。
 
 区别
-====
+----
 
 1.@Autowired是默认按照类型装配的，@Resource默认是按照名称装配的byName，通过参数名 自动装配。如果一个bean的name 和另外一个bean的 property 相同，就自动装配。byType 通过参数的数据类型自动装配。如果一个bean的数据类型和另外一个bean的property属性的数据类型兼容，就自动装配
 
@@ -41,11 +41,11 @@ public class TestServiceImpl {
 ```
 
 共同点
-====
+----
 
 装配bean. 写在字段上,或写在setter方法
 
 总结
-====
+----
 
 @Autowired自动注解。举个例子吧，一个类，两个实现类，Autowired就不知道注入哪一个实现类。而Resource有name属性，可以区分。

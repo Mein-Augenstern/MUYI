@@ -11,7 +11,7 @@ Java 中的 Monitor 机制
 > * <a href="https://blog.csdn.net/boyeleven/article/details/81390738">Java多线程（二）——Java对象的Monitor机制</a>
 
 Java 中的 Monitor 机制
-====
+----
 
 monitor的概念
 ------

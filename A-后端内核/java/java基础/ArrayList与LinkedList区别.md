@@ -14,7 +14,7 @@ Arraylist 与 LinkedList 区别?
  5. **内存空间占用**:ArrayList的空间浪费主要在list列表的结尾预留一定的容量空间。LinkedList 的空间花费则体现在它的每一个元素都需要消耗 ArrayList 更多的空间。原因是每个元素要存放直接后续和直接前驱以及数据。
  
 RandomAccess接口
-====
+----
 
 ```java
 public interface RandomAccess {
@@ -45,7 +45,7 @@ ArrayList 实现了 RandomAccess 接口，就表明了他具有快速随机访�
 * 未实现 RandomAccess接口的list，优先选择iterator遍历（foreach遍历底层也是通过iterator实现的）。大size的数据，禁止使用普通for循环
 
 双向链表和双向循环链表
-====
+----
 
 **双向链表**： 包含两个指针，一个prev指向前一个节点，一个next指向后一个节点。
 

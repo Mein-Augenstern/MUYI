@@ -7,7 +7,7 @@ ConcurrentSkipListMap源码
 > * <a href="https://www.cnblogs.com/java-zzl/p/9767255.html">Java并发集合（二）-ConcurrentSkipListMap分析和使用</a>
 
 概述与选型
-====
+----
 
 ConcurrentSkipListMap 是**线程安全的有序 Map**，基于跳表（SkipList）实现：
 
@@ -18,14 +18,14 @@ ConcurrentSkipListMap 是**线程安全的有序 Map**，基于跳表（SkipList
 * 注意：`size()` 因多线程并发修改，需要遍历链表统计，是 O(n) 量级的开销操作，不应频繁调用。
 
 跳表结构
-====
+----
 
 跳表分多层，每层是一条有序索引。上层是下层的子集，第 1 层包含全部数据。**层越高跳跃越大、数据越少**。查找从表头开始，自上而下、从左往右。
 
 以 7,14,21,32,37,71,85 为例：单链表找 32 需要 4 步，跳表只需 2 步（顶层直接跳过 14、21）。
 
 类结构与并发字段
-====
+----
 
 * 继承 AbstractMap；
 * 内部类 `Index` 对应跳表索引，`HeadIndex` 继承 Index，其实例 head 为表头；
@@ -45,7 +45,7 @@ static final class Index<K,V> {
 ```
 
 put → doPut（JDK1.7 源码）
-====
+----
 
 主干是单线程插入逻辑，其余都是并发冲突处理：
 
@@ -58,7 +58,7 @@ put → doPut（JDK1.7 源码）
 4. `randomLevel()` 随机选层。level > 0 时调用 `insertIndex(z, level)` 从第 1 层到 level 层逐层插入索引，必要时升高跳表。
 
 remove → doRemove
-====
+----
 
 1. 同样先找前继 b、目标节点 n、后继 f。并发检查与 put 一致（读取不一致或节点已被删则重试）；
 2. c < 0 说明 key 不存在，返回 null；c > 0 继续右移；c == 0 时：
@@ -70,7 +70,7 @@ remove → doRemove
 删除采用 **value 置 null + marker 的惰性删除**方式：其他线程遇到已删节点时会 `helpDelete(b, f)` 协助完成摘除。
 
 get → doGet → findNode
-====
+----
 
 findNode 主干：
 
@@ -81,7 +81,7 @@ findNode 主干：
 doGet 循环调用 findNode，取到 `n.value` 非 null 即返回。get 全程无锁，依赖 volatile 读与"删除先置 null"的约定保证一致性。
 
 使用示例
-====
+----
 
 ```java
 Map<String, String> map = new ConcurrentSkipListMap<>();

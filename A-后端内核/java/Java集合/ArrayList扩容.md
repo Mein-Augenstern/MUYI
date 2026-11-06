@@ -56,7 +56,7 @@ public ArrayList(int initialCapacity) {
 细心的同学一定会发现 ： **以无参数构造方法创建 ArrayList 时，初始化赋值的是一个空数组。当真正向数组添加元素时，才真正分配容量。即向数组中添加第一个元素时，数组容量扩为10。** 下面在我们分析 ArrayList 扩容时会讲到这一点内容。
 
 二 一步一步分析 ArrayList 扩容机制
-====
+----
 
 这里以无参构造函数创建的 ArrayList 为例分析
 
@@ -150,7 +150,7 @@ int newCapacity = oldCapacity + (oldCapacity >> 1),所以 ArrayList 每次扩容
 节省了资源
 
 我们再来通过例子探究grow() 方法 ：
-====
+----
 
 * 当add第1个元素时，oldCapacity 为0，经比较后第一个if判断成立，newCapacity = minCapacity(为10)。但是第二个if判断不会成立，即newCapacity 不比 MAX_ARRAY_SIZE大，则不会进入 hugeCapacity 方法。数组容量为10，add方法中 return true,size增为1。
 * 当add第11个元素进入grow方法时，newCapacity为15，比minCapacity（为11）大，第一个if判断不成立。新容量没有大于数组最大size，不会进入hugeCapacity方法。数组容量扩为15，add方法中return true,size增为11。
@@ -181,7 +181,7 @@ private static int hugeCapacity(int minCapacity) {
 ```
 
 三 System.arraycopy() 和 Arrays.copyOf()方法
-====
+----
 
 阅读源码，我们就会发现 ArrayList 中大量调用了这两个方法。比如：我们上面讲的扩容操作以及add(int index, E element)、toArray() 等方法中都用到了该方法。
 
@@ -279,7 +279,7 @@ public class ArrayscopyOfTest {
 arraycopy() 需要目标数组，将原数组拷贝到你自己定义的数组里或者原数组。而且可以选择拷贝的起点和长度以及放入新数组中的位置。copyOf() 是系统自动在内部新建一个数组，并返回该数组。
 
 四 ensureCapacity方法
-====
+----
 
 ArrayList 源码中有一个 ensureCapacity 方法不知道大家注意到没有。这个方法 ArrayList 内部没有被调用过，所以是提供给用户调用的。下面说明这个方法的作用。
 

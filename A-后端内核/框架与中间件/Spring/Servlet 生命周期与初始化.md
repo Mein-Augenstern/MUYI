@@ -7,7 +7,7 @@ Servlet 生命周期与初始化
 > * <a href="https://blog.csdn.net/qq_34651407/article/details/85015947">简单介绍下servlet的生命周期，servlet是否会多次初始化？</a>
 
 一句话答案
-====
+----
 
 Servlet的生命周期由Web容器来管理：
 

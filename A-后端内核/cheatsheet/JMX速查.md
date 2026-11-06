@@ -1,7 +1,7 @@
 # JMX 速查卡
 
 JMX 是什么
-====
+----
 
 1. JMX（Java Management Extensions，Java 管理扩展）。它为应用程序/设备/系统植入管理功能的框架，跨平台、跨体系结构、跨传输协议。
 2. 典型场景：监控 Java 程序运行情况（JConsole / Visual VM）。中间件监控、在线修改配置（如清空缓存、重载配置文件）。
@@ -55,7 +55,7 @@ MBean 编程四步
 2. JMX 是更具体、应用面窄、轻量的 C/S 工具；不需要大张旗鼓建 server/client 时就用它。
 
 Spring Boot 中使用
-====
+----
 
 1. Spring Boot 2.2 之前 JMX 默认启用；2.2 及之后默认关闭，需显式配置 `spring.jmx.enabled=true`。启用后 Actuator 端点以 MBean 形式暴露到 `org.springframework.boot` 域，JConsole/VisualVM 连上即可查看。
 2. 自定义 MBean 常用注解（AnnotationMBeanExporter 自动注册）：

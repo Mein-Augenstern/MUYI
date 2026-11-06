@@ -7,7 +7,7 @@ HashMap与Hashtable的区别
 * <a href="https://www.jianshu.com/p/c955491a3398">HashMap 进阶篇那些唬人的名词: Resize, Capacity, bucket,Load factor</a>
 
 先搞懂 HashMap 的几个名词
-====
+----
 
 HashMap 是"数组的链表"：底层数组，每一项是一个链表，链表存 Entry（含 key、value、next）。围绕它有几个高频名词：
 
@@ -20,7 +20,7 @@ HashMap 是"数组的链表"：底层数组，每一项是一个链表，链表�
 初始化时构造函数会算出"大于 initialCapacity 的最小的 2 的 n 次方"作为容量（最大为 2^30），threshold = capacity × loadFactor。
 
 put 与 resize 流程（JDK1.7）
-====
+----
 
 1 put
 ------
@@ -38,7 +38,7 @@ key 为 null 放到数组第一个链表；否则 hash 后用 `indexFor(h, lengt
 新建 2 倍长度的新数组，transfer 迁移数据，更新 threshold；若已达最大容量则把阈值设为 Integer.MAX_VALUE 不再扩容。transfer 遍历旧数组，采用**头插法**把节点插入新表。JDK1.7 中同索引位置的链表会倒置，1.8 不会——这也是 1.7 并发扩容成环的原因。
 
 为什么扩容是 2 倍
-====
+----
 
 由于按 2 的幂次扩展，元素在新表中的位置**要么不变，要么移动 oldCap（即原索引 + 旧容量）**。只需看原 hash 新增的那一位 bit 是 0 还是 1，无需重新计算 hash。新 bit 是 0/1 可视为随机，扩容时还能把原本冲突的节点均匀分散到两个桶。
 
@@ -51,7 +51,7 @@ static final int hash(Object key) {
 ```
 
 HashMap vs HashTable
-====
+----
 
 1 线程安全
 ------

@@ -9,7 +9,7 @@ Spring Bean作用域
 ------
 
 什么是Spring beans?
-====
+----
 
 Spring bean 表示受到Spring管理的对象。具体说来，它是被Spring框架容器初始化、配置和管理的对象。Spring bean是在Spring的配置文件中定义（现在也可以通过annotation注解来定义）。在Spring容器中初始化，然后注入到应用程序中的。
 
@@ -20,7 +20,7 @@ Spring bean可以是POJO，并且它通常就是。（即使它并不一定得�
 当通过Spring容器创建一个Bean实例时，不仅可以完成Bean实例的实例化，还可以为Bean指定特定的作用域。
 
 Spring支持如下5种作用域
-====
+----
 
 * singleton：单例模式，在整个Spring IoC容器中，使用singleton定义的Bean将只有一个实例
 

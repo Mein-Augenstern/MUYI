@@ -11,7 +11,7 @@
 所以本系列的方法论一句话：**用 Java 概念做锚点，盯住哲学差异，落到生产代码**。每节按"Java 概念 → TS 对应 → 真实项目里的落点"三段推进，文中代码均来自上述两个项目，可追溯。
 
 一张总图：Java 思维到 TS 的映射
-====
+----
 
 先给对照表，后面每节就是把其中一行展开讲透：
 
@@ -26,7 +26,7 @@
 | Filter / Interceptor 鉴权 | axios 拦截器 / 路由守卫 | 同一条链，挂在客户端 | `src/api/request.ts`、`src/router/index.ts` |
 
 类型系统：interface 是一份"运行时会消失"的契约
-====
+----
 
 > **面试官：TS 的 interface 和 Java 的 interface，区别到底在哪？**
 
@@ -52,7 +52,7 @@ interface 还是 type：怎么选
 口诀：**描述对象形状用 interface，要参与类型运算（联合、交叉、条件类型）用 type**。两个真实差异：interface 支持声明合并（同名自动合并，给第三方库补类型时有用也危险）。type 支持联合与工具类型运算。api.d.ts 里 30+ 个类型全用 interface，因为它们都是"后端 VO 的镜像"，形状单一。而 `src/api/health.ts` 里内联的参数类型 `Array<{ itemName: string; ... }>`，就是 type 思维的函数式写法。
 
 联合类型与可空：把 Optional 编进类型系统
-====
+----
 
 > **面试官：TS 怎么表达"可能为空"？和 Java 的 Optional 什么关系？**
 
@@ -82,7 +82,7 @@ export interface HealthIndicator {
 `valueNum`/`valueText` 互斥可空是体检指标的领域现实。另一个典型是 `MemberUpdateDTO`：**所有字段都带 `?`，等于 PATCH 语义（字段可省略 = 部分更新）**。对照 Java 里"全字段可空 + `@JsonInclude(NON_NULL)`"的 UpdateDTO 是同一件事。反向的纪律：给字段写清"与后端哪个列对齐"的注释（如 demo2 `health.ts` 里 abnormalFlag 的注释）。这是防契约漂移最便宜的手段。
 
 泛型：能推断就不写，写是为了约束
-====
+----
 
 > **面试官：TS 泛型和 Java 泛型比，差异在哪？**
 
@@ -113,7 +113,7 @@ export function listReports(params: {
 `request<T>` 只承诺"我会把响应 data 当作 T 交付"（注意 `body.data as T` 是**断言不是验证**，正确性由 api 层签名背书）。`listReports` 声明返回 `Promise<PageVO<HealthReport>>`，`T` 从返回类型**反向推断**出来。页面里 `const page = await listReports({...})` 之后，`page.records` 自动是 `HealthReport[]`，写错字段名直接红线。`PageVO<T>`（records/total/page/size）能像 Java 的分页泛型一样全站复用，靠的就是这条"`R<T>` 解包 → 泛型推断"管线。
 
 契约一致性：api 契约文件就是前端侧的 facade DTO
-====
+----
 
 > **面试官：前后端类型怎么保持一致？靠人肉同步吗？**
 
@@ -140,7 +140,7 @@ export interface PageVO<T> { records: T[]; total: number; page: number; size: nu
 两个易忽略的点：JSON 反序列化只会产生 `null`，`?:` 的 undefined 语义要谨慎映射。手写镜像"只声明用到的字段"反而是优点，后端冗余字段不会污染前端类型。两项目还有个架构对照：frontend 把全量类型集中在一个 api.d.ts（管理端全量消费）。demo2 只放公共类型、领域类型内聚在 `src/api/health.ts`（小程序对包体积敏感，按域裁剪）——这本身就值得一篇笔记。
 
 组合式 API：用函数组织状态，而不是用类
-====
+----
 
 > **面试官：Vue3 组合式 API 和你熟悉的类思维是什么关系？**
 
@@ -164,7 +164,7 @@ router.beforeEach((to) => {
 `beforeEach` ≈ 前置过滤器链，`meta.requiresAuth` ≈ 接口上的安全注解，13 个路由全部 `() => import('@/views/...')` 懒加载 ≈ 按需的模块化拆分。对照 Spring Security 的过滤器链讲这段，面试官立刻能对上频道。
 
 请求层封装纪律：前端也有 integration 层
-====
+----
 
 > **面试官：你们前端请求层怎么封装的？和后端 Feign 层有什么同构性？**
 
@@ -189,7 +189,7 @@ frontend 的 axios 版（`src/api/request.ts`）是拦截器链形态：响应�
 两个值得追问的细节。其一，`return res.data as never` 是刻意利用 never"底部类型可赋给一切"来绕开 axios 拦截器签名与"解包后返回"的冲突。**类型断言是逃生舱不是校验**，正确性由 api 层签名兜底，与 demo2 的 `body.data as T` 同一哲学。其二，demo2 的 BASE_URL 带 uni-app 条件编译（`// #ifndef H5` 走 `/api` 代理，小程序端用 `VITE_API_BASE` 注入完整域名）。这是构建期多端分支，Java 无对应物——留到小程序工程篇展开。
 
 面试官视角小结：30 秒版本
-====
+----
 
 1. **interface 对照**：TS 结构化类型（看形状不认名字），类型编译期全擦除、运行时不存在。所以不能反射、不能运行时校验。`.d.ts` 是纯声明文件。Java 是名义类型 + 字节码存活。
 2. **可空对照**：Java 用 Optional 容器外挂空安全。TS 用 `T | null` 编进类型 + strictNullChecks + 控制流收窄。`field?: T` ≈ PATCH 语义的可省略字段。

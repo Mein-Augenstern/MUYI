@@ -4,19 +4,19 @@
 > * <a href="https://mp.weixin.qq.com/s/TC7gQnxBoxvFh-iaQg28YQ">面试官问：服务的心跳机制与断线重连，Netty底层是怎么实现的？懵了</a>
 
 为什么需要心跳机制
-====
+----
 
 * 在 TCP 长连接中，客户端和服务器之间定期互相发送一种特殊的数据包（心跳包）。通知对方自己还在线，以保证连接的有效性。
 * 心跳还有一个常被忽略的作用：连接长时间不用时，**防火墙或路由器会将其断开**。心跳可以保活中间链路。
 
 核心组件：IdleStateHandler
-====
+----
 
 * Netty 为心跳机制提供了开箱即用的 `IdleStateHandler`。构造器参数（默认单位秒）：`readerIdleTimeSeconds`（读超时触发 `READER_IDLE`）、`writerIdleTimeSeconds`（写超时触发 `WRITER_IDLE`）、`allIdleTimeSeconds`（读写超时触发 `ALL_IDLE`）。
 * 其他时间单位用重载：`IdleStateHandler(long reader, long writer, long all, TimeUnit unit)`；空闲事件以 `IdleStateEvent` 在 pipeline 中传播，业务 Handler 重写 `userEventTriggered` 捕获。
 
 客户端：发送心跳
-====
+----
 
 方式一：ClientIdleStateTrigger 捕获 WRITER_IDLE
 ----
@@ -50,7 +50,7 @@ public class ClientIdleStateTrigger extends ChannelInboundHandlerAdapter {
 * pipeline 组装（`ClientHandlersInitializer`）：`ReconnectHandler`（放最前）→ `LengthFieldBasedFrameDecoder`/`LengthFieldPrepender` → `StringDecoder`/`StringEncoder` → `Pinger`。
 
 服务端：检测心跳
-====
+----
 
 ```java
 public class ServerIdleStateTrigger extends ChannelInboundHandlerAdapter {
@@ -71,7 +71,7 @@ public class ServerIdleStateTrigger extends ChannelInboundHandlerAdapter {
 * 实测现象：客户端发送 4 个心跳后，第 5 个因随机等待过久，发送时连接已被服务端断开。抛 `Connection reset by peer`。`channel.isActive()` 判断与真正发送之间连接恰好断开，这是心跳方案实战中要注意的竞态。
 
 断线重连的实现
-====
+----
 
 * 思路：客户端在**连接断开**（重写 `channelInactive` 触发）或**初次连接失败**时，按重连策略反复尝试。直到成功或重试次数耗尽。
 
@@ -141,7 +141,7 @@ public class ExponentialBackOffRetry implements RetryPolicy {
 * 扩展点：不同环境可实现 `RetryPolicy` 接口，创建 `TcpClient` 时覆盖默认策略。
 
 面试要点小结
-====
+----
 
 * 心跳 = 定时互发探测包保证连接有效性 + 防中间设备掐断空闲链路；Netty 落地靠 `IdleStateHandler` + `userEventTriggered`。
 * 分工：客户端关注写空闲（WRITER_IDLE）发心跳，服务端关注读空闲（READER_IDLE）踢连接。

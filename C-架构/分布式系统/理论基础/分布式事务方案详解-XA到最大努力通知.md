@@ -4,7 +4,7 @@
 * <a href="https://blog.csdn.net/u013256816/article/details/105463120?biz_id=102&utm_term=%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E6%80%BB%E7%BB%93%E7%AF%87&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-3-105463120&spm=1018.2118.3001.4187">分布式事务科普（终结篇）</a>
 
 分布式事务科普
-====
+----
 
 随着业务的快速发展、业务复杂度越来越高，传统单体应用逐渐暴露出了一些问题。例如开发效率低、可维护性差、架构扩展性差、部署不灵活、健壮性差。而微服务架构是将单个服务拆分成一系列小服务，且这些小服务都拥有独立的进程，彼此独立。微服务架构很好地解决了传统单体应用的上述问题，但是事务一致性的保证成为新的难点。本文首先从事务的概念出发。带大家先回顾ACID、事务隔离级别、CAP、BASE、2PC、3PC这类基本理论（参考上篇<a href="https://mp.weixin.qq.com/s?__biz=MzU0MzQ5MDA0Mw%3D%3D&chksm=fb0bf3adcc7c7abb565a9865e14b357888f7b7b78874b74c18bfdc5a4278ec2503b258c27730&idx=1&mid=2247489849&scene=21&sn=cbac2a6ad99ac466f2ba8d69507fd2fe#wechat_redirect">《分布式事务科普——初识篇》</a>）。然后再详细讲解分布式事务的解决方案：XA、AT、TCC、Saga、本地消息表、消息事务、最大努力通知。
 

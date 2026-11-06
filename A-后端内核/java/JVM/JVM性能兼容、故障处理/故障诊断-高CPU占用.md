@@ -7,7 +7,7 @@
 > * <a href="https://review-notes.top/language/java-jvm/%E6%95%85%E9%9A%9C%E8%AF%8A%E6%96%AD-%E9%AB%98CPU%E5%8D%A0%E7%94%A8.html">故障诊断--高CPU占用</a>
 
 排查过程
-====
+----
 
 * 执行 top 命令，定位高 CPU 占用的 PID
 
@@ -64,13 +64,13 @@ jstack 10834 |grep 2b05 -A 30
 ```
 
 扩展
-====
+----
 
 根据实际线程情况定位相关代码。如果定位到 GC 相关线程引起高 CPU 问题，可使用 <a href="https://blog.csdn.net/xiaohulunb/article/details/103887785">jstat</a> 命令观察 GC 情况
 例如： jstat -gcutil -t -h 5 PID 500 10
 
 说明
-====
+----
 
 相关测试代码参考-<a href="https://github.com/GourdErwa/java-advanced/tree/master/java-jvm/src/main/java/io/gourd/java/jvm/oom">源码</a>
 

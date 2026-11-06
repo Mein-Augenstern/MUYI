@@ -7,12 +7,12 @@ Question
 > Main方法启动子线程执行任务，Main执行结束，那么程序执行结束了么？
 
 一句话答案
-====
+----
 
 没有。main 只是 JVM 启动时创建的**入口线程**，不是进程的"主人"。JVM 退出的条件是：**所有非 daemon 线程都运行结束**，与 main 结不结束无关。只要子线程不是 daemon 线程，main 先走一步，JVM 也会继续活着，等它跑完才退出。
 
 一、JVM 的退出条件
-====
+----
 
 Java 语言规范对初始退出条件的描述可以概括为：当 JVM 中**只剩 daemon 线程**在运行时，JVM 正常终止。即：
 
@@ -22,7 +22,7 @@ Java 语言规范对初始退出条件的描述可以概括为：当 JVM 中**�
 * 另外两条提前退出路径与此无关：代码里调 `System.exit(status)`，或进程被 kill/发生 OOM 等致命错误。
 
 二、main 与子线程的生命周期对照
-====
+----
 
 ```
 main ──┬── new Thread(task) ── start() ── 打印"main 结束" ──╳ main 死亡
@@ -42,7 +42,7 @@ child  └────────── 仍在运行 tick...tick... ───�
 线程之间是**平级**关系，"父子"只体现在创建瞬间传承的少量属性：daemon 标志、优先级、contextClassLoader、InheritableThreadLocal。运行期互相不依赖，谁先死都不影响对方。
 
 三、代码验证
-====
+----
 
 ```java
 public class MainAndChild {
@@ -75,7 +75,7 @@ child done          ← 进程直到这里才退出
 main 打印完就结束了，但进程多活了 5 秒。期间用 `jps` 能看到进程还在，`jstack <pid>` 里 main 线程已消失、child-1 还在 TIMED_WAITING (sleeping)。想让 main **等**子线程再退，调 `child.join()` 即可改变时序。
 
 四、daemon 线程与它的陷阱
-====
+----
 
 把子线程设为 daemon，JVM 就不必等它：
 
@@ -106,7 +106,7 @@ t.start();
 适用判断：心跳、监控上报这类"丢了无所谓"的后台任务用 daemon。凡是结果要落地的任务，不用。
 
 五、实战清单
-====
+----
 
 * main 结束 ≠ 程序结束：想等子线程做完再退，用 `join()` 或 `CountDownLatch`；
 * 想让后台任务不阻止退出：`setDaemon(true)` 且必须在 start 前调用；

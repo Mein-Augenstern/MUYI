@@ -18,7 +18,7 @@ ArrayList 实现**java.io.Serializable 接口**，这意味着ArrayList**支持�
 和 Vector 不同，**ArrayList 中的操作不是线程安全的。** 所以，建议在单线程中才使用 ArrayList，而在多线程中可以选择 Vector 或者 CopyOnWriteArrayList。
 
 ArrayList核心源码
-====
+----
 
 ```java
 package java.util;
@@ -539,7 +539,7 @@ public class ArrayList<E> extends AbstractList<E>
 ```
 
 ArrayList源码分析
-====
+----
 
 System.arraycopy()和Arrays.copyOf()方法
 -----
@@ -588,7 +588,7 @@ public Object[] toArray() {
     * copyOf()是系统自动在内部新建一个数组，并返回该数组。
 
 ArrayList 核心扩容技术
-====
+----
 
 ```java
 // 下面是ArrayList的扩容机制
@@ -635,7 +635,7 @@ private void ensureExplicitCapacity(int minCapacity) {
 ```
     
 ArrayList扩容的核心方法
-====
+----
 
 ```java
 private void grow(int minCapacity) {
@@ -679,7 +679,7 @@ private void grow(int minCapacity) {
  3. java 中的```size()```方法是针对泛型集合说的。如果想看这个泛型有多少个元素,就调用此方法查看。
  
 内部类
-====
+----
 
 ```java
 (1)private class Itr implements Iterator<E>  
@@ -694,7 +694,7 @@ private void grow(int minCapacity) {
 ArrayList有四个内部类。其中的```Itr是实现了Iterator接口```，同时重写了里面的```hasNext()， next()， remove() ```等方法。其中的```ListItr``` 继承 ```Itr```，实现了```ListIterator```接口，同时重写了```hasPrevious()， nextIndex()， previousIndex()， previous()， set(E e)， add(E e)``` 等方法。所以这也可以看出了 ```Iterator```和```ListIterator```的区别。```ListIterator```在```Iterator```的基础上增加了添加对象，修改对象，逆向遍历等方法，这些是```Iterator```不能实现的。
 
 ArrayList经典Demo
-====
+----
 
 ```java
 package list;

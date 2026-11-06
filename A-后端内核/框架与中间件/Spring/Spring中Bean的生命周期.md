@@ -8,7 +8,7 @@ Spring中Bean的生命周期
 > * <a href="https://www.cnblogs.com/javazhiyin/p/10905294.html">深究Spring中Bean的生命周期</a>
 
 Bean的生命周期主线
-====
+----
 
 先看 Servlet 的生命周期作对照：实例化，初始 init，接收请求 service，销毁 destroy。Spring 上下文中的 Bean 生命周期与之类似。
 

@@ -7,7 +7,7 @@ HTTPS中的TLS
 > * <a href="（原链已失效 2026-10，内容已在本篇/本库）">HTTPS中的TLS</a>
 
 1 SSL 与 TLS
-====
+----
 
 SSL：（Secure Socket Layer） 安全套接层，于 1994 年由网景公司设计，并于 1995 年发布了 3.0 版本
 
@@ -16,7 +16,7 @@ TLS：（Transport Layer Security）传输层安全性协议，是 IETF 在 SSL3
 以下全部使用 TLS 来表示
 
 2 从网络协议的角度理解 HTTPS
-====
+----
 
 HTTP：HyperText Transfer Protocol 超文本传输协议
 
@@ -27,7 +27,7 @@ TLS：位于 HTTP 和 TCP 之间的协议，其内部有 TLS握手协议、TLS�
 HTTPS 经由 HTTP 通信，但利用 TLS 来保证安全，即 HTTPS = HTTP + TLS
 
 3 从密码学的角度理解 HTTPS
-====
+----
 
 HTTPS 使用 TLS 保证安全，这里的“安全”分两部分，一是传输内容加密、二是服务端的身份认证
 
@@ -116,7 +116,7 @@ server：密文 + 私钥 = 明文。
 TLS 是一系列密码工具的框架。作为框架，它灵活，体现在每个工具套件它都可以替换。即：客户端与服务端之间协商密码套件，从而更难的被攻破。例如使用不同方式的对称密码，或者公钥密码、数字签名生成方式、单向散列函数技术的替换等。
 
 4 RSA 简单示例
-====
+----
 
 RSA 是一种公钥密码算法，我们简单的走一遍它的加密解密过程。
 加密算法：密文 = (明文^E) mod N，其中公钥为{E,N}，即”求明文的E次方的对 N 的余数“。
@@ -129,7 +129,7 @@ RSA 是一种公钥密码算法，我们简单的走一遍它的加密解密过�
 
 
 5 参考
-====
+----
 
 1. SSL加密发生在哪里：https://security.stackexchange.com/questions/19681/where-does-ssl-encryption-take-place
 

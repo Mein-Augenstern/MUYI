@@ -1,7 +1,7 @@
 # Java IO / NIO 速查卡
 
 字节流 vs 字符流
-====
+----
 
 | 维度 | 字节流 | 字符流 |
 |------|--------|--------|
@@ -18,7 +18,7 @@
 5. 中文乱码本质 = 字节流与字符流互转（byte[] ↔ String）时字符集不统一：`new String(bytes, charsetName)` / `getBytes(charsetName)`。
 
 四种 IO 模型
-====
+----
 
 | 模型 | 描述 | Java 对应 |
 |------|------|----------|
@@ -32,7 +32,7 @@
 3. 一句话：BIO 关心"我要读"，NIO 关心"我可以读了"。
 
 NIO 三大核心
-====
+----
 
 Buffer（缓冲区）
 ----
@@ -61,7 +61,7 @@ Selector（选择器）
 7. 缺陷与优化：单线程处理全部事件无法利用多 CPU → 按事件类型拆分多个 Reactor。
 
 堆外内存（直接内存）
-====
+----
 
 1. 是什么：JVM Heap 之外的内存块，非 JVM 规范定义区域；`ByteBuffer.allocateDirect()` → 底层 DirectByteBuffer → `unsafe.allocateMemory()`（native，C malloc）。
 2. 为什么：堆内数据写 Socket/文件前要先拷到堆外。直接放堆外省一次拷贝（Netty/RPC 常用）。

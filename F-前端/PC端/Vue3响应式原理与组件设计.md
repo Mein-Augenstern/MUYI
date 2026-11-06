@@ -9,7 +9,7 @@ Vue3 的响应式系统，一句话概括：**用 Proxy 拦截读写，把"谁�
 本篇从代理层讲到调度层，最后落到组件与状态组织。素材来自 `star-site-frontend` 生产代码（`src/stores/user.ts`、`src/views/LoginView.vue`）。风格对齐 [typescript/从Java视角看TypeScript-开篇](../typescript/从Java视角看TypeScript-开篇.md)。状态管理全景见姊妹篇 [前端状态管理与请求层设计](../工程化/前端状态管理与请求层设计.md)。
 
 Proxy vs defineProperty：为什么 Vue3 换芯
-====
+----
 
 > **面试官：Vue3 为什么用 Proxy 重写响应式？Vue2 的 defineProperty 差在哪？**
 
@@ -39,7 +39,7 @@ function reactive<T extends object>(target: T): T {
 对照 Java：defineProperty 像**编译期织入**（逐属性改写字节码，改不了结构）。Proxy 像**运行时动态代理**（`InvocationHandler` 一个入口拦截所有方法调用）。前者改不动的结构，后者天然全拦——新增属性、数组下标、delete 全覆盖，`$set` 补丁整个消失。
 
 effect：track 与 trigger 的依赖收集回路
-====
+----
 
 > **追问：track 到底记了什么？trigger 怎么知道通知谁？**
 
@@ -66,7 +66,7 @@ effect：track 与 trigger 的依赖收集回路
 两个工程级追问：**computed 是带缓存的 effect**。它依赖没变直接返回旧值，用脏标记实现惰性求值，等价于 Spring `@Cacheable` 的方法级缓存。**watch 是带回调的 effect**（依赖变化执行你的函数而非重渲染，可配 deep/immediate）。调度细节：trigger 默认把 effect 放进微任务队列去重后批量执行。所以同一轮改十个状态只重渲染一次。这也解释了 `nextTick` 为什么能拿到更新后的 DOM（微任务时序见 [浏览器渲染与事件循环](../浏览器与性能/浏览器渲染与事件循环.md)）。
 
 ref vs reactive：原始值与代理的裂缝
-====
+----
 
 > **面试官：ref 和 reactive 该用哪个？为什么有 .value？**
 
@@ -82,7 +82,7 @@ Proxy 只能代理对象，原始值（number/string）包不了。`ref` 就是�
 **纪律一句话：一律 ref，对象结构稳定且成组变更时用 reactive。** 解构断线是面试高频坑：`const { token } = userStore` 拿到的是快照——Pinia store 返回的对象整体是 reactive 的，解构要配 `storeToRefs`。
 
 组合式 API：用函数组织状态，而不是用类
-====
+----
 
 > **面试官：组合式 API 相比 Options API 解决什么问题？**
 
@@ -128,7 +128,7 @@ onUnmounted(() => {
 `watchEffect(onCleanup => ...)` 的清理函数、组合式函数里"谁注册谁返回停止句柄"（VueUse 的 `useEventListener` 自动清理），都是把成对纪律工程化。小程序端生命周期模型不同（页面级 onLoad/onShow/onHide，uni-app 再包一层），见 [小程序双线程模型](../无线端/小程序双线程模型.md)。
 
 组件通信：按距离选工具
-====
+----
 
 > **面试官：父子、跨层、全局状态分别用什么通信？**
 
@@ -144,7 +144,7 @@ onUnmounted(() => {
 两条纪律：**数据流向单向**（props 向下、事件向上，改 props 报警）。**状态放的位置 = 被谁共享就上提到谁的最近公共层**。单组件私有用 ref，兄弟共享提父级，全局（登录态/主题）进 store。这就是"状态上提"的判断树，对应 Spring 里"Bean 的作用域按消费方层级选 singleton/prototype/request"。
 
 面试官视角小结：30 秒版本
-====
+----
 
 1. **Proxy vs defineProperty**：Vue2 逐属性劫持、改不了结构（$set/数组 hack）。Vue3 整对象代理 + 懒代理嵌套，新增/删除/下标全覆盖。
 2. **track/trigger**：activeEffect 全局指针 + targetMap 三层订阅表。组件渲染是最大的 effect。computed 是带脏标记缓存的 effect。

@@ -47,7 +47,7 @@ loadFactor加载因子是控制数组存放数据的疏密程度。loadFactor越
 **threshold = capacity * loadFactor，当Size>=threshold**的时候，那么就要考虑对数组的扩增了。即这个的意思就是 **衡量数组是否需要扩增的一个标准**。
 
 Node节点类源码
-====
+----
 
 ```java
 // 继承自 Map.Entry<K,V>
@@ -92,7 +92,7 @@ static class Node<K,V> implements Map.Entry<K,V> {
 ```
 
 树节点类源码
-====
+----
 
 ```java
 static final class TreeNode<K,V> extends LinkedHashMap.Entry<K,V> {
@@ -114,7 +114,7 @@ static final class TreeNode<K,V> extends LinkedHashMap.Entry<K,V> {
 ```
 
 HashMap源码分析
-====
+----
 
 构造方法
 -----
@@ -177,7 +177,7 @@ final void putMapEntries(Map<? extends K, ? extends V> m, boolean evict) {
 }
 ```
 put方法
-====
+----
 
 HashMap只提供了put用于添加元素，**putVal方法只是给put方法调用的一个方法，并没有提供给用户使用。**
 
@@ -295,14 +295,14 @@ public V put(K key, V value) {
 ```
 
 Question
-====
+----
 
 * **JDK1.7和JDK1.8相比将元素插入到链表中时，JDK1.7使用的是头插法，JDK1.8使用的是尾插法，为什么这么做呢？**
 
 * **获取到Entry链表之后，在遍历Entry链表过程中，注意key比对是否相等过程，此处有一个小细节，key的hash相同，key值不一定相等，所以才出现当前情况：哈希碰撞。那么，由此产生的问题：如何比对Entry链表中两个key是否一致？即何时用旧值覆盖原有key对应的value。**
 
 get方法
-====
+----
 ```java
 public V get(Object key) {
     Node<K,V> e;
@@ -334,7 +334,7 @@ final Node<K,V> getNode(int hash, Object key) {
 }
 ```
 resize方法
-====
+----
 
 扩容会伴随着一次重新hash分配，并且会遍历hash表中所有的元素，是非常耗时的。在编写程序中，要尽量避免resize。
 
@@ -422,7 +422,7 @@ final Node<K,V>[] resize() {
 ```
 
 Question
-====
+----
 
 * **为什么resize要将Entry扩充为原来的2倍? 这个过程是怎样的? 这样做有什么好处?**
 

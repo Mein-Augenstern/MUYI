@@ -9,7 +9,7 @@ ConcurrentHashMap和Hashtable的区别
 * <a href="https://juejin.im/post/5df8d7346fb9a015ff64eaf9">《我们一起进大厂》系列-ConcurrentHashMap & Hashtable</a>
 
 ConcurrentHashMap 和 Hashtable 的区别主要体现在实现线程安全的方式上不同。
-====
+----
 
 * **底层数据结构：** JDK1.7的ConcurrentHashMap底层采用 **分段的数组+链表** 实现。JDK1.8采用的数据结构跟HashMap1.8的结构一样，是数组+链表/红黑二叉树。Hashtable和JDK1.8之前的HashMap的底层数据结构类似，都采用 **数组+链表** 的形式。数组是HashMap的主体。链表则是主要为了解决哈希冲突而存在的；
 
@@ -511,7 +511,7 @@ synchronized之前一直都是重量级的锁。但是后来java官方对他升�
 小结：1.8 在 1.7 的数据结构上做了大的改动。采用红黑树之后可以保证查询效率（O(logn)）。甚至取消了 ReentrantLock 改为了 synchronized。由此可以看出，在新版的 JDK 中对 synchronized 优化是很到位的。
 
 总结
-====
+----
 
 Hashtable&ConcurrentHashMap跟HashMap就是一套连环组合，我在面试的时候经常能吹上很久。经常被面试官说：好了好了，我们继续下一个话题吧哈哈。
 
@@ -528,7 +528,7 @@ Hashtable&ConcurrentHashMap跟HashMap就是一套连环组合，我在面试的�
 我没过多描述线程安全的太多东西，因为我都写了，以后更啥？对吧哈哈。
 
 常见问题
-====
+----
 
 * 谈谈你理解的 Hashtable，讲讲其中的 get put 过程。ConcurrentHashMap同问。
 
@@ -559,7 +559,7 @@ Hashtable&ConcurrentHashMap跟HashMap就是一套连环组合，我在面试的�
 * ……
 
 加分项
-====
+----
 
 在回答Hashtable和ConcurrentHashMap相关的面试题的时候，必须知道他们是怎么保证线程安全的。线程不安全一般都是发生在存取的过程中的，那get、put你肯定要知道。
 

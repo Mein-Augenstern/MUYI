@@ -14,7 +14,7 @@ Spring异步调用@Async
 原理一句话概括：Spring 扫描到方法上有 ```@Async``` 注解时，会为这个 bean 动态生成代理类（CGLib 继承原类）。外部调用该方法时进入代理，由 ```AsyncExecutionInterceptor``` 把方法提交给线程池执行，而不是在调用线程里直接执行——本质上就是 AOP 动态代理的一种应用（下文有源码分析）。这也解释了为什么**同一个类内部的方法调用会让 ```@Async``` 失效**：内部调用走的是类自身的 `this`，不经过代理，Spring 拦截不到。异步请求与异步调用的更多辨析见 [异步请求与异步调用的区别](异步请求与异步调用的区别.md)。
 
 一、spring 异步任务
-====
+----
 
 估计或多或少了解过一些，比如@EnableAsync可以启用异步任务。@Async用于注解说明当前方法是异步执行。下面使用demo看看Spring的异步任务如何执行。pom依赖仅依赖Spring core context 就可以了。这里演示，另外spring boot还要许多好玩的特性。
 
@@ -77,7 +77,7 @@ java.lang.ThreadGroup[name=main,maxpri=10]-------task-1
 可以看到线程的name是task-1，而http访问的线程是http-nio-xxx。说明任务异步执行了。我们也并未创建线程池，是Spring替我们创建了。下面分析Spring的异步任务执行过程。
 
 二、Spring boot异步任务执行过程分析
-====
+----
 
 首先，需要执行异步任务，必须创建线程池，那我们来揪出Spring创建的线程池，从启动日志可以看出
 
@@ -318,7 +318,7 @@ java.lang.ThreadGroup[name=main,maxpri=10]-------async-task-1
 ```
 
 三、Spring 异步任务执行过程分析
-====
+----
 
 方法断点跟踪
 
@@ -482,7 +482,7 @@ java.lang.RuntimeException: null
 ```
 
 四、Spring 自定义Executor与自定义异步异常处理
-====
+----
 
 需要实现AsyncConfigurer接口，可以看到Spring要我们配合EnableAsync与Configuration注解同时使用
 
@@ -642,7 +642,7 @@ protected ExecutorService initializeExecutor(
 ```
 
 五、优雅地关闭自定义的线程池
-====
+----
 
 > 由于在应用关闭的时候异步任务还在执行，导致类似 数据库连接池 这样的对象一并被 销毁了。当 异步任务 中对 数据库 操作就会出错。
 
@@ -665,7 +665,7 @@ public Executor taskExecutor() {
 * **setAwaitTerminationSeconds(60)**: 该方法用来设置线程池中 **任务的等待时间**。如果超过这个时间还没有销毁就 **强制销毁**，以确保应用最后能够被关闭，而不是阻塞住。
 
 六、异步回调使用示例
-====
+----
 
 定义异步方法，使用Future<T>来返回异步调用的结果
 

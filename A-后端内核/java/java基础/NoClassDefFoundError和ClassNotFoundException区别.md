@@ -7,7 +7,7 @@ NoClassDefFoundError和ClassNotFoundException区别
 > * <a href="https://blog.csdn.net/qq_33543634/article/details/81128096">NoClassDefFoundError</a>
 
 两者是什么
-====
+----
 
 `ClassNotFoundException` 和 `NoClassDefFoundError` 都发生在"运行期找不到类"的场景，但它们的类型、抛出时机和排查方向完全不同：
 
@@ -71,7 +71,7 @@ JVM 对一个类的初始化（`<clinit>`，静态块与静态字段赋值）只
 ```
 
 排查套路
-====
+----
 
 1. 看完整类名：先确认缺的是业务类还是第三方库类；
 2. 日志里有前置 `ExceptionInInitializerError` → 去修静态块/静态字段，而不是找 jar；
@@ -80,7 +80,7 @@ JVM 对一个类的初始化（`<clinit>`，静态块与静态字段赋值）只
 5. 版本不一致 → 两个 jar 都有同名类，运行时加载到了旧版本（缺新方法/新字段）。常以 NoSuchMethodError 与 NoClassDefFoundError 混合出现。
 
 一句话总结
-====
+----
 
 `ClassNotFoundException` 是"我主动去 load，没 load 到"（受检异常，去找 classpath）。`NoClassDefFoundError` 是"编译时明明有，运行时 JVM 自己 load 不出来，或者初始化早就炸过"（Error，先查 ExceptionInInitializerError，再查 jar 缺失/冲突）。
 

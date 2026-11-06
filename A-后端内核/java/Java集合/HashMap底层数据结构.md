@@ -9,13 +9,13 @@ HashMap底层数据结构
 * <a href="https://www.jianshu.com/p/c955491a3398">HashMap 进阶篇那些唬人的名词: Resize, Capacity, bucket,Load factor</a>
 
 Map接口UML图
-====
+----
 
 ![Map接口UML图](/images/legacy/Map接口UML图.png)
 
 
 HashMap 简介
-====
+----
 
 HashMap 主要用来存放键值对，它基于哈希表的Map接口实现，是常用的Java集合之一。
 
@@ -25,7 +25,7 @@ JDK1.8以后在解决哈希冲突时有了较大的变化。当链表长度大�
 
 
 HashMap 底层数据结构
-====
+----
 
 
 **JDK1.8之前**

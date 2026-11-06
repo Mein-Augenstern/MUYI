@@ -7,7 +7,7 @@ CopyOnWriteArrayList源码
 > * <a href="https://juejin.im/post/5be23e6ef265da6135720d61">CopyOnWriteArrayList你都不知道，怎么拿offer？</a>
 
 一、Vector和SynchronizedList
-====
+----
 
 1.1 回顾线程安全的Vector和SynchronizedList
 ------
@@ -189,7 +189,7 @@ SynchronizedList在使用**迭代器遍历**的时候同样会有问题的，源
 所以我们的CopyOnWriteArrayList就登场了。
 
 二、CopyOnWriteArrayList(Set)介绍
-====
+----
 
 一般来说，我们会认为：CopyOnWriteArrayList是同步List的替代品，CopyOnWriteArraySet是同步Set的替代品。
 
@@ -423,7 +423,7 @@ CopyOnWriteArraySet的原理就是CopyOnWriteArrayList。
 ```
 
 参考资料
-====
+----
 
 * 《Java并发编程实战》
 

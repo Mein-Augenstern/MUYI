@@ -1,3 +1,6 @@
+Spring框架的FactoryBean
+====
+
 实现了FactoryBean接口的bean是一类叫做factory的bean。其特点是，spring会在使用getBean()调用获得该bean时，自动调用该bean的getObject()方法。所以返回的不是factory这个bean，而是这个bean.getObject()方法的返回值：
 
 ```java

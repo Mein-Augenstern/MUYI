@@ -7,7 +7,7 @@ CyclicBarrier 和 CountDownLatch 的区别
 > * <a href="http://www.mamicode.com/info-detail-2919836.html">多线程面试题</a>
 
 一句话答案
-====
+----
 
 CountDownLatch 是计数器，只能使用一次，而 CyclicBarrier 的计数器提供 reset 功能，可以多次使用。但是我不那么认为它们之间的区别仅仅就是这么简单的一点。我们来从 jdk 作者设计的目的来看，javadoc 是这么描述它们的：
 
@@ -19,7 +19,7 @@ CountDownLatch 是计数器，线程完成一个记录一个，只不过计数�
 
 
 CyclicBarrier和CountDownLatch的区别
-====
+----
 
 两个看上去有点像的类，都在java.util.concurrent下，都可以用来表示代码运行到某个点上，二者的区别在于：
 

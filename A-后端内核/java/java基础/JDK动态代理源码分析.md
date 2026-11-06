@@ -11,7 +11,7 @@ JDK动态代理源码分析
 > * <a href="https://blog.csdn.net/f641385712/article/details/89362021">【小家Java】JDK动态代理技术，你真学会了吗？（Proxy、ProxyClassFactory）</a>
 
 说在前面
-====
+----
 
 JDK动态代理基于拦截器和反射来实现。
 
@@ -37,7 +37,7 @@ JDK代理是不需要第三方库支持的，只需要JDK环境就可以做代�
 
 
 一、使用示例
-====
+----
 
 <h3>第一种例子</h3>
 
@@ -199,7 +199,7 @@ hello word
 ```
 
 二、原理解析
-====
+----
 
 1 Proxy.newProxyInstance方法
 ------
@@ -964,7 +964,7 @@ public class Proxy implements java.io.Serializable {
 由上述代码可以得知 代理类在执行hello方法时，是通过我们传入的InvocationHandler的invoke方法调用。到此  jdk动态代理的分析以及全部完成
 
 三、结论
-====
+----
 
 至此可以得知  jdk动态代理的大致逻辑
 

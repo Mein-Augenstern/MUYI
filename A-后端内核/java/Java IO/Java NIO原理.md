@@ -4,7 +4,7 @@
 * <a href="https://tech.meituan.com/2016/11/04/nio.html">Java NIO浅析</a>
 
 BIO 模型的问题
-====
+----
 
 经典 BIO 是"每连接每线程"：主线程 accept() 后把连接交给线程池处理。缺点是严重依赖线程，而线程是"贵"的资源：
 
@@ -16,7 +16,7 @@ BIO 模型的问题
 结论：连接数小于单机 1000 时 BIO 可用，面对十万/百万级长连接无能为力。
 
 NIO 是怎么工作的
-====
+----
 
 1 I/O 的两个阶段
 ------
@@ -42,7 +42,7 @@ NIO 是怎么工作的
 * **Buffer**：DirectByteBuffer 可以减少一次内核空间到用户空间的拷贝。但创建/销毁成本高，需要内存池配合。小数据量用 HeapByteBuffer，大数据量用 DirectByteBuffer（选型细节见库内 [怎样选择HeapByteBuffer与DirectByteBuffer](HeapByteBuffer与DirectByteBuffer的选择.md)）。
 
 Reactor 模式
-====
+----
 
 核心思想：注册"读就绪、写就绪、新连接"三类事件的处理器。单线程轮询选择就绪事件并执行对应处理器：
 
@@ -88,21 +88,21 @@ Map<Channel, ChannelHandler> handlerMap;
 * 限制：一个 socket 只能属于一个 IoThread，一个 IoThread 可以管理多个 socket。
 
 NIO 在客户端的魔力
-====
+----
 
 * **Redis 客户端**：单线程 + 请求队列，pipeline 批量发送请求并返回 future，channel 可读时从队列取出 future 并 done()；
 * **HttpClient 短连接抓取**：单线程做连接/读/写，以 socket 引用作为 map 的 key 保存请求/响应上下文；
 * **Thrift/Dubbo 等 RPC**：以请求号为 key、result 为 future 的 map，配合 NIO + 长连接实现同步语义。
 
 Selector.wakeup()
-====
+----
 
 作用：解除阻塞在 select()/select(long) 上的线程。两次 select 之间的多次调用等价于一次。没有线程阻塞时作用于下一次 select（"记忆"作用）。触发场景：注册新 channel/事件、channel 关闭取消注册、更高优先级事件（如定时器任务）到期。
 
 原理：Linux 用 pipe，Windows 用 loopback TCP 连接（win32 管道无法加入 fd set）。往管道写入一个字节使 select 立即返回，开销不可忽视。
 
 存在的问题
-====
+----
 
 * 使用 NIO 不等于高性能：连接数 <1000、并发不高或局域网环境下没有明显优势；
 * 没有完全屏蔽平台差异，仍基于各操作系统的 I/O 实现；
@@ -110,7 +110,7 @@ Selector.wakeup()
 * 优化方向：**使用成熟框架如 Netty、MINA**。
 
 总结
-====
+----
 
 NIO 的价值在于：事件驱动模型、避免多线程、单线程处理多任务、非阻塞 I/O（读写直接返回 0）。以及基于 block 的传输更高效、zero-copy、IO 多路复用带来的可伸缩性。
 

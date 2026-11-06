@@ -70,7 +70,7 @@ CAP是Consistency、Availability、Partition tolerance三个词语的缩写，�
 * 分区容错性是分布式系统必须具备的能力
 
 二、CAP定理的组合详解
-====
+----
 
 1、分布式系统是否同时具备CAP呢？
 ------
@@ -111,7 +111,7 @@ CAP是Consistency、Availability、Partition tolerance三个词语的缩写，�
 > 注记：「三选二」是教科书式的经典表述，本文即按此口径讲解。但对"CA/P 三选二"也存在异议（Brewer 本人后续补充）：分区并非常态，多数时间里系统可以同时拥有 C 和 A，只在分区发生期间才需要两者取舍。两种说法都对，适用前提不同，详见 [分布式理论-BASE](分布式理论-BASE.md) 的「CAP的3选2伪命题」一节。
 
 三、总结
-====
+----
 
 CAP是一个已经被证实的理论。一个分布式系统最多只能同时满足一致性(Consistency)、可用性(Availability)和分区容错性(Partition tolerance)这三项中的两项。它可以作为我们架构设计、技术选型的考量标准。
 

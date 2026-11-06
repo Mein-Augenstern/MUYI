@@ -12,7 +12,7 @@ ThreadLocal简介
 > **ThreadLocal的创建并不是为了解决资源共享和并发问题。**
 
 ThreadLocal代码示例
-====
+----
 
 相信看了上面的解释，大家已经搞懂 ThreadLocal 类是个什么东西了。
 
@@ -98,7 +98,7 @@ private static final ThreadLocal<SimpleDateFormat> formatter = new ThreadLocal<S
 ```
 
 ThreadLocal原理
-====
+----
 
 从 ```Thread```类源代码入手。
 
@@ -158,7 +158,7 @@ ThreadLocalMap getMap(Thread t) {
 ![ThreadLocalMap和ThreadLocal的UML图](/images/legacy/ThreadLocalMap和ThreadLocal的UML图.png)
 
 首先来看看为什么ThreadLocal会产生内存泄漏
-====
+----
 
 ![ThreadLocal](/images/legacy/ThreadLocal.png)
 

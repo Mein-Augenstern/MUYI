@@ -7,7 +7,7 @@ HTTP1.0、HTTP1.1 和 HTTP2.0 的区别
 * <a href="https://www.cnblogs.com/heluan/p/8620312.html">HTTP1.0、HTTP1.1 和 HTTP2.0 的区别</a>
 
 一、HTTP的历史
-====
+----
 
 早在 HTTP 建立之初，主要就是为了将超文本标记语言(HTML)文档从Web服务器传送到客户端的浏览器。
 
@@ -18,7 +18,7 @@ HTTP1.0、HTTP1.1 和 HTTP2.0 的区别
 ![http-his-1](/images/legacy/http-his-1.png)
 
 二、HTTP的基本优化
-====
+----
 
 影响一个 HTTP 网络请求的因素主要有两个：带宽和延迟。
 
@@ -33,7 +33,7 @@ HTTP1.0、HTTP1.1 和 HTTP2.0 的区别
   * 建立连接（Initial connection）：HTTP 是基于 TCP 协议的。浏览器最快也要在第三次握手时才能捎带 HTTP 请求报文，达到真正的建立连接。但是这些连接无法复用会导致每次请求都经历三次握手和慢启动。三次握手在高延迟的场景下影响明显，慢启动则对文件类大请求影响大。
   
 三、HTTP1.0和HTTP1.1的一些区别
-====
+----
 
 HTTP1.0最早在网页中使用是在1996年，那个时候只是用在简单的网页和网络请求上。而HTTP1.1则在1999年才开始广泛应用于现在的各大浏览器网络请求中。同时HTTP1.1也是当前使用最为广泛的HTTP协议。主要区别如下：
 
@@ -48,7 +48,7 @@ HTTP1.0最早在网页中使用是在1996年，那个时候只是用在简单的
 5、长连接。HTTP 1.1支持长连接（PersistentConnection）和请求的流水线（Pipelining）处理。在一个TCP连接上可以传送多个HTTP请求和响应。这样减少了建立和关闭连接的消耗和延迟。在HTTP1.1中默认启用Connection： keep-alive。一定程度上弥补了HTTP1.0每次请求都要创建连接的缺点。
 
 四、HTTPS与HTTP的一些区别
-====
+----
 
 * HTTPS协议需要到CA申请证书，一般免费证书很少，需要交费。
 
@@ -61,7 +61,7 @@ HTTP1.0最早在网页中使用是在1996年，那个时候只是用在简单的
 ![http-his-2](/images/legacy/http-his-2.png)
 
 五、SPDY：HTTP1.x的优化
-====
+----
 
 2012年google如一声惊雷提出了SPDY的方案，优化了HTTP1.X的请求延迟，解决了HTTP1.X的安全性，具体如下：
 
@@ -80,14 +80,14 @@ HTTP1.0最早在网页中使用是在1996年，那个时候只是用在简单的
 SPDY位于HTTP之下，TCP和SSL之上，这样可以轻松兼容老版本的HTTP协议(将HTTP1.x的内容封装成新的frame格式)。同时可以使用已有的SSL功能。
 
 六、HTTP2.0性能惊人
-====
+----
 
 HTTP/2: the Future of the Internet https://link.zhihu.com/?target=https://http2.akamai.com/demo 是 Akamai 公司建立的一个官方的演示。用以说明 HTTP/2 相比于之前的 HTTP/1.1 在性能上的大幅度提升。 同时请求 379 张图片，从Load time 的对比可以看出 HTTP/2 在速度上的优势。
 
 ![http-his-4](/images/legacy/http-his-4.png)
 
 七、HTTP2.0：SPDY的升级版
-====
+----
 
 HTTP2.0可以说是SPDY的升级版（原本也是基于SPDY设计的）。但是，HTTP2.0 跟 SPDY 仍有不同的地方，如下：
 
@@ -98,7 +98,7 @@ HTTP2.0和SPDY的区别：
 2、HTTP2.0 消息头的压缩算法采用 HPACK http://http2.github.io/http2-spec/compression.html，而非 SPDY 采用的 DEFLATE http://zh.wikipedia.org/wiki/DEFLATE
 
 八、HTTP2.0和HTTP1.X相比的新特性
-====
+----
 
 * 新的二进制格式（Binary Format），HTTP1.x的解析是基于文本。基于文本协议的格式解析存在天然缺陷。文本的表现形式有多样性，要做到健壮性考虑的场景必然很多。二进制则不同，只认0和1的组合。基于这种考虑HTTP2.0的协议解析决定采用二进制格式，实现方便且健壮。
 
@@ -109,7 +109,7 @@ HTTP2.0和SPDY的区别：
 * 服务端推送（server push），同SPDY一样，HTTP2.0也具有server push功能。
 
 九、HTTP2.0的升级改造
-====
+----
 
 * 前文说了HTTP2.0可以支持非HTTPS的。但是现在主流的浏览器像chrome，firefox表示还是只支持基于 TLS 部署的HTTP2.0协议。所以要想升级成HTTP2.0还是先升级HTTPS为好。
 
@@ -118,7 +118,7 @@ HTTP2.0和SPDY的区别：
 * 使用了HTTP2.0那么，原本的HTTP1.x怎么办，这个问题不用担心。HTTP2.0完全兼容HTTP1.x的语义。对于不支持HTTP2.0的浏览器，NGINX会自动向下兼容的。
 
 十、附注
-====
+----
 
 HTTP2.0的多路复用和HTTP1.X中的长连接复用有什么区别？
 

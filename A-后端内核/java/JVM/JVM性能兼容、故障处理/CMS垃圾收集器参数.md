@@ -7,7 +7,7 @@ CMS垃圾收集器参数
 * <a href="https://it007.blog.csdn.net/article/details/88541589">CMS收集器几个参数详解 -XX:CMSInitiatingOccupancyFraction, CMSFullGCsBeforeCompaction</a>
 
 CMSInitiatingOccupancyFraction
-====
+----
 
 ```-XX:CMSInitiatingOccupancyFraction```这个参数是指在使用CMS收集器的情况下，老年代使用了指定阈值的内存时，出发FullGC。如:```-XX:CMSInitiatingOccupancyFraction=70```:CMS垃圾收集器，当老年代达到70%时，触发CMS垃圾回收。
 

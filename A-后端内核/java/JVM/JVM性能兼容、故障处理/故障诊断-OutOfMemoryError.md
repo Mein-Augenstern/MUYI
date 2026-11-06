@@ -7,19 +7,19 @@
 > * <a href="https://review-notes.top/language/java-jvm/%E6%95%85%E9%9A%9C%E8%AF%8A%E6%96%AD-OutOfMemoryError.html">故障诊断--OutOfMemoryError</a>
 
 前言
-====
+----
 
 实际代码执行过程中经常遇到 OOM 相关异常，本篇内容基于 JDK13 总结各种 OOM 相关联内存区域。方便定位是哪一块内存区域的问题，然后做参数调优。
 
 OutOfMemoryError 相关异常
-====
+----
 
 一般情况下，OutOfMemoryError 异常后会跟随「Java heap space」描述。具体的异常定位还需要参考调用链「at ...」部分来定位。
 
 OutOfMemoryError 涉及的异常情况较多，可使用查找定位本节内容列出的异常情况。
 
 Java 堆内存溢出
-====
+----
 
 可通过 -Xms20m -Xmx20m 设置堆大小。
 
@@ -31,7 +31,7 @@ Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
 ```
 
 字符串常量池溢出
-====
+----
 
 自 JDK 7 起，原本存放在永久代的字符串常量池被移至 Java 堆之中。所以在 JDK 7 及以上版本，限制方法区的容量对该测试用例来说是毫无意义的。
 
@@ -50,7 +50,7 @@ Exception in thread 「main」 java.lang.OutOfMemoryError: Java heap space
 ```
 
 方法区出现内存溢出 Metaspace 或者 PermGen space
-====
+----
 
 当前的很多主流框架，如 Spring、Hibernate 对类增强时，都会使用到 CGLib 这类字节码技术。当增强的类越多，就需要越大的方法区以保证动态生成的新类型可以载入内存。
 
@@ -70,7 +70,7 @@ Caused by: java.lang.OutOfMemoryError: PermGen space  --- JDK8 以上 Metaspace
 * -XX：MinMetaspaceFreeRatio：作用是在垃圾收集之后控制最小的元空间剩余容量的百分比。可减少因为元空间不足导致的垃圾收集的频率。类似的还有-XX：Max-MetaspaceFreeRatio，用于控制最大的元空间剩余容量的百分比。
 
 创建线程导致内存溢出 unable to create native thread
-====
+----
 
 虚拟机的栈内存允许动态扩展，当扩展栈容量无法申请到足够的内存时，将抛出 OutOfMemoryError 异常
 
@@ -79,7 +79,7 @@ Exception in thread "main" java.lang.OutOfMemoryError: unable to create native t
 ```
 
 本地交换空间 request size bytes for reason. Out of swap space?
-====
+----
 
 当本机堆分配失败且本机堆可能接近耗尽时，Java HotSpot VM 代码会报告这个明显的异常。
 
@@ -88,7 +88,7 @@ Exception in thread "main" java.lang.OutOfMemoryError: unable to create native t
 ```
 
 直接内存溢出 allocateMemory
-====
+----
 
 直接内存（Direct Memory）的容量大小可通过 -XX：MaxDirectMemorySize 参数来指定。根据异常链 allocateMemory 方法跟踪定位。
 
@@ -101,7 +101,7 @@ Exception in thread "main" java.lang.OutOfMemoryError
 ```
 
 GC Overhead limit exceeded
-====
+----
 
 Java 进程超出 98% 的时间在做垃圾回收工作，工作中恢复了不到 2% 的堆空间。
 
@@ -114,7 +114,7 @@ java.lang.OutOfMemoryError: GC Overhead limit exceeded
 也可以使用 -XX:-UseGCOverheadLimit 来关闭该异常
 
 数组创建溢出 Requested array size exceeds VM limit
-====
+----
 
 请求的数组大小超过 VM 限制，表示程序将创建一个大于堆大小的数组。
 
@@ -127,7 +127,7 @@ java.lang.OutOfMemoryError: GC Overhead limit exceeded
 一般情况下增加堆大小或者控制数组大小。
 
 本地方法分配失败 reason stack_trace_with_native_method
-====
+----
 
 堆栈跟踪中顶部的帧是本机方法，那么这表明本机方法遇到了分配失败。
 
@@ -138,7 +138,7 @@ java.lang.OutOfMemoryError: GC Overhead limit exceeded
 ```
 
 压缩类空间 Compressed class space
-====
+----
 
 在 64 位平台上，类元数据的指针可以用 32 位偏移量表示 (UseCompressedOops，默认启用)。类元数据可用的空间量将固定在 CompressedClassSpaceSize
 
@@ -151,7 +151,7 @@ java.lang.OutOfMemoryError: GC Overhead limit exceeded
 > 注意:类元数据不止一种，即对象头信息-类型指针和其他元数据。只有对象头信息-类型指针存储在压缩类空间中。其他元数据存储在 Metaspace 中。参考本专栏《对象的创建与访问过程》详细了解。
 
 StackOverflowError 相关异常
-====
+----
 
 线程请求的栈深度大于虚拟机所允许的最大深度，将抛出 StackOverflowError 异常
 

@@ -7,7 +7,7 @@ SpringBoot和Spring区别
 > * <a href="https://blog.csdn.net/u012556994/article/details/81353002">SpringBoot与Spring的区别</a>
 
 一句话答案
-====
+----
 
 SpringBoot不是Spring官方的框架模式，而是一个团队在Spring4.0版本上二次开发并开源公布出来的。简而言之，SpringBoot就是一个轻量级，简化配置和开发流程的web整合框架。SpringBoot是最近这几年才火起来的。它与Spring的区别，就是SpringBoot提供的特性：
 

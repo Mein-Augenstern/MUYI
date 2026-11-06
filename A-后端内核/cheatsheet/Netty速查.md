@@ -1,7 +1,7 @@
 # Netty 速查卡
 
 定位
-====
+----
 
 1. 基于 NIO 的 client-server 框架，快速开发高性能网络程序；简化并优化 TCP/UDP 套接字编程。
 2. 支持 FTP/SMTP/HTTP 及各种二进制、文本协议；Dubbo、RocketMQ、Elasticsearch、gRPC 都在用。

@@ -4,12 +4,12 @@
 HashMap不是线程安全的。
 
 Question
-====
+----
 
 * 什么场景下会导致HashMap出现线程不安全的问题？
 
 Answer：多线程下的四类典型事故
-====
+----
 
 * **场景一：并发 put 覆盖写（丢数据，最常见）**
 
@@ -44,7 +44,7 @@ JDK1.7 扩容 transfer 用**头插法**倒置链表。两个线程同时扩容�
 putVal 里 `++size`、树化判断、threshold 判断都是"读-改-写"多步操作。并发下 size 少加、多加都会发生。JDK1.8 改尾插后**成环修复了，但覆盖写、size 错乱、迭代异常一个都没修**。"1.8 线程安全了吗"是高频追问，答案仍然是否定的。
 
 源码层面：操作全无锁
-====
+----
 
 翻开 [HashMap源码注释](../Java集合/HashMap源码注释.md) 可以看到，put/get/resize 的主干流程没有任何同步措施：
 
@@ -55,7 +55,7 @@ putVal 里 `++size`、树化判断、threshold 判断都是"读-改-写"多步�
 * 结论：HashMap 的线程不安全不是某个 bug，而是**设计上就没打算并发用**——它是为单线程场景做的性能取舍。
 
 怎么解决
-====
+----
 
 * **首选 ConcurrentHashMap**：JDK1.7 分段锁（见 [ConcurrentHashMap在JDK1.7的锁分段技术](ConcurrentHashMap在JDK1.7的锁分段技术.md)），JDK1.8 改为 CAS + 单桶 synchronized，并发度更高（见 [ConcurrentHashMap 和 Hashtable 的区别](ConcurrentHashMap%E5%92%8CHashtable%E7%9A%84%E5%8C%BA%E5%88%AB.md)）；
 
@@ -77,7 +77,7 @@ putVal 里 `++size`、树化判断、threshold 判断都是"读-改-写"多步�
 一句话总结：HashMap 面向单线程。多线程下覆盖写丢数据、JDK1.7 扩容成环死循环、迭代 fail-fast、size 错乱四类问题都可能踩。并发场景直接换 ConcurrentHashMap。
 
 传送门
-====
+----
 
 * <a href="（原链已失效 2026-10，内容已在本篇/本库）%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90.md">HashMap成环原因分析</a>
 

@@ -9,12 +9,12 @@ Spring容器管理Bean示例
 常常听老师说容器，一直有疑惑：容器是什么，```Spring```中是如何体现的。这两天看了```Spring```管理```bean```的```Demo```，对于```Spring```中的容器有了简单的认识。我们知道，容器是一个空间的概念，一般理解为可盛放物体的地方。在```Spring```容器通常理解为```BeanFactory```或者```ApplicationContext```。我们知道```Spring```的```IOC```容器能够帮我们创建对象。对象交给```Spring```管理之后我们就不用手动去```new```对象。
 
 BeanFactory与ApplicationContext的区别是什么？
-====
+----
 
 简单说：```BeanFactory``` 是 Spring 最底层的容器接口，采用延迟加载（```getBean()``` 时才实例化）；```ApplicationContext``` 作为它的派生接口，额外提供国际化、事件、多配置文件加载等更完整的框架功能，并在容器启动时一次性创建所有 Bean。两者详细的对比见 [Spring中BeanFactory和ApplicationContext有什么区别](Spring中BeanFactory与ApplicationContext区别.md)。
 
 ApplicationContext是如何管理Bean呢？
-====
+----
 
 下面这个Demo简单模仿了这个原理。
 

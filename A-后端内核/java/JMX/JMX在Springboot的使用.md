@@ -7,7 +7,7 @@ JMX在Springboot的使用
 > * <a href="https://baijiahao.baidu.com/s?id=1668247436055457456&wfr=spider&for=pc">高级Java程序员都知道的JMX扩展，SpringBoot中也有使用的知识点？</a>
 
 JMX 快速回顾
-====
+----
 
 JMX（Java Management Extensions，Java 管理扩展）是一个为应用程序植入管理功能的框架。它最常见的作用是监控 Java 程序的基本信息和运行情况（内存、线程、类加载等）。任何 Java 程序都可以启用 JMX，然后使用 JConsole / VisualVM 查看。
 
@@ -29,7 +29,7 @@ JMX 体系结构中的三个核心角色
 ```
 
 Spring Boot 与 JMX 的整合
-====
+----
 
 默认开关：spring.jmx.enabled
 ----
@@ -112,7 +112,7 @@ management.endpoints.jmx.exposure.exclude=env,beans
 ```
 
 小结
-====
+----
 
 * JMX 的价值：让运行中的应用"可观测、可操作"。通用信息（内存/线程/类加载）自动具备。专有信息（执行了多少次数据库操作、队列积压多少任务）通过 MBean 定制暴露。
 * Spring Boot 整合要点：`spring.jmx.enabled=true`（2.2+）→ `@ManagedResource/@ManagedAttribute/@ManagedOperation` 暴露自定义指标 → Actuator JMX 端点 → JConsole/VisualVM/Jolokia 查看。

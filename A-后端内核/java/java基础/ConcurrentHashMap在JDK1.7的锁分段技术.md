@@ -7,7 +7,7 @@ ConcurrentHashMap在JDK1.7的锁分段技术
 > * <a href="https://blog.csdn.net/lzhcoder/article/details/86447045#3.1.1%E9%94%81%E5%88%86%E6%AE%B5%E6%8A%80%E6%9C%AF">并发编程之ConcurrentHashMap jdk1.7和1.8源码剖析</a>
 
 锁分段技术
-====
+----
 
 HashTable 容器在竞争激烈的并发环境下效率低下。原因是所有访问 HashTable 的线程都必须竞争同一把锁。假如容器里有多把锁，每一把锁用于锁容器其中一部分数据。那么当多线程访问容器里不同数据段的数据时，线程间就不会存在锁竞争。从而可以有效的提高并发访问效率，这就是 ConcurrentHashMap 所使用的**锁分段技术**。
 
@@ -25,7 +25,7 @@ HashTable 容器在竞争激烈的并发环境下效率低下。原因是所有�
 * 适用场景：**读者数量超过写者**时 ConcurrentHashMap 表现好；写多读少时性能反而不如 HashTable/synchronized Map。典型用法是做缓存：程序启动时初始化，之后被多个请求线程访问。
 
 数据结构
-====
+----
 
 ![ConcurrentHashMap在JDK1.7的segment数据结构](/images/legacy/ConcurrentHashMap在JDK1.7的segment数据结构.png)
 
@@ -62,7 +62,7 @@ static final int RETRIES_BEFORE_LOCK = 2;
 * 定位段之前会用 Wang/Jenkins hash 变种算法再哈希，目的是减少冲突、让元素均匀分布到各 Segment。
 
 get：全程不加锁
-====
+----
 
 * 两次 hash：先定位 Segment，再定位 HashEntry；
 * 全程**不加锁**，靠 HashEntry 的 volatile value 保证内存可见性，非常高效。
@@ -86,13 +86,13 @@ remove
 先定位段再委托给 Segment.remove，不同段的删除可以并发。流程：tryLock 失败则 scanAndLock 自旋。遍历链表时用 pred 记录前驱，找到目标后让前驱的 next 指向被删节点的下一个（或更新头结点）。更新 modCount、count，最后 unlock。
 
 跨段操作：size() 与 containsValue()
-====
+----
 
 * size() 不能简单地把各段 volatile count 相加——累加过程中可能已有段发生变化，结果不准。做法：**先尝试 2 次不加锁统计各段大小**。通过比较 modCount 总和是否变化，来判断统计期间容器是否被修改。若连续两次 sum 相同则结果可信，否则对所有段加锁后再统计。modCount 在 put、remove、clean 前都会 +1，用于检测变化；
 * containsValue() 同理：先无锁遍历并比较 modCount，自旋次数超过 `RETRIES_BEFORE_LOCK`（2 次）则强制给所有 segment 加锁后再遍历。
 
 JDK1.8 的变化
-====
+----
 
 ![JDK1.8的ConcurrentHashMap](/images/legacy/JDK1.8的ConcurrentHashMap.jpg)
 

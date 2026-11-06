@@ -9,7 +9,7 @@ JDK动态代理类的生成与缓存
 > * <a href="https://www.jianshu.com/p/9f5566b5e7fb">动态代理的缓存机制</a>
 
 入口：Proxy.newProxyInstance
-====
+----
 
 调用 `Proxy.newProxyInstance(loader, interfaces, h)` 生成代理实例的流程：
 
@@ -27,7 +27,7 @@ private static final WeakCache<ClassLoader, Class<?>[], Class<?>>
 代理类的生成与缓存全部在 `java.lang.reflect.WeakCache<K, P, V>` 中完成。KeyFactory 生成二级 key，ProxyClassFactory 真正生成 Class。细节见库内 [JDK动态代理KeyFactory](./JDK动态代理KeyFactory.md)、[JDK动态代理ProxyClassFactory](./JDK动态代理ProxyClassFactory.md)、[JDK动态代理WeakCache](./JDK动态代理WeakCache.md)。
 
 WeakCache 的两级缓存结构
-====
+----
 
 ```java
 private final ReferenceQueue<K> refQueue = new ReferenceQueue<>();
@@ -55,7 +55,7 @@ switch (interfaces.length) {
 ```
 
 WeakCache.get 主流程
-====
+----
 
 1. `expungeStaleEntries()`：先轮询引用队列，清掉已被 GC 回收的缓存项；
 2. 用 `CacheKey.valueOf(key, refQueue)` 得到一级 key，懒加载获取/新建 valuesMap（`putIfAbsent`）；
@@ -63,7 +63,7 @@ WeakCache.get 主流程
 4. 进入 `while(true)` 循环：supplier 存在且 get() 返回非 null 则直接返回。否则新建 Factory，通过 `putIfAbsent`/`replace` 安装后重试。
 
 Factory.get：真正生成代理类（synchronized）
-====
+----
 
 * 复查 `valuesMap.get(subKey)` 是否仍是 this（并发校验），不是则返回 null；
 * 调用 `valueFactory.apply(key, parameter)`（即 ProxyClassFactory）生成代理类 Class；失败则从缓存移除自身；
@@ -72,19 +72,19 @@ Factory.get：真正生成代理类（synchronized）
 此后再请求同一 (loader, interfaces) 组合时，cacheValue.get() 实际就是父类 `Reference.get()`，直接返回缓存的代理类 Class。**代理类只生成一次，后续全部复用**。
 
 三种场景的执行逻辑
-====
+----
 
 * **缓存不存在**：第一轮循环安装 Factory；第二轮调用 factory.get() 完成生成与替换；
 * **多线程竞争**：后进入的线程调用 factory.get() 时 supplier 已变为 cacheValue，`supplier != this` 返回 null。随后 replace 失败，重新 get 取到 cacheValue，下一轮循环返回正确值。保证多线程下同一 key 拿到同一引用；
 * **缓存已存在**：只执行一次循环，直接命中 CacheValue。
 
 过期机制
-====
+----
 
 CacheKey、CacheValue 都是弱引用：GC 满足条件时被 enqueue 到 refQueue，每次 get 前先 `expungeStaleEntries()` 轮询队列并调用 `cacheKey.expungeFrom(map, reverseMap)` 清除对应缓存。这样类加载器或代理类被回收后，缓存条目不会内存泄漏。
 
 涉及的知识点
-====
+----
 
 1. ConcurrentMap 的 get、putIfAbsent、replace 的正确用法（putIfAbsent 返回非 null 时必须改用已有值）；
 2. 双重检查解决延迟初始化的竞态条件：首次生成走 synchronized 的 Factory。后续读取无需同步，减轻并发压力；

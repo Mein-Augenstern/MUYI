@@ -18,7 +18,7 @@ public final native boolean compareAndSwapInt(Object var1, long var2, int var4, 
 之前讲volatile的时候说过，volatile不能保证类似i++这样操作的原子性。CAS能够保证原子性的原理，得从JVM指令说起。
 
 2、原理分析
-====
+----
 
 Atomic包下的类都调用了Unsafe的compareAndSwap*方法来实现CAS操作，它是一个本地方法，实现位于```unsafe.cpp```中。
 
@@ -77,7 +77,7 @@ inline jint Atomic::cmpxchg (jint exchange_value, volatile jint* dest, jint comp
 更多lock指令相关的可以参考之前写volatile的一篇文章：<a href="http://benjaminwhx.com/2018/05/13/%E3%80%90%E7%BB%86%E8%B0%88Java%E5%B9%B6%E5%8F%91%E3%80%91%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E4%B9%8Bvolatile/">【细谈Java并发】内存模型之volatile</a>
 
 3、CAS的三大问题
-====
+----
 
 3.1、ABA问题
 ------
