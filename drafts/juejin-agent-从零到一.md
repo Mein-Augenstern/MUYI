@@ -74,7 +74,7 @@ agent 是概率性系统，上线前最后一关是评测——它比传统单�
 
 这四段认知来自我整理的 agent 体系知识库（两章八篇：范式 → 手写 → 深潜 → 评测 → 编排），全部开源：
 
-- 在线阅读：https://mein-augenstern.github.io/MUYI/B-AI工程/agent/
+- 在线阅读：https://muyi-axl.pages.dev/B-AI工程/agent/
 - 仓库：https://github.com/Mein-Augenstern/MUYI
 
 下一篇预告：多代理的轨迹回放排障实践。有问题欢迎 issue 交流。
