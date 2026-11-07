@@ -1,0 +1,41 @@
+第一章 · java基础：语言地基
+====
+
+反射/注解/泛型/动态代理/异常体系——框架源码的「建筑材料」。这一章的深度决定了读 Spring/MyBatis 源码的顺畅度。
+
+## 本篇目录
+
+1. [ArrayList与LinkedList区别](ArrayList与LinkedList区别.md)
+2. [ArrayList与Vector区别](ArrayList与Vector区别.md)
+3. [Comparable和Comparator的区别](Comparable和Comparator的区别.md)
+4. [ConcurrentHashMap和Hashtable的区别](ConcurrentHashMap和Hashtable的区别.md)
+5. [ConcurrentHashMap在JDK1.7的锁分段技术](ConcurrentHashMap在JDK1.7的锁分段技术.md)
+6. [HashMap为什么线程不安全](HashMap为什么线程不安全.md)
+7. [HashMap的长度为什么是2的幂次方](HashMap的长度为什么是2的幂次方.md)
+8. [HashSet保证不重复的原理](HashSet保证不重复的原理.md)
+9. [JDK1.7中HashMap成环原因分析](JDK1.7中HashMap成环原因分析.md)
+10. [JDK17-21语言新特性迁移指南](JDK17-21语言新特性迁移指南.md)
+11. [JDK26升级要点-HTTP3-Leyden与final语义收紧](JDK26升级要点-HTTP3-Leyden与final语义收紧.md)
+12. [JDK动态代理KeyFactory](JDK动态代理KeyFactory.md)
+13. [JDK动态代理ProxyClassFactory](JDK动态代理ProxyClassFactory.md)
+14. [JDK动态代理WeakCache](JDK动态代理WeakCache.md)
+15. [JDK动态代理源码分析](JDK动态代理源码分析.md)
+16. [JDK动态代理类的生成与缓存](JDK动态代理类的生成与缓存.md)
+17. [Java main方法为什么是public static void](Java main方法为什么是public static void.md)
+18. [Java元注解](Java元注解.md)
+19. [Java关键字介绍](Java关键字介绍.md)
+20. [Java反射](Java反射.md)
+21. [Java注解](Java注解.md)
+22. [Java注解的继承](Java注解的继承.md)
+23. [Java设计模式全览](Java设计模式全览.md)
+24. [NoClassDefFoundError和ClassNotFoundException区别](NoClassDefFoundError和ClassNotFoundException区别.md)
+25. [SPI](SPI.md)
+26. [cglib动态代理](cglib动态代理.md)
+27. [final finally finalize](final finally finalize.md)
+28. [wait和sleep的区别](wait和sleep的区别.md)
+29. [单例模式的安全性](单例模式的安全性.md)
+30. [单机事件驱动解耦-Guava-EventBus](单机事件驱动解耦-Guava-EventBus.md)
+31. [字符串常量池](字符串常量池.md)
+32. [强引用、软引用、弱引用、虚引用](强引用、软引用、弱引用、虚引用.md)
+33. [快速失败（fail-fast）和安全失败（fail-safe）](快速失败（fail-fast）和安全失败（fail-safe）.md)
+34. [移位运算符](移位运算符.md)

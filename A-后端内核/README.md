@@ -7,7 +7,7 @@
 
 | 目录 | 篇数 | 范围 | 代表作 |
 |---|---|---|---|
-| java/ | 123 | 语言内核主线：并发/集合/JVM/IO/基础/规范 | [深度解读线程池设计思想及源码实现](./java/Java%20并发/深度解读%20java%20线程池设计思想及源码实现.md)、[虚拟线程 vs 线程池 JDK21](./java/Java%20并发/虚拟线程-vs-线程池-JDK21.md)、[Spring IOC 容器源码分析](./框架与中间件/Spring/Spring%20IOC容器源码分析.md) |
+| java/ | 123 | 语言内核主线：并发/集合/JVM/IO/基础/规范 | [深度解读线程池设计思想及源码实现](./java/Java%20并发/深度解读%20java%20线程池设计思想及源码实现.md)、[虚拟线程 vs 线程池 JDK21](./java/Java%20并发/虚拟线程-vs-线程池-JDK21.md)、[Spring IOC 容器源码分析](框架与中间件/Spring/01-IoC与Bean/Spring IOC容器源码分析.md) |
 | 框架与中间件/ | 88 | Spring 家族、数据库（MySQL/RocksDB）、Redis、MQ、Web Server、安全、zookeeper、config | [RocksDB 架构设计系列](./框架与中间件/数据库/)、Spring 源码系列 27 篇、[协调中间件选型-ZooKeeper对比etcd与Nacos](./框架与中间件/zookeeper/协调中间件选型-ZooKeeper对比etcd与Nacos.md) |
 | 计算机基础/ | 17 | 网络、操作系统、组成原理 | TCP/IO 多路复用专题 |
 | cheatsheet/ | 17 | 速查手册（git/vim/shell/docker 等） | 工具命令速查 |

@@ -131,7 +131,7 @@ try (var scope = StructuredTaskScope.open(
 | JDK 26（2026-03-17） | — | — | 预览持续 | HTTP/3 客户端、任意 GC 的 AOT 缓存 |
 | JDK 28（预计 2027-03） | — | — | **JEP 543 拟转正**（2026-10-15 已 targeted） | 并发三件套全部收官 |
 
-单独强调 JDK 24 那一格的意义：JEP 491 重构 monitor 实现，synchronized 块内阻塞不再钉住载体线程（只剩 native 帧场景）。存量代码不改造就能放心上虚拟线程。这是「虚拟线程默认可用」的分水岭，也是 Boot 4 时代把它列为默认可选线程模型的前提（Spring 侧见 [SpringBoot4与Framework7升级要点](../../框架与中间件/Spring/SpringBoot4与Framework7升级要点.md)）。
+单独强调 JDK 24 那一格的意义：JEP 491 重构 monitor 实现，synchronized 块内阻塞不再钉住载体线程（只剩 native 帧场景）。存量代码不改造就能放心上虚拟线程。这是「虚拟线程默认可用」的分水岭，也是 Boot 4 时代把它列为默认可选线程模型的前提（Spring 侧见 [SpringBoot4与Framework7升级要点](../../框架与中间件/Spring/04-事务与升级进阶/SpringBoot4与Framework7升级要点.md)）。
 
 5 生产迁移路径：登录态与 traceId 透传
 ------

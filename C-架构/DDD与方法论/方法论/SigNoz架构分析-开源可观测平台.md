@@ -1,7 +1,7 @@
 SigNoz 架构分析：开源可观测平台
 ====
 
-开源 APM，一个产品同时装下 Logs、Traces、Metrics，对标 Datadog 的开源答案。它值得后端研读的理由很特别：**SigNoz 几乎没有自研客户端和数据模型，全盘站在 OpenTelemetry 肩上，自研部分只有 collector 的三个 exporter 加查询层**；存储则押注 ClickHouse。这是一堂"如何用现成标准件组装一个生产级系统"的架构课，也是 OTel 落地形态的最佳标本。三大信号的分工先看 [观测性三件套](./观测性三件套.md)，存储底座见 [ClickHouse核心架构与设计原理](../../../A-后端内核/框架与中间件/数据库/ClickHouse核心架构与设计原理.md)。
+开源 APM，一个产品同时装下 Logs、Traces、Metrics，对标 Datadog 的开源答案。它值得后端研读的理由很特别：**SigNoz 几乎没有自研客户端和数据模型，全盘站在 OpenTelemetry 肩上，自研部分只有 collector 的三个 exporter 加查询层**；存储则押注 ClickHouse。这是一堂"如何用现成标准件组装一个生产级系统"的架构课，也是 OTel 落地形态的最佳标本。三大信号的分工先看 [观测性三件套](./观测性三件套.md)，存储底座见 [ClickHouse核心架构与设计原理](../../../A-后端内核/框架与中间件/数据库/03-列存与分析引擎/ClickHouse核心架构与设计原理.md)。
 
 1 总体架构：三个角色
 ------

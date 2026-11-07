@@ -29,7 +29,7 @@ JDK 26 升级要点：HTTP/3、Leyden 与 final 语义收紧
 
 - JDK 24 的 AOT 类加载与预热缓存（premain）最初绑特定 GC；26 把**任意 GC 都能用 AOT 缓存**做成正式能力；
 - 价值定位：不是替代 GraalVM Native Image（那是"放弃 JIT 换启动"），而是**保住 JIT 峰值性能的同时砍启动时间**——中间路线；
-- Spring Boot 4 已按这条线做适配（见 [SpringBoot4与Framework7升级要点](../../框架与中间件/Spring/SpringBoot4与Framework7升级要点.md) 第 3.4 节）。
+- Spring Boot 4 已按这条线做适配（见 [SpringBoot4与Framework7升级要点](../../框架与中间件/Spring/04-事务与升级进阶/SpringBoot4与Framework7升级要点.md) 第 3.4 节）。
 
 2.3 final means final：语言语义收账
 ------
@@ -54,5 +54,5 @@ JDK 26 升级要点：HTTP/3、Leyden 与 final 语义收紧
 
 ---
 
-- 交叉引用：[JDK25并发终局-ScopedValues与结构化并发](../Java%20并发/JDK25并发终局-ScopedValues与结构化并发.md)、[SpringBoot4与Framework7升级要点](../../框架与中间件/Spring/SpringBoot4与Framework7升级要点.md)
+- 交叉引用：[JDK25并发终局-ScopedValues与结构化并发](../Java%20并发/JDK25并发终局-ScopedValues与结构化并发.md)、[SpringBoot4与Framework7升级要点](../../框架与中间件/Spring/04-事务与升级进阶/SpringBoot4与Framework7升级要点.md)
 - 来源核对面：Oracle 官方博客（The Arrival of Java 26）、InfoQ 2026-02 预览、HappyCoders/BellSoft 特性清单
