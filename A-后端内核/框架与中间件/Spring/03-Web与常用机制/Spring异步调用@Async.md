@@ -1,6 +1,13 @@
 Spring异步调用@Async
 ================
 
+
+> **内容来源**：本篇为学习整理，转载自网络技术博客（版权归原作者所有）：
+> - [原文链接](https://blog.csdn.net/u012240455/article/details/79014329)
+> - [原文链接](https://www.cnblogs.com/jpfss/p/10273129.html)
+> - [原文链接](https://blog.csdn.net/YoungLee16/article/details/88398045)
+> 结构与表述有编辑加工；勘误与更新以原文为准。
+
 看在前面
 ----
 

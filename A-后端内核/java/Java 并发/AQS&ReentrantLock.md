@@ -1,6 +1,12 @@
 AQS&ReentrantLock
 =================
 
+
+> **内容来源**：本篇为学习整理，转载自网络技术博客（版权归原作者所有）：
+> - [原文链接](http://www.cnblogs.com/waterystone/p/4920797.html)
+> - [原文链接](https://www.cnblogs.com/chengxiao/archive/2017/07/24/7141160.html)
+> 结构与表述有编辑加工；勘误与更新以原文为准。
+
 ## 看在前面
 
 * <a href="http://www.cnblogs.com/waterystone/p/4920797.html">Java并发之AQS详解</a>

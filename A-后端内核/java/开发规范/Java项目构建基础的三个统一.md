@@ -1,6 +1,13 @@
 Java项目构建基础的三个统一
 ===============
 
+
+> **内容来源**：本篇为学习整理，转载自网络技术博客（版权归原作者所有）：
+> - [原文链接](https://juejin.im/post/5e073980f265da33f8653f2e)
+> - [原文链接](https://juejin.im/post/5cbc744a6fb9a0685a3f01a7)
+> - [原文链接](https://blog.csdn.net/xu_san_duo/article/details/80364600)
+> 结构与表述有编辑加工；勘误与更新以原文为准。
+
 看在前面
 ----
 

@@ -1,6 +1,12 @@
 ConcurrentHashMap和Hashtable的区别
 ==============================
 
+
+> **内容来源**：本篇为学习整理，转载自网络技术博客（版权归原作者所有）：
+> - [原文链接](https://www.cnblogs.com/chengxiao/p/6842045.html)
+> - [原文链接](https://juejin.im/post/5df8d7346fb9a015ff64eaf9)
+> 结构与表述有编辑加工；勘误与更新以原文为准。
+
 看在前面
 ----
 

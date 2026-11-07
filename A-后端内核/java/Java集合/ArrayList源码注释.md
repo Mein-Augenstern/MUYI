@@ -17,6 +17,10 @@ ArrayList 实现**java.io.Serializable 接口**，这意味着ArrayList**支持�
 
 和 Vector 不同，**ArrayList 中的操作不是线程安全的。** 所以，建议在单线程中才使用 ArrayList，而在多线程中可以选择 Vector 或者 CopyOnWriteArrayList。
 
+
+> **内容来源**：本篇为学习整理，转载自网络公开技术文章（原始出处未存档，版权归原作者所有）；
+> 结构与表述有编辑加工。
+
 ArrayList核心源码
 ----
 

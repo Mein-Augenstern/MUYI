@@ -1,6 +1,13 @@
 Java内存结构
 ========
 
+
+> **内容来源**：本篇为学习整理，转载自网络技术博客（版权归原作者所有）：
+> - [原文链接](https://tech.meituan.com/2014/03/06/in-depth-understanding-string-intern.html)
+> - [原文链接](https://www.zhihu.com/question/49044988)
+> - [原文链接](https://blog.csdn.net/wangbiao007/article/details/78545189)
+> 结构与表述有编辑加工；勘误与更新以原文为准。
+
 ## 看在前面
 
 > * <a href="（原链已失效 2026-10，内容已在本篇/本库）">Java内存区域</a>

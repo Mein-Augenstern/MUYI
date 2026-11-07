@@ -1,6 +1,12 @@
 Spring循环依赖
 ==========
 
+
+> **内容来源**：本篇为学习整理，转载自网络技术博客（版权归原作者所有）：
+> - [原文链接](https://blog.csdn.net/chejinqiang/article/details/80003868)
+> - [原文链接](https://www.jianshu.com/p/988ad2913b76)
+> 结构与表述有编辑加工；勘误与更新以原文为准。
+
 看在前面
 ----
 

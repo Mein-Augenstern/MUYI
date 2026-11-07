@@ -1,6 +1,13 @@
 JDK动态代理源码分析
 ===========
 
+
+> **内容来源**：本篇为学习整理，转载自网络技术博客（版权归原作者所有）：
+> - [原文链接](https://www.cnblogs.com/hetutu-5238/p/11988946.html)
+> - [原文链接](https://blog.csdn.net/yhl_jxy/article/details/80586785)
+> - [原文链接](https://blog.csdn.net/f641385712/article/details/89362021)
+> 结构与表述有编辑加工；勘误与更新以原文为准。
+
 看在前面
 ----
 

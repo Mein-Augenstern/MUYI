@@ -3,6 +3,12 @@
 
 ![image](https://github.com/Mein-Augenstern/MUYI/assets/34135120/95f3fca8-c1fd-46d9-99d7-0441298bc6e7)
 
+
+> **内容来源**：本篇为学习整理，转载自网络技术博客（版权归原作者所有）：
+> - [原文链接](https://juejin.cn/post/7113023112655929358)
+> - [原文链接](https://www.zhihu.com/question/412041096/answer/1913570393)
+> 结构与表述有编辑加工；勘误与更新以原文为准。
+
 ## ThreadLocal的描述
 
 ThreadLocal只是作为一个入口或资源句柄去给每个线程的threadLocals或inheritableThreadLocals变量。因为threadLocals是真实保存每个线程的私有信息。其中threadLocals变量的类型是ThreadLocal.ThreadLocalMap。而ThreadLocal.ThreadLocalMap是ThreadLocal的一个静态内部类。ThreadLocal.ThreadLocalMap是完全可以独立出来作为一个类而单独存在的。

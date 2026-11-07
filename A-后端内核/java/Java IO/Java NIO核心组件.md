@@ -1,6 +1,13 @@
 Java NIO核心组件
 ============
 
+
+> **内容来源**：本篇为学习整理，转载自网络技术博客（版权归原作者所有）：
+> - [原文链接](https://gitbook.cn/books/5b1792ad26a49a55324e782c/index.html)
+> - [原文链接](https://gitbook.cn/gitchat/author/5a98122bfdc2050df046d997)
+> - [原文链接](https://gitbook.cn/gitchat/activity/5af07387585c260a21a32b97)
+> 结构与表述有编辑加工；勘误与更新以原文为准。
+
 看在前面
 ----
 

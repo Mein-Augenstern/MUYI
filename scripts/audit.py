@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def audit_one(md: Path) -> dict:
     text = md.read_text(encoding="utf8")
     chars = len(re.sub(r"\s", "", text))
-    has_source = bool(re.search(r"内容来源|整理自|版权归原作者|来源清单", text))
+    has_source = bool(re.search(r"内容来源|整理自|转载自|原文地址|原文链接|原作者|文章来源|版权归原作者|来源清单", text))
     has_repay = bool(re.search(r"生产实践反哺|生产代码|star-site|voice-utils|2026-\d{2}\s*新增", text))
     # 库内互链（相对 .md 链接）
     internal = []

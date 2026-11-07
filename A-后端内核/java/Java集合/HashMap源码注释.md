@@ -46,6 +46,11 @@ loadFactor加载因子是控制数组存放数据的疏密程度。loadFactor越
 
 **threshold = capacity * loadFactor，当Size>=threshold**的时候，那么就要考虑对数组的扩增了。即这个的意思就是 **衡量数组是否需要扩增的一个标准**。
 
+
+> **内容来源**：本篇为学习整理，转载自网络技术博客（版权归原作者所有）：
+> - [原文链接](https://zhuanlan.zhihu.com/p/21673805)
+> 结构与表述有编辑加工；勘误与更新以原文为准。
+
 Node节点类源码
 ----
 
