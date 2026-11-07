@@ -1,0 +1,52 @@
+name: Knowledge Health Check (weekly)
+
+# 全库七维体检（constellation skill 固化脚本）：多H1/泛用首标题/死链 归零是质量底线；
+# 互链孤岛/巨无霸 为观察项（数量变化触发关注，不阻断）。
+# 2026-11-07 基线：全部 0（巨无霸 17 已知长文、孤岛 27 叶子篇，见治理 commit fbb9c00）。
+on:
+  schedule:
+    - cron: "0 3 * * 1"   # 每周一 UTC 03:00（北京 11:00）
+  workflow_dispatch:        # 支持手动触发
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Checkout constellation (audit scripts)
+        uses: actions/checkout@v4
+        with:
+          repository: Mein-Augenstern/constellation
+          path: constellation
+          ref: main
+
+      - name: Run global audit (7 dimensions)
+        run: |
+          python3 constellation/skills/kb-article-writing/scripts/global-audit.py . --json audit.json
+
+      - name: Enforce baselines (multi-H1 / generic-first / dead-links must be 0)
+        run: |
+          python3 - <<'PY'
+          import json, sys
+          d = json.load(open("audit.json"))
+          violations = []
+          if d["multi_h1"]:
+              violations.append(f"多H1 残留 {len(d['multi_h1'])}: " + "; ".join(d["multi_h1"][:5]))
+          if d["generic_first"]:
+              violations.append(f"泛用首标题 {len(d['generic_first'])}: " + "; ".join(d["generic_first"][:5]))
+          if d["dead"]:
+              violations.append(f"死链 {len(d['dead'])}: " + "; ".join(d["dead"][:5]))
+          if violations:
+              print("质量底线被打破：")
+              print("\n".join(violations))
+              sys.exit(1)
+          print("质量底线全部保持：多H1=0 泛用标题=0 死链=0")
+          PY
+
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: knowledge-audit
+          path: audit.json
