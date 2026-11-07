@@ -34,7 +34,7 @@ function walk(dir) {
   // VitePress 只认 items，早前版本误用 pages/groups 导致子目录点击无反应。
   const items = [];
   for (const name of readdirSync(dir).sort((a, b) => a.localeCompare(b, "zh"))) {
-    if (name.startsWith(".") || name === "node_modules") continue;
+    if (name.startsWith(".") || name === "node_modules" || name === "picture") continue;
     const full = join(dir, name);
     const rel = "/" + relative(ROOT, full).replaceAll("\\", "/");
     if (statSync(full).isDirectory()) {
