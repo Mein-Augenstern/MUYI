@@ -1,7 +1,7 @@
 Parquet 深入理解（二）：文件结构剖析
 ====
 
-系列第二篇。上一篇（[Parquet一-理解列式存储](./Parquet一-理解列式存储.md)）讲了列存的为什么，这一篇拆开一个真实的 .parquet 文件看**它长什么样**：三层切分（Row Group / Column Chunk / Page）加一套放在文件末尾的元数据。理解这层结构，"列裁剪、谓词下推、为什么 Parquet 不适合改"就全部有了物理落点。首尾相接的还有 [总起](./Parquet深入理解-总起.md)、[编码技术](./Parquet三-编码技术.md)。
+系列第二篇。上一篇（[Parquet一-理解列式存储](Parquet一-理解列式存储.md)）讲了列存的为什么，这一篇拆开一个真实的 .parquet 文件看**它长什么样**：三层切分（Row Group / Column Chunk / Page）加一套放在文件末尾的元数据。理解这层结构，"列裁剪、谓词下推、为什么 Parquet 不适合改"就全部有了物理落点。首尾相接的还有 [总起](Parquet深入理解-总起.md)、[编码技术](Parquet三-编码技术.md)。
 
 1 文件整体布局
 ------
@@ -51,7 +51,7 @@ Parquet 深入理解（二）：文件结构剖析
 5 Page：最小存储单元
 ------
 
-* 三种类型：**Data Page**（实际数据）、**Dictionary Page**（字典编码的字典，见 [编码篇](./Parquet三-编码技术.md)）、Index Page（索引信息）。
+* 三种类型：**Data Page**（实际数据）、**Dictionary Page**（字典编码的字典，见 [编码篇](Parquet三-编码技术.md)）、Index Page（索引信息）。
 * Data Page 结构：`Page Header（压缩前后大小、值数量、编码方式）+ Repetition Levels（嵌套结构才有）+ Definition Levels（NULL/嵌套才有）+ Encoded Values`。
 * 默认约 1MB：太小 header 开销大、不利顺序 IO；太大单值读取的解压代价高、内存占用大。一般不需要调。
 

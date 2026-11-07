@@ -1,7 +1,7 @@
 Parquet 深入理解（四）：Schema 与嵌套结构
 ====
 
-系列收官篇。前几篇的数据都是扁平表，但真实业务数据几乎都是嵌套的——用户有地址数组、订单里有商品明细。**列式存储怎么存"结构"**？答案 Repetition Level 与 Definition Level，源自 Google Dremel 论文，是 Parquet 最精妙的部分。后端只要被问过"JSON 状的嵌套数据怎么进数仓"，这一篇就是答案。导航：[总起](./Parquet深入理解-总起.md)、[列式存储](./Parquet一-理解列式存储.md)、[文件结构](./Parquet二-文件结构剖析.md)、[编码](./Parquet三-编码技术.md)。
+系列收官篇。前几篇的数据都是扁平表，但真实业务数据几乎都是嵌套的——用户有地址数组、订单里有商品明细。**列式存储怎么存"结构"**？答案 Repetition Level 与 Definition Level，源自 Google Dremel 论文，是 Parquet 最精妙的部分。后端只要被问过"JSON 状的嵌套数据怎么进数仓"，这一篇就是答案。导航：[总起](Parquet深入理解-总起.md)、[列式存储](Parquet一-理解列式存储.md)、[文件结构](Parquet二-文件结构剖析.md)、[编码](Parquet三-编码技术.md)。
 
 1 类型系统：物理类型少、语义类型多
 ------
@@ -101,7 +101,7 @@ D : [2,     2,     0,    1,    2   ]
 
 * **完全列式**：嵌套结构照样拍平成独立列（如 `users.orders.amount`），独立压缩、独立读取，"嵌套"没有破坏列存根基；
 * **列裁剪依然有效**：查 amount 只读这一列，其余结构一概不碰；
-* **r/d 值域极小**（通常 0~3）且大量重复——恰好是 RLE + Bit-Packing 的最佳客户（见[编码篇](./Parquet三-编码技术.md)），无 NULL 时 D 全是 max 值，一个长游程就完事。
+* **r/d 值域极小**（通常 0~3）且大量重复——恰好是 RLE + Bit-Packing 的最佳客户（见[编码篇](Parquet三-编码技术.md)），无 NULL 时 D 全是 max 值，一个长游程就完事。
 
 面试追问链
 ------
@@ -115,6 +115,6 @@ D : [2,     2,     0,    1,    2   ]
 面试官视角小结
 ---
 
-r/d level 是列存体系里区分度最高的一问，因为它没法靠"用过"蒙混。能准确说出 D 管"定义到哪层/NULL 归属"、R 管"在哪层重复/列表切分"，已经超过 90% 的候选人；能现场走完 links.url 的重建五步、点出"r/d 值域小所以 RLE 友好"的联动，说明真正吃透了 Dremel 的思路。这一问过关，ORC、ClickHouse 嵌套类型、Arrow 的 List/Struct 布局（见 [ApacheArrow列存内存格式](./ApacheArrow列存内存格式.md)）都是同一套心智的变体。
+r/d level 是列存体系里区分度最高的一问，因为它没法靠"用过"蒙混。能准确说出 D 管"定义到哪层/NULL 归属"、R 管"在哪层重复/列表切分"，已经超过 90% 的候选人；能现场走完 links.url 的重建五步、点出"r/d 值域小所以 RLE 友好"的联动，说明真正吃透了 Dremel 的思路。这一问过关，ORC、ClickHouse 嵌套类型、Arrow 的 List/Struct 布局（见 [ApacheArrow列存内存格式](ApacheArrow列存内存格式.md)）都是同一套心智的变体。
 
 > 来源：javadoop《深入理解 Parquet（四）：Schema 与嵌套结构》（https://javadoop.com/post/parquet-04-parquet-schema）——本文为研读消化后的重写笔记，原文版权归 javadoop，引用请遵原文。

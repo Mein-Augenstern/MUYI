@@ -1,7 +1,7 @@
 MySQL常用命令速查
 ====
 
-> 原文参考：<a href="https://shockerli.net/post/1000-line-mysql-note/">一千行 MySQL 命令</a>（格物 著，JavaGuide 整理过目录）——完整千行版见原文；本篇是按后端日常使用频率重组织的**自写速查**，只保留真正高频的命令与排障入口。配套索引原理见 [MySQL索引详解](./MySQL索引详解.md)、线上事故视角见 [线上慢SQL复盘-范围条件断前缀与回表风暴](./线上慢SQL复盘-范围条件断前缀与回表风暴.md)。
+> 原文参考：<a href="https://shockerli.net/post/1000-line-mysql-note/">一千行 MySQL 命令</a>（格物 著，JavaGuide 整理过目录）——完整千行版见原文；本篇是按后端日常使用频率重组织的**自写速查**，只保留真正高频的命令与排障入口。配套索引原理见 [MySQL索引详解](MySQL索引详解.md)、线上事故视角见 [线上慢SQL复盘-范围条件断前缀与回表风暴](线上慢SQL复盘-范围条件断前缀与回表风暴.md)。
 
 1 连接与库表
 ------
@@ -27,7 +27,7 @@ EXPLAIN SELECT ...;  EXPLAIN ANALYZE SELECT ...; -- 执行计划；8.0+ 后者�
 SELECT ... FROM a JOIN b ON a.id=b.aid WHERE ... -- 连接条件与过滤条件都影响索引选择
 ```
 
-* 分页深翻页用"延迟关联/游标"：`WHERE id > 上次最大id LIMIT n` 优于 `LIMIT 1000000, 20`（原理见 [SQL limit 与 limit offset 用法区别](./SQL%20limit%20与%20limit%20offset%20用法区别.md)）。
+* 分页深翻页用"延迟关联/游标"：`WHERE id > 上次最大id LIMIT n` 优于 `LIMIT 1000000, 20`（原理见 [SQL limit 与 limit offset 用法区别](SQL limit 与 limit offset 用法区别.md)）。
 
 3 索引与执行计划
 ------
@@ -73,7 +73,7 @@ SHOW ENGINE INNODB STATUS\G            -- 死锁与等待链
 SELECT * FROM information_schema.INNODB_TRX;  -- 活跃事务与锁等待
 ```
 
-* 连接池满的完整排障链路（processlist → 同形态 SQL 定位 → 索引治理）见 [线上慢SQL复盘-范围条件断前缀与回表风暴](./线上慢SQL复盘-范围条件断前缀与回表风暴.md)。
+* 连接池满的完整排障链路（processlist → 同形态 SQL 定位 → 索引治理）见 [线上慢SQL复盘-范围条件断前缀与回表风暴](线上慢SQL复盘-范围条件断前缀与回表风暴.md)。
 
 7 常用信息函数
 ------

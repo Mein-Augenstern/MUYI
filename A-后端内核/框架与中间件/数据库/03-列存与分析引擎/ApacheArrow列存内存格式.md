@@ -1,7 +1,7 @@
 Apache Arrow：列存内存格式
 ====
 
-如果说 Parquet 是"磁盘上的列存标准"，Arrow 就是"**内存里的列存标准**"——规定数据在 RAM 中如何排列的一套规范加各语言库。为什么后端要懂：分析型负载里大量时间烧在系统间数据搬运的序列化上，Arrow 的零拷贝思路（Polars、DuckDB、DataFusion 都在用）是当代数据基础设施的通用底座，也是理解"为什么新分析工具突然都变快了"的钥匙。与磁盘侧的 [Parquet深入理解-总起](./Parquet深入理解-总起.md) 配套阅读。
+如果说 Parquet 是"磁盘上的列存标准"，Arrow 就是"**内存里的列存标准**"——规定数据在 RAM 中如何排列的一套规范加各语言库。为什么后端要懂：分析型负载里大量时间烧在系统间数据搬运的序列化上，Arrow 的零拷贝思路（Polars、DuckDB、DataFusion 都在用）是当代数据基础设施的通用底座，也是理解"为什么新分析工具突然都变快了"的钥匙。与磁盘侧的 [Parquet深入理解-总起](Parquet深入理解-总起.md) 配套阅读。
 
 1 痛点：序列化税
 ------
@@ -17,7 +17,7 @@ Apache Arrow：列存内存格式
 * **定长类型**：Data Buffer 紧密排列。INT32 `[1,2,3,4,5]` = 20 字节，取第 i 个元素就是偏移 `i×4`，O(1)。**不编码、不压缩**——内存格式要的是随机访问和 SIMD，不是省空间（省空间是 Parquet 的活）。
 * **NULL 处理：Validity Bitmap**。1=有值、0=NULL：`[1,NULL,3,NULL,5]` → 位图 `0b00010101`。100 万值位图约 125KB；全无 NULL 时整个位图可省略；NULL 槽位的数据不读、也不破坏对齐。
 * **变长字符串：Offsets + Data 双 buffer**。`["hello","arrow","世界"]` → Offsets `[0,5,10,16]` + Data。第 i 个串 = `Data[offsets[i] .. offsets[i+1]]`，依旧 O(1)。
-* **64 字节对齐**：对齐 AVX-512 SIMD 寄存器宽度，一条指令处理 16 个 INT32 / 8 个 INT64——DuckDB、Polars 向量化执行快的物理基础（与 [Parquet三-编码技术](./Parquet三-编码技术.md) 里讲的编码数据直算同一思想）。
+* **64 字节对齐**：对齐 AVX-512 SIMD 寄存器宽度，一条指令处理 16 个 INT32 / 8 个 INT64——DuckDB、Polars 向量化执行快的物理基础（与 [Parquet三-编码技术](Parquet三-编码技术.md) 里讲的编码数据直算同一思想）。
 
 ```
 Array<INT32>: [1,2,3,4,5]
@@ -29,7 +29,7 @@ Array<INT32>: [1,2,3,4,5]
 
 * 原始类型：Int/UInt 8~64、Float16/32/64、Boolean（1 bit/值）、Decimal128/256、Date/Time/Timestamp、Utf8/Binary；逻辑类型映射到物理（DATE→INT32、STRING→UTF-8 Binary），思路与 Parquet 一致。
 * **List**：与字符串同款 Offsets + Child Array。`[[1,2], null, [3,4,5]]` → Bitmap `0b00000101` + Offsets `[0,2,2,5]` + Child `[1,2,3,4,5]`。
-* **Struct**：各字段独立子数组（纯列式）。只查 name 时根本不碰 age 数组——**嵌套下列裁剪依然有效**，r/d level 那套"拍平"思想（[Parquet四](./Parquet四-Schema与嵌套结构.md)）在内存侧的延续。
+* **Struct**：各字段独立子数组（纯列式）。只查 name 时根本不碰 age 数组——**嵌套下列裁剪依然有效**，r/d level 那套"拍平"思想（[Parquet四](Parquet四-Schema与嵌套结构.md)）在内存侧的延续。
 * **Map**：物理上就是 `List<Struct<key,value>>`。
 * **Dictionary**：注意它是**数据类型**而非压缩手段。7 个城市名 → Indices `[0,1,0,2,0,1,0]`（Int8）+ 3 项字典。收益：省内存、整数比较更快、小字典整个塞进 CPU 缓存。
 

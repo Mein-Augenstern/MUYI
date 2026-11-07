@@ -1,7 +1,7 @@
 Parquet 深入理解：总起
 ====
 
-Apache 顶级项目的**列式存储文件格式**——和 CSV、JSON 同属"文件格式"，区别是数据按列而非按行组织。为什么后端要懂它：Spark 默认存储格式、数据湖事实标准，ClickHouse、DuckDB、Databend、Polars 全都把它当交换格式（见 [ClickHouse核心架构与设计原理](./ClickHouse核心架构与设计原理.md)）；更要紧的是，**列式存储是现代数据分析的地基**，而 Parquet 是学列存最好的具体载体——概念抽象地学记不住，跟着一个真实文件格式走一遍就全通了。学完之后再 ORC、[ApacheArrow列存内存格式](./ApacheArrow列存内存格式.md)、ClickHouse 的存储设计，都会有似曾相识之感。
+Apache 顶级项目的**列式存储文件格式**——和 CSV、JSON 同属"文件格式"，区别是数据按列而非按行组织。为什么后端要懂它：Spark 默认存储格式、数据湖事实标准，ClickHouse、DuckDB、Databend、Polars 全都把它当交换格式（见 [ClickHouse核心架构与设计原理](ClickHouse核心架构与设计原理.md)）；更要紧的是，**列式存储是现代数据分析的地基**，而 Parquet 是学列存最好的具体载体——概念抽象地学记不住，跟着一个真实文件格式走一遍就全通了。学完之后再 ORC、[ApacheArrow列存内存格式](ApacheArrow列存内存格式.md)、ClickHouse 的存储设计，都会有似曾相识之感。
 
 1 它凭什么：两个数量级
 ------
@@ -20,11 +20,11 @@ Apache 顶级项目的**列式存储文件格式**——和 CSV、JSON 同属"�
 3 系列导航
 ------
 
-* [Parquet一-理解列式存储](./Parquet一-理解列式存储.md)：行存 vs 列存的根本分歧，为什么列存适合分析。一切的起点。
-* [Parquet二-文件结构剖析](./Parquet二-文件结构剖析.md)：PAR1 魔数、三层切分、Footer 元数据，一个 .parquet 文件内部长什么样。
-* [Parquet三-编码技术](./Parquet三-编码技术.md)：Page 里的数据怎么编码，字典/RLE/Delta/Bit-Packing 各管什么数据。
-* [Parquet四-Schema与嵌套结构](./Parquet四-Schema与嵌套结构.md)：r/d level 如何把嵌套 JSON 状的数据拍平成列再无损还原。
-* 延伸：[ApacheArrow列存内存格式](./ApacheArrow列存内存格式.md)——Parquet 管磁盘，Arrow 管内存，一对搭档。
+* [Parquet一-理解列式存储](Parquet一-理解列式存储.md)：行存 vs 列存的根本分歧，为什么列存适合分析。一切的起点。
+* [Parquet二-文件结构剖析](Parquet二-文件结构剖析.md)：PAR1 魔数、三层切分、Footer 元数据，一个 .parquet 文件内部长什么样。
+* [Parquet三-编码技术](Parquet三-编码技术.md)：Page 里的数据怎么编码，字典/RLE/Delta/Bit-Packing 各管什么数据。
+* [Parquet四-Schema与嵌套结构](Parquet四-Schema与嵌套结构.md)：r/d level 如何把嵌套 JSON 状的数据拍平成列再无损还原。
+* 延伸：[ApacheArrow列存内存格式](ApacheArrow列存内存格式.md)——Parquet 管磁盘，Arrow 管内存，一对搭档。
 
 4 范围与读法
 ------
@@ -33,7 +33,7 @@ Apache 顶级项目的**列式存储文件格式**——和 CSV、JSON 同属"�
 * 适合任何想加深数据存储理解的工程师，不限大数据方向。
 * 读法建议：按序读，每篇都从"它解决什么矛盾"入手；Parquet 的每个设计都是具体 trade-off 的产物，带着"为什么"读比背结论有效。
 * 一条自检线：读完四篇应能不查资料回答四个问题——为什么列存省 IO（篇一）、Row Group/Chunk/Page 各管什么（篇二）、字典与 RLE 何时失效（篇三）、嵌套数据的 r/d level 各记录什么（篇四，四问中最见功力）。
-* 库内关联：分析型数据库的落地样本见 [ClickHouse核心架构与设计原理](./ClickHouse核心架构与设计原理.md)——MergeTree 的列存、压缩、跳数索引与本系列逐条对应，可对照食用。
+* 库内关联：分析型数据库的落地样本见 [ClickHouse核心架构与设计原理](ClickHouse核心架构与设计原理.md)——MergeTree 的列存、压缩、跳数索引与本系列逐条对应，可对照食用。
 
 面试追问链
 ------

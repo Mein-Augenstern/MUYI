@@ -1,7 +1,7 @@
 RocksDB 架构设计一：LSM 与存储引擎
 ====
 
-嵌入式 KV 持久化库，没有独立进程和端口，像 SQLite 一样被"装进"应用里。TiKV、Flink 状态后端、Kafka Streams、MyRocks 都拿它做底座，后端工程师即使不直接写它，也大概率在依赖它的系统里排查过问题。它的核心命题只有一句：**把随机写转化为顺序写**——一切设计由此展开，一切代价（读放大、空间放大、Compaction）也由此而来。本篇讲骨架（LSM、MemTable、WAL、SST、读取、Compaction），版本与一致性深水区见 [RocksDB架构设计二-版本快照与一致性读取](./RocksDB架构设计二-版本快照与一致性读取.md)；B+ 树的对照见 [MySQL索引详解](./MySQL索引详解.md)。
+嵌入式 KV 持久化库，没有独立进程和端口，像 SQLite 一样被"装进"应用里。TiKV、Flink 状态后端、Kafka Streams、MyRocks 都拿它做底座，后端工程师即使不直接写它，也大概率在依赖它的系统里排查过问题。它的核心命题只有一句：**把随机写转化为顺序写**——一切设计由此展开，一切代价（读放大、空间放大、Compaction）也由此而来。本篇讲骨架（LSM、MemTable、WAL、SST、读取、Compaction），版本与一致性深水区见 [RocksDB架构设计二-版本快照与一致性读取](RocksDB架构设计二-版本快照与一致性读取.md)；B+ 树的对照见 [MySQL索引详解](01-MySQL核心/MySQL索引详解.md)。
 
 1 它是什么：五个 API 的存储引擎
 ------

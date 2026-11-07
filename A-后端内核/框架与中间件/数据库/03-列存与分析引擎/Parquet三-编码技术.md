@@ -1,7 +1,7 @@
 Parquet 深入理解（三）：编码技术
 ====
 
-系列第三篇。上一篇（[Parquet二-文件结构剖析](./Parquet二-文件结构剖析.md)）拆到了 Page，这一篇进到 Page 里看数据到底怎么存：**先编码、再压缩**，两层配合才有 5~20 倍乃至更高的压缩比。这也是列存最"值钱"的一层——同列数据的特征（低基数、递增、重复）被逐列兑现成空间和速度。导航：[总起](./Parquet深入理解-总起.md)、下一篇 [Schema与嵌套结构](./Parquet四-Schema与嵌套结构.md)。
+系列第三篇。上一篇（[Parquet二-文件结构剖析](Parquet二-文件结构剖析.md)）拆到了 Page，这一篇进到 Page 里看数据到底怎么存：**先编码、再压缩**，两层配合才有 5~20 倍乃至更高的压缩比。这也是列存最"值钱"的一层——同列数据的特征（低基数、递增、重复）被逐列兑现成空间和速度。导航：[总起](Parquet深入理解-总起.md)、下一篇 [Schema与嵌套结构](Parquet四-Schema与嵌套结构.md)。
 
 1 编码 vs 压缩：先分清两件事
 ------
@@ -22,7 +22,7 @@ orders 表 1000 万行：order_id **递增整数**；user_id 随机整数；amou
 
 * 原理：值建字典，字符串变整数 ID。status 列 5 种值 → 0~4。
 * 空间账：原始 80MB（均 8 字节/条）→ 编码后约 3.75MB（每值 3 bit，字典本身仅 40 字节），**约 21 倍**。
-* 文件落位：一个 Column Chunk 只有一个 Dictionary Page 存字典，各 Data Page 存整数索引（见[上篇](./Parquet二-文件结构剖析.md)）。
+* 文件落位：一个 Column Chunk 只有一个 Dictionary Page 存字典，各 Data Page 存整数索引（见[上篇](Parquet二-文件结构剖析.md)）。
 * **Fallback 机制**：字典默认上限 1MB，超限后当前 Page 写完即切换 PLAIN——同一 Chunk 里前面 Page 是字典编码、后面是 PLAIN，是正常现象不是损坏。
 * 适合：状态、枚举、城市、用户等级；不适合：主键、毫秒时间戳、随机金额、长文本。经验法则：**distinct 值 ≤ 10 万通常有效**。
 
@@ -48,7 +48,7 @@ orders 表 1000 万行：order_id **递增整数**；user_id 随机整数；amou
 ------
 
 * bit_width = `ceil(log2(max+1))`：0~1 用 1 bit 省 97%；0~255 用 8 bit 省 75%；0~65535 用 16 bit 省 50%。紧密排布示例：bit_width=3 存 8 个值 → 3 字节。
-* 它还是配角专业户：RLE/Bit-Packed 混合里的交替段、Definition/Repetition Level（见[下篇](./Parquet四-Schema与嵌套结构.md)）、Delta 的差值段。
+* 它还是配角专业户：RLE/Bit-Packed 混合里的交替段、Definition/Repetition Level（见[下篇](Parquet四-Schema与嵌套结构.md)）、Delta 的差值段。
 * **PLAIN 就是不编码**，直接存原始二进制。用于：随机浮点、UUID、字典超限 fallback、Boolean（0/1 没必要折腾）。
 
 7 编码怎么选、效果怎么叠

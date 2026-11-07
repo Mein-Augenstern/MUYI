@@ -1,7 +1,7 @@
 Cassandra 核心架构与设计原理
 ====
 
-一句话定位：**Dynamo 的分布式架构 + Bigtable 的存储模型**——去中心化的分布式 KV 系统，写吞吐线性扩展、跨地域多活、无单点。Apple 用它撑过 15 万节点数百 PB，Discord 每天经它写入数十亿条消息。后端要懂它的理由：它是"AP 系统做出什么样工程取舍"的最完整样本，一致性哈希、可调一致性、LSM 存储三大件在面试里都是高频考点。存储引擎细节与 [RocksDB架构设计一-LSM与存储引擎](./RocksDB架构设计一-LSM与存储引擎.md) 同源，单机 MySQL 的对照见 [MySQL索引详解](./MySQL索引详解.md)。
+一句话定位：**Dynamo 的分布式架构 + Bigtable 的存储模型**——去中心化的分布式 KV 系统，写吞吐线性扩展、跨地域多活、无单点。Apple 用它撑过 15 万节点数百 PB，Discord 每天经它写入数十亿条消息。后端要懂它的理由：它是"AP 系统做出什么样工程取舍"的最完整样本，一致性哈希、可调一致性、LSM 存储三大件在面试里都是高频考点。存储引擎细节与 [RocksDB架构设计一-LSM与存储引擎](RocksDB架构设计一-LSM与存储引擎.md) 同源，单机 MySQL 的对照见 [MySQL索引详解](../01-MySQL核心/MySQL索引详解.md)。
 
 1 数据模型：Partition Key 决定一切
 ------
@@ -54,7 +54,7 @@ client ──→ 任一节点(Coordinator) ──┬──→ 副本1
 6 存储引擎：LSM 一套件
 ------
 
-写路径与读路径（LSM 完整原理见 [RocksDB架构设计一](./RocksDB架构设计一-LSM与存储引擎.md)）：
+写路径与读路径（LSM 完整原理见 [RocksDB架构设计一](RocksDB架构设计一-LSM与存储引擎.md)）：
 
 ```
 写: CommitLog(WAL) → MemTable(跳表) ──flush──→ SSTable ──后台──→ Compaction
