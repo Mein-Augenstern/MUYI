@@ -1,19 +1,20 @@
-/* MuyiHero 注入后隐藏默认 hero（避免双重 hero） */
-:root {
-  --vp-home-hero-name-color: transparent;
-  --vp-home-hero-image-background-image: none;
+/*
+  MUYI 自定义首页 v3 样式
+  - 隐藏默认 VPHero（由 MuyiHero.vue 全接管）
+  - 隐藏默认 VPFeatures（MuyiHero 内含自己的 features 区）
+  - 首页背景微调（body 层面）
+*/
+
+/* 隐藏默认 hero 和 features（全接管） */
+.VPHero { display: none !important; }
+.VPFeatures { display: none !important; }
+
+/* 终端/等宽字体 */
+.mono, .term-body, .kicker, .bar-n, .bar-l, .sec-num, .tt, .desc, .track-count {
+  font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', ui-monospace, monospace !important;
 }
 
-.VPHero {
-  display: none !important;
-}
-
-/* 首页 features 区微调——与自定义 hero 的间距 */
-.VPFeatures .container {
-  padding-top: 24px !important;
-}
-
-/* 终端字体 */
-.mono, .term-body, .kicker, .stat-num {
-  font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', Consolas, monospace !important;
+/* 首页 body 背景微暗（区分内容页） */
+body:has(.mx-hero) {
+  background: var(--vp-c-bg-alt);
 }
