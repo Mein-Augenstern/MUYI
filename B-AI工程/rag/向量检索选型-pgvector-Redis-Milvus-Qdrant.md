@@ -65,7 +65,7 @@ VADD docs 1024 FLOAT32 <bytes> ITEM item-42 ATTR dept=health   # 形态示意：
 VSIM docs 1024 FLOAT32 <query-bytes> COUNT 10 WITHSCORES FILTER dept=="health"
 ```
 
-机制细节与 Valkey 生态分叉见 A 轨 [版本演进-Redis8新特性与Valkey分叉](../../A-后端内核/框架与中间件/redis/版本演进-Redis8新特性与Valkey分叉.md)。
+机制细节与 Valkey 生态分叉见 A 轨 [版本演进-Redis8新特性与Valkey分叉](../../A-后端内核/框架与中间件/redis/04-版本与生态/版本演进-Redis8新特性与Valkey分叉.md)。
 
 3）Milvus：十亿级分布式
 ------
