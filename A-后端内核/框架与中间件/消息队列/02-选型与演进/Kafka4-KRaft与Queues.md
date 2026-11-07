@@ -1,7 +1,7 @@
 Kafka 4：KRaft-only 与 Queues for Kafka
 ====
 
-Kafka 4.x 是消息队列面试的时代分水岭：4.0 起 KRaft-only，ZooKeeper 被彻底移除；4.2 起 Queues for Kafka（Share Groups，KIP-932）转 GA production-ready。一句话定位：**元数据自主管理 + 队列语义补全，Kafka 从「流日志」扩张为「流 + 队列」双模引擎**。面试里它考的是知识保鲜度——还在答「Kafka 元数据存 ZooKeeper」的候选人，与能讲 KRaft quorum、share group acknowledge 的人，差了一个代际。基础架构先看 [Kafka架构与高性能原理](./Kafka架构与高性能原理.md)，选型底盘看 [MQ选型对比-Kafka-RocketMQ-RabbitMQ](./MQ选型对比-Kafka-RocketMQ-RabbitMQ.md)。
+Kafka 4.x 是消息队列面试的时代分水岭：4.0 起 KRaft-only，ZooKeeper 被彻底移除；4.2 起 Queues for Kafka（Share Groups，KIP-932）转 GA production-ready。一句话定位：**元数据自主管理 + 队列语义补全，Kafka 从「流日志」扩张为「流 + 队列」双模引擎**。面试里它考的是知识保鲜度——还在答「Kafka 元数据存 ZooKeeper」的候选人，与能讲 KRaft quorum、share group acknowledge 的人，差了一个代际。基础架构先看 [Kafka架构与高性能原理](Kafka架构与高性能原理.md)，选型底盘看 [MQ选型对比-Kafka-RocketMQ-RabbitMQ](MQ选型对比-Kafka-RocketMQ-RabbitMQ.md)。
 
 1 Kafka 4 这两年改变了什么：KRaft-only 的运维账
 ------
@@ -57,7 +57,7 @@ KRaft（Kafka Raft）= 用内嵌的 Raft 变体管理元数据，替代 ZooKeepe
 | 分区规模 | 十万级开始吃力 | 面向百万级分区设计 |
 | 部署 | 先搭 ZK 再搭 Kafka | 单二进制，`process.roles` 定角色 |
 
-两个高频陷阱。其一，KRaft 移除的是「元数据外置」，**不是没有 controller**——controller 还在，只是从「ZK 的客户端」变成了「Raft 组的参与者」。其二，KRaft 不改变数据面的 ISR/副本机制（见 [Kafka架构与高性能原理](./Kafka架构与高性能原理.md)）。元数据共识与数据副本共识是两回事，别混为一谈。
+两个高频陷阱。其一，KRaft 移除的是「元数据外置」，**不是没有 controller**——controller 还在，只是从「ZK 的客户端」变成了「Raft 组的参与者」。其二，KRaft 不改变数据面的 ISR/副本机制（见 [Kafka架构与高性能原理](Kafka架构与高性能原理.md)）。元数据共识与数据副本共识是两回事，别混为一谈。
 
 3 Queues for Kafka：Share Groups 补上队列语义
 ------
@@ -65,7 +65,7 @@ KRaft（Kafka Raft）= 用内嵌的 Raft 变体管理元数据，替代 ZooKeepe
 **为什么 Kafka 也要「队列语义」**——consumer group 有三个天生限制：
 
 * **消费者数 ≤ 分区数**：分区独占消费，消费者多于分区就有人闲置。任务队列想临时加机器扛积压，只能先扩分区，而扩分区破坏 key 顺序、放大运维成本。
-* **提交粒度是位移不是消息**：ack 的单位是 offset 批次。单条消息处理失败要么整批重拉、要么业务自建重试/死信（可靠性姿势见 [消息不丢失与不重复](./消息不丢失与不重复.md)）。
+* **提交粒度是位移不是消息**：ack 的单位是 offset 批次。单条消息处理失败要么整批重拉、要么业务自建重试/死信（可靠性姿势见 [消息不丢失与不重复](../01-可靠性三件套/消息不丢失与不重复.md)）。
 * **rebalance 代价重**：消费者上下线、长任务超过 `max.poll.interval.ms` 都可能触发整组 STW，worker 池频繁伸缩的任务队列场景尤其痛。
 
 **KIP-932 核心（4.2 GA）**：
@@ -83,7 +83,7 @@ KRaft（Kafka Raft）= 用内嵌的 Raft 变体管理元数据，替代 ZooKeepe
 | 确认单位 | offset 提交（批次粒度） | 单条消息 acknowledge |
 | 失败处理 | 业务自建重试/死信 | RELEASE 重投 / REJECT 死信，超限自动死信 |
 | rebalance | 有（STW 风险） | 无（share session 逐消费者管理） |
-| 顺序性 | 分区内严格 FIFO（[顺序消息](./顺序消息.md)） | 投递保持分区序，处理完成顺序不保证 |
+| 顺序性 | 分区内严格 FIFO（[顺序消息](../01-可靠性三件套/顺序消息.md)） | 投递保持分区序，处理完成顺序不保证 |
 | 适合 | 流处理、分区内状态聚合 | 任务队列、WorkQueue、事件驱动 |
 
 客户端是新 API（KafkaShareConsumer），语义示意：
@@ -109,7 +109,7 @@ try (var consumer = new KafkaShareConsumer<>(props)) {
 
 **适用场景**：任务队列 / WorkQueue（履约、图片处理、通知发送——要 per-message ack + 重试 + 死信的负载）。命令侧的事件驱动微服务（处理完确认，而非流式聚合）。积压驱动的弹性 worker 池（worker 数随积压伸缩，不受分区数限制、不触发 rebalance）。
 
-**不适用场景**：流处理与窗口聚合（分区内状态，用 consumer group + Kafka Streams）。强顺序业务（完成顺序不保证，顺序姿势见 [顺序消息](./顺序消息.md)）。超大规模镜像/管道类负载（share coordinator 分发路径比分区独占直读重）。官方定位是补队列语义，不是替代 consumer group。
+**不适用场景**：流处理与窗口聚合（分区内状态，用 consumer group + Kafka Streams）。强顺序业务（完成顺序不保证，顺序姿势见 [顺序消息](../01-可靠性三件套/顺序消息.md)）。超大规模镜像/管道类负载（share coordinator 分发路径比分区独占直读重）。官方定位是补队列语义，不是替代 consumer group。
 
 云托管跟进是 GA 成色的佐证：Confluent Cloud 与 AWS MSK（含 Express brokers）均已支持 Queues for Kafka。先在云上小规模验证再自建，是低风险路径。
 
@@ -124,7 +124,7 @@ Kafka 侵蚀了谁：
 RocketMQ 的反击：
 
 * RocketMQ 5.5.0（2026-04）推出 **Lite 订阅模式**，配合 5.x 存算分离与低时延改造，主打低时延点对点与轻量订阅。美团这类团队已有 5.x 低时延生产实践；
-* 传统强项未失守：事务消息、定时/延迟消息、内建重试队列，Kafka 至今没有原生对等物。对比见 [MQ选型对比-Kafka-RocketMQ-RabbitMQ](./MQ选型对比-Kafka-RocketMQ-RabbitMQ.md)；
+* 传统强项未失守：事务消息、定时/延迟消息、内建重试队列，Kafka 至今没有原生对等物。对比见 [MQ选型对比-Kafka-RocketMQ-RabbitMQ](MQ选型对比-Kafka-RocketMQ-RabbitMQ.md)；
 * 国内微服务存量盘还有栈惯性：Nacos 3.2.x 稳定线 + RocketMQ 5.x + Sentinel 的组合依然是默认解。
 
 2026 版决策表：
@@ -171,7 +171,7 @@ RocketMQ 的反击：
 * 4.0 之后还能退回 ZK 模式吗？→ 不能，ZK 代码已移除，升级是单向门；
 * share group 与 consumer group 的区别？→ 分区独占 vs 服务端分发；offset 批次提交 vs 单条 acknowledge；掉线触发 rebalance vs share session 逐个管理；
 * acknowledge 有哪几态？→ ACCEPT / RELEASE / REJECT，投递超限（默认 5 次）自动进死信；
-* share group 的交付语义？→ at-least-once，消费端必须幂等，姿势同 [消息不丢失与不重复](./消息不丢失与不重复.md)；
+* share group 的交付语义？→ at-least-once，消费端必须幂等，姿势同 [消息不丢失与不重复](../01-可靠性三件套/消息不丢失与不重复.md)；
 * ack 之后消息会删除吗？→ 不会，retention 模型不变；ack 只推进 checkpoint 位移、让 share 状态可清理；
 * 哪些场景不该用 share group？→ 流处理聚合、强顺序业务——分区独占 + offset 才是对的抽象；
 * 2026 年任务队列选型怎么答？→ 已有 Kafka 用 share group；绿地轻量用 RabbitMQ；低时延/事务/延迟消息看 RocketMQ 5.x。
@@ -181,6 +181,6 @@ RocketMQ 的反击：
 
 这道题分层清晰：知道「Kafka 去掉了 ZooKeeper」只算及格。能讲清 quorum 单写、metadata log + snapshot、controller/listener 分离，说明读过架构演进。能主动对比 share group 的 acknowledge 三态、幂等代价、与 retention/purge 的关系。并给出 2026 版选型格局（Kafka 蚕食任务队列、RocketMQ 5.x 低时延守盘），是知识新鲜的信号。
 
-最高档是能结合自己项目讲「MQ 引入时机」的真实权衡——比如事件先落库 + NoopEventPublisher，等有消费方再接真 MQ。这说明中间件是拿来解决问题的，不是拿来填简历的。深挖依次见 [Kafka架构与高性能原理](./Kafka架构与高性能原理.md) 与 [MQ选型对比-Kafka-RocketMQ-RabbitMQ](./MQ选型对比-Kafka-RocketMQ-RabbitMQ.md)。
+最高档是能结合自己项目讲「MQ 引入时机」的真实权衡——比如事件先落库 + NoopEventPublisher，等有消费方再接真 MQ。这说明中间件是拿来解决问题的，不是拿来填简历的。深挖依次见 [Kafka架构与高性能原理](Kafka架构与高性能原理.md) 与 [MQ选型对比-Kafka-RocketMQ-RabbitMQ](MQ选型对比-Kafka-RocketMQ-RabbitMQ.md)。
 
 > 2026-10 新增（2026 技术栈补全）。

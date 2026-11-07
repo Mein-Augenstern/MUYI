@@ -76,4 +76,4 @@ flowchart TD
 
 配置中心题的高分信号是**规模意识**：能说出"不上也是一档选型"并给出成立条件（服务数×变更频率的收益函数），比背 Apollo 功能列表高两个段位；追问灰度发布怎么做，Apollo 用户讲按实例分批，自建用户讲"先改一台观察"——真做过的都答得出流程与回滚，只在 PPT 里见过的只答得出"实时推送很方便"。
 
-> 2026-11 新增（config 轨首篇，star-site/Nacos 与 invest/零配置中心双形态实战反哺）。姊妹篇：[协调中间件选型-ZooKeeper对比etcd与Nacos](../zookeeper/协调中间件选型-ZooKeeper对比etcd与Nacos.md)、[缓存架构选型-本地Caffeine对比分布式Redis与多级缓存](../redis/缓存架构选型-本地Caffeine对比分布式Redis与多级缓存.md)。
+> 2026-11 新增（config 轨首篇，star-site/Nacos 与 invest/零配置中心双形态实战反哺）。姊妹篇：[协调中间件选型-ZooKeeper对比etcd与Nacos](../zookeeper/协调中间件选型-ZooKeeper对比etcd与Nacos.md)、[缓存架构选型-本地Caffeine对比分布式Redis与多级缓存](../redis/02-缓存实战/缓存架构选型-本地Caffeine对比分布式Redis与多级缓存.md)。
