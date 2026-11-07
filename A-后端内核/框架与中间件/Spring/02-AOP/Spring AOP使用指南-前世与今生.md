@@ -1,7 +1,7 @@
 Spring AOP 使用指南：前世与今生
 ====
 
-一句话定位：把 Spring AOP 的三种配置形态（1.2 接口式 → XML schema → @AspectJ 注解）与 Advice/Advisor/Interceptor 等术语一次讲透，AOP 使用层的面试完备地图；代理是怎么造出来的见姊妹篇 [Spring AOP源码解析](./Spring%20AOP源码解析.md)。
+一句话定位：把 Spring AOP 的三种配置形态（1.2 接口式 → XML schema → @AspectJ 注解）与 Advice/Advisor/Interceptor 等术语一次讲透，AOP 使用层的面试完备地图；代理是怎么造出来的见姊妹篇 [Spring AOP源码解析](Spring AOP源码解析.md)。
 
 1 先分清三个名词：AOP、AspectJ、Spring AOP
 ------
@@ -10,7 +10,7 @@ AOP 的本质：在方法执行前、返回后、抛异常后等位置做拦截�
 
 * **Spring AOP**：基于动态代理；目标类有接口默认 JDK 动态代理，无接口用 CGLIB（Spring 3.2 起 spring-core 内置 CGLIB 与 ASM，无需额外依赖）；依赖 IOC 容器管理，**只能作用于容器中 Bean 的方法**；Web 场景有时 Filter/Interceptor 比 AOP 更合适；性能弱于 AspectJ——启动时要生成代理，方法调用增加栈深度；
 * **AspectJ**：Eclipse 基金会出品的 AOP 完整方案，靠修改字节码（静态织入）实现，织入发生在运行之前，因此**无额外运行时开销**；三种织入时机：compile-time（编译期）、post-compile（编译后，增强已编译类）、load-time（类加载期）；
-* Spring AOP 只解决企业开发中最普遍的"方法织入"需求，是 AspectJ 能力的一个子集——完整用法见 [AspectJ使用指南](./AspectJ使用指南.md)。
+* Spring AOP 只解决企业开发中最普遍的"方法织入"需求，是 AspectJ 能力的一个子集——完整用法见 [AspectJ使用指南](AspectJ使用指南.md)。
 
 2 Spring 1.2 接口式配置：Advice、Advisor、Interceptor
 ------
@@ -153,6 +153,6 @@ public class LogAspect {
 面试官视角小结
 ------
 
-使用层考 AOP，面试官想确认三件事：知不知道代理才是本质（顺带引出 JDK/CGLIB 的选择规则）；能不能写对 execution 表达式、分清五种通知语义（尤其 @After vs @AfterReturning）；有没有踩过自调用不生效、切面作用范围这类坑。答完主动补一句"Advisor 的匹配与代理创建发生在 BeanPostProcessor 阶段"，就把话题引向自己熟悉的主场——链路详见 [Spring AOP源码解析](./Spring%20AOP源码解析.md)；若被问"Spring AOP 拦不了构造器/字段怎么办"，接 AspectJ 静态织入即可，见 [AspectJ使用指南](./AspectJ使用指南.md)。
+使用层考 AOP，面试官想确认三件事：知不知道代理才是本质（顺带引出 JDK/CGLIB 的选择规则）；能不能写对 execution 表达式、分清五种通知语义（尤其 @After vs @AfterReturning）；有没有踩过自调用不生效、切面作用范围这类坑。答完主动补一句"Advisor 的匹配与代理创建发生在 BeanPostProcessor 阶段"，就把话题引向自己熟悉的主场——链路详见 [Spring AOP源码解析](Spring AOP源码解析.md)；若被问"Spring AOP 拦不了构造器/字段怎么办"，接 AspectJ 静态织入即可，见 [AspectJ使用指南](AspectJ使用指南.md)。
 
 > 来源：javadoop《Spring AOP 使用介绍，从前世到今生》（https://javadoop.com/post/spring-aop-intro）——本文为研读消化后的重写笔记，原文版权归 javadoop，引用请遵原文。

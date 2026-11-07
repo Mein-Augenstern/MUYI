@@ -89,7 +89,7 @@ public class DataBase {
 
 配合 `javadoop.database.url/username/password` 配置项，Boot 自动注册一个绑好属性的 bean——结构化配置批量绑定、类型校验、松散规则匹配（驼峰/中划线/下划线互通）都比 @Value 强。
 
-版本注脚：Boot 2.4 起配置文件加载机制重构，新增 `spring.config.import` 统一导入，`spring.config.location` 语义收紧为整组替换；Boot 3 沿用这套规则，升级视角全貌见 [SpringBoot3升级要点-Jakarta-AOT-Native](./SpringBoot3升级要点-Jakarta-AOT-Native.md)。
+版本注脚：Boot 2.4 起配置文件加载机制重构，新增 `spring.config.import` 统一导入，`spring.config.location` 语义收紧为整组替换；Boot 3 沿用这套规则，升级视角全貌见 [SpringBoot3升级要点-Jakarta-AOT-Native](../04-事务与升级进阶/SpringBoot3升级要点-Jakarta-AOT-Native.md)。
 
 4 暗线：为什么 Environment 不是总能取到值
 ------

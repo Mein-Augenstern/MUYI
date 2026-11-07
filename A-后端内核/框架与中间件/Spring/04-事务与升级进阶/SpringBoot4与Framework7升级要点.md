@@ -1,7 +1,7 @@
 SpringBoot 4 与 Spring Framework 7 升级要点
 ====
 
-一句话定位：如果说 Boot 3 那次是「搬地基」——Java 17、Jakarta、Observation（见 [SpringBoot3升级要点-Jakarta-AOT-Native](./SpringBoot3升级要点-Jakarta-AOT-Native.md)）。那么 Boot 4 / Framework 7 就是「在新地基上重盖楼层」。**基线只小步走（JDK 17+、Jakarta EE 11）**。真正的跳变在定位：**Java 25 一等支持、模块化重组、AI 生态卡位（Spring AI 2.0 只认 Boot 4.x）**。面试里的对应考题是「你们升 4 了吗、为什么升或为什么不升、和升 3 那次痛感有何不同」——考的是升级决策的判断力，不是背新特性清单。
+一句话定位：如果说 Boot 3 那次是「搬地基」——Java 17、Jakarta、Observation（见 [SpringBoot3升级要点-Jakarta-AOT-Native](SpringBoot3升级要点-Jakarta-AOT-Native.md)）。那么 Boot 4 / Framework 7 就是「在新地基上重盖楼层」。**基线只小步走（JDK 17+、Jakarta EE 11）**。真正的跳变在定位：**Java 25 一等支持、模块化重组、AI 生态卡位（Spring AI 2.0 只认 Boot 4.x）**。面试里的对应考题是「你们升 4 了吗、为什么升或为什么不升、和升 3 那次痛感有何不同」——考的是升级决策的判断力，不是背新特性清单。
 
 1 升级值不值：从 3.x 到 4 的收益清单
 ------
@@ -17,7 +17,7 @@ SpringBoot 4 与 Spring Framework 7 升级要点
 升级收益，按说服力排序：
 
 * **AI 生态卡位（最硬的一条）**：Spring AI 2.0（2026-06 GA）**要求 Boot 4.x**——MCP、ChatClient 这条新生态只铺在新地基上。做 AI 网关、Agent 服务、模型中间层的团队，Boot 4 不是选择题；
-* **Java 25 一等支持**：Boot 4 是第一个把 JDK 25（LTS）当一等公民的版本线。虚拟线程自 JDK 24（JEP 491）修复 synchronized pinning 后可用性大增。「每任务一线程」从试验选项变成可放心默认选用的线程模型。并发侧全景见 [JDK25并发终局-ScopedValues与结构化并发](../../java/Java%20并发/JDK25并发终局-ScopedValues与结构化并发.md)；
+* **Java 25 一等支持**：Boot 4 是第一个把 JDK 25（LTS）当一等公民的版本线。虚拟线程自 JDK 24（JEP 491）修复 synchronized pinning 后可用性大增。「每任务一线程」从试验选项变成可放心默认选用的线程模型。并发侧全景见 [JDK25并发终局-ScopedValues与结构化并发](../../../java/Java%20并发/JDK25并发终局-ScopedValues与结构化并发.md)；
 * **启动与资源基线**：GraalVM Native Image 对多数 Spring 应用已是生产就绪。JDK 26 起的 Leyden AOT 缓存给出「不放弃 JIT 换启动速度」的中间路线（第 3.4 节）；
 * **框架侧新能力**：API versioning 内置、HTTP Interface 客户端成熟、JSpecify null 安全——都只在 Framework 7 上有。
 
@@ -163,6 +163,6 @@ Boot 3 引入的 Observation 统一埋点模型（一次埋点、指标 + 链路
 面试官视角小结
 ------
 
-这道题的分层很明显：能报出 GA 时间线与基线变化只是及格。能讲出「升级决策的条件化」（AI 卡位 vs 维护线观望）、模块化对自研 starter 的冲击、Native 与 Leyden 的取舍逻辑，是有架构视角的信号。能给出台阶式路线（3.5 清账 → 4.0 重组 → 4.1 落点 → JDK 单独走）并设计回滚粒度，才是真操盘过升级的人。与 [SpringBoot3升级要点-Jakarta-AOT-Native](./SpringBoot3升级要点-Jakarta-AOT-Native.md) 连读，构成 2.7 → 3.x → 4.x 的完整升级答题线。并发基线（虚拟线程/ScopedValue/结构化并发）见 [JDK25并发终局-ScopedValues与结构化并发](../../java/Java%20并发/JDK25并发终局-ScopedValues与结构化并发.md)。
+这道题的分层很明显：能报出 GA 时间线与基线变化只是及格。能讲出「升级决策的条件化」（AI 卡位 vs 维护线观望）、模块化对自研 starter 的冲击、Native 与 Leyden 的取舍逻辑，是有架构视角的信号。能给出台阶式路线（3.5 清账 → 4.0 重组 → 4.1 落点 → JDK 单独走）并设计回滚粒度，才是真操盘过升级的人。与 [SpringBoot3升级要点-Jakarta-AOT-Native](SpringBoot3升级要点-Jakarta-AOT-Native.md) 连读，构成 2.7 → 3.x → 4.x 的完整升级答题线。并发基线（虚拟线程/ScopedValue/结构化并发）见 [JDK25并发终局-ScopedValues与结构化并发](../../../java/Java%20并发/JDK25并发终局-ScopedValues与结构化并发.md)。
 
 > 2026-10 新增（2026 技术栈补全）。

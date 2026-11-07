@@ -82,6 +82,6 @@ Spring Cloud（方案集：注册发现、配置中心、熔断限流……）
 
 一句话总结：**Spring Boot = Spring Framework + 自动配置 + starter 依赖管理 + 内嵌容器**。它解决的是配置与部署的效率问题，内核仍是 Spring。
 
-延伸阅读：[Spring中IoC和AOP概念介绍](Spring中IoC和AOP概念介绍.md)、[Spring中BeanFactory和ApplicationContext有什么区别](Spring中BeanFactory与ApplicationContext区别.md)、[谈谈Spring框架的依赖注入（DI）](Spring依赖注入DI.md)。
+延伸阅读：[Spring中IoC和AOP概念介绍](../01-IoC与Bean/Spring中IoC和AOP概念介绍.md)、[Spring中BeanFactory和ApplicationContext有什么区别](../01-IoC与Bean/Spring中BeanFactory与ApplicationContext区别.md)、[谈谈Spring框架的依赖注入（DI）](../01-IoC与Bean/Spring依赖注入DI.md)。
 
 > 2026-10 扩充（Round1 查漏）。

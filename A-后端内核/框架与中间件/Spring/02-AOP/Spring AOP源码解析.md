@@ -1,7 +1,7 @@
 Spring AOP 源码解析
 ====
 
-一句话定位：回答"AOP 在 Spring 里到底怎么落地"——代理挂在 BeanPostProcessor 的 postProcessAfterInitialization 上，由 AbstractAutoProxyCreator#wrapIfNecessary 创建，DefaultAopProxyFactory 决定 JDK 还是 CGLIB，运行期靠拦截器链执行增强；使用层的三种配置形态见 [Spring AOP使用指南-前世与今生](./Spring%20AOP使用指南-前世与今生.md)，IOC 主线见 [Spring IOC容器源码分析](./Spring%20IOC容器源码分析.md)。
+一句话定位：回答"AOP 在 Spring 里到底怎么落地"——代理挂在 BeanPostProcessor 的 postProcessAfterInitialization 上，由 AbstractAutoProxyCreator#wrapIfNecessary 创建，DefaultAopProxyFactory 决定 JDK 还是 CGLIB，运行期靠拦截器链执行增强；使用层的三种配置形态见 [Spring AOP使用指南-前世与今生](Spring AOP使用指南-前世与今生.md)，IOC 主线见 [Spring IOC容器源码分析](../01-IoC与Bean/Spring IOC容器源码分析.md)。
 
 1 出发点：AOP 原理就是动态代理
 ------
