@@ -3,13 +3,13 @@
 > 2026-10 新建。与 star-site ai-service（Python/LangChain）和 voice-zcode 实战滚动同步，
 > 每落地一个技术组件回写一篇。定位：面试深度标准的 AI 工程知识体系。
 
-## 目录规划（2026-10-31 实况 17 篇）
+## 目录规划（2026-11-19 实况 19 篇）
 
 | 目录 | 篇数 | 范围 | 首批素材（来自实战） |
 |---|---|---|---|
 | llm基础/ | 3 | Transformer 直觉、token 与上下文窗口、温度与解码策略、幻觉成因与缓解、**模型选型决策表** | ai-service 的 chat_model 工厂、temperature 选型；2026-10 生态选型（GLM-5/Claude/GPT 三极与 30 倍价差路由） |
 | rag/ | 3 | 文档切分策略、嵌入模型选型、向量库（pgvector/Redis/Milvus/Qdrant）、检索重排、评测 | 体检报告解读链路（结构化指标→LLM） |
-| agent/ | 8 | ReAct 模式、MCP 协议、结构化输出、工具调用设计、LangGraph 状态机、记忆系统、SSE 流式 | ai-service 的 ReAct 图 + ContextVar 身份注入 + astream_events 流式 |
+| agent/ | 10 | ReAct 模式、MCP 协议、结构化输出、工具调用设计、LangGraph 状态机、记忆系统、SSE 流式、上下文工程（注意力预算/压缩/子代理） | ai-service 的 ReAct 图 + ContextVar 身份注入 + astream_events 流式；Anthropic 上下文工程/记忆系统学习整理 |
 | prompt/ | 2 | 吴恩达 Prompt Engineering 课程笔记、系统提示词工程 | 财务诊断/报告解读的系统提示词演进 |
 | 推理与部署/ | 1 | 自托管 LLM 推理、推理引擎选型（vLLM/SGLang）、KV cache 与吞吐 | 自托管LLM推理-vLLM与SGLang.md |
 | python/ | 1 | AI 工程的 Python 语言面：版本演进（自由线程/t-string）、并发形态 | Python3.14-3.15 双版本要点（3.15 GA · 3.10 EOL 节点） |
