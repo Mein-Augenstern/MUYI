@@ -1,23 +1,141 @@
-# B 轨 · AI 应用工程
+# B 轨 · AI 应用工程（阅读导航）
 
-> 2026-10 新建。与 star-site ai-service（Python/LangChain）和 voice-zcode 实战滚动同步，
-> 每落地一个技术组件回写一篇。定位：面试深度标准的 AI 工程知识体系。
+> 2026-10 新建，与 star-site ai-service（Python/LangChain）和 voice-zcode 实战滚动同步。
+> 定位：面试深度标准的 AI 工程知识体系。**实况 22 篇（2026-11-19）**。
+> 本页是 B 轨总导航：先给**怎么读**（一图依赖 + 四条路径），再给**读什么**（全量篇目索引）；新增文章按文末《写作规范》的"导航四同步"更新本页。
 
-## 目录规划（2026-11-19 实况 19 篇）
+## 一图看依赖：先读什么，后读什么
 
-| 目录 | 篇数 | 范围 | 首批素材（来自实战） |
-|---|---|---|---|
-| llm基础/ | 3 | Transformer 直觉、token 与上下文窗口、温度与解码策略、幻觉成因与缓解、**模型选型决策表** | ai-service 的 chat_model 工厂、temperature 选型；2026-10 生态选型（GLM-5/Claude/GPT 三极与 30 倍价差路由） |
-| rag/ | 3 | 文档切分策略、嵌入模型选型、向量库（pgvector/Redis/Milvus/Qdrant）、检索重排、评测 | 体检报告解读链路（结构化指标→LLM） |
-| agent/ | 10 | ReAct 模式、MCP 协议、结构化输出、工具调用设计、LangGraph 状态机、记忆系统、SSE 流式、上下文工程（注意力预算/压缩/子代理） | ai-service 的 ReAct 图 + ContextVar 身份注入 + astream_events 流式；Anthropic 上下文工程/记忆系统学习整理 |
-| prompt/ | 2 | 吴恩达 Prompt Engineering 课程笔记、系统提示词工程 | 财务诊断/报告解读的系统提示词演进 |
-| 推理与部署/ | 1 | 自托管 LLM 推理、推理引擎选型（vLLM/SGLang）、KV cache 与吞吐 | 自托管LLM推理-vLLM与SGLang.md |
-| python/ | 1 | AI 工程的 Python 语言面：版本演进（自由线程/t-string）、并发形态 | Python3.14-3.15 双版本要点（3.15 GA · 3.10 EOL 节点） |
-| 工程工具/ | 1 | AI 编码智能体的工程化使用（配置资产/子代理/工作流） | ClaudeCode使用实践（javadoop 迁移批次，引用规范标注） |
-| 面试题/ | 1 | LLM 应用岗高频：上下文工程、多轮状态、提示注入防护、成本控制 | — |
+```mermaid
+flowchart TD
+    L["llm基础（3）<br/>token与幻觉 → 模型选型 → 单次调用的上下文工程"]
+    P["prompt（2）<br/>系统提示词 → few-shot与思维链"]
+    R["rag（3）<br/>体系定位 → 切分实战 → 向量库选型"]
+    A1["agent 第一章（4）<br/>范式全景 → 手写最小循环 → 评测与护栏 → 多智能体编排"]
+    A2["agent 第二章（6）<br/>ReAct/LangGraph · MCP · 结构化输出 · 身份链 · 上下文工程 · 记忆系统"]
+    INF["推理与部署（1）<br/>vLLM 与 SGLang"]
+    IT["面试题（1）<br/>八主题收口自测"]
+    L --> P
+    L --> R
+    P --> A1
+    R --> A1
+    A1 --> A2
+    L --> A2
+    A2 --> IT
+    L --> INF
+```
+
+旁路参考（不在主线依赖里，随用随读）：`python/`（语言面）、`工程工具/`（AI 编码智能体的使用面，见路径 D）。
+
+## 路径 A · 体系主线（零基础 → 能上线，建议顺序）
+
+| 步 | 篇目 | 这一步解决什么 |
+|---|---|---|
+| 1 | [LLM基础-Token上下文与幻觉](llm基础/LLM基础-Token上下文与幻觉.md) | 第一性：token 三账、窗口、幻觉成因——全 track 的地基 |
+| 2 | [2026-10模型生态与选型](llm基础/2026-10模型生态与选型-没有全能冠军.md) | 没有全能冠军：三极格局与 30 倍价差的选型决策表 |
+| 3 | [系统提示词工程-从财务诊断说起](prompt/系统提示词工程-从财务诊断说起.md) | 指令怎么写：角色/规则/输出契约的演进 |
+| 4 | [Few-shot与思维链](prompt/Few-shot与思维链.md) | 示例怎么给、推理链怎么引 |
+| 5 | [RAG体系与项目定位](rag/RAG体系与项目定位.md) | 检索链路四步与"何时不用 RAG" |
+| 6 | [RAG切分策略实战](rag/RAG切分策略实战.md) | 切分决定召回：chunk 权衡、表格不切 |
+| 7 | [向量检索选型](rag/向量检索选型-pgvector-Redis-Milvus-Qdrant.md) | pgvector/Redis/Milvus/Qdrant 三轴选型 |
+| 8-11 | [agent 第一章 1→4](agent/README.md)（[范式](agent/Agent范式全景-workflow与agent的边界.md)→[手写](agent/从零手写最小Agent-无框架的模型循环.md)→[评测](agent/Agent评测与可观测-guards与成本.md)→[编排](agent/多智能体编排与框架选型.md)） | 从"该不该用 agent"到多代理架构 |
+| 12-17 | [agent 第二章 5→10](agent/README.md) 按序深潜 | 六个专项：ReAct 落地、MCP、结构化输出、身份链、上下文、记忆 |
+| 18 | [自托管LLM推理-vLLM与SGLang](推理与部署/自托管LLM推理-vLLM与SGLang.md) | 服务化：KV cache、批调度、显存账 |
+| 19 | [LLM应用面试题合集](面试题/LLM应用面试题合集.md) | 收口：八主题自测 + 深读映射表 |
+
+## 路径 B · 面试冲刺（1-2 天）
+
+以 [LLM应用面试题合集](面试题/LLM应用面试题合集.md) 为纲，错哪补哪（文内有"问题 → 深读篇目"映射表）。高频深读四件套：[模型选型](llm基础/2026-10模型生态与选型-没有全能冠军.md)、[RAG体系](rag/RAG体系与项目定位.md)、[Agent范式](agent/Agent范式全景-workflow与agent的边界.md)、[评测三巨头](agent/Agent评测与可观测-guards与成本.md)。
+
+## 路径 C · 生产救火（按症状直达）
+
+| 症状 | 直达篇目 |
+|---|---|
+| 模型输出下游不敢用 | [结构化输出工程](agent/结构化输出工程-Pydantic与LLM.md) |
+| 越权 / 提示注入担忧 | [身份链与工具安全](agent/智能体的身份链与工具安全.md) |
+| agent 不收敛、步数失控 | [多智能体编排与框架选型](agent/多智能体编排与框架选型.md) |
+| 窗口膨胀 / token 成本失控 | [上下文工程四板斧](agent/Agent上下文工程-注意力预算与四板斧.md) |
+| 跨会话失忆 / 记忆污染 | [记忆系统](agent/Agent记忆系统-从会话状态到跨会话记忆.md) |
+| 检索不准 / 召回差 | [RAG切分](rag/RAG切分策略实战.md)、[向量选型](rag/向量检索选型-pgvector-Redis-Milvus-Qdrant.md) |
+| 推理延迟 / 吞吐不够 | [vLLM与SGLang](推理与部署/自托管LLM推理-vLLM与SGLang.md) |
+| 选型纠结 / 价差敏感 | [模型生态与选型](llm基础/2026-10模型生态与选型-没有全能冠军.md) |
+| 长对话答非所问 | [llm基础·上下文工程](llm基础/上下文工程-Context Engineering.md) |
+
+## 路径 D · AI 编码工具线（用好你的编码智能体）
+
+[ClaudeCode使用实践](工程工具/ClaudeCode使用实践.md)（CLAUDE.md/Skills/Sub-agents 配置资产）→ [llm基础·上下文工程](llm基础/上下文工程-Context Engineering.md)（单次调用预算）→ [Agent上下文工程](agent/Agent上下文工程-注意力预算与四板斧.md)（循环里的四板斧）→ [记忆系统](agent/Agent记忆系统-从会话状态到跨会话记忆.md)（MEMORY.md 形态与 dreaming）。
+
+## 全量篇目索引（22 篇）
+
+### llm基础/（3）
+
+| 篇目 | 一句话 |
+|---|---|
+| [LLM基础-Token上下文与幻觉](llm基础/LLM基础-Token上下文与幻觉.md) | token 三账、上下文窗口、幻觉三成因四缓解 |
+| [2026-10模型生态与选型-没有全能冠军](llm基础/2026-10模型生态与选型-没有全能冠军.md) | 三极格局 + 30 倍价差的可复用选型决策表 |
+| [上下文工程-Context Engineering](llm基础/上下文工程-Context Engineering.md) | 单次调用视角：窗口预算配比、长对话三级压缩、位置效应 |
+
+### rag/（3）
+
+| 篇目 | 一句话 |
+|---|---|
+| [RAG体系与项目定位](rag/RAG体系与项目定位.md) | 检索链路四步（改写/混合/重排/组装）与何时不用 RAG |
+| [RAG切分策略实战](rag/RAG切分策略实战.md) | 结构化切分、chunk 大小与 overlap 权衡、表格不切 |
+| [向量检索选型-pgvector-Redis-Milvus-Qdrant](rag/向量检索选型-pgvector-Redis-Milvus-Qdrant.md) | 规模/过滤/运维三轴挑 ANNS 引擎 |
+
+### agent/（10，两章——系列导读见 [agent/README.md](agent/README.md)）
+
+| # | 篇目 | 一句话 |
+|---|---|---|
+| 1 | [Agent范式全景-workflow与agent的边界](agent/Agent范式全景-workflow与agent的边界.md) | 该不该用 agent？五种 workflow 模式怎么选 |
+| 2 | [从零手写最小Agent-无框架的模型循环](agent/从零手写最小Agent-无框架的模型循环.md) | agent 的本质：60 行无框架循环跑通 |
+| 3 | [Agent评测与可观测-guards与成本](agent/Agent评测与可观测-guards与成本.md) | 三层评测 / 四道护栏 / 成本三巨头 |
+| 4 | [多智能体编排与框架选型](agent/多智能体编排与框架选型.md) | 什么时候多代理、Supervisor 拓扑、框架决策表 |
+| 5 | [ReAct与LangGraph工程实践](agent/ReAct与LangGraph工程实践.md) | ReAct 图落生产：状态机/记忆隔离/SSE 流式 |
+| 6 | [MCP协议与企业落地](agent/MCP协议与企业落地.md) | 工具生态协议与企业落地四件套 |
+| 7 | [结构化输出工程-Pydantic与LLM](agent/结构化输出工程-Pydantic与LLM.md) | 模型输出变成下游敢用的强类型契约 |
+| 8 | [智能体的身份链与工具安全](agent/智能体的身份链与工具安全.md) | 身份链"模型无法伪造"设计与工具权限边界 |
+| 9 | [Agent上下文工程-注意力预算与四板斧](agent/Agent上下文工程-注意力预算与四板斧.md) | 注意力预算 / JIT 检索 / 压缩 / 笔记 / 子代理 |
+| 10 | [Agent记忆系统-从会话状态到跨会话记忆](agent/Agent记忆系统-从会话状态到跨会话记忆.md) | 分层记忆栈 / dreaming 整理 / 记忆污染治理 |
+
+### prompt/（2）
+
+| 篇目 | 一句话 |
+|---|---|
+| [系统提示词工程-从财务诊断说起](prompt/系统提示词工程-从财务诊断说起.md) | 财务诊断场景的提示词演进（ai-service 实战反哺） |
+| [Few-shot与思维链](prompt/Few-shot与思维链.md) | 示例设计与 CoT 的适用边界 |
+
+### 推理与部署/（1）
+
+| 篇目 | 一句话 |
+|---|---|
+| [自托管LLM推理-vLLM与SGLang](推理与部署/自托管LLM推理-vLLM与SGLang.md) | PagedAttention vs RadixAttention、KV cache、显存账 |
+
+### python/（1）
+
+| 篇目 | 一句话 |
+|---|---|
+| [Python3.14-3.15双版本要点](python/Python3.14-3.15双版本要点-自由线程与tstring.md) | 自由线程（PEP 779）与 t-string（PEP 750）对 AI 工程的意义 |
+
+### 工程工具/（1）
+
+| 篇目 | 一句话 |
+|---|---|
+| [ClaudeCode使用实践](工程工具/ClaudeCode使用实践.md) | CLAUDE.md、Skills、Slash Commands、Sub-agents 配置资产 |
+
+### 面试题/（1）
+
+| 篇目 | 一句话 |
+|---|---|
+| [LLM应用面试题合集](面试题/LLM应用面试题合集.md) | 八主题 Q&A 收口，附"问题 → 深读篇目"映射表 |
 
 ## 写作规范
 
-1. 每篇遵循 A 轨深度标准：原理 + 真实代码 + 追问链 + "面试官视角小结"。
+1. 每篇遵循 A 轨深度标准：原理 + 真实代码 + 追问链 + "面试官视角小结"；学习整理篇须标注内容来源。
 2. 实战反哺的文章必须引用真实类名/文件路径（如 `app/agents/assistant.py`），可追溯。
-3. 空目录不建：写出第一篇时再建目录，避免占位噪音。
+3. **导航四同步（强制）**——B 轨新增或移动文章时，以下四处缺一不可：
+   * 本页：顶部实况篇数、全量篇目索引、涉及的阅读路径/救火表；
+   * 所属子目录 `README.md`（没有则先建）；
+   * 仓库根 `README.md` 的 B 轨篇数；
+   * agent 系列文章另需更新 `agent/README.md` 的章表编号与"两章 N 篇"。
+4. 空目录不建：写出第一篇时再建目录，避免占位噪音。
