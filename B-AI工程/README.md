@@ -1,7 +1,7 @@
 # B 轨 · AI 应用工程（阅读导航）
 
 > 2026-10 新建，与 star-site ai-service（Python/LangChain）和 voice-zcode 实战滚动同步。
-> 定位：面试深度标准的 AI 工程知识体系。**实况 22 篇（2026-11-19）**。
+> 定位：面试深度标准的 AI 工程知识体系。**实况 23 篇（2026-11-20）**。
 > 本页是 B 轨总导航：先给**怎么读**（一图依赖 + 四条路径），再给**读什么**（全量篇目索引）；新增文章按文末《写作规范》的"导航四同步"更新本页。
 
 ## 一图看依赖：先读什么，后读什么
@@ -10,7 +10,7 @@
 flowchart TD
     L["llm基础（3）<br/>token与幻觉 → 模型选型 → 单次调用的上下文工程"]
     P["prompt（2）<br/>系统提示词 → few-shot与思维链"]
-    R["rag（3）<br/>体系定位 → 切分实战 → 向量库选型"]
+    R["rag（4）<br/>体系定位 → 切分实战 → 向量库选型 → GraphRAG"]
     A1["agent 第一章（4）<br/>范式全景 → 手写最小循环 → 评测与护栏 → 多智能体编排"]
     A2["agent 第二章（6）<br/>ReAct/LangGraph · MCP · 结构化输出 · 身份链 · 上下文工程 · 记忆系统"]
     INF["推理与部署（1）<br/>vLLM 与 SGLang"]
@@ -57,6 +57,7 @@ flowchart TD
 | 窗口膨胀 / token 成本失控 | [上下文工程四板斧](agent/Agent上下文工程-注意力预算与四板斧.md) |
 | 跨会话失忆 / 记忆污染 | [记忆系统](agent/Agent记忆系统-从会话状态到跨会话记忆.md) |
 | 检索不准 / 召回差 | [RAG切分](rag/RAG切分策略实战.md)、[向量选型](rag/向量检索选型-pgvector-Redis-Milvus-Qdrant.md) |
+| 多跳关联 / 全局概括答不好 | [GraphRAG与知识图谱检索](rag/GraphRAG与知识图谱检索-多跳问题的解法.md) |
 | 推理延迟 / 吞吐不够 | [vLLM与SGLang](推理与部署/自托管LLM推理-vLLM与SGLang.md) |
 | 选型纠结 / 价差敏感 | [模型生态与选型](llm基础/2026-10模型生态与选型-没有全能冠军.md) |
 | 长对话答非所问 | [llm基础·上下文工程](llm基础/上下文工程-Context Engineering.md) |
@@ -65,7 +66,7 @@ flowchart TD
 
 [ClaudeCode使用实践](工程工具/ClaudeCode使用实践.md)（CLAUDE.md/Skills/Sub-agents 配置资产）→ [llm基础·上下文工程](llm基础/上下文工程-Context Engineering.md)（单次调用预算）→ [Agent上下文工程](agent/Agent上下文工程-注意力预算与四板斧.md)（循环里的四板斧）→ [记忆系统](agent/Agent记忆系统-从会话状态到跨会话记忆.md)（MEMORY.md 形态与 dreaming）。
 
-## 全量篇目索引（22 篇）
+## 全量篇目索引（23 篇）
 
 ### llm基础/（3）
 
@@ -75,13 +76,14 @@ flowchart TD
 | [2026-10模型生态与选型-没有全能冠军](llm基础/2026-10模型生态与选型-没有全能冠军.md) | 三极格局 + 30 倍价差的可复用选型决策表 |
 | [上下文工程-Context Engineering](llm基础/上下文工程-Context Engineering.md) | 单次调用视角：窗口预算配比、长对话三级压缩、位置效应 |
 
-### rag/（3）
+### rag/（4）
 
 | 篇目 | 一句话 |
 |---|---|
 | [RAG体系与项目定位](rag/RAG体系与项目定位.md) | 检索链路四步（改写/混合/重排/组装）与何时不用 RAG |
 | [RAG切分策略实战](rag/RAG切分策略实战.md) | 结构化切分、chunk 大小与 overlap 权衡、表格不切 |
 | [向量检索选型-pgvector-Redis-Milvus-Qdrant](rag/向量检索选型-pgvector-Redis-Milvus-Qdrant.md) | 规模/过滤/运维三轴挑 ANNS 引擎 |
+| [GraphRAG与知识图谱检索-多跳问题的解法](rag/GraphRAG与知识图谱检索-多跳问题的解法.md) | 向量连不上"点"：社区摘要 vs 双层检索、增量更新、上图谱的决策线 |
 
 ### agent/（10，两章——系列导读见 [agent/README.md](agent/README.md)）
 
