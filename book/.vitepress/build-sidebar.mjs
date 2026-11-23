@@ -1,5 +1,6 @@
 // 扫描书源副本（book/src/，由 prepare-src.mjs 生成）生成 sidebar 结构。
 // 用法：node build-sidebar.mjs  →  输出 .vitepress/sidebar.json
+// scripts/prepare-src.mjs 末尾会自动调用本脚本——书源重建一次，侧边栏跟着重建一次。
 import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
 

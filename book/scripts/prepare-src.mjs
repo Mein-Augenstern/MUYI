@@ -149,3 +149,10 @@ if (offenders.length) {
 }
 
 console.log(`书源就绪：${SRC}（预处理 ${files} 个 md，敏感词断言通过）`);
+
+// ---- 第 4 步：重建侧边栏 ----
+// sidebar.json 是 gitignore 的构建副本，config.mts 静态引入它。它必须跟着书源一起重建，
+// 否则新增文章"正文里有、侧边栏没有"（2026-11-23 实测：Cloudflare 部署路径漏跑这一步，
+// 线上侧边栏停在 11-07，之后新增的 4 篇在侧边栏不可见）。
+// 必须动态 import：静态 import 会被提升到本模块体之前执行，扫到的是上一轮的旧书源。
+await import("../.vitepress/build-sidebar.mjs");

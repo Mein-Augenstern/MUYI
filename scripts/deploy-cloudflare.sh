@@ -10,6 +10,9 @@ set -euo pipefail
 BOOK_DIR="$(dirname "$0")/../book"
 cd "$BOOK_DIR"
 
+echo ">>> 重建书源与侧边栏（仓库原文 → book/src + .vitepress/sidebar.json）..."
+node scripts/prepare-src.mjs
+
 echo ">>> 构建 VitePress（base=/ 已在 config.mts 配置）..."
 npx vitepress build
 

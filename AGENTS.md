@@ -17,11 +17,19 @@ B 轨以 `B-AI工程/README.md` 为总阅读导航（依赖图 + 四条阅读路
 ## 在线书构建与部署（踩过的坑）
 
 - 构建唯一正确命令（在 `book/` 目录）：`node scripts/prepare-src.mjs && npx vitepress build`。
+  `prepare-src` 做两件事：从仓库原文重建 `book/src`，并在末尾重新生成侧边栏
+  `.vitepress/sidebar.json`（gitignore 的构建副本，`config.mts` 静态引入）。新增文章后不跑它，
+  线上就是"正文里有、侧边栏没有"（2026-11-23 踩过：侧边栏停在 11-07，之后新增的 4 篇不可见）。
   **必须用无参 `vitepress build`**——带 `src` 参数会丢失 `.vitepress/config.mts`（html:false、
   ignoreDeadLinks、assetsInclude、mermaid 全在里面），产生大量误报构建失败。
-- `book/src`、`book/dist` 是构建副本（gitignore，每次构建重新生成），永不手改；仓库源文是唯一事实源。
-- 部署：`./scripts/deploy-cloudflare.sh`（需 `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`，
-  或先 `wrangler login` 后直接 `wrangler pages deploy dist --project-name=muyi --branch=main`）。
+- `book/src`、`book/dist`、`book/.vitepress/sidebar.json` 是构建副本（gitignore，每次构建重新生成），
+  永不手改；仓库源文是唯一事实源。
+- 部署：`./scripts/deploy-cloudflare.sh`（自带 prepare + build + 上传；需 `CLOUDFLARE_API_TOKEN` /
+  `CLOUDFLARE_ACCOUNT_ID`）。已有 wrangler 登录态时也可手动两步：在 `book/` 下跑完构建，再
+  `wrangler pages deploy dist --project-name=muyi --branch=main --commit-dirty=true`。
+- **部署后验证必须查侧边栏**：抓线上页面 HTML，确认新篇标题出现在侧边栏区块
+  （`<aside class="VPSidebar">`）里，不能只看状态码和正文——正文来自页面 SSR，侧边栏来自
+  sidebar.json，两者会不一致。
 
 ## 提交约定
 
