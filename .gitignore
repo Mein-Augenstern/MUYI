@@ -18,3 +18,4 @@ book/dist/
 book/.vitepress/cache/
 book/.vitepress/sidebar.json
 book/src/
+.v2c/
