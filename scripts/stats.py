@@ -18,6 +18,7 @@ from __future__ import annotations
 import argparse
 import datetime
 import json
+import os
 import re
 import subprocess
 import sys
@@ -44,7 +45,12 @@ def collect() -> dict:
         arts = [p for p in t.rglob("*.md") if is_article(p) and not any(x.startswith(".") for x in p.parts)]
         per_track[t.name[0]] = len(arts)
         zhuiwen += sum(1 for p in arts if "追问链" in p.read_text(encoding="utf8", errors="ignore"))
-        readmes += sum(1 for p in t.rglob("README.md") if not any(x.startswith(".") for x in p.parts))
+        # 大小写必须精确：小写 readme.md 是配图说明，不是导读页。不能用 rglob("README.md")——
+        # macOS 上它不区分大小写，会把小写的一并数进来，本机与 CI 的数字就对不上。
+        # 跳过隐藏目录（.mimosa 之类只存在于本机）。
+        for _, dirnames, filenames in os.walk(t):
+            dirnames[:] = [d for d in dirnames if not d.startswith(".")]
+            readmes += filenames.count("README.md")
     quiz = len(re.findall(r"^\| \d+", (REPO / "自测清单.md").read_text(encoding="utf8"), re.M))
     return {
         "articles": sum(per_track.values()),

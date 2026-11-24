@@ -35,6 +35,7 @@ python3 scripts/stats.py --check        # 第 2、3 条中的根 README 与轨�
 - 部署后验证要查**侧边栏**（`<aside class="VPSidebar">`），不能只看状态码和正文。
 - Mermaid 图由主题按需渲染（`book/.vitepress/theme/index.ts`）。不要引回 `vitepress-plugin-mermaid`——它会把整套图表库打进每个页面的首屏（约 400KB，而只有 3% 的页面有图）。
 - 小写 `readme.md` 是配图目录说明，刻意不进书；不要把它改成大写（会变成目录页），也不要在它所在的目录里再建 `README.md`（macOS 上两者是同一个文件）。
+- **本机（macOS）与 CI（Linux）的文件系统大小写行为不同**：`existsSync`、`Path.rglob`、`Path.exists` 在本机不区分大小写。构建与统计脚本里凡涉及文件名的判断都用区分大小写的比较，否则本机演练通过、CI 结果不同（或反过来）。改完构建脚本后，对照 CI 日志里的"预处理 N 个 md"和侧边栏各项计数是否与本机一致。
 
 ## 凭据
 

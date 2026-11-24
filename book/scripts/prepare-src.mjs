@@ -11,13 +11,38 @@
 //
 // 用法：node scripts/prepare-src.mjs   （在 book/ 目录下）
 import { execFileSync } from "node:child_process";
-import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
-import { join, posix } from "node:path";
+import { cpSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { join, parse, posix } from "node:path";
 
 const BOOK = join(import.meta.dirname, "..");
 const REPO = join(BOOK, "..");
 const SRC = join(BOOK, "src");
 const GITHUB = "https://github.com/Mein-Augenstern/MUYI";
+
+// 区分大小写的存在性检查。macOS 的 existsSync 不区分大小写：`README.md` 能匹配到小写的
+// `readme.md`（配图说明），本机构建因此多出 CI（Linux）里没有的页面，两边产物必须一致。
+// 逐级核对目录清单里的真实文件名；清单带缓存，链接多的时候不必反复读盘。
+const lsCache = new Map();
+const ls = (dir) => {
+  if (!lsCache.has(dir)) {
+    try {
+      lsCache.set(dir, readdirSync(dir));
+    } catch {
+      lsCache.set(dir, []);
+    }
+  }
+  return lsCache.get(dir);
+};
+const exactExists = (p) => {
+  const names = [];
+  for (let cur = parse(p); cur.base; cur = parse(cur.dir)) names.unshift(cur.base); // 结尾斜杠不影响：base 取最后一段
+  let abs = parse(p).root;
+  for (const name of names) {
+    if (!ls(abs).includes(name)) return false;
+    abs = join(abs, name);
+  }
+  return true;
+};
 
 // 进书的内容白名单（轨道目录 + 共享图片 + 顶层文档）
 const WHITELIST_DIRS = [
@@ -151,7 +176,7 @@ const walkMountReadmes = (repoDir, srcDir) => {
     if (statSync(repoFull).isDirectory()) walkMountReadmes(repoFull, join(srcDir, name));
   }
   const readme = join(repoDir, "README.md");
-  if (!existsSync(readme)) return;
+  if (!ls(repoDir).includes("README.md")) return; // 大小写必须精确：小写 readme.md 是配图说明，不挂载
   const page = stripMaintainer(convert(readFileSync(readme, "utf8")));
   if (!page.trim()) return;
   writeFileSync(join(srcDir, "index.md"), page);
@@ -188,19 +213,19 @@ const route = (raw, repoDir, isImage) => {
   const decoded = decode(path);
   // 相对路径以源文件所在目录为基准；以 / 开头的是仓库根相对路径
   const rel = posix.normalize(decoded.startsWith("/") ? decoded.slice(1) : posix.join(repoDir, decoded));
-  const abs = join(REPO, rel);
+  const abs = join(REPO, rel.replace(/\/+$/, ""));
   if (rel.startsWith("..")) return { kind: "keep" }; // 指到仓库外：原样保留，交体检报错
-  if (existsSync(abs) && statSync(abs).isDirectory()) {
-    if (existsSync(join(abs, "README.md"))) return { kind: "dest", dest: encSpace(path) + hash }; // a. 目录有导读页
+  if (exactExists(abs) && statSync(abs).isDirectory()) {
+    if (exactExists(join(abs, "README.md"))) return { kind: "dest", dest: encSpace(path) + hash }; // a. 目录有导读页
     return { kind: "plain" }; // a. 书里没有这一页
   }
   if (rel === "README.md") return { kind: "dest", dest: "/repo" + hash }; // 仓库根 README 在书里是「仓库说明」
   if (/readme\.md$/i.test(rel)) {
-    if (!existsSync(abs)) return { kind: "keep" };
+    if (!exactExists(abs)) return { kind: "keep" };
     const dir = path.replace(/readme\.md$/i, ""); // b. 保留 ./ ../ 等前缀
     return { kind: "dest", dest: (dir === "" ? "./" : dir) + hash };
   }
-  if (existsSync(abs)) {
+  if (exactExists(abs)) {
     if (inBook(rel)) return { kind: "dest", dest: encSpace(path) + hash }; // d. 进书的文件
     return { kind: "dest", dest: `${GITHUB}/${isImage ? "raw" : "blob"}/master/${encUrl(rel)}` }; // c. 改指 GitHub
   }
