@@ -4,19 +4,19 @@ Java基础速查
 文章清单
 ----
 
-* <a href="（原链已失效 2026-10，内容已在本篇/本库）%92%8CClassNotFoundException%E5%8C%BA%E5%88%AB.md">NoClassDefFoundError和ClassNotFoundException区别</a>
+* [NoClassDefFoundError和ClassNotFoundException区别](../java/java基础/NoClassDefFoundError和ClassNotFoundException区别.md)
 
-* <a href="（原链已失效 2026-10，内容已在本篇/本库）20Comparator%E7%9A%84%E5%8C%BA%E5%88%AB.md">Comparable 和 Comparator的区别</a>
+* [Comparable 和 Comparator的区别](../java/java基础/Comparable和Comparator的区别.md)
 
-* <a href="（原链已失效 2026-10，内容已在本篇/本库）ize.md">final finally finalize</a>
+* [final finally finalize](../java/java基础/final%20finally%20finalize.md)
 
-* <a href="（原链已失效 2026-10，内容已在本篇/本库）4%AE%E5%AD%97.md">transient关键字</a>
+* transient关键字（原链已失效 2026-10，内容已在本篇/本库）
 
-* <a href="（原链已失效 2026-10，内容已在本篇/本库）A%84%E5%8C%BA%E5%88%AB.md">wait和sleep区别</a>
+* [wait和sleep区别](../java/java基础/wait和sleep的区别.md)
 
-* <a href="（原链已失效 2026-10，内容已在本篇/本库）4%A8%20%E3%80%81%E8%BD%AF%E5%BC%95%E7%94%A8%E3%80%81%20%E5%BC%B1%E5%BC%95%E7%94%A8%E3%80%81%E8%99%9A%E5%BC%95%E7%94%A8.md">强引用、软引用、弱引用、虚引用</a>
+* 强引用、软引用、弱引用、虚引用（原链已失效 2026-10，内容已在本篇/本库）
 
-* <a href="（原链已失效 2026-10，内容已在本篇/本库）F%90%E7%AE%97%E7%AC%A6.md">移位运算符</a>
+* [移位运算符](../java/java基础/移位运算符.md)
 
 一、面向对象四大特性
 ------

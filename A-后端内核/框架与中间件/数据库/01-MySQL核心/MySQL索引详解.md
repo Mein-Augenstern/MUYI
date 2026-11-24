@@ -5,7 +5,7 @@ MySQL索引详解
 ----
 
 > * <a href="https://juejin.im/post/5b55b842f265da0f9e589e79">数据库两大神器【索引和锁】</a>
-> * <a href="（原链已失效 2026-10，内容已在本篇/本库）">JavaGuide：MySQL Index</a>（下方思维导图及部分补充内容的来源）
+> * JavaGuide：MySQL Index（原链已失效 2026-10，内容已在本篇/本库）（下方思维导图及部分补充内容的来源）
 
 
 * **掘金特邀作者 | 技术公众号：Java3 y**

@@ -4,7 +4,7 @@ HashMap和HashSet区别
 看在前面
 ----
 
-* <a href="（原链已失效 2026-10，内容已在本篇/本库）%82%E4%BD%95%E4%BF%9D%E8%AF%81%E4%B8%8D%E9%87%8D%E5%A4%8D%E7%9A%84.md">HashSet 是如何保证不重复的</a>
+* [HashSet 是如何保证不重复的](../java基础/HashSet保证不重复的原理.md)
 
 HashMap 和 HashSet区别
 ----

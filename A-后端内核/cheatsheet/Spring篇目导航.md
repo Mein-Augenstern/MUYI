@@ -20,7 +20,7 @@ IoC 与 Bean
 
 * [Spring如何管理Bean示例](../框架与中间件/Spring/01-IoC与Bean/Spring容器管理Bean示例.md) —— 容器管理 Bean 示例
 
-* [Spring支持哪些Bean作用域](../框架与中间件/Spring/01-IoC与Bean/Spring Bean作用域.md) —— 各作用域含义对比
+* [Spring支持哪些Bean作用域](../框架与中间件/Spring/01-IoC与Bean/Spring%20Bean作用域.md) —— 各作用域含义对比
 
 * [Spring中bean元素可以配置的属性](../框架与中间件/Spring/01-IoC与Bean/Spring中bean元素配置属性.md) —— XML 配置属性速查
 
@@ -42,13 +42,13 @@ IoC 与 Bean
 事务与 Web
 ------
 
-* [Spring 事务面试考点](../框架与中间件/Spring/04-事务与升级进阶/Spring 事务面试考点.md) —— 事务考点集中梳理
+* [Spring 事务面试考点](../框架与中间件/Spring/04-事务与升级进阶/Spring%20事务面试考点.md) —— 事务考点集中梳理
 
 * [异步请求与异步调用的区别](../框架与中间件/Spring/03-Web与常用机制/异步请求与异步调用的区别.md) —— 请求与调用两回事
 
 * [过滤器、监听器、拦截器的区别](../框架与中间件/Spring/03-Web与常用机制/过滤器、监听器、拦截器的区别.md) —— Web 三件套对比
 
-* [简单介绍下servlet的生命周期，servlet是否会多次初始化？](../框架与中间件/Spring/03-Web与常用机制/Servlet 生命周期与初始化.md) —— 初始化与销毁时机
+* [简单介绍下servlet的生命周期，servlet是否会多次初始化？](../框架与中间件/Spring/03-Web与常用机制/Servlet%20生命周期与初始化.md) —— 初始化与销毁时机
 
 * [Springboot和Spring区别](../框架与中间件/Spring/04-事务与升级进阶/SpringBoot和Spring区别.md) —— 两者关系与差异
 

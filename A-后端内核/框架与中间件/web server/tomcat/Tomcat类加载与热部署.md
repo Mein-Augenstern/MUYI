@@ -4,7 +4,7 @@ Tomcat类加载与热部署
 看在前面
 ----
 
-> * <a href="（原链已失效 2026-10，内容已在本篇/本库）%B3%E4%BA%8Eclass%E5%8D%B8%E8%BD%BD%E3%80%81%E7%83%AD%E6%9B%BF%E6%8D%A2%E6%98%AF%E4%BB%80%E4%B9%88.md">关于class卸载、热替换是什么</a>
+> * [关于class卸载、热替换是什么](../../../java/JVM/JVM内存管理/class卸载、热替换.md)
 
 Tomcat中与其说有热加载，还不如说是热部署来的准确些。因为对于一个应用，其中class文件被修改过，那么Tomcat会先卸载这个应用(Context)。然后重新加载这个应用，其中关键就在于自定义ClassLoader的应用。
 

@@ -1,4 +1,4 @@
-Arraylist 与 LinkedList 区别?
+ArrayList 与 LinkedList 的区别
 ====
 
 1. **是否保证线程安全**：ArrayList和LinkedList都是不同步的，也就是都不保证线程安全；

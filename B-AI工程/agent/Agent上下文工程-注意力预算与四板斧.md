@@ -1,7 +1,7 @@
 Agent上下文工程-注意力预算与四板斧
 ====
 
-> 定位：第二章"生产深潜"第 9 篇。与 [llm基础·上下文工程](../llm基础/上下文工程-Context Engineering.md) 是姊妹篇分工：那篇管**单次 LLM 调用**的窗口预算配比与位置效应，本篇管 **agent 循环特有**的上下文问题——工具结果膨胀、长时程任务的连贯性、上下文污染。前接[手写最小循环](从零手写最小Agent-无框架的模型循环.md)（messages 就是全部状态）、[评测与可观测](Agent评测与可观测-guards与成本.md)（token 成本三巨头），旁通[多智能体编排](多智能体编排与框架选型.md)（子代理隔离）与 [MCP](MCP协议与企业落地.md)（工具集治理）。
+> 定位：第二章"生产深潜"第 9 篇。与 [llm基础·上下文工程](../llm基础/上下文工程-Context%20Engineering.md) 是姊妹篇分工：那篇管**单次 LLM 调用**的窗口预算配比与位置效应，本篇管 **agent 循环特有**的上下文问题——工具结果膨胀、长时程任务的连贯性、上下文污染。前接[手写最小循环](从零手写最小Agent-无框架的模型循环.md)（messages 就是全部状态）、[评测与可观测](Agent评测与可观测-guards与成本.md)（token 成本三巨头），旁通[多智能体编排](多智能体编排与框架选型.md)（子代理隔离）与 [MCP](MCP协议与企业落地.md)（工具集治理）。
 >
 > **内容来源**：本篇为学习整理，综合参考（版权归原作者所有）：
 > - [Effective context engineering for AI agents — Anthropic Engineering（2025-09）](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)（本篇主要骨架：注意力预算、四板斧、Claude Code 实例）
@@ -115,7 +115,7 @@ def manage_context(messages: list, system_prompt: str, keep_recent: int = 6) -> 
     ]
 ```
 
-调优次序：**先最大化摘要的召回，再提精度**（漏掉关键决策比多留废话贵）。最低垂的果实其实是**清除历史深处的工具调用原始结果**——第 3 轮那次 5K token 的查询返回，第 30 轮只需要"查到 3 笔异常交易"一句话；Claude Developer Platform 已把工具结果清除产品化为 context management 功能。滑窗/摘要/外置记忆的三级压缩谱系详见[llm基础姊妹篇](../llm基础/上下文工程-Context Engineering.md)。
+调优次序：**先最大化摘要的召回，再提精度**（漏掉关键决策比多留废话贵）。最低垂的果实其实是**清除历史深处的工具调用原始结果**——第 3 轮那次 5K token 的查询返回，第 30 轮只需要"查到 3 笔异常交易"一句话；Claude Developer Platform 已把工具结果清除产品化为 context management 功能。滑窗/摘要/外置记忆的三级压缩谱系详见[llm基础姊妹篇](../llm基础/上下文工程-Context%20Engineering.md)。
 
 **③ 结构化笔记（note-taking / agentic memory）**：agent 定期把笔记写到**窗口之外的持久存储**，之后按需读回。Claude Code 的 to-do list 是最小形态；自定义 agent 可以维护一份 `NOTES.md`。最生动的实例是 Claude 打宝可梦：agent 在数千步游戏里维持精确计数（"过去 1,234 步在 1 号道路练级，Pikachu 升了 8 级、目标 10 级"），自主建立已探索区域地图、成就清单、战斗策略笔记——**上下文重置后读自己的笔记接着干**。Sonnet 4.5 起官方提供了基于文件系统的 memory tool（可窗口外存取信息），把这套手工实践标准化了。
 

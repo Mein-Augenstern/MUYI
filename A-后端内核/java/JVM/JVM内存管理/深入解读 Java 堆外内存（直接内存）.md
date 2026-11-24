@@ -50,7 +50,7 @@ Java 开发者一般都知道堆内存，但却未必了解堆外内存。除了
 
 首先，我们来看 DirectByteBuffer 源代码，从中洞悉分配堆外内存的过程：
 
-![DirectByteBuffer 源代码一](/images/legacy/DirectByteBuffer 源代码一.png)
+![DirectByteBuffer 源代码一](/images/legacy/DirectByteBuffer%20源代码一.png)
 
 <h4>第一个重要方法：Bits.reserveMemory(size, cap)</h4>
 

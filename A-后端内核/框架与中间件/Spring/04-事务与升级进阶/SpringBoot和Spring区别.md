@@ -69,7 +69,7 @@ Spring Cloud（方案集：注册发现、配置中心、熔断限流……）
 
 * 注意区分：`@SpringBootApplication`（应用启动注解）与"内嵌容器"没有绑定关系——换 Undertow 只需要排除 tomcat starter 换一个坐标；
 
-* Servlet 容器模型本身没变，变的只是"谁来启动容器"。参见 [简单介绍下servlet的生命周期，servlet是否会多次初始化？](Servlet 生命周期与初始化.md)。
+* Servlet 容器模型本身没变，变的只是"谁来启动容器"。参见 [简单介绍下servlet的生命周期，servlet是否会多次初始化？](../03-Web与常用机制/Servlet%20生命周期与初始化.md)。
 
 四、互补而非替代（面试标准收尾）
 ------

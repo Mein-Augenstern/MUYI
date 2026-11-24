@@ -1,7 +1,7 @@
 Spring AOP 使用指南：前世与今生
 ====
 
-一句话定位：把 Spring AOP 的三种配置形态（1.2 接口式 → XML schema → @AspectJ 注解）与 Advice/Advisor/Interceptor 等术语一次讲透，AOP 使用层的面试完备地图；代理是怎么造出来的见姊妹篇 [Spring AOP源码解析](Spring AOP源码解析.md)。
+一句话定位：把 Spring AOP 的三种配置形态（1.2 接口式 → XML schema → @AspectJ 注解）与 Advice/Advisor/Interceptor 等术语一次讲透，AOP 使用层的面试完备地图；代理是怎么造出来的见姊妹篇 [Spring AOP源码解析](Spring%20AOP源码解析.md)。
 
 1 先分清三个名词：AOP、AspectJ、Spring AOP
 ------
@@ -153,6 +153,6 @@ public class LogAspect {
 面试官视角小结
 ------
 
-使用层考 AOP，面试官想确认三件事：知不知道代理才是本质（顺带引出 JDK/CGLIB 的选择规则）；能不能写对 execution 表达式、分清五种通知语义（尤其 @After vs @AfterReturning）；有没有踩过自调用不生效、切面作用范围这类坑。答完主动补一句"Advisor 的匹配与代理创建发生在 BeanPostProcessor 阶段"，就把话题引向自己熟悉的主场——链路详见 [Spring AOP源码解析](Spring AOP源码解析.md)；若被问"Spring AOP 拦不了构造器/字段怎么办"，接 AspectJ 静态织入即可，见 [AspectJ使用指南](AspectJ使用指南.md)。
+使用层考 AOP，面试官想确认三件事：知不知道代理才是本质（顺带引出 JDK/CGLIB 的选择规则）；能不能写对 execution 表达式、分清五种通知语义（尤其 @After vs @AfterReturning）；有没有踩过自调用不生效、切面作用范围这类坑。答完主动补一句"Advisor 的匹配与代理创建发生在 BeanPostProcessor 阶段"，就把话题引向自己熟悉的主场——链路详见 [Spring AOP源码解析](Spring%20AOP源码解析.md)；若被问"Spring AOP 拦不了构造器/字段怎么办"，接 AspectJ 静态织入即可，见 [AspectJ使用指南](AspectJ使用指南.md)。
 
 > 来源：javadoop《Spring AOP 使用介绍，从前世到今生》（https://javadoop.com/post/spring-aop-intro）——本文为研读消化后的重写笔记，原文版权归 javadoop，引用请遵原文。

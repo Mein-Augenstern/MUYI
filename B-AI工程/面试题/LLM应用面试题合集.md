@@ -34,7 +34,7 @@ B 轨总结篇：20 道高频题，每题给"30 秒版"答案。**先结论、�
 
 答：上下文工程是"决定模型每次调用能看见什么"的系统设计。它总装系统提示词、多轮历史、检索内容、工具结果。提示词工程只是其中"怎么写指令"那一格。关系是包含：窗口是稀缺资源。
 
-上下文工程要回答三个问题——什么必须进窗口、什么可裁剪、什么按需获取（检索/工具）。项目佐证：ai-service 把 40 项指标渲染成行式清单而不是原始 JSON，输入小 = 省钱 + 护注意力。深入：[LLM基础-Token上下文与幻觉](../llm基础/LLM基础-Token上下文与幻觉.md)、[上下文工程-Context Engineering](../llm基础/上下文工程-Context Engineering.md)。
+上下文工程要回答三个问题——什么必须进窗口、什么可裁剪、什么按需获取（检索/工具）。项目佐证：ai-service 把 40 项指标渲染成行式清单而不是原始 JSON，输入小 = 省钱 + 护注意力。深入：[LLM基础-Token上下文与幻觉](../llm基础/LLM基础-Token上下文与幻觉.md)、[上下文工程-Context Engineering](../llm基础/上下文工程-Context%20Engineering.md)。
 
 **Q2 · 系统提示词里应该放什么？怎么演进？**
 
@@ -146,7 +146,7 @@ B 轨总结篇：20 道高频题，每题给"30 秒版"答案。**先结论、�
 | [结构化输出工程-Pydantic与LLM](../agent/结构化输出工程-Pydantic与LLM.md) | Q11/Q14（pydantic 契约、宽容解析、null 出口） |
 | [智能体的身份链与工具安全](../agent/智能体的身份链与工具安全.md) | Q5/Q16-17（ContextVar 身份链、模型当不可信组件） |
 | [系统提示词工程-从财务诊断说起](../prompt/系统提示词工程-从财务诊断说起.md) | Q2/Q14（六行提示词七个决策、红线写法） |
-| [上下文工程-Context Engineering](../llm基础/上下文工程-Context Engineering.md) | Q1/Q3/Q4（窗口预算配比、长对话三级压缩、位置效应） |
+| [上下文工程-Context Engineering](../llm基础/上下文工程-Context%20Engineering.md) | Q1/Q3/Q4（窗口预算配比、长对话三级压缩、位置效应） |
 | [RAG切分策略实战](../rag/RAG切分策略实战.md) | Q6（语义边界切分、chunk/overlap 权衡、表格成块） |
 | [向量检索选型-pgvector-Redis-Milvus-Qdrant](../rag/向量检索选型-pgvector-Redis-Milvus-Qdrant.md) | Q7（规模/过滤/运维三轴选型、混合检索的地基） |
 | [Few-shot与思维链](../prompt/Few-shot与思维链.md) | Q2/Q11（示例作格式锚、输出可解析的结构化范式） |

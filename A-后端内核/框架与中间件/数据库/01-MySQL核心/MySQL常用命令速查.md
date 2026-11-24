@@ -27,7 +27,7 @@ EXPLAIN SELECT ...;  EXPLAIN ANALYZE SELECT ...; -- 执行计划；8.0+ 后者�
 SELECT ... FROM a JOIN b ON a.id=b.aid WHERE ... -- 连接条件与过滤条件都影响索引选择
 ```
 
-* 分页深翻页用"延迟关联/游标"：`WHERE id > 上次最大id LIMIT n` 优于 `LIMIT 1000000, 20`（原理见 [SQL limit 与 limit offset 用法区别](SQL limit 与 limit offset 用法区别.md)）。
+* 分页深翻页用"延迟关联/游标"：`WHERE id > 上次最大id LIMIT n` 优于 `LIMIT 1000000, 20`（原理见 [SQL limit 与 limit offset 用法区别](SQL%20limit%20与%20limit%20offset%20用法区别.md)）。
 
 3 索引与执行计划
 ------

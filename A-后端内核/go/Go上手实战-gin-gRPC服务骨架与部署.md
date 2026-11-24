@@ -102,7 +102,7 @@ ENTRYPOINT ["/demo"]
 * 单实例 4C8G、gin+GORM 的简单查询接口，**1w+ QPS 量级、P99 个位数毫秒**是正常预期（同一逻辑 Spring Boot 约打七折但同量级——差距在大内存高并发下的稳定性曲线，不在峰值）；
 * **翻车点一：全局 map 并发写**——panic 不可 recover，上 `sync.RWMutex` 或分片锁；
 * **翻车点二：goroutine 泄漏**——每个 `go func()` 必须能回答"谁在什么条件下让它退出"（context 取消/channel 关闭），`pprof` 的 goroutine 剖析是定位工具；
-* **翻车点三：rows 未关闭 / resp.Body 未关闭**——`defer rows.Close()` 是 JDBC try-with-resources 的纪律对应物，漏了连接池慢慢漏干（与 [SQL limit 与 limit offset 用法区别](../框架与中间件/数据库/01-MySQL核心/SQL limit 与 limit offset 用法区别.md) 同源的池资源意识）。
+* **翻车点三：rows 未关闭 / resp.Body 未关闭**——`defer rows.Close()` 是 JDBC try-with-resources 的纪律对应物，漏了连接池慢慢漏干（与 [SQL limit 与 limit offset 用法区别](../框架与中间件/数据库/01-MySQL核心/SQL%20limit%20与%20limit%20offset%20用法区别.md) 同源的池资源意识）。
 
 7 从骨架到生产的清单
 ------

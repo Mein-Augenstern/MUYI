@@ -1,7 +1,7 @@
 Agent记忆系统-从会话状态到跨会话记忆
 ====
 
-> 定位：第二章"生产深潜"第 10 篇，也是 B 轨 README 规划里唯一空缺至今的篇目。与 [上下文工程篇](Agent上下文工程-注意力预算与四板斧.md) 是前后脚的姊妹篇：那篇管**单会话内**窗口怎么装（compaction/note-taking 是记忆的"写入前哨"），本篇管**跨会话**——agent 能不能从经验里学到东西并在下一次带回来。前接 [ReAct/LangGraph 篇](ReAct与LangGraph工程实践.md)（MemorySaver 是 checkpointer 不是记忆，本篇一、先掰清这个）、[llm基础·上下文工程](../llm基础/上下文工程-Context Engineering.md)（三级压缩的"外置记忆"一格），旁通 [多智能体编排](多智能体编排与框架选型.md)。
+> 定位：第二章"生产深潜"第 10 篇，也是 B 轨 README 规划里唯一空缺至今的篇目。与 [上下文工程篇](Agent上下文工程-注意力预算与四板斧.md) 是前后脚的姊妹篇：那篇管**单会话内**窗口怎么装（compaction/note-taking 是记忆的"写入前哨"），本篇管**跨会话**——agent 能不能从经验里学到东西并在下一次带回来。前接 [ReAct/LangGraph 篇](ReAct与LangGraph工程实践.md)（MemorySaver 是 checkpointer 不是记忆，本篇一、先掰清这个）、[llm基础·上下文工程](../llm基础/上下文工程-Context%20Engineering.md)（三级压缩的"外置记忆"一格），旁通 [多智能体编排](多智能体编排与框架选型.md)。
 >
 > **内容来源**：本篇为学习整理，综合参考（版权归原作者所有）：
 > - [The components of agent memory — Anthropic（2026-11）](https://www.anthropic.com/research/components-of-agent-memory)（本篇主源：分层结构、指引策略、Pokémon/wiki/合同三组实验数据）
@@ -18,7 +18,7 @@ Anthropic 给的定义：**agent 记忆 = 从经验中获得、跨会话保留�
 |---|---|---|
 | **权重更新** | 训练时改参数，推理时只读——agent 运行时碰不到 | —— |
 | **in-context 学习** | 活在当前窗口里，会话结束就蒸发 | [上下文篇](Agent上下文工程-注意力预算与四板斧.md)的 few-shot |
-| **compaction（压缩）** | 单会话内用摘要换空间，为了"继续干活"，不跨会话 | [llm基础三级压缩](../llm基础/上下文工程-Context Engineering.md) |
+| **compaction（压缩）** | 单会话内用摘要换空间，为了"继续干活"，不跨会话 | [llm基础三级压缩](../llm基础/上下文工程-Context%20Engineering.md) |
 
 还有一个高频混淆要在库内掰清：**LangGraph 的 MemorySaver/checkpointer 是"断点续跑"**——按 thread_id 持久化图状态，让你明天接着今天的会话（见 [ReAct 篇](ReAct与LangGraph工程实践.md)）；它是会话状态的持久化，**不产生新知识**。记忆系统则要求 agent 把经验**加工成可复用的表示**，下次会话开始时就带着。前者是"存档"，后者是"学习"。
 

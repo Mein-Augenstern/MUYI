@@ -97,7 +97,7 @@ finishBeanFactoryInitialization 则先初始化 conversionService 与 LoadTimeWe
 2. applyMergedBeanDefinitionPostProcessors；
 3. earlySingletonExposure：addSingletonFactory + getEarlyBeanReference 提前曝光——三级缓存入口，链路详见 [Spring循环依赖](Spring循环依赖.md)；
 4. populateBean：属性装配，autowireByName/autowireByType；@Autowired/@Value 由 AutowiredAnnotationBeanPostProcessor 在此处理；最后 applyPropertyValues 设值；
-5. initializeBean：invokeAwareMethods（BeanNameAware/BeanClassLoaderAware/BeanFactoryAware）→ BeanPostProcessor#postProcessBeforeInitialization → invokeInitMethods（InitializingBean#afterPropertiesSet 或 init-method）→ postProcessAfterInitialization。**两个 BPP 回调夹着 init-method，是执行顺序题的题眼**——AOP 代理正是从 postProcessAfterInitialization 挂上来的（见 [Spring AOP源码解析](../02-AOP/Spring AOP源码解析.md)）；
+5. initializeBean：invokeAwareMethods（BeanNameAware/BeanClassLoaderAware/BeanFactoryAware）→ BeanPostProcessor#postProcessBeforeInitialization → invokeInitMethods（InitializingBean#afterPropertiesSet 或 init-method）→ postProcessAfterInitialization。**两个 BPP 回调夹着 init-method，是执行顺序题的题眼**——AOP 代理正是从 postProcessAfterInitialization 挂上来的（见 [Spring AOP源码解析](../02-AOP/Spring%20AOP源码解析.md)）；
 6. earlySingletonReference 校验与 registerDisposableBeanIfNecessary。
 
 6 面试高频附录：源码主线外的考点

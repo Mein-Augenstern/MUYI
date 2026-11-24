@@ -60,11 +60,11 @@ flowchart TD
 | 多跳关联 / 全局概括答不好 | [GraphRAG与知识图谱检索](rag/GraphRAG与知识图谱检索-多跳问题的解法.md) |
 | 推理延迟 / 吞吐不够 | [vLLM与SGLang](推理与部署/自托管LLM推理-vLLM与SGLang.md) |
 | 选型纠结 / 价差敏感 | [模型生态与选型](llm基础/2026-10模型生态与选型-没有全能冠军.md) |
-| 长对话答非所问 | [llm基础·上下文工程](llm基础/上下文工程-Context Engineering.md) |
+| 长对话答非所问 | [llm基础·上下文工程](llm基础/上下文工程-Context%20Engineering.md) |
 
 ## 路径 D · AI 编码工具线（用好你的编码智能体）
 
-[ClaudeCode使用实践](工程工具/ClaudeCode使用实践.md)（CLAUDE.md/Skills/Sub-agents 配置资产）→ [llm基础·上下文工程](llm基础/上下文工程-Context Engineering.md)（单次调用预算）→ [Agent上下文工程](agent/Agent上下文工程-注意力预算与四板斧.md)（循环里的四板斧）→ [记忆系统](agent/Agent记忆系统-从会话状态到跨会话记忆.md)（MEMORY.md 形态与 dreaming）。
+[ClaudeCode使用实践](工程工具/ClaudeCode使用实践.md)（CLAUDE.md/Skills/Sub-agents 配置资产）→ [llm基础·上下文工程](llm基础/上下文工程-Context%20Engineering.md)（单次调用预算）→ [Agent上下文工程](agent/Agent上下文工程-注意力预算与四板斧.md)（循环里的四板斧）→ [记忆系统](agent/Agent记忆系统-从会话状态到跨会话记忆.md)（MEMORY.md 形态与 dreaming）。
 
 ## 全量篇目索引（23 篇）
 
@@ -74,7 +74,7 @@ flowchart TD
 |---|---|
 | [LLM基础-Token上下文与幻觉](llm基础/LLM基础-Token上下文与幻觉.md) | token 三账、上下文窗口、幻觉三成因四缓解 |
 | [2026-10模型生态与选型-没有全能冠军](llm基础/2026-10模型生态与选型-没有全能冠军.md) | 三极格局 + 30 倍价差的可复用选型决策表 |
-| [上下文工程-Context Engineering](llm基础/上下文工程-Context Engineering.md) | 单次调用视角：窗口预算配比、长对话三级压缩、位置效应 |
+| [上下文工程-Context Engineering](llm基础/上下文工程-Context%20Engineering.md) | 单次调用视角：窗口预算配比、长对话三级压缩、位置效应 |
 
 ### rag/（4）
 

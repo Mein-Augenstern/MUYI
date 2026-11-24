@@ -8,7 +8,7 @@
 |---|---|---|
 | [01-MySQL核心](01-MySQL核心/) | 架构 / 索引 / 锁与事务 / 优化复盘 | MySQL 怎么用好——执行流程、索引原理、锁体系、慢 SQL 治理 |
 | [02-分库分表与分布式ID](02-分库分表与分布式ID/) | 分库分表 / 雪花算法 / Leaf | 单库顶不住之后怎么办，ID 从哪来 |
-| [03-存储引擎与列存](03-存储引擎与列存/) | RocksDB(LSM) / Parquet / Arrow / ClickHouse / Cassandra | 存储引擎的另一半世界：LSM-KV 与列存分析 |
+| [03-存储引擎与列存](03-列存与分析引擎/) | RocksDB(LSM) / Parquet / Arrow / ClickHouse / Cassandra | 存储引擎的另一半世界：LSM-KV 与列存分析 |
 
 ## 推荐阅读路径
 

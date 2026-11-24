@@ -10,7 +10,7 @@ Java内存结构
 
 ## 看在前面
 
-> * <a href="（原链已失效 2026-10，内容已在本篇/本库）">Java内存区域</a>
+> * Java内存区域（原链已失效 2026-10，内容已在本篇/本库）
 > * 《深入理解 Java 虚拟机：JVM 高级特性与最佳实践（第二版》
 > * 《实战 java 虚拟机》
 > * https://docs.oracle.com/javase/specs/index.html

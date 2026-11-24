@@ -1,7 +1,7 @@
 AspectJ 使用指南
 ====
 
-一句话定位：Spring 的 @AspectJ 只借注解不借实现，真正的 AspectJ 靠改字节码织入——本文讲清编译期/编译后/加载期三种织入方式的配置路径与适用边界，是"Spring AOP 拦不住的地方怎么办"这道面试题的标准答案；Spring 侧的代理实现见 [Spring AOP使用指南-前世与今生](Spring AOP使用指南-前世与今生.md) 与 [Spring AOP源码解析](Spring AOP源码解析.md)。
+一句话定位：Spring 的 @AspectJ 只借注解不借实现，真正的 AspectJ 靠改字节码织入——本文讲清编译期/编译后/加载期三种织入方式的配置路径与适用边界，是"Spring AOP 拦不住的地方怎么办"这道面试题的标准答案；Spring 侧的代理实现见 [Spring AOP使用指南-前世与今生](Spring%20AOP使用指南-前世与今生.md) 与 [Spring AOP源码解析](Spring%20AOP源码解析.md)。
 
 1 AspectJ 与 Spring AOP 的本质差别
 ------
@@ -172,6 +172,6 @@ resources/META-INF/aop.xml 声明切面与织入范围：
 面试官视角小结
 ------
 
-这道题的价值在于划清能力边界：绝大多数业务答 Spring AOP 就够。但面试官追问"Spring AOP 拦不了构造器和字段怎么办"时，能接住"上 AspectJ 静态织入"，并说清 CTW/post-compile/LTW 三种时机、LTW 的 aop.xml 与 -javaagent 配置路径，就是明确的区分度。再补两句工程现实——post-compile 必须走 mvn 命令行构建、LTW 要改启动脚本需运维配合、Native Image 下 LTW 直接不可用——工程味就齐了。Spring 侧怎么用、怎么读源码，回到 [Spring AOP使用指南-前世与今生](Spring AOP使用指南-前世与今生.md) 与 [Spring AOP源码解析](Spring AOP源码解析.md)。
+这道题的价值在于划清能力边界：绝大多数业务答 Spring AOP 就够。但面试官追问"Spring AOP 拦不了构造器和字段怎么办"时，能接住"上 AspectJ 静态织入"，并说清 CTW/post-compile/LTW 三种时机、LTW 的 aop.xml 与 -javaagent 配置路径，就是明确的区分度。再补两句工程现实——post-compile 必须走 mvn 命令行构建、LTW 要改启动脚本需运维配合、Native Image 下 LTW 直接不可用——工程味就齐了。Spring 侧怎么用、怎么读源码，回到 [Spring AOP使用指南-前世与今生](Spring%20AOP使用指南-前世与今生.md) 与 [Spring AOP源码解析](Spring%20AOP源码解析.md)。
 
 > 来源：javadoop《AspectJ 使用介绍》（https://javadoop.com/post/aspectj）——本文为研读消化后的重写笔记，原文版权归 javadoop，引用请遵原文。

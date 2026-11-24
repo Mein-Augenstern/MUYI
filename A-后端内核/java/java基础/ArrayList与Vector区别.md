@@ -1,4 +1,4 @@
-ArrayList 与 Vector 区别呢?为什么要用Arraylist取代Vector呢？
+ArrayList 与 Vector 的区别
 ====
 
 一句话答案
