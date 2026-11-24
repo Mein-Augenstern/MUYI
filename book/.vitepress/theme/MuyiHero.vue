@@ -1,6 +1,8 @@
 <!--
-  MUYI 书首页 v3——全接管式自定义布局（替代 VitePress home 布局的 hero + features）
+  MUYI 书首页 v4——全接管式自定义布局（替代 VitePress home 布局的 hero + features）
   设计语言：深色工坊 · 终端开场 · 轨道矩阵卡片 · 路径导引
+  v4：数字不再手抄，全部来自 .vitepress/stats.json（scripts/stats.py 在每次构建前生成）；
+      终端里演示的命令与输出都是仓库里真实存在的；手机端标题在前、终端在后。
 -->
 <template>
   <section class="mx-hero">
@@ -10,17 +12,15 @@
         <div class="term">
           <div class="term-bar">
             <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-            <span class="tt mono">~/knowledge — zsh</span>
+            <span class="tt mono">~/MUYI — zsh</span>
           </div>
           <div class="term-body mono">
             <p><span class="p">$</span> cat README.md</p>
             <p class="dim"># 把每个结论追到源码与生产</p>
-            <p><span class="p">$</span> find . -name "*.md" | <span class="hl">wc -l</span></p>
-            <p class="out">479</p>
-            <p><span class="p">$</span> grep -rl "追问链" . | <span class="hl">wc -l</span></p>
-            <p class="out">85</p>
-            <p><span class="p">$</span> grep -r "死链" . | <span class="hl">wc -l</span></p>
-            <p class="out ok">0</p>
+            <p><span class="p">$</span> python3 scripts/stats.py --check</p>
+            <p class="out">README 数字与实算一致。</p>
+            <p><span class="p">$</span> python3 scripts/check_links.py --src</p>
+            <p class="out ok">体检通过：死链 0</p>
             <p><span class="p">$</span> <span class="cur">▊</span></p>
           </div>
         </div>
@@ -32,14 +32,14 @@
         <p class="sub">后端工程师的<em>生产级</em>知识体系</p>
         <p class="desc mono">
           每篇从上线代码回写 · 真实类名可追溯<br/>
-          479 篇 · 7 轨道 · 171 题自测闭环 · 零死链
+          {{ stats.articles }} 篇 · {{ stats.tracks }} 轨道 · {{ stats.quiz }} 题自测闭环 · 零死链
         </p>
         <div class="cta">
           <a href="/A-后端内核/" class="btn primary">从后端内核开始 →</a>
           <a href="/B-AI工程/agent/" class="btn ghost">Agent 从零到一</a>
         </div>
         <div class="sub-links mono">
-          <a href="/自测清单">面试自测 171 题</a>
+          <a href="/自测清单">面试自测 {{ stats.quiz }} 题</a>
           <span>/</span>
           <a href="https://github.com/Mein-Augenstern/MUYI" target="_blank">GitHub ↗</a>
         </div>
@@ -48,7 +48,7 @@
 
     <!-- ===== 数据条 ===== -->
     <div class="bar mono">
-      <div class="bar-item" v-for="s in stats" :key="s.k">
+      <div class="bar-item" v-for="s in statBar" :key="s.k">
         <span class="bar-n" :class="{ green: s.green }">{{ s.n }}</span>
         <span class="bar-l">{{ s.k }}</span>
       </div>
@@ -99,35 +99,38 @@
 </template>
 
 <script setup>
-const stats = [
-  { n: '479', k: '篇实文' },
-  { n: '85', k: '追问链' },
-  { n: '171', k: '自测题' },
-  { n: '7', k: '轨道' },
-  { n: '41', k: '目录导读' },
-  { n: '0', k: '死链', green: true },
+import stats from "../stats.json";
+
+const statBar = [
+  { n: stats.articles, k: "篇实文" },
+  { n: stats.zhuiwen, k: "追问链" },
+  { n: stats.quiz, k: "自测题" },
+  { n: stats.tracks, k: "轨道" },
+  { n: stats.readmes, k: "目录导读" },
+  { n: "0", k: "死链", green: true }, // 由 check_links.py 在部署前把关，不为 0 就发不出去
 ];
 
 const paths = [
-  { icon: '🎯', title: '面试冲刺', desc: 'redis 四章 → MySQL 核心 → Java 并发 → 85 篇追问链逐条过', link: '/A-后端内核/框架与中间件/redis/' },
-  { icon: '🤖', title: 'AI Agent 从零到一', desc: '范式 → 手写 60 行 → 评测护栏 → 多智能体编排 + 生产深潜', link: '/B-AI工程/agent/' },
-  { icon: '🏗️', title: '分布式与选型', desc: '协调中间件分层 → 分布式锁 → 恰一执行 → 多活容灾', link: '/C-架构/分布式系统/' },
+  { icon: "🎯", title: "面试冲刺", desc: `${stats.quiz} 道题 × 答案定位，按题直达深度篇`, link: "/自测清单" },
+  { icon: "🤖", title: "AI Agent 从零到一", desc: "范式 → 手写 60 行循环 → 评测护栏 → 多智能体编排", link: "/B-AI工程/agent/" },
+  { icon: "🏗️", title: "分布式与选型", desc: 'CAP 与共识 → 协调与同步 → 任务调度 → 异步命令框架', link: "/C-架构/分布式系统/" },
 ];
 
+const count = (letter) => stats.per_track[letter] ?? 0;
 const tracks = [
-  { icon: '☕', title: 'A · 后端内核', count: 311, desc: 'Java 并发/JVM/Spring · MySQL/Redis/Kafka/Netty · Go/Python/Rust', link: '/A-后端内核/' },
-  { icon: '🧠', title: 'B · AI 工程', count: 25, desc: 'LLM · RAG · Agent 从零到一 + 深潜 · Prompt · 推理部署', link: '/B-AI工程/' },
-  { icon: '🏛', title: 'C · 架构', count: 76, desc: '分布式系统 · 微服务 · DDD · 多活容灾 · 分布式事务', link: '/C-架构/' },
-  { icon: '🏦', title: 'G · 业务领域', count: 21, desc: '金融信贷四层（风控/账务/清结算/合规）· 行业认知', link: '/G-业务领域/' },
-  { icon: '☁️', title: 'D · 云原生', count: 9, desc: 'Docker · Kubernetes · Serverless', link: '/D-云原生/' },
-  { icon: '🧮', title: 'E · 算法', count: 20, desc: '双指针 · 链表 · 哈希 · 栈队列 · 滑动窗口', link: '/E-算法/' },
-  { icon: '🖥', title: 'F · 前端', count: 17, desc: 'Vue3 · 小程序双线程 · 浏览器性能 · TS', link: '/F-前端/' },
+  { icon: "☕", title: "A · 后端内核", count: count("A"), desc: "Java 并发/JVM/Spring · MySQL/Redis/Kafka/Netty · Go/Python/Rust", link: "/A-后端内核/" },
+  { icon: "🧠", title: "B · AI 工程", count: count("B"), desc: "LLM 基础 · RAG · Agent · Prompt · 推理部署", link: "/B-AI工程/" },
+  { icon: "🏛", title: "C · 架构", count: count("C"), desc: "分布式系统 · 微服务 · DDD 与方法论 · 系统设计", link: "/C-架构/" },
+  { icon: "☁️", title: "D · 云原生", count: count("D"), desc: "Docker · Kubernetes · Serverless", link: "/D-云原生/" },
+  { icon: "🧮", title: "E · 算法", count: count("E"), desc: "LeetCode 高频题解 · 双指针/链表/哈希/栈队列/滑动窗口", link: "/E-算法/" },
+  { icon: "🖥", title: "F · 前端", count: count("F"), desc: "Vue3 · 小程序 · 浏览器性能 · 工程化 · TypeScript", link: "/F-前端/" },
+  { icon: "🏦", title: "G · 业务领域", count: count("G"), desc: "金融信贷（业务知识/架构/系统/模块）· 行业认知", link: "/G-业务领域/" },
 ];
 
 const trust = [
-  { icon: '🔍', title: '每篇可验证', desc: '反哺文章引用真实类名（DbLockClient / ExactlyOnceRunner），GitHub 可搜可追溯——不是背书是源码' },
-  { icon: '🛡️', title: '工程化治理', desc: '七维体检自动化（多H1=0 · 泛用标题=0 · 死链=0）· CI 周检守护底线 · 转载来源合规标注' },
-  { icon: '📚', title: '书籍式章节', desc: 'redis 四章 · agent 两章 · 数据库三章 · Spring 四章——渐进路径而非平铺' },
+  { icon: "🔍", title: "每篇可验证", desc: "反哺文章引用真实类名（DbLockClient / ExactlyOnceRunner），GitHub 可搜可追溯——不是背书是源码" },
+  { icon: "🛡️", title: "工程化治理", desc: "链接与数字由脚本把关，不过关发不出去 · 七维体检每周巡检 · 转载来源合规标注" },
+  { icon: "📚", title: "书籍式章节", desc: "redis 四章 · 数据库三章 · Spring 四章 · agent 两章——渐进路径而非平铺" },
 ];
 </script>
 
@@ -146,7 +149,6 @@ const trust = [
   align-items: center;
   margin-bottom: 48px;
 }
-
 .term {
   border-radius: 14px;
   overflow: hidden;
@@ -431,12 +433,17 @@ const trust = [
 
 /* ===== 响应式 ===== */
 @media (max-width: 960px) {
+  /* 窄屏单列：标题在前、终端在后。原先终端占满首屏，站名和入口按钮被挤到第一屏以下 */
   .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+  .hero-right { order: -1; }
+  .term-body { padding: 14px 16px; font-size: 12px; line-height: 1.8; }
+  .mx-hero { padding-top: 40px; }
   .name { font-size: 48px; }
   .sub { font-size: 20px; }
   .bar { flex-wrap: wrap; }
   .bar-item { flex: 1 1 30%; border-bottom: 1px solid var(--vp-c-border); }
   .bar-item:not(:last-child)::after { display: none; }
+  .bar { margin-bottom: 48px; }
   .tracks { grid-template-columns: 1fr; }
   .trust { grid-template-columns: 1fr; }
   .cta { flex-direction: column; }

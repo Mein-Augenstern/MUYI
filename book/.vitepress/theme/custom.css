@@ -1,11 +1,11 @@
 /*
-  MUYI 自定义首页 v3 样式
-  - 隐藏默认 VPHero（由 MuyiHero.vue 全接管）
-  - 隐藏默认 VPFeatures（MuyiHero 内含自己的 features 区）
-  - 首页背景微调（body 层面）
+  MUYI 自定义样式
+  - 首页 v3：隐藏默认 VPHero / VPFeatures（由 MuyiHero.vue 全接管）
+  - 窄屏表格：不再把每一列硬挤进屏宽
+  - Mermaid：图由浏览器按需渲染时的容器与占位
 */
 
-/* 隐藏默认 hero 和 features（全接管） */
+/* 首页：隐藏默认 hero 和 features（全接管） */
 .VPHero { display: none !important; }
 .VPFeatures { display: none !important; }
 
@@ -17,4 +17,40 @@
 /* 首页 body 背景微暗（区分内容页） */
 body:has(.mx-hero) {
   background: var(--vp-c-bg-alt);
+}
+
+/*
+  窄屏表格（≤640px）。原先四列表格被压进 342px，窄列变成一字一行（"引/用/类/型"）。
+  改法：每个单元格保底约 5 个汉字宽——两三列的表照常铺满，列多的表放不下就横向滚动。
+  宁可滑一下，不要竖着读。
+*/
+@media (max-width: 640px) {
+  .vp-doc table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .vp-doc th,
+  .vp-doc td {
+    min-width: 6.5em;
+  }
+}
+
+/*
+  Mermaid：```mermaid 代码块输出为 <pre class="mermaid">，主题在浏览器里按需画成 svg。
+  - 有 JS（html.mmd）且尚未画好时先不露出源码；没有 JS 时照常显示源码，作为兜底
+  - 画完后去掉代码块底色与内边距，图随内容列宽自适应
+*/
+.mmd .vp-doc pre.mermaid:not([data-processed]) {
+  visibility: hidden;
+  min-height: 48px;
+}
+.vp-doc pre.mermaid {
+  padding: 0;
+  background: transparent;
+  overflow: visible;
+}
+.vp-doc pre.mermaid svg {
+  max-width: 100%;
+  height: auto;
 }

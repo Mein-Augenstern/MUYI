@@ -1,18 +1,23 @@
-// 构建期书源准备：从仓库根复制白名单内容到 book/src/，并做 HTML→Markdown 预处理。
+// 构建期书源准备：从仓库根复制白名单内容到 book/src/，并做面向读者的预处理。
 // 铁律：仓库原文永不改动——本脚本的产物是构建副本（gitignore），每次构建重新生成。
 //
-// 为什么要预处理：config 里 markdown.html=false（防 Java 内容的 <init>/<T> 裸尖括号
-// 被 Vue 模板编译吞掉），副作用是原文中合法的 HTML（449 处 <a>、172 处标题等）
-// 被当纯文本显示。预处理把白名单标签转成 markdown 等价；其余任何尖括号内容
-// 保持原样（继续安全转义显示）。
+// 做五件事：
+//   1. 重建 src 副本（白名单：轨道目录 + 共享图片 + 顶层文档）
+//   2. HTML → Markdown（config 里 markdown.html=false，原文里合法的 HTML 要转成 markdown 等价）
+//   2.5 目录导航页（README.md）挂载为所在目录的 index.md，并去掉只给维护者看的「写作规范」段
+//   2.6 链接改写（仓库链接按 GitHub 写，到了书里有四种对不上，见 route）
+//   3. 敏感词断言
+//   4. 重建侧边栏、统计数字（都是 gitignore 的构建副本，由 config / 首页在构建时读取）
 //
 // 用法：node scripts/prepare-src.mjs   （在 book/ 目录下）
+import { execFileSync } from "node:child_process";
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { join, posix } from "node:path";
 
 const BOOK = join(import.meta.dirname, "..");
 const REPO = join(BOOK, "..");
 const SRC = join(BOOK, "src");
+const GITHUB = "https://github.com/Mein-Augenstern/MUYI";
 
 // 进书的内容白名单（轨道目录 + 共享图片 + 顶层文档）
 const WHITELIST_DIRS = [
@@ -66,11 +71,6 @@ const convert = (md) => {
       for (let i = 0; i < 3; i++) {
         s = s.replace(/<a\s+href\s*=\s*"([^"]+)"[^>]*>(.+?)<\/a>/g, "[$2]($1)");
       }
-      // 目录链接降级为纯文本：[xxx/](A-后端内核/.../) → xxx/
-      // 本地 GitHub 浏览目录链接有效，但 VitePress 构建后目录无 index.html → 线上 404
-      // （link-doctor 实测自测清单页 9 处）。外链（http/# 开头）不受影响；
-      // 仓库原文不动，只改构建副本——与本书"预处理铁律"一致。
-      s = s.replace(/\[([^\]]+)\]\((?!https?:|#)([^)]*\/)\)/g, "$1");
       // <img src="URL" ...> → ![图](URL)（自闭合两种形态）
       s = s.replace(/<img\s+src="([^"]+)"[^>]*\/?>/g, "![图]($1)");
       // 标题 h2-h5（h4/h5 降为 ###/####，避免书内层级过深被 outline 忽略）
@@ -106,28 +106,214 @@ walkConvert(SRC);
 // 规则：README.md（轨道级或子目录级导航页）以 index.md 形态挂载到所在目录——
 // 它就是该目录的唯一页面（目录 URL /xxx/ 自然可达），不再单独产出 README 页，
 // 避免同目录出现 README/index 两份同源页面、侧边栏双条目（用户实测指出的怪象）。
-// 无 README 的轨道根生成极简占位（首页 features 链接 /轨道名/ 必须有落点；
-// 不做全量文章清单——那与侧边栏功能重复）。
+// 不挂载的两种：配图目录（picture）的说明文件、内容为空的 README——挂上去就是空白页。
+const SKIP_MOUNT = new Set(["picture", "node_modules"]);
+
+// 正文里的标题序列 [{ i, lv, text }]：识别 ATX 与 setext 两种写法，跳过代码围栏
+const headingsOf = (lines) => {
+  const out = [];
+  let fence = false;
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (/^\s*```/.test(line)) {
+      fence = !fence;
+      continue;
+    }
+    if (fence) continue;
+    const atx = /^(#{1,6})\s+(.+?)\s*$/.exec(line);
+    if (atx) {
+      out.push({ i, lv: atx[1].length, text: atx[2] });
+      continue;
+    }
+    const next = lines[i + 1] ?? "";
+    if (line.trim() && /^(-{2,}|={2,})\s*$/.test(next)) out.push({ i, lv: next[0] === "=" ? 1 : 2, text: line.trim() });
+  }
+  return out;
+};
+
+// 去掉只给维护者看的段落：从「写作规范 / 写作约定 / 写作纪律」标题起，到下一个同级或更高级标题止。
+// 这些约定在 GitHub 上照旧可见（仓库原文不动），只是不该出现在读者目录页的底部。
+const stripMaintainer = (md) => {
+  const lines = md.split("\n");
+  const heads = headingsOf(lines);
+  const start = heads.findIndex((h) => /^写作(规范|约定|纪律)/.test(h.text));
+  if (start < 0) return md;
+  const from = heads[start];
+  const until = heads.slice(start + 1).find((h) => h.lv <= from.lv);
+  lines.splice(from.i, (until ? until.i : lines.length) - from.i);
+  return lines.join("\n").replace(/\s+$/, "") + "\n";
+};
+
 const walkMountReadmes = (repoDir, srcDir) => {
   for (const name of readdirSync(repoDir)) {
+    if (name.startsWith(".") || SKIP_MOUNT.has(name)) continue;
     const repoFull = join(repoDir, name);
-    if (!statSync(repoFull).isDirectory()) continue;
-    walkMountReadmes(repoFull, join(srcDir, name));
+    if (statSync(repoFull).isDirectory()) walkMountReadmes(repoFull, join(srcDir, name));
   }
   const readme = join(repoDir, "README.md");
-  if (existsSync(readme)) {
-    writeFileSync(join(srcDir, "index.md"), convert(readFileSync(readme, "utf8")));
+  if (!existsSync(readme)) return;
+  const page = stripMaintainer(convert(readFileSync(readme, "utf8")));
+  if (!page.trim()) return;
+  writeFileSync(join(srcDir, "index.md"), page);
+  files++;
+};
+for (const d of WHITELIST_DIRS) walkMountReadmes(join(REPO, d), join(SRC, d));
+
+// ---- 第 2.6 步：链接改写（只动构建副本）----
+// 仓库原文的链接是按 GitHub 写的，到了书里有四种对不上：
+//   a. 指向目录（[基础内功](01-基础内功/)）——目录有 README 时书里有落地页，保留可点；
+//      没有 README 时书里没有这一页，降级为纯文本（原先不分情况一律降级，
+//      导读页的章节表因此在书里整张点不动）
+//   b. 指向 README.md（[...](agent/README.md)）——书里它就是目录页，改写成目录 URL
+//   c. 指向不进书的内容（docs/治理/*、AGENTS.md…）——改写成 GitHub 地址，不在书里 404
+//   d. 目标里有裸空格——Markdown 不会把它渲染成链接，编码成 %20
+const decode = (s) => {
+  try {
+    return decodeURIComponent(s);
+  } catch {
+    return s;
   }
 };
-for (const d of WHITELIST_DIRS) {
-  walkMountReadmes(join(REPO, d), join(SRC, d));
-  // 轨道根兜底：无 README 则极简占位（仅根级需要——正文里的目录链接已降级纯文本）
-  if (!existsSync(join(REPO, d, "README.md"))) {
-    writeFileSync(join(SRC, d, "index.md"), `# ${d}\n\n> 本轨道无独立导航页——完整文章目录见左侧侧边栏。\n`);
-  }
-}
+const encSpace = (p) => p.replace(/ /g, "%20"); // 仓库惯例：只编码空格
+const encUrl = (p) => p.split("/").map(encodeURIComponent).join("/");
+const inBook = (rel) => rel === "自测清单.md" || (/^(images|[A-G]-)/.test(rel) && !/\/readme\.md$/i.test(rel));
 
-// ---- 第 3 步：敏感词断言（未来防线）----
+// 返回 { kind: "keep" | "plain" | "dest", dest? }
+const route = (raw, repoDir, isImage) => {
+  if (/^(https?:|mailto:|ftp:|\/\/)/i.test(raw)) return { kind: "keep" };
+  const hashAt = raw.indexOf("#");
+  const path = hashAt >= 0 ? raw.slice(0, hashAt) : raw;
+  const hash = hashAt >= 0 ? raw.slice(hashAt) : "";
+  if (!path.trim()) return { kind: "keep" };
+  const decoded = decode(path);
+  // 相对路径以源文件所在目录为基准；以 / 开头的是仓库根相对路径
+  const rel = posix.normalize(decoded.startsWith("/") ? decoded.slice(1) : posix.join(repoDir, decoded));
+  const abs = join(REPO, rel);
+  if (rel.startsWith("..")) return { kind: "keep" }; // 指到仓库外：原样保留，交体检报错
+  if (existsSync(abs) && statSync(abs).isDirectory()) {
+    if (existsSync(join(abs, "README.md"))) return { kind: "dest", dest: encSpace(path) + hash }; // a. 目录有导读页
+    return { kind: "plain" }; // a. 书里没有这一页
+  }
+  if (rel === "README.md") return { kind: "dest", dest: "/repo" + hash }; // 仓库根 README 在书里是「仓库说明」
+  if (/readme\.md$/i.test(rel)) {
+    if (!existsSync(abs)) return { kind: "keep" };
+    const dir = path.replace(/readme\.md$/i, ""); // b. 保留 ./ ../ 等前缀
+    return { kind: "dest", dest: (dir === "" ? "./" : dir) + hash };
+  }
+  if (existsSync(abs)) {
+    if (inBook(rel)) return { kind: "dest", dest: encSpace(path) + hash }; // d. 进书的文件
+    return { kind: "dest", dest: `${GITHUB}/${isImage ? "raw" : "blob"}/master/${encUrl(rel)}` }; // c. 改指 GitHub
+  }
+  return { kind: "keep" }; // 仓库里也没有：原样保留，交体检报错
+};
+
+// 一行里的 markdown 行内链接/图片（跳过行内代码）。下标均为行内位置：
+// textS/textE 是链接文字，destS/destE 是目标（尖括号形式不含括号本身），closeE 是右括号之后。
+const findLinks = (line) => {
+  const inCode = new Array(line.length).fill(false);
+  let tick = false;
+  for (let i = 0; i < line.length; i++) {
+    if (line[i] === "`") tick = !tick;
+    inCode[i] = tick;
+  }
+  const out = [];
+  for (let i = 0; i + 1 < line.length; i++) {
+    if (line[i] !== "]" || line[i + 1] !== "(" || inCode[i]) continue;
+    let j = i + 2;
+    let destE = j;
+    let angle = false;
+    if (line[j] === "<") {
+      const k = line.indexOf(">", j);
+      if (k < 0) continue;
+      destE = k;
+      j = k + 1;
+      angle = true;
+    } else {
+      let depth = 0;
+      for (; j < line.length; j++) {
+        const c = line[j];
+        if (c === "\\") {
+          j++;
+          continue;
+        }
+        if (c === "(") depth++;
+        else if (c === ")") {
+          if (depth === 0) break;
+          depth--;
+        }
+      }
+      if (j >= line.length) continue;
+      destE = j;
+    }
+    if (line[j] !== ")") continue;
+    let raw = line.slice(i + 2, destE);
+    const title = /\s+"[^"]*"\s*$/.exec(raw); // 可选 title 不属于目标
+    if (title && title.index > 0) {
+      destE = i + 2 + title.index;
+      raw = line.slice(i + 2, destE);
+    }
+    let depth = 0;
+    let s = i - 1;
+    for (; s >= 0; s--) {
+      if (line[s] === "]") depth++;
+      else if (line[s] === "[") {
+        if (depth === 0) break;
+        depth--;
+      }
+    }
+    if (s < 0) continue;
+    out.push({ textS: s + 1, textE: i, destS: i + 2, destE, closeE: j + 1, raw, isImage: s > 0 && line[s - 1] === "!" });
+  }
+  return out;
+};
+
+let relinked = 0;
+const fixLinks = (md, repoDir) => {
+  let fence = false;
+  const out = [];
+  for (const line of md.split("\n")) {
+    if (/^\s*```/.test(line)) {
+      fence = !fence;
+      out.push(line);
+      continue;
+    }
+    if (fence || !line.includes("](")) {
+      out.push(line);
+      continue;
+    }
+    let s = line;
+    for (const l of findLinks(line).reverse()) {
+      const r = route(l.raw, repoDir, l.isImage);
+      if (r.kind === "keep" || (r.kind === "dest" && r.dest === l.raw)) continue;
+      relinked++;
+      if (r.kind === "dest") {
+        s = s.slice(0, l.destS) + r.dest + s.slice(l.destE);
+      } else {
+        const from = l.isImage ? l.textS - 2 : l.textS - 1; // 连同 "![" 或 "[" 一起摘掉
+        s = s.slice(0, from) + s.slice(l.textS, l.textE) + s.slice(l.closeE);
+      }
+    }
+    out.push(s);
+  }
+  return out.join("\n");
+};
+
+// 构建副本 → 仓库源文件（用于确定链接的相对基准）。index.md 是 README 挂载的；
+// 书首页（src/index.md）没有仓库源文，按仓库根算。
+const walkRelink = (dir) => {
+  for (const name of readdirSync(dir)) {
+    const full = join(dir, name);
+    if (statSync(full).isDirectory()) walkRelink(full);
+    else if (name.endsWith(".md")) {
+      const rel = posix.relative(SRC, full);
+      const src = rel === "repo.md" ? "README.md" : rel.replace(/index\.md$/, "README.md");
+      writeFileSync(full, fixLinks(readFileSync(full, "utf8"), posix.dirname(src)));
+    }
+  }
+};
+walkRelink(SRC);
+
+// ---- 第 3 步：敏感词断言 ----
 // 书是公开 Pages：书源里出现下述词即中断构建（历史教训：组织研究文、
 // 银行真名曾误入公开书）。改动若触发断言，先判断是脱敏遗漏还是白名单词。
 const SENSITIVE = ["网商银行", "微众银行", "WeBank", "MYbank", "蚁蚁集团", "蚁蚁金服", "技术组织全景"];
@@ -148,7 +334,7 @@ if (offenders.length) {
   process.exit(1);
 }
 
-console.log(`书源就绪：${SRC}（预处理 ${files} 个 md，敏感词断言通过）`);
+console.log(`书源就绪：${SRC}（预处理 ${files} 个 md，改写链接 ${relinked} 处，敏感词断言通过）`);
 
 // ---- 第 4 步：重建侧边栏 ----
 // sidebar.json 是 gitignore 的构建副本，config.mts 静态引入它。它必须跟着书源一起重建，
@@ -156,3 +342,14 @@ console.log(`书源就绪：${SRC}（预处理 ${files} 个 md，敏感词断言
 // 线上侧边栏停在 11-07，之后新增的 4 篇在侧边栏不可见）。
 // 必须动态 import：静态 import 会被提升到本模块体之前执行，扫到的是上一轮的旧书源。
 await import("../.vitepress/build-sidebar.mjs");
+
+// ---- 第 5 步：统计数字 ----
+// stats.json 同理是构建副本，由首页 Hero 与站点描述在构建时读取——首页数字不再手抄。
+const STATS = join(BOOK, ".vitepress", "stats.json");
+try {
+  execFileSync("python3", [join(REPO, "scripts", "stats.py"), "--json", STATS], { stdio: ["ignore", "ignore", "inherit"] });
+  console.log(`统计数字已生成：${STATS}`);
+} catch (err) {
+  console.error(`生成统计数字失败（需要 python3）：${err.message}`);
+  process.exit(1);
+}
