@@ -2,43 +2,48 @@
 
 本仓库是个人知识库（MUYI）。给在此仓库工作的 AI 编码智能体的约定：
 
-## B-AI工程（AI 模块）的导航同步义务
+## 导航同步义务（全部轨道）
 
-B 轨以 `B-AI工程/README.md` 为总阅读导航（依赖图 + 四条阅读路径 + 全量篇目索引）。
-**任何新增/移动/改名 B 轨文章的操作，必须同步以下四处，缺一不可：**
+每个轨道的 README.md 是读者入口（从哪进 / 目录 / 推荐阅读路径），体量大的目录另有自己的导读页。
+口径与约定全文见 `docs/治理/协作与统计口径约定.md`。
 
-1. `B-AI工程/README.md`：顶部实况篇数、全量篇目索引、涉及的阅读路径与"生产救火"表；
-2. 所属子目录的 `README.md`（没有则先建）；
-3. 仓库根 `README.md` 轨道总表里的 B 轨篇数；
-4. agent 系列文章另需更新 `B-AI工程/agent/README.md` 的章表编号与"两章 N 篇"表述。
+**新增、移动、改名任何一篇正文时，必须做到：**
 
-其余轨道（A/C/D/E/F/G）新增文章只需更新所在目录导航与根 README 统计。
+1. 被本轨至少一个 README.md 链接（通常是它所在目录的导读页）；
+2. 所在目录 README 与轨道 README 的篇数同步；
+3. 根 `README.md` 轨道表的篇数同步；
+4. 链接目标里的空格写成 `%20`，路径大小写与文件名一致。
 
-## 在线书构建与部署（踩过的坑）
+漏了哪条都会被门禁拦住，不需要靠记忆。改完先跑这两条：
 
-- 构建唯一正确命令（在 `book/` 目录）：`node scripts/prepare-src.mjs && npx vitepress build`。
-  `prepare-src` 做两件事：从仓库原文重建 `book/src`，并在末尾重新生成侧边栏
-  `.vitepress/sidebar.json`（gitignore 的构建副本，`config.mts` 静态引入）。新增文章后不跑它，
-  线上就是"正文里有、侧边栏没有"（2026-11-23 踩过：侧边栏停在 11-07，之后新增的 4 篇不可见）。
-  **必须用无参 `vitepress build`**——带 `src` 参数会丢失 `.vitepress/config.mts`（html:false、
-  ignoreDeadLinks、assetsInclude、mermaid 全在里面），产生大量误报构建失败。
-- `book/src`、`book/dist`、`book/.vitepress/sidebar.json` 是构建副本（gitignore，每次构建重新生成），
-  永不手改；仓库源文是唯一事实源。
-- 部署：`./scripts/deploy-cloudflare.sh`（自带 prepare + build + 上传）。凭据已存本机 macOS 钥匙串
-  （service=`muyi-cloudflare-pages`，account=`CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`），脚本在
-  环境变量缺失时自动读取——**不需要向用户要 token，也不要把 token 写进仓库或对话**。
-  手动跑 wrangler 时先导出：
-  `export CLOUDFLARE_API_TOKEN="$(security find-generic-password -s muyi-cloudflare-pages -a CLOUDFLARE_API_TOKEN -w)"`
-  （账户 ID 同理，account 换成 `CLOUDFLARE_ACCOUNT_ID`）。
-- 这是账户级 API Token，**2027-02-21 到期**。校验用 `/accounts/<账户ID>/tokens/verify`——
-  `/user/tokens/verify` 对账户级 token 恒报无效，别被它误导。到期前或报 Invalid API Token 时，
-  提醒用户在 Dashboard 重新生成，并用 `security add-generic-password -U -s muyi-cloudflare-pages
-  -a CLOUDFLARE_API_TOKEN -w <新token>` 更新钥匙串。wrangler 的 OAuth 登录态只是备用通道，
-  不保证长期有效。
-- **部署后验证必须查侧边栏**：抓线上页面 HTML，确认新篇标题出现在侧边栏区块
-  （`<aside class="VPSidebar">`）里，不能只看状态码和正文——正文来自页面 SSR，侧边栏来自
-  sidebar.json，两者会不一致。
+```
+python3 scripts/check_links.py --src    # 第 1、4 条
+python3 scripts/stats.py --check        # 第 2、3 条中的根 README 与轨道篇数
+```
+
+- **想让某篇文章在书里排前面**：调它在 README 目录里的位置。README 的目录顺序就是侧边栏和「上一篇 / 下一篇」的顺序，不要去改 `book/.vitepress/build-sidebar.mjs`。
+- **数字**：篇数、题数、配图数一律以 `python3 scripts/stats.py` 为准。在线书首页与站点描述在构建时自动读取，不要把数字手写进 `book/.vitepress/theme/MuyiHero.vue` 或 `config.mts`。
+
+## 在线书构建与部署
+
+- **push 到 master 会自动部署**（`.github/workflows/deploy-site.yml`），平时不需要手动部署。
+- 手动部署只有一条命令：`./scripts/deploy-cloudflare.sh`（重建书源 → 构建 → 上传 Cloudflare Pages），自带三道门禁，不过关不发布。
+- 分步排查时（在 `book/` 目录）：`node scripts/prepare-src.mjs && npx vitepress build`。
+  - `prepare-src` 重建 `book/src`、侧边栏 `sidebar.json`、统计 `stats.json`——三个都是 gitignore 的构建副本，必须跟着书源一起重建。漏了 sidebar，线上就是"正文里有、侧边栏没有"（2026-11-23 踩过）。
+  - **必须用无参 `vitepress build`**——带 `src` 参数会丢掉 `.vitepress/config.mts`，产生大量误报。
+  - `prepare-src` 还做只针对读者的改写（只动构建副本）：目录链接 / README 链接 / 书外内容链接的处理、去掉「写作规范」段、裸空格编码。规则见脚本内注释。
+- 部署后验证要查**侧边栏**（`<aside class="VPSidebar">`），不能只看状态码和正文。
+- Mermaid 图由主题按需渲染（`book/.vitepress/theme/index.ts`）。不要引回 `vitepress-plugin-mermaid`——它会把整套图表库打进每个页面的首屏（约 400KB，而只有 3% 的页面有图）。
+- 小写 `readme.md` 是配图目录说明，刻意不进书；不要把它改成大写（会变成目录页），也不要在它所在的目录里再建 `README.md`（macOS 上两者是同一个文件）。
+
+## 凭据
+
+- **CI 部署用的是最小权限 token**（只有 Pages Write，2027-11-24 到期），存在 GitHub Secrets：`CF_PAGES_DEPLOY_TOKEN`、`CF_ACCOUNT_ID`。到期前提醒用户在 Cloudflare Dashboard 重新生成并更新 Secret。
+- **本机钥匙串里的 token（service=`muyi-cloudflare-pages`）是智能体用的账户级 token，权限极大**（170 多个写权限组）。只用于本机手动操作；**不要写进仓库、对话、CI 或任何第三方服务**。不需要向用户要 token。
+- wrangler 的 OAuth 登录态是另一条备用通道，不保证长期有效。
+- 校验账户级 token 用 `/accounts/<账户ID>/tokens/verify`；`/user/tokens/verify` 对它恒报无效，别被它误导。
 
 ## 提交约定
 
-- 提交信息用中文简述 + 前缀（如 `B轨agent:`、`ci:`、`scripts:`、`设计:`），直接提交 master。
+- 提交信息用中文简述 + 前缀（如 `B轨agent:`、`ci:`、`scripts:`、`设计:`、`治理B10:`），直接提交 master。
+- 提交只用显式文件名或 `git add -u`（改动全部属于本次工作时），先 `git status --short` 确认没有别的会话的改动。
