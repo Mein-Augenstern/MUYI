@@ -17,5 +17,6 @@ node_modules
 book/dist/
 book/.vitepress/cache/
 book/.vitepress/sidebar.json
+book/.vitepress/stats.json
 book/src/
 .v2c/
