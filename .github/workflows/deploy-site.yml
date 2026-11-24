@@ -1,0 +1,54 @@
+name: Deploy Site to Cloudflare Pages
+
+# push 到 master 即重建并发布在线书（muyi-axl.pages.dev）。
+# 2026-11-07 从 GitHub Pages 迁到 Cloudflare 时改成了手动上传，此后线上只在本机跑脚本时才更新。
+# 这条流水线把它接回来。发布前过三道门禁（见 scripts/deploy-cloudflare.sh）：
+# 仓库链接与导航收录、README 数字、构建产物里的链接——任何一道不过就不发布，线上停在最后一个好版本。
+on:
+  push:
+    branches: [master]
+    paths:
+      - "A-后端内核/**"
+      - "B-AI工程/**"
+      - "C-架构/**"
+      - "D-云原生/**"
+      - "E-算法/**"
+      - "F-前端/**"
+      - "G-业务领域/**"
+      - "images/**"
+      - "book/**"
+      - "自测清单.md"
+      - "README.md"
+      - "scripts/**"
+      - ".github/workflows/deploy-site.yml"
+  workflow_dispatch:
+
+# 同一时刻只发一个版本；新提交到了就取消还没发完的旧任务
+concurrency:
+  group: deploy-site
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: book/package-lock.json
+
+      - name: Install book deps
+        run: npm ci
+        working-directory: book
+
+      - name: Install wrangler
+        run: npm install -g wrangler@4
+
+      - name: Gate, build and deploy
+        run: ./scripts/deploy-cloudflare.sh
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_PAGES_DEPLOY_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}

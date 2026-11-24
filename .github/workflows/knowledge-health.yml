@@ -2,7 +2,10 @@ name: Knowledge Health Check (weekly)
 
 # 全库七维体检（constellation skill 固化脚本）：多H1/泛用首标题/死链 归零是质量底线；
 # 互链孤岛/巨无霸 为观察项（数量变化触发关注，不阻断）。
+# 另跑本库自己的两道门禁：链接与导航收录（区分大小写、认得出裸空格链接）、README 数字。
 # 2026-11-07 基线：全部 0（巨无霸 17 已知长文、孤岛 27 叶子篇，见治理 commit fbb9c00）。
+# 2026-11-24 修：constellation 曾被检出到库根目录下，体检脚本把它也当成一个轨道扫了进去
+# （21 个假“多H1”），本流水线连续三周失败、盖住了 MUYI 自己的信号。现在改为克隆到工作区之外。
 on:
   schedule:
     - cron: "0 3 * * 1"   # 每周一 UTC 03:00（北京 11:00）
@@ -14,16 +17,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Checkout constellation (audit scripts)
-        uses: actions/checkout@v4
-        with:
-          repository: Mein-Augenstern/constellation
-          path: constellation
-          ref: main
+      - name: Fetch constellation audit scripts (outside the audited tree)
+        run: |
+          git clone --depth 1 https://github.com/Mein-Augenstern/constellation.git "$RUNNER_TEMP/constellation"
+          test -f "$RUNNER_TEMP/constellation/skills/kb-article-writing/scripts/global-audit.py"
 
       - name: Run global audit (7 dimensions)
-        run: |
-          python3 constellation/skills/kb-article-writing/scripts/global-audit.py . --json audit.json
+        run: python3 "$RUNNER_TEMP/constellation/skills/kb-article-writing/scripts/global-audit.py" . --json audit.json
 
       - name: Enforce baselines (multi-H1 / generic-first / dead-links must be 0)
         run: |
@@ -43,6 +43,11 @@ jobs:
               sys.exit(1)
           print("质量底线全部保持：多H1=0 泛用标题=0 死链=0")
           PY
+
+      - name: Repo gates (links / nav coverage / README numbers)
+        run: |
+          python3 scripts/check_links.py --src
+          python3 scripts/stats.py --check
 
       - name: Upload audit report
         if: always()
