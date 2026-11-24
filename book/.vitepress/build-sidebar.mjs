@@ -116,7 +116,10 @@ function walk(dir, dirRel, depth) {
   const rest = [...groups.filter((g) => !rank.has(g._name)), ...pages.filter((p) => !rank.has(p._name))].sort(byTitle("zh"));
   const items = listed.concat(rest).map(({ _name, ...it }) => it);
   if (names.includes("index.md")) {
-    items.unshift({ text: depth === 0 ? "轨道导读" : "目录导读", link: "/" + posix.join(dirRel, "index.md") });
+    // 标签带上目录名：侧边栏里它紧跟在分组标题下面，看着有点重复，
+    // 但页面底部「上一篇 / 下一篇」用的是同一个标签——只写“目录导读”就不知道是哪儿的导读。
+    const dir = depth === 0 ? dirRel : posix.basename(dirRel);
+    items.unshift({ text: `${dir} · 导读`, link: "/" + posix.join(dirRel, "index.md") });
   }
   return items;
 }
