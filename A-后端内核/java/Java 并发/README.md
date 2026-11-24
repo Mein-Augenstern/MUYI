@@ -7,8 +7,8 @@
 
 1. [AQS&ReentrantLock](AQS&ReentrantLock.md)
 2. [AQS源码精读一-加锁与队列](AQS源码精读一-加锁与队列.md)
-3. [AQS源码精读三-共享模式与工具类基座](AQS源码精读三-共享模式与工具类基座.md)
-4. [AQS源码精读二-独占锁释放与条件队列](AQS源码精读二-独占锁释放与条件队列.md)
+3. [AQS源码精读二-独占锁释放与条件队列](AQS源码精读二-独占锁释放与条件队列.md)
+4. [AQS源码精读三-共享模式与工具类基座](AQS源码精读三-共享模式与工具类基座.md)
 5. [CAS](CAS.md)
 6. [CountDownLatch](CountDownLatch.md)
 7. [CyclicBarrier 和 CountDownLatch 的区别](CyclicBarrier%20和%20CountDownLatch%20的区别.md)

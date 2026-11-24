@@ -2,7 +2,7 @@
 
 > 2026-10 新建，与 star-site ai-service（Python/LangChain）和 voice-zcode 实战滚动同步。
 > 定位：面试深度标准的 AI 工程知识体系。**实况 23 篇（2026-11-20）**。
-> 本页是 B 轨总导航：先给**怎么读**（一图依赖 + 四条路径），再给**读什么**（全量篇目索引）；新增文章按文末《写作规范》的"导航四同步"更新本页。
+> 本页是 B 轨总导航：先给**怎么读**（一图依赖 + 四条路径），再给**读什么**（全量篇目索引）。
 
 ## 一图看依赖：先读什么，后读什么
 
@@ -38,8 +38,8 @@ flowchart TD
 | 5 | [RAG体系与项目定位](rag/RAG体系与项目定位.md) | 检索链路四步与"何时不用 RAG" |
 | 6 | [RAG切分策略实战](rag/RAG切分策略实战.md) | 切分决定召回：chunk 权衡、表格不切 |
 | 7 | [向量检索选型](rag/向量检索选型-pgvector-Redis-Milvus-Qdrant.md) | pgvector/Redis/Milvus/Qdrant 三轴选型 |
-| 8-11 | [agent 第一章 1→4](agent/README.md)（[范式](agent/Agent范式全景-workflow与agent的边界.md)→[手写](agent/从零手写最小Agent-无框架的模型循环.md)→[评测](agent/Agent评测与可观测-guards与成本.md)→[编排](agent/多智能体编排与框架选型.md)） | 从"该不该用 agent"到多代理架构 |
-| 12-17 | [agent 第二章 5→10](agent/README.md) 按序深潜 | 六个专项：ReAct 落地、MCP、结构化输出、身份链、上下文、记忆 |
+| 8-11 | [agent 第一章 1→4](agent/)（[范式](agent/Agent范式全景-workflow与agent的边界.md)→[手写](agent/从零手写最小Agent-无框架的模型循环.md)→[评测](agent/Agent评测与可观测-guards与成本.md)→[编排](agent/多智能体编排与框架选型.md)） | 从"该不该用 agent"到多代理架构 |
+| 12-17 | [agent 第二章 5→10](agent/) 按序深潜 | 六个专项：ReAct 落地、MCP、结构化输出、身份链、上下文、记忆 |
 | 18 | [自托管LLM推理-vLLM与SGLang](推理与部署/自托管LLM推理-vLLM与SGLang.md) | 服务化：KV cache、批调度、显存账 |
 | 19 | [LLM应用面试题合集](面试题/LLM应用面试题合集.md) | 收口：八主题自测 + 深读映射表 |
 
@@ -85,7 +85,7 @@ flowchart TD
 | [向量检索选型-pgvector-Redis-Milvus-Qdrant](rag/向量检索选型-pgvector-Redis-Milvus-Qdrant.md) | 规模/过滤/运维三轴挑 ANNS 引擎 |
 | [GraphRAG与知识图谱检索-多跳问题的解法](rag/GraphRAG与知识图谱检索-多跳问题的解法.md) | 向量连不上"点"：社区摘要 vs 双层检索、增量更新、上图谱的决策线 |
 
-### agent/（10，两章——系列导读见 [agent/README.md](agent/README.md)）
+### agent/（10，两章——系列导读见 [agent 系列导读](agent/)）
 
 | # | 篇目 | 一句话 |
 |---|---|---|
