@@ -27,7 +27,7 @@ python3 scripts/stats.py --check        # 第 2、3 条中的根 README 与轨�
 ## 在线书构建与部署
 
 - **push 到 master 会自动部署**（`.github/workflows/deploy-site.yml`），平时不需要手动部署。
-- 手动部署只有一条命令：`./scripts/deploy-cloudflare.sh`（重建书源 → 构建 → 上传 Cloudflare Pages），自带三道门禁，不过关不发布。
+- 手动部署只有一条命令：`./scripts/deploy-cloudflare.sh`（重建书源 → 构建 → 上传 Cloudflare Pages），自带三道门禁，不过关不发布。只想验证流程不想发布时用 `DEPLOY_DRY_RUN=1 ./scripts/deploy-cloudflare.sh`（演练：门禁、构建、体检全跑，只不上传）。
 - 分步排查时（在 `book/` 目录）：`node scripts/prepare-src.mjs && npx vitepress build`。
   - `prepare-src` 重建 `book/src`、侧边栏 `sidebar.json`、统计 `stats.json`——三个都是 gitignore 的构建副本，必须跟着书源一起重建。漏了 sidebar，线上就是"正文里有、侧边栏没有"（2026-11-23 踩过）。
   - **必须用无参 `vitepress build`**——带 `src` 参数会丢掉 `.vitepress/config.mts`，产生大量误报。
