@@ -1,5 +1,8 @@
-一 先从 ArrayList 的构造函数说起
+ArrayList扩容
 ====
+
+一 先从 ArrayList 的构造函数说起
+----
 
 **ArrayList有三种方式来初始化，构造方法源码如下：**
 

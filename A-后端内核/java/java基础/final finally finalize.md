@@ -1,7 +1,7 @@
 final finally finalize
 ======================
 
-Question
+问题
 --------
 
 * 谈谈 final、finally、finalize 有什么不同？

@@ -1,8 +1,11 @@
+HashMap源码注释
+====
+
 * <a href="https://zhuanlan.zhihu.com/p/21673805">感谢美团技术团队分享-->Java 8系列之重新认识HashMap</a>
 * 感谢Snailclimb-->JavaGuide-->HashMap（原链已失效 2026-10，内容已在本篇/本库）
 
 HashMap类的属性
-====
+----
 
 ```java
 public class HashMap<K,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneable, Serializable {
@@ -299,7 +302,7 @@ public V put(K key, V value) {
 }
 ```
 
-Question
+问题
 ----
 
 * **JDK1.7和JDK1.8相比将元素插入到链表中时，JDK1.7使用的是头插法，JDK1.8使用的是尾插法，为什么这么做呢？**
@@ -426,7 +429,7 @@ final Node<K,V>[] resize() {
 }
 ```
 
-Question
+问题
 ----
 
 * **为什么resize要将Entry扩充为原来的2倍? 这个过程是怎样的? 这样做有什么好处?**

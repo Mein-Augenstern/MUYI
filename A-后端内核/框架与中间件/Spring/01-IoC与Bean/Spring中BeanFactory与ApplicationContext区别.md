@@ -1,6 +1,9 @@
+Spring中BeanFactory与ApplicationContext区别
+====
+
 
 简介
-====
+----
 
 BeanFactory和ApplicationContext是Spring的两大核心接口，都可以当做Spring的容器。其中ApplicationContext是BeanFactory的子接口。
 

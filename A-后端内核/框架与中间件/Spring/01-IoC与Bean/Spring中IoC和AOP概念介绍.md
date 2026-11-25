@@ -1,3 +1,6 @@
+Spring中IoC和AOP概念介绍
+====
+
 > * 控制反转（Inversion of Control，英文缩写为IoC）
 
 > * 面向切面编程（Aspect Oriented Programming，英文缩写为AOP）
@@ -5,7 +8,7 @@
 我们是在使用```Spring```框架的过程中，很大一部分是为了使用```IoC(依赖注入)```和```AOP(面向切面编程)```。这两个是```Spring```的灵魂。其中主要用到的设计模式有工厂模式和代理模式。```IoC```就是典型的工厂模式，通过```sessionfactory```去注入实例。```AOP```就是典型的代理模式的体现。```Spring```的```IoC```容器是```Spring```的核心，```Spring AOP```是```Spring```框架的重要组成部分。
 
 关于IoC
-====
+----
 
 首先想说说```IoC（Inversion of Control，控制倒转）```。这是```Spring```的核心，贯穿始终。所谓```IoC```，对于```Spring```框架来说，就是由```Spring```来负责控制对象的生命周期和对象间的关系。
 

@@ -23,7 +23,7 @@ Java NIO核心组件
 
 NIO 应用广泛，是 Java 进阶的必学知识。此外，在 Java 相关岗位的面试中也是“常客”。对于准备深入学习 Java 的读者，了解 NIO 确有必要。
 
-Question
+问题
 ----
 
 * IO 与 NIO 有何不同？

@@ -1,5 +1,8 @@
-一、理解CAP
+分布式理论-CAP原则
 ====
+
+一、理解CAP
+----
 
 CAP是Consistency、Availability、Partition tolerance三个词语的缩写，分别表示**一致性、可用性、分区容忍性**。
 

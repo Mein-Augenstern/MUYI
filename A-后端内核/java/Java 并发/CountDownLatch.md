@@ -528,7 +528,7 @@ private void doReleaseShared() {
 
 CountDownLatch 是一个同步工具类，它允许一个或多个线程一直等待，直到其他线程的操作执行完后再执行。在 Java 并发中，countdownlatch 的概念是一个常见的面试题，所以必须确保你理解它。
 
-## Question
+## 问题
 
 * 解释一下 CountDownLatch 概念？
 
