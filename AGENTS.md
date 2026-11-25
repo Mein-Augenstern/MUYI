@@ -34,6 +34,12 @@ python3 scripts/stats.py --check        # 第 2、3 条中的根 README 与轨�
   - `prepare-src` 还做只针对读者的改写（只动构建副本）：目录链接 / README 链接 / 书外内容链接的处理、去掉「写作规范」段、裸空格编码。规则见脚本内注释。
 - 部署后验证要查**侧边栏**（`<aside class="VPSidebar">`），不能只看状态码和正文。
 - Mermaid 图由主题按需渲染（`book/.vitepress/theme/index.ts`）。不要引回 `vitepress-plugin-mermaid`——它会把整套图表库打进每个页面的首屏（约 400KB，而只有 3% 的页面有图）。
+- **不要把 mermaid 升到 12**（2026-11-25 实测 12.3.0）：它不再按文字实际宽度计算流程图节点，中文标签折行错位、溢出节点框（同一个图 v11 的节点宽 124 / 260px，v12 全变成 152px）。要升级，先在浏览器里把全库 17 张图逐张核对过再说。
+- **`book/package.json` 里的 `overrides` 是刻意的，不要随手删**：
+  - `vite`：VitePress 1.6.4 只声明支持 vite 5，而 vite 5 线没有安全补丁，所以让它跑在 6.4.x 上。这属于官方支持范围之外的组合，靠完整构建 + 浏览器逐项验证背书；升级 VitePress 后要重新验证。
+  - `katex`：mermaid 11 依赖的 katex 0.16 有已知漏洞，换成 0.18（调用方式兼容；mermaid 只在图里有 `$$…$$` 公式时才加载它）。
+  - VitePress / mermaid 升到自带修复版本的版本后，删掉对应条目。
+- 改依赖后跑 `DEPLOY_DRY_RUN=1 ./scripts/deploy-cloudflare.sh`，并在浏览器里看有图的页面（共 15 页 17 张图）。
 - 小写 `readme.md` 是配图目录说明，刻意不进书；不要把它改成大写（会变成目录页），也不要在它所在的目录里再建 `README.md`（macOS 上两者是同一个文件）。
 - **本机（macOS）与 CI（Linux）的文件系统大小写行为不同**：`existsSync`、`Path.rglob`、`Path.exists` 在本机不区分大小写。构建与统计脚本里凡涉及文件名的判断都用区分大小写的比较，否则本机演练通过、CI 结果不同（或反过来）。改完构建脚本后，对照 CI 日志里的"预处理 N 个 md"和侧边栏各项计数是否与本机一致。
 

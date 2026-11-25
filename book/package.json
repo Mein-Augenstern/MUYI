@@ -15,5 +15,9 @@
   },
   "devDependencies": {
     "mermaid": "^11.17.2"
+  },
+  "overrides": {
+    "vite": "^6.4.6",
+    "katex": "^0.18.2"
   }
 }
