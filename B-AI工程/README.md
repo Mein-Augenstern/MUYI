@@ -1,7 +1,7 @@
 # B 轨 · AI 应用工程（阅读导航）
 
 > 2026-10 新建，与 star-site ai-service（Python/LangChain）和 voice-zcode 实战滚动同步。
-> 定位：面试深度标准的 AI 工程知识体系。**实况 23 篇（2026-11-20）**。
+> 定位：面试深度标准的 AI 工程知识体系。**实况 24 篇（2026-11-25）**。
 > 本页是 B 轨总导航：先给**怎么读**（一图依赖 + 四条路径），再给**读什么**（全量篇目索引）。
 
 ## 一图看依赖：先读什么，后读什么
@@ -11,8 +11,8 @@ flowchart TD
     L["llm基础（3）<br/>token与幻觉 → 模型选型 → 单次调用的上下文工程"]
     P["prompt（2）<br/>系统提示词 → few-shot与思维链"]
     R["rag（4）<br/>体系定位 → 切分实战 → 向量库选型 → GraphRAG"]
-    A1["agent 第一章（4）<br/>范式全景 → 手写最小循环 → 评测与护栏 → 多智能体编排"]
-    A2["agent 第二章（6）<br/>ReAct/LangGraph · MCP · 结构化输出 · 身份链 · 上下文工程 · 记忆系统"]
+    A1["agent 第一章（4）<br/>范式全景 → 手写最小循环<br/>→ 评测与护栏<br/>→ 多智能体编排"]
+    A2["agent 第二章（7）<br/>ReAct/LangGraph · MCP<br/>结构化输出 · 身份链<br/>上下文工程 · 记忆系统<br/>人机协同"]
     INF["推理与部署（1）<br/>vLLM 与 SGLang"]
     IT["面试题（1）<br/>八主题收口自测"]
     L --> P
@@ -39,9 +39,9 @@ flowchart TD
 | 6 | [RAG切分策略实战](rag/RAG切分策略实战.md) | 切分决定召回：chunk 权衡、表格不切 |
 | 7 | [向量检索选型](rag/向量检索选型-pgvector-Redis-Milvus-Qdrant.md) | pgvector/Redis/Milvus/Qdrant 三轴选型 |
 | 8-11 | [agent 第一章 1→4](agent/)（[范式](agent/Agent范式全景-workflow与agent的边界.md)→[手写](agent/从零手写最小Agent-无框架的模型循环.md)→[评测](agent/Agent评测与可观测-guards与成本.md)→[编排](agent/多智能体编排与框架选型.md)） | 从"该不该用 agent"到多代理架构 |
-| 12-17 | [agent 第二章 5→10](agent/) 按序深潜 | 六个专项：ReAct 落地、MCP、结构化输出、身份链、上下文、记忆 |
-| 18 | [自托管LLM推理-vLLM与SGLang](推理与部署/自托管LLM推理-vLLM与SGLang.md) | 服务化：KV cache、批调度、显存账 |
-| 19 | [LLM应用面试题合集](面试题/LLM应用面试题合集.md) | 收口：八主题自测 + 深读映射表 |
+| 12-18 | [agent 第二章 5→11](agent/) 按序深潜 | 七个专项：ReAct 落地、MCP、结构化输出、身份链、上下文、记忆、人机协同 |
+| 19 | [自托管LLM推理-vLLM与SGLang](推理与部署/自托管LLM推理-vLLM与SGLang.md) | 服务化：KV cache、批调度、显存账 |
+| 20 | [LLM应用面试题合集](面试题/LLM应用面试题合集.md) | 收口：八主题自测 + 深读映射表 |
 
 ## 路径 B · 面试冲刺（1-2 天）
 
@@ -56,6 +56,7 @@ flowchart TD
 | agent 不收敛、步数失控 | [多智能体编排与框架选型](agent/多智能体编排与框架选型.md) |
 | 窗口膨胀 / token 成本失控 | [上下文工程四板斧](agent/Agent上下文工程-注意力预算与四板斧.md) |
 | 跨会话失忆 / 记忆污染 | [记忆系统](agent/Agent记忆系统-从会话状态到跨会话记忆.md) |
+| 高危操作不敢放手 / 确认框弹个不停 | [人机协同与审批设计](agent/Agent人机协同-从头部智能体看审批与权限设计.md) |
 | 检索不准 / 召回差 | [RAG切分](rag/RAG切分策略实战.md)、[向量选型](rag/向量检索选型-pgvector-Redis-Milvus-Qdrant.md) |
 | 多跳关联 / 全局概括答不好 | [GraphRAG与知识图谱检索](rag/GraphRAG与知识图谱检索-多跳问题的解法.md) |
 | 推理延迟 / 吞吐不够 | [vLLM与SGLang](推理与部署/自托管LLM推理-vLLM与SGLang.md) |
@@ -64,9 +65,9 @@ flowchart TD
 
 ## 路径 D · AI 编码工具线（用好你的编码智能体）
 
-[ClaudeCode使用实践](工程工具/ClaudeCode使用实践.md)（CLAUDE.md/Skills/Sub-agents 配置资产）→ [llm基础·上下文工程](llm基础/上下文工程-Context%20Engineering.md)（单次调用预算）→ [Agent上下文工程](agent/Agent上下文工程-注意力预算与四板斧.md)（循环里的四板斧）→ [记忆系统](agent/Agent记忆系统-从会话状态到跨会话记忆.md)（MEMORY.md 形态与 dreaming）。
+[ClaudeCode使用实践](工程工具/ClaudeCode使用实践.md)（CLAUDE.md/Skills/Sub-agents 配置资产）→ [llm基础·上下文工程](llm基础/上下文工程-Context%20Engineering.md)（单次调用预算）→ [Agent上下文工程](agent/Agent上下文工程-注意力预算与四板斧.md)（循环里的四板斧）→ [记忆系统](agent/Agent记忆系统-从会话状态到跨会话记忆.md)（MEMORY.md 形态与 dreaming）→ [人机协同](agent/Agent人机协同-从头部智能体看审批与权限设计.md)（Claude Code 的权限模式与审批设计）。
 
-## 全量篇目索引（23 篇）
+## 全量篇目索引（24 篇）
 
 ### llm基础/（3）
 
@@ -85,7 +86,7 @@ flowchart TD
 | [向量检索选型-pgvector-Redis-Milvus-Qdrant](rag/向量检索选型-pgvector-Redis-Milvus-Qdrant.md) | 规模/过滤/运维三轴挑 ANNS 引擎 |
 | [GraphRAG与知识图谱检索-多跳问题的解法](rag/GraphRAG与知识图谱检索-多跳问题的解法.md) | 向量连不上"点"：社区摘要 vs 双层检索、增量更新、上图谱的决策线 |
 
-### agent/（10，两章——系列导读见 [agent 系列导读](agent/)）
+### agent/（11，两章——系列导读见 [agent 系列导读](agent/)）
 
 | # | 篇目 | 一句话 |
 |---|---|---|
@@ -99,6 +100,7 @@ flowchart TD
 | 8 | [智能体的身份链与工具安全](agent/智能体的身份链与工具安全.md) | 身份链"模型无法伪造"设计与工具权限边界 |
 | 9 | [Agent上下文工程-注意力预算与四板斧](agent/Agent上下文工程-注意力预算与四板斧.md) | 注意力预算 / JIT 检索 / 压缩 / 笔记 / 子代理 |
 | 10 | [Agent记忆系统-从会话状态到跨会话记忆](agent/Agent记忆系统-从会话状态到跨会话记忆.md) | 分层记忆栈 / dreaming 整理 / 记忆污染治理 |
+| 11 | [Agent人机协同-从头部智能体看审批与权限设计](agent/Agent人机协同-从头部智能体看审批与权限设计.md) | 审批疲劳 / 权限模式 / 沙箱 / 审查者：什么时候问人、怎么少问 |
 
 ### prompt/（2）
 
