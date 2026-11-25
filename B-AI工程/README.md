@@ -1,7 +1,7 @@
 # B 轨 · AI 应用工程（阅读导航）
 
 > 2026-10 新建，与 star-site ai-service（Python/LangChain）和 voice-zcode 实战滚动同步。
-> 定位：面试深度标准的 AI 工程知识体系。**实况 24 篇（2026-11-25）**。
+> 定位：面试深度标准的 AI 工程知识体系。**实况 30 篇（2026-11-25）**。
 > 本页是 B 轨总导航：先给**怎么读**（一图依赖 + 四条路径），再给**读什么**（全量篇目索引）。
 
 ## 一图看依赖：先读什么，后读什么
@@ -13,6 +13,7 @@ flowchart TD
     R["rag（4）<br/>体系定位 → 切分实战 → 向量库选型 → GraphRAG"]
     A1["agent 第一章（4）<br/>范式全景 → 手写最小循环<br/>→ 评测与护栏<br/>→ 多智能体编排"]
     A2["agent 第二章（7）<br/>ReAct/LangGraph · MCP<br/>结构化输出 · 身份链<br/>上下文工程 · 记忆系统<br/>人机协同"]
+    A3["agent 第三章（6）<br/>脚手架总览 · 工具设计<br/>上下文分层 · 验证回路<br/>长任务 · 复刻清单"]
     INF["推理与部署（1）<br/>vLLM 与 SGLang"]
     IT["面试题（1）<br/>八主题收口自测"]
     L --> P
@@ -21,7 +22,8 @@ flowchart TD
     R --> A1
     A1 --> A2
     L --> A2
-    A2 --> IT
+    A2 --> A3
+    A3 --> IT
     L --> INF
 ```
 
@@ -40,8 +42,9 @@ flowchart TD
 | 7 | [向量检索选型](rag/向量检索选型-pgvector-Redis-Milvus-Qdrant.md) | pgvector/Redis/Milvus/Qdrant 三轴选型 |
 | 8-11 | [agent 第一章 1→4](agent/)（[范式](agent/Agent范式全景-workflow与agent的边界.md)→[手写](agent/从零手写最小Agent-无框架的模型循环.md)→[评测](agent/Agent评测与可观测-guards与成本.md)→[编排](agent/多智能体编排与框架选型.md)） | 从"该不该用 agent"到多代理架构 |
 | 12-18 | [agent 第二章 5→11](agent/) 按序深潜 | 七个专项：ReAct 落地、MCP、结构化输出、身份链、上下文、记忆、人机协同 |
-| 19 | [自托管LLM推理-vLLM与SGLang](推理与部署/自托管LLM推理-vLLM与SGLang.md) | 服务化：KV cache、批调度、显存账 |
-| 20 | [LLM应用面试题合集](面试题/LLM应用面试题合集.md) | 收口：八主题自测 + 深读映射表 |
+| 19-24 | [agent 第三章 12→17](agent/) 顺序读 | 脚手架设计：总览、工具、上下文分层、验证、长任务、复刻清单——回答"怎么做得像 Claude Code 一样好用" |
+| 25 | [自托管LLM推理-vLLM与SGLang](推理与部署/自托管LLM推理-vLLM与SGLang.md) | 服务化：KV cache、批调度、显存账 |
+| 26 | [LLM应用面试题合集](面试题/LLM应用面试题合集.md) | 收口：八主题自测 + 深读映射表 |
 
 ## 路径 B · 面试冲刺（1-2 天）
 
@@ -57,6 +60,10 @@ flowchart TD
 | 窗口膨胀 / token 成本失控 | [上下文工程四板斧](agent/Agent上下文工程-注意力预算与四板斧.md) |
 | 跨会话失忆 / 记忆污染 | [记忆系统](agent/Agent记忆系统-从会话状态到跨会话记忆.md) |
 | 高危操作不敢放手 / 确认框弹个不停 | [人机协同与审批设计](agent/Agent人机协同-从头部智能体看审批与权限设计.md) |
+| 工具老被调错 / 返回太大 / 报错看不懂 | [工具设计](agent/Agent工具设计-写给模型看的接口.md) |
+| 上下文太乱 / 工具太多塞不下 | [上下文分层](agent/Agent上下文分层-常驻按需与工具太多怎么办.md) |
+| 做完不自查 / 说完成了其实没好 | [验证回路](agent/Agent验证回路-让智能体自己发现错了.md) |
+| 长任务跑偏 / 做一半断了 | [长任务](agent/Agent长任务-进度状态与增量交付.md) |
 | 检索不准 / 召回差 | [RAG切分](rag/RAG切分策略实战.md)、[向量选型](rag/向量检索选型-pgvector-Redis-Milvus-Qdrant.md) |
 | 多跳关联 / 全局概括答不好 | [GraphRAG与知识图谱检索](rag/GraphRAG与知识图谱检索-多跳问题的解法.md) |
 | 推理延迟 / 吞吐不够 | [vLLM与SGLang](推理与部署/自托管LLM推理-vLLM与SGLang.md) |
@@ -65,9 +72,9 @@ flowchart TD
 
 ## 路径 D · AI 编码工具线（用好你的编码智能体）
 
-[ClaudeCode使用实践](工程工具/ClaudeCode使用实践.md)（CLAUDE.md/Skills/Sub-agents 配置资产）→ [llm基础·上下文工程](llm基础/上下文工程-Context%20Engineering.md)（单次调用预算）→ [Agent上下文工程](agent/Agent上下文工程-注意力预算与四板斧.md)（循环里的四板斧）→ [记忆系统](agent/Agent记忆系统-从会话状态到跨会话记忆.md)（MEMORY.md 形态与 dreaming）→ [人机协同](agent/Agent人机协同-从头部智能体看审批与权限设计.md)（Claude Code 的权限模式与审批设计）。
+[ClaudeCode使用实践](工程工具/ClaudeCode使用实践.md)（CLAUDE.md/Skills/Sub-agents 配置资产）→ [llm基础·上下文工程](llm基础/上下文工程-Context%20Engineering.md)（单次调用预算）→ [Agent上下文工程](agent/Agent上下文工程-注意力预算与四板斧.md)（循环里的四板斧）→ [记忆系统](agent/Agent记忆系统-从会话状态到跨会话记忆.md)（MEMORY.md 形态与 dreaming）→ [人机协同](agent/Agent人机协同-从头部智能体看审批与权限设计.md)（Claude Code 的权限模式与审批设计）→ [脚手架总览](agent/Agent脚手架总览-ClaudeCode好用在模型之外.md)（换个视角：Claude Code 为什么好用，怎么造一个）。
 
-## 全量篇目索引（24 篇）
+## 全量篇目索引（30 篇）
 
 ### llm基础/（3）
 
@@ -86,7 +93,7 @@ flowchart TD
 | [向量检索选型-pgvector-Redis-Milvus-Qdrant](rag/向量检索选型-pgvector-Redis-Milvus-Qdrant.md) | 规模/过滤/运维三轴挑 ANNS 引擎 |
 | [GraphRAG与知识图谱检索-多跳问题的解法](rag/GraphRAG与知识图谱检索-多跳问题的解法.md) | 向量连不上"点"：社区摘要 vs 双层检索、增量更新、上图谱的决策线 |
 
-### agent/（11，两章——系列导读见 [agent 系列导读](agent/)）
+### agent/（17，三章——系列导读见 [agent 系列导读](agent/)）
 
 | # | 篇目 | 一句话 |
 |---|---|---|
@@ -101,6 +108,12 @@ flowchart TD
 | 9 | [Agent上下文工程-注意力预算与四板斧](agent/Agent上下文工程-注意力预算与四板斧.md) | 注意力预算 / JIT 检索 / 压缩 / 笔记 / 子代理 |
 | 10 | [Agent记忆系统-从会话状态到跨会话记忆](agent/Agent记忆系统-从会话状态到跨会话记忆.md) | 分层记忆栈 / dreaming 整理 / 记忆污染治理 |
 | 11 | [Agent人机协同-从头部智能体看审批与权限设计](agent/Agent人机协同-从头部智能体看审批与权限设计.md) | 审批疲劳 / 权限模式 / 沙箱 / 审查者：什么时候问人、怎么少问 |
+| 12 | [Agent脚手架总览-ClaudeCode好用在模型之外](agent/Agent脚手架总览-ClaudeCode好用在模型之外.md) | 模型之外的那层：三段循环 / 五种扩展部件 / 让模型决定还是强制 |
+| 13 | [Agent工具设计-写给模型看的接口](agent/Agent工具设计-写给模型看的接口.md) | 少而准 / 高信号返回 / 报错带修法 / 描述即提示词 |
+| 14 | [Agent上下文分层-常驻按需与工具太多怎么办](agent/Agent上下文分层-常驻按需与工具太多怎么办.md) | 常驻层写小 / 技能三层 / 工具搜索 / 为缓存排序 |
+| 15 | [Agent验证回路-让智能体自己发现错了](agent/Agent验证回路-让智能体自己发现错了.md) | 可跑的通过/失败检查 / Stop 钩子 / 三类测试 / 检查不被篡改 |
+| 16 | [Agent长任务-进度状态与增量交付](agent/Agent长任务-进度状态与增量交付.md) | 进度文件与功能清单 / 一次一个 / 常驻智能体五个原语 |
+| 17 | [Agent脚手架复刻清单与面试追问](agent/Agent脚手架复刻清单与面试追问.md) | 复刻清单 / 从症状出发的落地顺序 / 十二个连环追问 |
 
 ### prompt/（2）
 
@@ -141,5 +154,5 @@ flowchart TD
    * 本页：顶部实况篇数、全量篇目索引、涉及的阅读路径/救火表；
    * 所属子目录 `README.md`（没有则先建）；
    * 仓库根 `README.md` 的 B 轨篇数；
-   * agent 系列文章另需更新 `agent/README.md` 的章表编号与"两章 N 篇"。
+   * agent 系列文章另需更新 `agent/README.md` 的章表编号与顶部总篇数（现为三章十七篇）。
 4. 空目录不建：写出第一篇时再建目录，避免占位噪音。
