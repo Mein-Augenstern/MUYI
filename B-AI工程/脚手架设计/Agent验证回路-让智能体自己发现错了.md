@@ -1,7 +1,7 @@
 Agent验证回路-让智能体自己发现错了
 ====
 
-> 定位：第三章「脚手架设计」第 4 篇（agent 系列第 15 篇）。[评测篇](Agent评测与可观测-guards与成本.md)讲的是上线前怎么知道智能体靠不靠谱，本篇讲的是跑的时候让它自己知道做对了没有——这是脚手架三段循环里最容易被省掉的一段。主线是 Claude Code 团队 2026-11 的验证实践，对照 Anthropic 的 Agent SDK 文章、长任务脚手架和 OpenAI 的工程实践。旁通 [人机协同篇](Agent人机协同-从头部智能体看审批与权限设计.md)（修不好时什么时候叫人）。
+> 定位：「脚手架设计」系列第 4 篇。[评测篇](../agent/Agent评测与可观测-guards与成本.md)讲的是上线前怎么知道智能体靠不靠谱，本篇讲的是跑的时候让它自己知道做对了没有——这是脚手架三段循环里最容易被省掉的一段。主线是 Claude Code 团队 2026-11 的验证实践，对照 Anthropic 的 Agent SDK 文章、长任务脚手架和 OpenAI 的工程实践。旁通 [人机协同篇](../agent/Agent人机协同-从头部智能体看审批与权限设计.md)（修不好时什么时候叫人）。
 >
 > **内容来源**：本篇为学习整理，综合参考（版权归原作者所有）：
 > - [How the Claude Code team thinks about verification — claude.dev](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)（2026-11，本篇主源）
@@ -101,4 +101,4 @@ Claude Code 团队挑了三类他们认为最值得投入的测试，前提是�
 
 **验证回路是把活交给智能体的前提：给它一个能跑出通过或失败的检查，用 Stop 钩子把关键的那条做硬，用独立的视角防止自己给自己判及格，守住检查不被改动篡改，再把反复出现的失败一级级升级成规则。**
 
-> 2026-11 新增（学习整理篇 · 第三章「脚手架设计」第 4 篇 · 素材来自 claude.dev、Anthropic、OpenAI 的工程文章与 Claude Code 官方文档）。
+> 2026-11 新增（学习整理篇 · 「脚手架设计」系列第 4 篇 · 素材来自 claude.dev、Anthropic、OpenAI 的工程文章与 Claude Code 官方文档）。

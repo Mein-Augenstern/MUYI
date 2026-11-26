@@ -1,7 +1,7 @@
 Agent工具设计-写给模型看的接口
 ====
 
-> 定位：第三章「脚手架设计」第 2 篇（agent 系列第 13 篇）。[总览篇](Agent脚手架总览-ClaudeCode好用在模型之外.md)说脚手架是模型之外的一层，工具是其中"让模型能做事"的部分。本篇只回答一个问题：工具怎么设计，模型才用得好。面试里"工具怎么设计"通常答到"签名加描述加参数 schema"就停了，这一篇往下挖三层：选哪些工具、返回什么、报错怎么写。主线是 Anthropic 的《Writing effective tools for agents》，用 Claude Code 自己的工具做对照。旁通 [结构化输出篇](结构化输出工程-Pydantic与LLM.md)（下游契约）、[MCP协议与企业落地](MCP协议与企业落地.md)。
+> 定位：「脚手架设计」系列第 2 篇。[总览篇](Agent脚手架总览-ClaudeCode好用在模型之外.md)说脚手架是模型之外的一层，工具是其中"让模型能做事"的部分。本篇只回答一个问题：工具怎么设计，模型才用得好。面试里"工具怎么设计"通常答到"签名加描述加参数 schema"就停了，这一篇往下挖三层：选哪些工具、返回什么、报错怎么写。主线是 Anthropic 的《Writing effective tools for agents》，用 Claude Code 自己的工具做对照。旁通 [结构化输出篇](../agent/结构化输出工程-Pydantic与LLM.md)（下游契约）、[MCP协议与企业落地](../agent/MCP协议与企业落地.md)。
 >
 > **内容来源**：本篇为学习整理，综合参考（版权归原作者所有）：
 > - [Writing effective tools for agents — with agents — Anthropic](https://www.anthropic.com/engineering/writing-tools-for-agents)（2025-09，本篇主源）
@@ -112,4 +112,4 @@ OpenAI 的 Codex 团队把这件事推到了架构层面。他们用自定义的
 
 **工具不是写给开发者的 API 封装，而是写给一个上下文有限、会犹豫的调用方的接口：少而准、按工作流合并、返回高信号的信息、报错直接给出路、描述当成提示词写，最后用评测而不是直觉来判断改没改好。**
 
-> 2026-11 新增（学习整理篇 · 第三章「脚手架设计」第 2 篇 · 素材来自 Anthropic 工程文章、Claude Code 官方文档与 OpenAI 工程文章）。
+> 2026-11 新增（学习整理篇 · 「脚手架设计」系列第 2 篇 · 素材来自 Anthropic 工程文章、Claude Code 官方文档与 OpenAI 工程文章）。

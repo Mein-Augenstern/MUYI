@@ -1,7 +1,7 @@
 Agent上下文分层-常驻按需与工具太多怎么办
 ====
 
-> 定位：第三章「脚手架设计」第 3 篇（agent 系列第 14 篇）。[上下文工程篇](Agent上下文工程-注意力预算与四板斧.md)讲的是循环跑起来之后怎么管窗口（压缩、笔记、按需检索），[记忆系统篇](Agent记忆系统-从会话状态到跨会话记忆.md)讲的是跨会话记住什么。本篇补上中间一层：脚手架在开会话之前和跑的过程中，分别往上下文里放什么、什么时候放、放多久。重点是一个前两篇没展开的问题——工具和知识多到装不下时怎么办。旁通 [ClaudeCode使用实践](../工程工具/ClaudeCode使用实践.md)。
+> 定位：「脚手架设计」系列第 3 篇。[上下文工程篇](../agent/Agent上下文工程-注意力预算与四板斧.md)讲的是循环跑起来之后怎么管窗口（压缩、笔记、按需检索），[记忆系统篇](../agent/Agent记忆系统-从会话状态到跨会话记忆.md)讲的是跨会话记住什么。本篇补上中间一层：脚手架在开会话之前和跑的过程中，分别往上下文里放什么、什么时候放、放多久。重点是一个前两篇没展开的问题——工具和知识多到装不下时怎么办。旁通 [ClaudeCode使用实践](../工程工具/ClaudeCode使用实践.md)。
 >
 > **内容来源**：本篇为学习整理，综合参考（版权归原作者所有）：
 > - Claude Code 官方文档：[Extend Claude Code](https://code.claude.com/docs/en/features-overview)、[Explore the context window](https://code.claude.com/docs/en/context-window)、[How Claude Code uses prompt caching](https://code.claude.com/docs/en/prompt-caching)、[How Claude remembers your project](https://code.claude.com/docs/en/memory)、[Connect Claude Code to tools via MCP](https://code.claude.com/docs/en/mcp)、[Best practices](https://code.claude.com/docs/en/best-practices)
@@ -122,4 +122,4 @@ Claude Code 里工具搜索默认开启，常驻的只有工具名和服务说�
 
 **上下文分层是在回答"什么时候让模型看到什么"：常驻层只留模型查不到又每次都要用的，按需层靠技能、目录分层和工具搜索逐级展开，隔离层把大块内容交给子代理，再加上为缓存安排好先后——窗口不再是瓶颈，注意力仍然是。**
 
-> 2026-11 新增（学习整理篇 · 第三章「脚手架设计」第 3 篇 · 素材来自 Claude Code 官方文档与 Anthropic、OpenAI 的工程文章）。
+> 2026-11 新增（学习整理篇 · 「脚手架设计」系列第 3 篇 · 素材来自 Claude Code 官方文档与 Anthropic、OpenAI 的工程文章）。
