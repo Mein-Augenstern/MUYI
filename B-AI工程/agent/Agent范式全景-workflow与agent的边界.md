@@ -26,11 +26,11 @@ Anthropic 归纳的五种组合模式，按复杂度递增——**大部分企�
 
 ```mermaid
 flowchart TD
-    P["提示链 Prompt Chaining<br/>A 的输出是 B 的输入，中间可加程序检查点"] --> R["路由 Routing<br/>先分类，再分发到专门的处理分支"]
-    R --> PW["并行化 Parallelization<br/>多路同时跑，程序聚合（投票/分片）"]
-    PW --> OW["编排者-执行者 Orchestrator-Workers<br/>一个 LLM 动态拆任务，分发给执行 LLM"]
-    OW --> EO["评估者-优化者 Evaluator-Optimizer<br/>一个生成、一个评估，循环改进"]
-    EO -. "任务开放到无法预编排" .-> AG["Agent<br/>模型自主决定路径与环境交互循环"]
+    P["提示链 Prompt Chaining<br/>A 的输出是 B 的输入<br/>中间可加程序检查点"] --> R["路由 Routing<br/>先分类<br/>再分发到专门的处理分支"]
+    R --> PW["并行化 Parallelization<br/>多路同时跑<br/>程序聚合（投票/分片）"]
+    PW --> OW["编排者-执行者<br/>Orchestrator-Workers<br/>一个 LLM 动态拆任务<br/>分发给执行 LLM"]
+    OW --> EO["评估者-优化者<br/>Evaluator-Optimizer<br/>一个生成、一个评估<br/>循环改进"]
+    EO -. "任务开放到无法预编排" .-> AG["Agent<br/>模型自主决定路径<br/>与环境交互循环"]
 ```
 
 五种模式的**适用信号**各一句话：
