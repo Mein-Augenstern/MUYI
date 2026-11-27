@@ -61,7 +61,7 @@ MCP（Model Context Protocol，Anthropic 2024-11 开源）是 Agent 与外部世
 传输两种形态：
 
 * **stdio**：Host 以子进程方式拉起 Server，JSON-RPC 走标准输入输出——本地工具最简形态，无网络暴露面；
-* **Streamable HTTP**：远程 Server 的标准形态，单一 HTTP 端点承载请求与流式响应。2025-06-18 版规范引入这一形态，取代初版 HTTP+SSE 双端点设计。当前规范版本为 2026-07-28。
+* **Streamable HTTP**：远程 Server 的标准形态，单一 HTTP 端点承载请求与流式响应。2025-03-26 版规范引入这一形态，取代初版 HTTP+SSE 双端点设计。当前规范版本为 2026-07-28，这一版又去掉了 GET 流和会话、改成了无状态协议；协议本身的细节和一个可运行的 server 示例，见脚手架设计系列的[MCP 入门篇](../脚手架设计/MCP协议入门-原理、安全与第一个Server.md)。
 
 3 Java 侧工程：Spring AI 的 MCP 一等支持
 ------

@@ -32,6 +32,8 @@ tags: [redis, performance]
 
 与 Rules 对比：`.claude/rules/` 下的多个 markdown 会话开始就全量加载，无论是否需要都占 context。作者判断 Rules 应被 Skills 替代——需要"始终生效"的放 CLAUDE.md，按需的放 Skills，Rules 是两头不占的中间态。
 
+> 补充（2026-11）：上面关于 Rules 的说法只对一半——按官方文档，不带路径限定的规则才是每次会话都加载，带 `paths` 的规则只在改到匹配的文件时才加载。技能的机制本身（三层加载各占多少、描述怎么写、和 `CLAUDE.md` / 钩子 / MCP 怎么分工、怎么评测）见脚手架设计系列的[技能入门篇](../脚手架设计/Agent技能入门-按需加载的知识与流程.md)。
+
 3 Slash Commands：把流程固化成一条命令
 ------
 
