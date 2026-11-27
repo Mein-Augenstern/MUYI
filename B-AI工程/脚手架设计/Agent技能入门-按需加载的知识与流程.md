@@ -1,7 +1,7 @@
 Agent技能入门-按需加载的知识与流程
 ====
 
-> 定位：「脚手架设计」系列第 6 篇。[上下文分层篇](Agent上下文分层-常驻按需与工具太多怎么办.md)讲分层时把"技能的三层加载"作为一种形态带过，本篇专门讲技能（Skills）：它是什么、怎么加载、怎么写、什么时候用、怎么评。它和下一篇是一对：技能扩展智能体"知道什么"，MCP 扩展它"能调什么"。只想知道在 Claude Code 里怎么配，看[使用实践](../工程工具/ClaudeCode使用实践.md)第 2 节就够了。
+> 定位：「脚手架设计」系列第 5 篇。[上下文分层篇](../上下文工程/Agent上下文分层-常驻按需与工具太多怎么办.md)讲分层时把"技能的三层加载"作为一种形态带过，本篇专门讲技能（Skills）：它是什么、怎么加载、怎么写、什么时候用、怎么评。它和下一篇是一对：技能扩展智能体"知道什么"，MCP 扩展它"能调什么"。只想知道在 Claude Code 里怎么配，看[使用实践](../工程工具/ClaudeCode使用实践.md)第 2 节就够了。
 >
 > **内容来源**：本篇为学习整理，综合参考（版权归原作者所有）：
 > - Agent Skills 开放标准：[规范](https://agentskills.io/specification)、[客户端实现指南](https://agentskills.io/client-implementation/adding-skills-support)、[编写指南](https://agentskills.io/skill-creation/best-practices)、[描述优化](https://agentskills.io/skill-creation/optimizing-descriptions)、[技能评测](https://agentskills.io/skill-creation/evaluating-skills)
@@ -182,4 +182,4 @@ Claude Code 文档给的创建时机很实用：**同一段说明、清单或多
 
 **技能是把"按需加载"用在知识上的做法：一份常驻的短描述负责被发现，正文在触发时才进来，资料再按需去读；写得好的关键在描述，用不用得对要靠评测，而它没有例外的规则仍然应该交给钩子。**
 
-> 2026-11 新增（学习整理篇 · 「脚手架设计」系列第 6 篇 · 素材来自 Agent Skills 开放标准、Claude Code 与 Claude 平台文档、Anthropic 的工程文章与公告）。
+> 2026-11 新增（学习整理篇 · 「脚手架设计」系列第 5 篇 · 素材来自 Agent Skills 开放标准、Claude Code 与 Claude 平台文档、Anthropic 的工程文章与公告）。

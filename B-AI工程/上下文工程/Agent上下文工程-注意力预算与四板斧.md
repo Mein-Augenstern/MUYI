@@ -1,7 +1,7 @@
 Agent上下文工程-注意力预算与四板斧
 ====
 
-> 定位：第二章"生产深潜"第 9 篇。与 [llm基础·上下文工程](../llm基础/上下文工程-Context%20Engineering.md) 是姊妹篇分工：那篇管**单次 LLM 调用**的窗口预算配比与位置效应，本篇管 **agent 循环特有**的上下文问题——工具结果膨胀、长时程任务的连贯性、上下文污染。前接[手写最小循环](从零手写最小Agent-无框架的模型循环.md)（messages 就是全部状态）、[评测与可观测](Agent评测与可观测-guards与成本.md)（token 成本三巨头），旁通[多智能体编排](多智能体编排与框架选型.md)（子代理隔离）与 [MCP](MCP协议与企业落地.md)（工具集治理）。
+> 定位：「上下文工程」系列第 3 篇。与[单次调用的上下文工程篇](上下文工程-Context%20Engineering.md)是姊妹篇分工：那篇管**单次 LLM 调用**的窗口预算配比与位置效应，本篇管 **agent 循环特有**的上下文问题——工具结果膨胀、长时程任务的连贯性、上下文污染。前接 agent 系列的[手写最小循环](../agent/从零手写最小Agent-无框架的模型循环.md)（messages 就是全部状态）、[评测与可观测](../agent/Agent评测与可观测-guards与成本.md)（token 成本三巨头），旁通[多智能体编排](../agent/多智能体编排与框架选型.md)（子代理隔离）与 [MCP](../agent/MCP协议与企业落地.md)（工具集治理）。
 >
 > **内容来源**：本篇为学习整理，综合参考（版权归原作者所有）：
 > - [Effective context engineering for AI agents — Anthropic Engineering（2025-09）](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)（本篇主要骨架：注意力预算、四板斧、Claude Code 实例）
@@ -20,7 +20,7 @@ Anthropic 给的定义：上下文工程 = **在每次推理时，策展并维�
 | 核心问题 | "怎么措辞模型才听懂" | "什么配置的上下文最可能引出期望行为" |
 | 典型动作 | 改措辞、加约束、给格式 | 裁历史、筛检索、注工具、压结果、开子代理 |
 
-为什么 agent 把这件事逼成了一等工程？agent = **LLM 在循环中自主使用工具**（Simon Willison 的定义，Anthropic 团队采用）。循环意味着：每一轮都是全量重建上下文、历史每轮全量重发——长轨迹的上下文是平方级压力（[评测篇](Agent评测与可观测-guards与成本.md)的 token 成本三巨头说的就是它的账单面）。一次性分类任务写好提示词就完了；跑 40 轮的 agent，窗口里堆的是 40 轮的系统提示 + 工具定义 + 历史 + 每一步的工具原始结果。
+为什么 agent 把这件事逼成了一等工程？agent = **LLM 在循环中自主使用工具**（Simon Willison 的定义，Anthropic 团队采用）。循环意味着：每一轮都是全量重建上下文、历史每轮全量重发——长轨迹的上下文是平方级压力（[评测篇](../agent/Agent评测与可观测-guards与成本.md)的 token 成本三巨头说的就是它的账单面）。一次性分类任务写好提示词就完了；跑 40 轮的 agent，窗口里堆的是 40 轮的系统提示 + 工具定义 + 历史 + 每一步的工具原始结果。
 
 总纲一句（原文）：**找到能最大化期望结果的最小高信号 token 集合**（the smallest possible set of high-signal tokens）。注意是"高信号"不是"少"——砍掉关键信号省 token 是负优化。
 
@@ -65,7 +65,7 @@ def context_budget(model_limit: int, system_prompt: str,
     return budget
 ```
 
-这笔账接上[评测篇](Agent评测与可观测-guards与成本.md)的指标三巨头：预算利用率是**设计与线上双用**的指标——设计期定配比，线上按 trace 监控每步占用趋势。
+这笔账接上[评测篇](../agent/Agent评测与可观测-guards与成本.md)的指标三巨头：预算利用率是**设计与线上双用**的指标——设计期定配比，线上按 trace 监控每步占用趋势。
 
 四、静态侧三件事：进循环之前
 ------
@@ -73,7 +73,7 @@ def context_budget(model_limit: int, system_prompt: str,
 四板斧治的是"跑起来之后"的膨胀；跑之前有三件更便宜的事：
 
 * **system prompt 找对"高度"**：在两个失败极端之间取 Goldilocks 区间——一端是硬编码 if-else 式的脆弱逻辑（维护地狱），另一端是空泛口号（"要专业要认真"，无信号）。组织上分区：`<background_information>` / `<instructions>` / `## Tool guidance` / `## Output description`，XML 标签或 Markdown 标题皆可（模型越强，具体格式越不重要）。起步姿势：**先用最强模型配最简提示词**，再按失败模式逐条加指令和示例——minimal ≠ short，是"没有一条不该在的"；
-* **工具集最小化**：工具定义是 agent 与环境的契约，要自包含、抗错、用途清晰、功能重叠最小。判据一句话：**人类工程师说不清该用哪个工具时，agent 也做不到**——臃肿工具集让"选哪个"的决策点本身变模糊。这也是 [MCP 篇](MCP协议与企业落地.md)工具治理的预算面论据；
+* **工具集最小化**：工具定义是 agent 与环境的契约，要自包含、抗错、用途清晰、功能重叠最小。判据一句话：**人类工程师说不清该用哪个工具时，agent 也做不到**——臃肿工具集让"选哪个"的决策点本身变模糊。这也是 [MCP 篇](../agent/MCP协议与企业落地.md)工具治理的预算面论据；
 * **few-shot 精选**：示例是"值一千句话的图"，强烈建议给；但给的是**一组多样化的典范示例**，不是 edge case 规则清单（后者是 attention budget 的黑洞）。
 
 五、动态侧四板斧：跑起来之后
@@ -81,7 +81,7 @@ def context_budget(model_limit: int, system_prompt: str,
 
 ```mermaid
 flowchart TD
-    W["上下文膨胀<br/>利用率超线 / 接近窗口上限"] --> A["① JIT 按需检索<br/>窗口只装标识符，数据现场取"]
+    W["上下文膨胀<br/>利用率超线<br/>或接近窗口上限"] --> A["① JIT 按需检索<br/>窗口只装标识符<br/>数据现场取"]
     W --> B["② 压缩 compaction<br/>旧轮折摘要，清工具结果"]
     W --> C["③ 结构化笔记<br/>写到窗口外，按需读回"]
     W --> D["④ 子代理隔离<br/>脏活外包，只回收缩摘要"]
@@ -115,11 +115,11 @@ def manage_context(messages: list, system_prompt: str, keep_recent: int = 6) -> 
     ]
 ```
 
-调优次序：**先最大化摘要的召回，再提精度**（漏掉关键决策比多留废话贵）。最低垂的果实其实是**清除历史深处的工具调用原始结果**——第 3 轮那次 5K token 的查询返回，第 30 轮只需要"查到 3 笔异常交易"一句话；Claude Developer Platform 已把工具结果清除产品化为 context management 功能。滑窗/摘要/外置记忆的三级压缩谱系详见[llm基础姊妹篇](../llm基础/上下文工程-Context%20Engineering.md)。
+调优次序：**先最大化摘要的召回，再提精度**（漏掉关键决策比多留废话贵）。最低垂的果实其实是**清除历史深处的工具调用原始结果**——第 3 轮那次 5K token 的查询返回，第 30 轮只需要"查到 3 笔异常交易"一句话；Claude Developer Platform 已把工具结果清除产品化为 context management 功能。滑窗/摘要/外置记忆的三级压缩谱系详见[单次调用篇](上下文工程-Context%20Engineering.md)。
 
 **③ 结构化笔记（note-taking / agentic memory）**：agent 定期把笔记写到**窗口之外的持久存储**，之后按需读回。Claude Code 的 to-do list 是最小形态；自定义 agent 可以维护一份 `NOTES.md`。最生动的实例是 Claude 打宝可梦：agent 在数千步游戏里维持精确计数（"过去 1,234 步在 1 号道路练级，Pikachu 升了 8 级、目标 10 级"），自主建立已探索区域地图、成就清单、战斗策略笔记——**上下文重置后读自己的笔记接着干**。Sonnet 4.5 起官方提供了基于文件系统的 memory tool（可窗口外存取信息），把这套手工实践标准化了。
 
-**④ 子代理隔离（sub-agent）**：主 agent 只持**高层计划**，把深度搜索/重活外包给专职子代理——子代理在**干净的上下文窗口**里工作，可以消耗数万 token，但只向主窗口返回 1,000–2,000 token 的浓缩结论。这是用架构换预算：污染被隔离在子窗口，主窗口永远清爽。拓扑与选型见[多智能体编排篇](多智能体编排与框架选型.md)，Anthropic 的 multi-agent research system 在复杂研究任务上因此显著优于单 agent。
+**④ 子代理隔离（sub-agent）**：主 agent 只持**高层计划**，把深度搜索/重活外包给专职子代理——子代理在**干净的上下文窗口**里工作，可以消耗数万 token，但只向主窗口返回 1,000–2,000 token 的浓缩结论。这是用架构换预算：污染被隔离在子窗口，主窗口永远清爽。拓扑与选型见[多智能体编排篇](../agent/多智能体编排与框架选型.md)，Anthropic 的 multi-agent research system 在复杂研究任务上因此显著优于单 agent。
 
 三选一的判断（Anthropic 原文给的口径）：
 
@@ -178,4 +178,4 @@ def select_tools(task: str, all_tools: list, max_tools: int = 5) -> list:
 
 **上下文是预算不是仓库：先记账（60% 红线），静态侧裁提示/工具/示例，动态侧四板斧——窗口只装标识符（JIT）、旧轮折摘要（compaction）、事实写窗外（note-taking）、脏活开子代理（sub-agent）。目标是每个 token 都在高信号区付租金。**
 
-> 2026-11 新增（学习整理篇 · 素材来自 Anthropic Engineering 与 The Daily Agent 公开文章）。
+> 2026-11 新增（学习整理篇 · 「上下文工程」系列第 3 篇 · 素材来自 Anthropic Engineering 与 The Daily Agent 公开文章）。

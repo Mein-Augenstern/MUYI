@@ -1,7 +1,7 @@
 Agent记忆系统-从会话状态到跨会话记忆
 ====
 
-> 定位：第二章"生产深潜"第 10 篇，也是 B 轨 README 规划里唯一空缺至今的篇目。与 [上下文工程篇](Agent上下文工程-注意力预算与四板斧.md) 是前后脚的姊妹篇：那篇管**单会话内**窗口怎么装（compaction/note-taking 是记忆的"写入前哨"），本篇管**跨会话**——agent 能不能从经验里学到东西并在下一次带回来。前接 [ReAct/LangGraph 篇](ReAct与LangGraph工程实践.md)（MemorySaver 是 checkpointer 不是记忆，本篇一、先掰清这个）、[llm基础·上下文工程](../llm基础/上下文工程-Context%20Engineering.md)（三级压缩的"外置记忆"一格），旁通 [多智能体编排](多智能体编排与框架选型.md)。
+> 定位：「上下文工程」系列第 5 篇。与[循环里的上下文工程篇](Agent上下文工程-注意力预算与四板斧.md)是前后脚的姊妹篇：那篇管**单会话内**窗口怎么装（compaction/note-taking 是记忆的"写入前哨"），本篇管**跨会话**——agent 能不能从经验里学到东西并在下一次带回来。前接 agent 系列的 [ReAct/LangGraph 篇](../agent/ReAct与LangGraph工程实践.md)（MemorySaver 是 checkpointer 不是记忆，本篇一、先掰清这个）、[单次调用的上下文工程篇](上下文工程-Context%20Engineering.md)（三级压缩的"外置记忆"一格），旁通 [多智能体编排](../agent/多智能体编排与框架选型.md)。
 >
 > **内容来源**：本篇为学习整理，综合参考（版权归原作者所有）：
 > - [The components of agent memory — Anthropic（2026-11）](https://www.anthropic.com/research/components-of-agent-memory)（本篇主源：分层结构、指引策略、Pokémon/wiki/合同三组实验数据）
@@ -18,9 +18,9 @@ Anthropic 给的定义：**agent 记忆 = 从经验中获得、跨会话保留�
 |---|---|---|
 | **权重更新** | 训练时改参数，推理时只读——agent 运行时碰不到 | —— |
 | **in-context 学习** | 活在当前窗口里，会话结束就蒸发 | [上下文篇](Agent上下文工程-注意力预算与四板斧.md)的 few-shot |
-| **compaction（压缩）** | 单会话内用摘要换空间，为了"继续干活"，不跨会话 | [llm基础三级压缩](../llm基础/上下文工程-Context%20Engineering.md) |
+| **compaction（压缩）** | 单会话内用摘要换空间，为了"继续干活"，不跨会话 | [单次调用篇的三级压缩](上下文工程-Context%20Engineering.md) |
 
-还有一个高频混淆要在库内掰清：**LangGraph 的 MemorySaver/checkpointer 是"断点续跑"**——按 thread_id 持久化图状态，让你明天接着今天的会话（见 [ReAct 篇](ReAct与LangGraph工程实践.md)）；它是会话状态的持久化，**不产生新知识**。记忆系统则要求 agent 把经验**加工成可复用的表示**，下次会话开始时就带着。前者是"存档"，后者是"学习"。
+还有一个高频混淆要在库内掰清：**LangGraph 的 MemorySaver/checkpointer 是"断点续跑"**——按 thread_id 持久化图状态，让你明天接着今天的会话（见 [ReAct 篇](../agent/ReAct与LangGraph工程实践.md)）；它是会话状态的持久化，**不产生新知识**。记忆系统则要求 agent 把经验**加工成可复用的表示**，下次会话开始时就带着。前者是"存档"，后者是"学习"。
 
 RAG 的位置（Letta 的口径）：**检索只是记忆的一种工具手段，RAG 本身不是记忆**——它没有"从交互中积累"的写入侧。把 RAG 当记忆用，等于只有读取没有学习。
 
@@ -93,7 +93,7 @@ Letta（MemGPT 论文的商业化后身）不套人类心理学的 episodic/sema
 
 | 你的诉求 | 该用 | 本库对应 |
 |---|---|---|
-| 会话中断后续跑 / 多轮状态保持 | **checkpointer**（thread_id + 图状态持久化） | [ReAct 篇](ReAct与LangGraph工程实践.md) MemorySaver |
+| 会话中断后续跑 / 多轮状态保持 | **checkpointer**（thread_id + 图状态持久化） | [ReAct 篇](../agent/ReAct与LangGraph工程实践.md) MemorySaver |
 | 跨会话记住用户偏好/领域事实 | **记忆系统**（本篇） | —— |
 | 只是历史太长塞不下 | **压缩**（compaction/摘要） | [上下文篇](Agent上下文工程-注意力预算与四板斧.md)板斧② |
 
@@ -101,12 +101,12 @@ Letta（MemGPT 论文的商业化后身）不套人类心理学的 episodic/sema
 
 ```mermaid
 flowchart TD
-    S["会话开始"] --> INJ["注入 MEMORY.md 头部索引<br/>（小，<200 行）"]
+    S["会话开始"] --> INJ["注入头部索引<br/>MEMORY.md，<200 行"]
     INJ --> LOOP["agent 循环<br/>先读记忆再干活"]
-    LOOP -->|"经验/事实"| W["会话内粗记<br/>按主题写独立文件，逐字引用"]
+    LOOP -->|"经验/事实"| W["会话内粗记<br/>按主题写独立文件<br/>逐字引用"]
     W --> LOOP
     LOOP --> DONE["会话结束"]
-    DONE --> D["空闲期 dreaming<br/>拿 transcript 校验笔记：纠错/去重/修剪/补链接"]
+    DONE --> D["空闲期 dreaming<br/>拿 transcript 校验笔记<br/>纠错 / 去重<br/>修剪 / 补链接"]
     D --> INJ
 ```
 
@@ -132,4 +132,4 @@ flowchart TD
 
 **记忆 = 跨会话能读回的上下文：transcript 当 ground truth，笔记按主题写，注入层只进索引，空闲期 dreaming 拿日志纠错——错误记忆比没有记忆更糟，所以整理通道和删除出口不是可选项。**
 
-> 2026-11 新增（学习整理篇 · 素材来自 Anthropic Research、Letta、Mem0 公开文章，补上 B 轨规划中"记忆系统"空缺）。
+> 2026-11 新增（学习整理篇 · 「上下文工程」系列第 5 篇 · 素材来自 Anthropic Research、Letta、Mem0 公开文章）。

@@ -1,7 +1,7 @@
 ClaudeCode使用实践
 ====
 
-Claude Code 的价值不在"会用 CLI"，而在**给它喂什么**。两条底层原则贯穿全篇：模型输出质量很大程度取决于输入质量；上下文越长，输出质量越差。所以这篇不讲基本操作，讲配置资产——CLAUDE.md、Skills、Slash Commands、Sub-agents，以及状态栏与 MCP 的取舍。上下文预算的通用方法论见 [上下文工程-Context Engineering](../llm基础/上下文工程-Context%20Engineering.md)，工具接入层的协议化全景见 [MCP协议与企业落地](../agent/MCP协议与企业落地.md)。
+Claude Code 的价值不在"会用 CLI"，而在**给它喂什么**。两条底层原则贯穿全篇：模型输出质量很大程度取决于输入质量；上下文越长，输出质量越差。所以这篇不讲基本操作，讲配置资产——CLAUDE.md、Skills、Slash Commands、Sub-agents，以及状态栏与 MCP 的取舍。上下文预算的通用方法论见 [上下文工程-Context Engineering](../上下文工程/上下文工程-Context%20Engineering.md)，工具接入层的协议化全景见 [MCP协议与企业落地](../agent/MCP协议与企业落地.md)。
 
 1 CLAUDE.md 与 AGENTS.md：项目记忆放哪
 ------
@@ -111,7 +111,7 @@ MCP 的取舍是这篇最反直觉的结论：**即使不用某个 MCP server，
 面试官视角小结
 ------
 
-考察 AI 工程化素养时，"用了 Claude Code"只是及格线。能讲清 CLAUDE.md/Skills/Rules 三者的加载时机差异（常驻 vs 索引按需 vs 全量常驻），并给出"什么该写、什么不该写"的判断标准，说明理解上下文经济学。能进一步讲 sub-agents 的独立上下文收益、MCP 的 token 成本与 CLI 替代方案，是把工具问题上升为架构问题的信号——这套思维与企业级 LLM 应用的上下文预算管理（见 [上下文工程-Context Engineering](../llm基础/上下文工程-Context%20Engineering.md)）完全同构。
+考察 AI 工程化素养时，"用了 Claude Code"只是及格线。能讲清 CLAUDE.md/Skills/Rules 三者的加载时机差异（常驻 vs 索引按需 vs 全量常驻），并给出"什么该写、什么不该写"的判断标准，说明理解上下文经济学。能进一步讲 sub-agents 的独立上下文收益、MCP 的 token 成本与 CLI 替代方案，是把工具问题上升为架构问题的信号——这套思维与企业级 LLM 应用的上下文预算管理（见 [上下文工程-Context Engineering](../上下文工程/上下文工程-Context%20Engineering.md)）完全同构。
 
 > 2026-10 新增（B 轨工程工具首篇）。
 
